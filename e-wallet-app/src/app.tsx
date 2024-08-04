@@ -1,20 +1,16 @@
-import { useState } from 'preact/hooks'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from '../src/pages/home';
+
 export function App() {
-
   return (
-    <div class="p-4 max-w-lg  mx-auto ">
-      <div class="flex">
-        <div class="w-14 bg-blue-400 rounded-full h-14"></div>
-        <div class="">Available on Phone</div>
-      </div>
-      <div className="flex justify-between">
-        <div class="w-14 bg-blue-400 rounded-full h-14"></div>
-        <div class="w-14 bg-blue-400 rounded-full h-14"></div>
-        <div class="w-14 bg-blue-400 rounded-full h-14"></div>
-        <div class="w-14 bg-blue-400 rounded-full h-14"></div>
-        <div class="w-14 bg-blue-400 rounded-full h-14"></div>
-      </div>
-
+    <div class={`p-4`}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="*" element={<Home />} /> 
+        </Routes>
+      </Router>
     </div>
-  )
+  );
 }
