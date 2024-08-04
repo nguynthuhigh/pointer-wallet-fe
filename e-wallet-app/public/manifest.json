@@ -1,0 +1,24 @@
+{
+    "manifest_version": 3,
+    "name": "pressPay Wallet",
+    "version": "1.0",
+    "description": "wallet",
+    "icons": {
+      "16": "logo_presspay.png",
+      "48": "logo_presspay.png",
+      "128": "logo_presspay.png"
+    },
+    "action": {
+      "default_popup": "../src/index.html",
+      "default_icon": "logo_presspay.png"
+    },
+  
+    "permissions": [
+      "storage",
+      "activeTab"
+    ],
+    "host_permissions": [
+      "<all_urls>"
+    ]
+}
+  
