@@ -10,8 +10,9 @@ export default {
         inter: ['Inter', 'sans-serif'],
       },
       colors:{
-        button:'#F2F2F2',
-        'button-hover':'#D9D9D9'
+        'button':'#F2F2F2',
+        'button-hover':'#D9D9D9',
+        'blue-default':'#0094FF'
       }
     },
   },

@@ -1,12 +1,24 @@
 const FormatTitle = ({...props}) => {
-  if(props.type === 'transfer'){
-    return <h1>1</h1>
+  const transactionData:any = props?.item
+  console.log(transactionData)
+  if(transactionData?.type === 'transfer' && transactionData.sender._id === props.userID){
+    return <h1 className={`font-semibold text-base overflow-hidden w-full`}>Chuyển tiền đến {transactionData?.receiver?.full_name}</h1>
   }
-  if(props.type === 'payment'){
-    return <h1 className={`font-semibold text-base overflow-hidden w-full`}>{props.title}</h1>
+  if(transactionData?.type === 'transfer' && transactionData.sender._id !== props.userID){
+    return <h1 className={`font-semibold text-base overflow-hidden w-full`}>Nhận tiền từ {transactionData?.receiver?.full_name}</h1>
   }
+  if(transactionData?.type === 'payment'){
+    return <h1 className={`font-semibold text-base overflow-hidden w-full`}>{transactionData?.title}</h1>
+  }
+  if(transactionData?.type === 'refund'){
+    return <h1 className={`font-semibold text-base overflow-hidden w-full`}>{transactionData?.title}</h1>
+  }
+  if(transactionData?.type === 'deposit'){
+    return <h1 className={`font-semibold text-base overflow-hidden w-full`}>{transactionData?.title}</h1>
+  }
+  
   return (
-    <h1 className={`font-semibold text-base overflow-hidden w-full`}>Nhận tiền từ undefined</h1>
+    <h1 className={`font-semibold text-base overflow-hidden w-full`}>No title</h1>
   )
 }
 

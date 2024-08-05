@@ -25,7 +25,7 @@ const Home = () => {
     return <Loading></Loading>
   }
   return (
-    <div>
+    <div class={`p-4`}>
       <div className="flex">
         <img src={`https://photo.znews.vn/w660/Uploaded/mfnuy/2024_07_30/enzo_fernandez_2004170950.jpg`}
             className={`rounded-full w-[50px] h-[50px] object-cover`}></img>
