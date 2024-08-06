@@ -5,6 +5,8 @@ import TransactionDetails from './pages/transaction/details';
 import ReceivePage from './pages/receive/receive';
 import Login from './pages/authentication/login';
 import Loading from './pages/loading';
+import PageNotFound from './pages/page_not_found';
+import VerifyLogin from './pages/authentication/verify_login';
 export function App() {
   return (
     <div class={`font-inter`}>
@@ -17,7 +19,8 @@ export function App() {
           <Route path="/receive-page" element={<ReceivePage />} />
           <Route path="/auth/login" element={<Login />} />
           <Route path="/loading" element={<Loading />} />
-          <Route path="*" element={<Home />} /> 
+          <Route path="/auth/verify-login" element={<VerifyLogin />} />
+          <Route path="*" element={<PageNotFound />} /> 
         </Routes>
       </Router>
     </div>

@@ -7,23 +7,53 @@ import ItemCurrency from '../components/home/item_currency';
 import Settings_Icon from '../assets/svg/settings.svg';
 import HistoryIcon from '../assets/svg/history_trans.svg'
 import Loading from './loading';
+import Cookies from "universal-cookie";
+import { useNavigate } from 'react-router-dom';
+import { getProfileAPI } from '../services/api/user.api';
+import { formatCurrency } from '../utils/format_currency';
 const Home = () => {
-  // const [isOpen, setIsOpen] = useState(false);
-
-  // const toggleDrawer = (open: boolean) => () => {
-  //   // if (event.type === 'keydown' && (event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift') {
-  //   //   return;
-  //   // }
-  //   setIsOpen(open);
-  // };
-
-  useEffect(() => {
-    document.title = "Wallet";
-  }, []);
-  const [isLoading,setIsLoading] = useState(false)
-  if(isLoading){
-    return <Loading></Loading>
+  const navigate = useNavigate()
+  const cookies = new Cookies()
+  type TypeUser = {
+    _id: string,
+    email: string,
+    full_name: string
   }
+  type TypeWallet = {
+    currencies: [
+        {
+            balance: number,
+        }
+    ]
+}
+  const [userData,setUserData] = useState<TypeUser | null>()
+  const [walletData,setWalletData] = useState<TypeWallet>()
+  const [isLoading,setIsLoading] = useState<Boolean>(true)
+  useEffect(() => {
+    const fetchProfile=async()=>{
+      try {
+        const token =  await cookies.get('token_auth')
+        if(!token){
+          navigate('/auth/login')
+          //redirect to welcome etc
+        }
+        
+        const response =  await getProfileAPI(cookies.get('token_auth'))
+        if(response.status === 200){
+          console.log('DONE')
+          setWalletData(response.data.data.walletData)
+          setUserData(response.data.data.userData)
+          setIsLoading(false)
+        }
+      } catch (error) {
+        console.log(error)
+        navigate('/auth/login')
+        setIsLoading(false)
+      }
+    }
+    fetchProfile()
+  }, []);
+
   return (
     <div class={`p-4`}>
       <div className="flex">
@@ -31,12 +61,12 @@ const Home = () => {
             className={`rounded-full w-[50px] h-[50px] object-cover`}></img>
         <div class={`mx-3 h-full my-auto`}>
             <h1 className={`text-gray-500 text-sm`}>Chào buổi sáng</h1>
-            <h1 class={`font-semibold text-lg`}>Nguyễn Minh Nguyên</h1>
+            <h1 class={`font-semibold text-lg`}>{isLoading ? 'Loading...' : userData?.full_name}</h1>
         </div>
         <img class={`ml-auto hover:rotate-90 w-6 h-6 cursor-pointer`} src={Settings_Icon}></img>
       </div>
       <div>
-        <h1 className={`font-semibold text-4xl  my-6`}>đ100,000,000</h1>
+        <h1 className={`font-semibold text-4xl  my-6`}>{isLoading ? 'Loading...' : formatCurrency(walletData?.currencies[0].balance,'VND')}</h1>
       </div>
       <div className="grid grid-flow-row grid-cols-5 gap-1">
         <ButtonFeature image={CashInIcon} title="Gửi"></ButtonFeature>
