@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from '../src/pages/home';
-import History from './pages/transaction/history'
+import History from './pages/transaction/history';
 import TransactionDetails from './pages/transaction/details';
 import ReceivePage from './pages/receive/receive';
 import Login from './pages/authentication/login';
@@ -9,10 +9,11 @@ import PageNotFound from './pages/page_not_found';
 import VerifyLogin from './pages/authentication/verify_login';
 import ScanQR from './pages/payment/scanqr';
 import { PaymentGateway } from './pages/payment/payment';
+
 export function App() {
   return (
-    <div class={`font-inter`}>
-      <Router>
+    <Router>
+      <div className="font-inter">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
@@ -24,9 +25,9 @@ export function App() {
           <Route path="/auth/verify-login" element={<VerifyLogin />} />
           <Route path="/scan-qrcode" element={<ScanQR />} />
           <Route path="/payment" element={<PaymentGateway />} />
-          <Route path="*" element={<PageNotFound />} /> 
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
-      </Router>
-    </div>
+      </div>
+    </Router>
   );
 }
