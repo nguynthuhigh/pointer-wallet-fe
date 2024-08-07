@@ -71,7 +71,7 @@ const Home = () => {
       <div className="grid grid-flow-row grid-cols-5 gap-1">
         <ButtonFeature image={CashInIcon} title="Gửi"></ButtonFeature>
         <ButtonFeature image={HistoryIcon} title="Nhận"></ButtonFeature>
-        <ButtonFeature image={CashInIcon} title="Quét mã"></ButtonFeature>
+        <ButtonFeature link='/scan-qrcode' image={CashInIcon} title="Quét mã"></ButtonFeature>
         <ButtonFeature image={CashInIcon} title="Nạp/Rút"></ButtonFeature>
         <ButtonFeature link='/transaction/history' image={HistoryIcon} title="Lịch sử"></ButtonFeature>
       </div>
@@ -83,25 +83,3 @@ const Home = () => {
 }
 
 export default Home;
-
-{/* <div>
-<Button variant="contained" onClick={toggleDrawer(true)}>
-  Open Bottom Sheet
-</Button>
-<Drawer
-  anchor="bottom"
-  open={isOpen}
-  onClose={toggleDrawer(false)}
->
-  <Box
-    sx={{ width: 'auto', padding: '16px', textAlign: 'center', height: '500px' }}
-    role="presentation"
-    onClick={toggleDrawer(false)}
-    onKeyDown={toggleDrawer(false)}
-  >
-    <Button variant="contained" color="primary" sx={{ marginTop: 2 }}>
-      Close
-    </Button>
-  </Box>
-</Drawer>
-</div> */}
