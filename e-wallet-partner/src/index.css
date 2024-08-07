@@ -7,3 +7,14 @@
     inherits: false;
 }
 @import "flowbite";
+@layer utilities {
+    .font-semi-lg{
+        @apply font-semibold text-lg
+    }
+    .font-semi-xl{
+        @apply font-semibold text-xl
+    }
+    .font-semi-4xl{
+        @apply font-semibold text-4xl
+    }
+  }
