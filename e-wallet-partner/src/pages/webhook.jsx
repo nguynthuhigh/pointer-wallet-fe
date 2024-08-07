@@ -1,9 +1,10 @@
-import Header from '../header/header_dashboard'
-import partnerAPI from '../../api/partner.api'
+import Header from '../components/header/header_dashboard'
+import partnerAPI from '../api/partner.api'
 import { useEffect,useState } from 'react';
 import { useNavigate } from "react-router-dom"
-import AddWebHook from './component/add-webhook';
-import ViewWebHook from './component/view-webhook';
+import AddWebHook from '../components/webhook/add-webhook';
+import ViewWebHook from '../components/webhook/view-webhook';
+import SideBar from '../components/dashboard/sidebar';
 export default function WebHook(){
     const navigate = useNavigate()
     const [isLoading,setIsLoading] = useState(true)
@@ -33,12 +34,16 @@ export default function WebHook(){
     if(isLoading){
         return<div>...Loading</div>
     }
-    return<div><Header></Header>
-        <div className='max-w-[1200px] mx-auto'>
-          <div className='w-[70%]'>
+    return<div className='flex'>
+      <div className='w-[30%]'>
+        <SideBar state="Developer"></SideBar>
+      </div>
+      <div className='w-full'>
             {webhook ? <ViewWebHook webhook={webhook}></ViewWebHook> : <AddWebHook></AddWebHook>}
 
           </div>
+        <div className='w-[35%]'>
+        
         </div>
     </div>
 }

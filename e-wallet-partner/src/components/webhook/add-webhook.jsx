@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { LoadingButtonWebhook } from "../../auth/loading"
-import webhookAPI from '../../../api/webhook.api'
+import { LoadingButtonWebhook } from "../auth/loading"
+import webhookAPI from '../../api/webhook.api'
 export default function AddWebHook(){
     const [isLoading,setIsLoading] = useState(false)
     const [webhookValue,setWebhookValue] = useState(null)

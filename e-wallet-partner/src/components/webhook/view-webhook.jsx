@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react"
-import webhookAPI from '../../../api/webhook.api'
+import webhookAPI from '../../api/webhook.api'
 
 export default function ViewWebHook({webhook}){
     const [isLoading,setIsLoading] = useState(false)
