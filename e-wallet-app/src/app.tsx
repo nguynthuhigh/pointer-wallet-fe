@@ -7,6 +7,8 @@ import Login from './pages/authentication/login';
 import Loading from './pages/loading';
 import PageNotFound from './pages/page_not_found';
 import VerifyLogin from './pages/authentication/verify_login';
+import ScanQR from './pages/payment/scanqr';
+import { PaymentGateway } from './pages/payment/payment';
 export function App() {
   return (
     <div class={`font-inter`}>
@@ -20,6 +22,8 @@ export function App() {
           <Route path="/auth/login" element={<Login />} />
           <Route path="/loading" element={<Loading />} />
           <Route path="/auth/verify-login" element={<VerifyLogin />} />
+          <Route path="/scan-qrcode" element={<ScanQR />} />
+          <Route path="/payment" element={<PaymentGateway />} />
           <Route path="*" element={<PageNotFound />} /> 
         </Routes>
       </Router>

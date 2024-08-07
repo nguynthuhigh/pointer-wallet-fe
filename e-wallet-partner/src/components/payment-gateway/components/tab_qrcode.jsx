@@ -11,7 +11,7 @@ export default function TabQrCode({dataTransaction}){
                                         <div className='relative w-full h-[400px]'>
                                             <div className='w-full flex justify-center items-center'>
                                             <QRCode className='p-2 bg-white mt-16 z-0' 
-                                                value={dataTransaction?._id ? dataTransaction?._id : '1'} 
+                                                value={`${process.env.REACT_APP_WALLET_PAYMENT}/payment?token=${dataTransaction?._id ? dataTransaction?._id : '1'}`}
                                                 imageSettings={{
                                                 src:{logo_presspay},
                                                 excavate:true
