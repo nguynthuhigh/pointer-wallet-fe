@@ -4,6 +4,8 @@ import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import Cookies from "universal-cookie"
 import { Loading } from "./loading"
+import authAPI from '../../api/auth.api'
+
 export default function VerifyForm(){
     const [isLoading,setIsLoading] = useState(false)
     const location = useLocation()
@@ -26,11 +28,7 @@ export default function VerifyForm(){
         setIsLoading(true)
         e.preventDefault()
         try {
-            const response =await axios.post(process.env.REACT_APP_LOCAL_HOST + '/api/v1/partner/verify',verifyInfo,{
-                headers:{
-                    'Content-Type': 'application/json',
-                }
-            })
+            const response =await authAPI.verifySignupAPI(verifyInfo)
             if(response.status === 200){
                 cookies.set('token_auth',response.data.data)
                 navigate('/dashboard')
