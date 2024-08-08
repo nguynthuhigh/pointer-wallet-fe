@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'preact/compat';
-// import { Drawer, Button, Box } from '@mui/material';
 import CashInIcon from '../assets/svg/cashin.svg'
-import USDTIcon from '../assets/svg/usdt.svg'
+import VNDIcon from '../assets/png/vnd_icon.png'
+import USDIcon from '../assets/png/usd_icon.png'
+import ETHIcon from '../assets/png/eth_icon.png'
 import ButtonFeature from '../components/home/button_feat';
-import ItemCurrency from '../components/home/item_currency';
+import {ItemCurrency,ItemCurrencyLoading} from '../components/home/item_currency';
 import Settings_Icon from '../assets/svg/settings.svg';
 import HistoryIcon from '../assets/svg/history_trans.svg'
 import Loading from './loading';
@@ -21,6 +22,12 @@ const Home = () => {
   }
   type TypeWallet = {
     currencies: [
+        {
+            balance: number,
+        },
+        {
+            balance: number,
+        },
         {
             balance: number,
         }
@@ -61,12 +68,15 @@ const Home = () => {
             className={`rounded-full w-[50px] h-[50px] object-cover`}></img>
         <div class={`mx-3 h-full my-auto`}>
             <h1 className={`text-gray-500 text-sm`}>Chào buổi sáng</h1>
-            <h1 class={`font-semibold text-lg`}>{isLoading ? 'Loading...' : userData?.full_name}</h1>
+            
+            {isLoading ? <div class={`w-[200px] h-4 bg-gray-200 rounded-full animate-spin`}></div> : <h1 class={`font-semibold text-lg`}>{userData?.full_name}</h1>}
         </div>
         <img class={`ml-auto hover:rotate-90 w-6 h-6 cursor-pointer`} src={Settings_Icon}></img>
       </div>
       <div>
-        <h1 className={`font-semibold text-4xl  my-6`}>{isLoading ? 'Loading...' : formatCurrency(walletData?.currencies[0].balance,'VND')}</h1>
+      {isLoading ? <div class={`w-[200px] h-4 bg-gray-200 rounded-full animate-spin`}></div> : <h1 className={`font-semibold text-4xl  my-6`}>{formatCurrency(walletData?.currencies[0].balance,'VND')}</h1>}
+
+        
       </div>
       <div className="grid grid-flow-row grid-cols-5 gap-1">
         <ButtonFeature image={CashInIcon} title="Gửi"></ButtonFeature>
@@ -77,7 +87,9 @@ const Home = () => {
       </div>
       <div class={`h-[1px] w-full bg-button-hover my-5`}></div>
       <h1 class={`my-5 text-2xl font-semibold`}>Tài sản</h1>
-      <ItemCurrency image={USDTIcon}></ItemCurrency>
+      {isLoading ? <ItemCurrencyLoading></ItemCurrencyLoading> : <><ItemCurrency image={VNDIcon} item={walletData?.currencies[0]} symbol={'VND'} name="Vietnamese Dong"></ItemCurrency>
+      <ItemCurrency image={USDIcon} item={walletData?.currencies[1]} symbol={'USD'} name="US Dollar"></ItemCurrency>
+      <ItemCurrency image={ETHIcon} item={walletData?.currencies[2]} symbol={'ETH'} name="Ethereum"></ItemCurrency></>}
     </div>
   );
 }
