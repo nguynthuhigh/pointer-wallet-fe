@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {LoadingButton } from "./loading"
-
+import authAPI from '../../api/auth.api'
 export default function SignIn(){
     const navigate = useNavigate()
     const [isLoading,setIsLoading] = useState(false)
@@ -36,12 +36,7 @@ export default function SignIn(){
             return setErrorResponse({email:"Vui lòng điền email"})
         }
         try {
-            const response = await axios.post(process.env.REACT_APP_LOCAL_HOST +'/api/v1/partner/signup',infoUser
-            ,{
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-              })
+            const response = await authAPI.signupAPI(infoUser)
             if(response.status === 200){
                 return navigate('/verify',{state:{infoUser}})
             }
