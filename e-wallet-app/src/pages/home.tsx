@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'preact/compat';
-// import { Drawer, Button, Box } from '@mui/material';
 import CashInIcon from '../assets/svg/cashin.svg'
 import VNDIcon from '../assets/png/vnd_icon.png'
 import USDIcon from '../assets/png/usd_icon.png'
 import ETHIcon from '../assets/png/eth_icon.png'
-
 import ButtonFeature from '../components/home/button_feat';
 import {ItemCurrency,ItemCurrencyLoading} from '../components/home/item_currency';
 import Settings_Icon from '../assets/svg/settings.svg';
