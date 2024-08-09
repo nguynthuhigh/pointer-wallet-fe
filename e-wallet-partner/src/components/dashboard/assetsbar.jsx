@@ -9,7 +9,7 @@ export const AssetBar = ({...props}) => {
     <div className='pl-2'>
         <div className='relative h-[200px]'>
             <div className=' bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-blue-500 to-90% w-full h-[150px]'></div>
-            <img alt='' className='ml-4 absolute bottom-0 rounded-full w-[100px] h-[100px] object-cover shadow-sm border-[5px] border-white' src='https://i.ytimg.com/vi/_H3LCFmys2Q/hqdefault.jpg'></img>
+            <img alt='' className='ml-4 absolute bottom-0 rounded-full w-[100px] h-[100px] object-cover shadow-sm border-[5px] border-white' src={props.partner.image}></img>
         </div>
         <div>
            <div className='p-4 pt-1'>

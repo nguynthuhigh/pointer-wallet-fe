@@ -44,6 +44,12 @@ const SideBar = ({ ...props }) => {
         onClick={() => handleSelect('Developer')}
         path='/webhook'
       />
+       <ItemSidebar
+        name="Setting"
+        isSelected={selected === 'Setting'}
+        onClick={() => handleSelect('Setting')}
+        path='/settings'
+      />
       <div onClick={handleLogout} className='bottom-0 fixed'>
         Logout
       </div>
