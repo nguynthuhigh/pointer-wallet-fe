@@ -9,7 +9,7 @@ import PageNotFound from './pages/page_not_found';
 import VerifyLogin from './pages/authentication/verify_login';
 import ScanQR from './pages/payment/scanqr';
 import { PaymentGateway } from './pages/payment/payment';
-
+import Transfer from './pages/transfer/transfer';
 export function App() {
   return (
     <Router>
@@ -25,6 +25,7 @@ export function App() {
           <Route path="/auth/verify-login" element={<VerifyLogin />} />
           <Route path="/scan-qrcode" element={<ScanQR />} />
           <Route path="/payment" element={<PaymentGateway />} />
+          <Route path="/transfer" element={<Transfer />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
