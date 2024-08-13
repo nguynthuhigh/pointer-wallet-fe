@@ -1,6 +1,6 @@
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import Header from '../header/header'
+import Header from '../components/header/header'
 import { Link } from 'react-router-dom';
 const Component = ({...props}) => {
     const codeString = props.stringcode;

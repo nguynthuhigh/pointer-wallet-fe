@@ -18,7 +18,7 @@ const SideBar = ({ ...props }) => {
         navigate('/')
   }
   return (
-    <div className="p-2 fixed">
+    <div className="p-2 max-w-[250px] w-full border-r-2 h-full min-h-screen">
       <div className="p-4">
         <img alt="" src={Logo} />
       </div>
@@ -45,10 +45,16 @@ const SideBar = ({ ...props }) => {
         path='/webhook'
       />
        <ItemSidebar
-        name="Setting"
-        isSelected={selected === 'Setting'}
-        onClick={() => handleSelect('Setting')}
+        name="Settings"
+        isSelected={selected === 'Settings'}
+        onClick={() => handleSelect('Settings')}
         path='/settings'
+      />
+      <ItemSidebar
+        name="Vouchers"
+        isSelected={selected === 'Vouchers'}
+        onClick={() => handleSelect('Vouchers')}
+        path='/vouchers'
       />
       <div onClick={handleLogout} className='bottom-0 fixed'>
         Logout

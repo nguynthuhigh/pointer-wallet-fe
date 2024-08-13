@@ -1,12 +1,12 @@
 import { useState,useEffect } from "react"
 import webhookAPI from '../../api/webhook.api'
-
+import ModalDelete from "../modals/modal_delete"
 export default function ViewWebHook({webhook}){
     const [isLoading,setIsLoading] = useState(false)
     const [error,setError] = useState(null)
     const [toggle,setToggle] = useState(false)
-
-    const hanldeDelete = async(e)=>{
+    const [modalIsOpen, setIsOpen] = useState(false);
+    const handleDelete = async(e)=>{
         e.preventDefault();
         try {
             setIsLoading(true)
@@ -22,8 +22,16 @@ export default function ViewWebHook({webhook}){
             setIsLoading(false)
         }
     }
+    const handleClose =(e)=>{
+        e.preventDefault();
+        setIsOpen(!modalIsOpen)
+    }
     return<div  className="flex"> 
+        <ModalDelete title="Do you want delete it?" isOpen={modalIsOpen} handleDelete={handleDelete} handleClose={handleClose}></ModalDelete>
+
         <div className='font-semibold'>Your webhook endpoint <div className='text-green-600'>{webhook}</div></div>
-        {toggle ? <div className="flex"><button onClick={hanldeDelete} className="w-fit text-center text-white flex items-center mt-5 bg-red-600  font-medium ml-auto rounded-lg text-sm px-5 py-2.5 mx-auto">Confirm</button> <button onClick={()=>{setToggle(!toggle)}} className="w-fit text-center text-white flex items-center mt-5 bg-blue-500  font-medium rounded-lg text-sm px-5 py-2.5 mx-auto">Close</button></div> : <button onClick={()=>{setToggle(!toggle)}}   className="w-fit text-center text-white flex items-center mt-5 bg-red-600  font-medium rounded-lg text-sm px-5 py-2.5 mx-auto">Delete</button>}
+        <button onClick={handleClose}>
+            <img alt="" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST1mtZCRWh6vOvjwovfizM2BvKFMTiCDawFw&s"></img>
+        </button>
     </div>
 }

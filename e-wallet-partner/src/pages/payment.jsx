@@ -35,10 +35,12 @@ export default function Payment({ itemsPerPage }) {
     };
     return (
         <div className='flex'>
-            <div className='w-[30%]'>
-                <SideBar state="Transaction History"></SideBar>
-            </div>
-            <div className='w-full'>
+            <SideBar state="Transaction History"></SideBar>
+            <div className='w-full p-4'>
+            <div className='space-y-2 my-4'>
+                    <h1 className='font-semi-4xl'>Transaction History</h1>
+                    <h1 className=''>Access & manage your account and transactions efficiently.</h1>
+                </div>
             <table className='min-w-full bg-white rounded-lg font-semibold shadow-md overflow-hidden'>
                 <thead>
                     <tr className=' text-gray-700  border-b-[1px] bg-gray-50 '>
@@ -79,9 +81,7 @@ export default function Payment({ itemsPerPage }) {
 
             </div>
             </div>
-            <div className='w-[35%]'>
-
-            </div>
+                    
         </div>
     )
 }
