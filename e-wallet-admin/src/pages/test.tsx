@@ -3,9 +3,9 @@ import SideBar from '../components/sidebar/sidebar'
 
 const Home = () => {
   return (
-    <div>
-        <SideBar></SideBar>
-        <div>Sidebar test</div>
+    <div className='flex'>
+        <SideBar state={"Manage User"}></SideBar>
+        <div className='w-full'>Sidebar test</div>
     </div>
   )
 }
