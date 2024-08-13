@@ -41,11 +41,9 @@ const Dashboard = () => {
       },[]);
     return (
         <div className='flex'>
-            <div className='w-[30%] '>
-                <SideBar state="Dashboard"></SideBar>
-            </div>
-            <div className='w-full'>
-                <div className='p-4 space-y-2'>
+            <SideBar state="Dashboard"></SideBar>
+            <div className='w-full p-4'>
+                <div className='space-y-2'>
                     <h1 className='font-semi-4xl'>Welcome ,{isLoading ? '' :  <span className='text-color-default'>{partner.name}</span>}</h1>
                     <h1 className=''>Access & manage your account and transactions efficiently.</h1>
                 </div>

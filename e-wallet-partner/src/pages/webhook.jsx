@@ -1,4 +1,4 @@
-import Header from '../components/header/header_dashboard'
+import HeaderDashboard from '../components/header/header_dashboard'
 import partnerAPI from '../api/partner.api'
 import { useEffect,useState } from 'react';
 import { useNavigate } from "react-router-dom"
@@ -31,16 +31,14 @@ export default function WebHook(){
         };
         fetchData(); 
       },[]);
-    if(isLoading){
-        return<div>...Loading</div>
-    }
-    return<div className='flex'>
+    return<div className='flex '>
       <div className='w-[30%]'>
         <SideBar state="Developer"></SideBar>
       </div>
-      <div className='w-full'>
-            {webhook ? <ViewWebHook webhook={webhook}></ViewWebHook> : <AddWebHook></AddWebHook>}
-
+      <div className='w-full p-4'>
+        <HeaderDashboard title="Webhook"></HeaderDashboard>
+            {isLoading ? '..loading' : webhook ? <ViewWebHook webhook={webhook}></ViewWebHook> : <AddWebHook></AddWebHook>}
+          
           </div>
         <div className='w-[35%]'>
         
