@@ -1,20 +1,56 @@
-import { ItemCurrency } from "../../components/home/item_currency"
-import VNDIcon from '../../assets/png/vnd_icon.png'
-import Steps from "rc-steps"
+import SearchUser from "./search_user"
+import InputAmount from "./input_amount"
+import SelectCurrency from "./select_currency"
+import { useState,useEffect } from "react"
+import { TypeWallet,Currency, User } from "../../types/transfer"
+import { getProfileAPI } from "../../services/api/user.api"
+import { useNavigate } from "react-router-dom"
+import Cookies from "universal-cookie"
 const Transfer = () => {
-  return (
-    <>
-    <Steps>
-        <Steps.Step title="first" />
-        <Steps.Step title="second" />
-        <Steps.Step title="third" />
-    </Steps>
-    <div>1</div>
-    {/* <ItemCurrency image={VNDIcon} item={walletData?.currencies[0]} symbol={'VND'} name="Vietnamese Dong"></ItemCurrency>
-    <ItemCurrency image={USDIcon} item={walletData?.currencies[1]} symbol={'USD'} name="US Dollar"></ItemCurrency>
-    <ItemCurrency image={ETHIcon} item={walletData?.currencies[2]} symbol={'ETH'} name="Ethereum"></ItemCurrency> */}
-    </>
-  )
-}
+    const [step,setStep] = useState('select_currency')
+    const [selectCurrency,setSelectCurrency] = useState<Currency>()
+    const [wallet,setWallet] = useState()
+    const [userData,setUserData] = useState<User>()
+    const [isLoading,setIsLoading] = useState(true)
+    const navigate = useNavigate()
+    const cookies = new Cookies()
+    useEffect(()=>{
+        const fetchProfile=async()=>{
+            try {
+                const response =  await getProfileAPI(cookies.get('token_auth'))
+                if(response.status === 200){
+                    setWallet(response.data.data.walletData.currencies)
+                    setIsLoading(false)
+                }
+              } catch (error) {
+                navigate('/auth/login')
+                setIsLoading(false)
+              }
+            }
+        fetchProfile()
+    },[])
+    const handleStepTransfer = (step_change:string)=>{
+        setStep(step_change)
+    }
+    const handleUserData = (data:any)=>{
+        setUserData(data)
+    }
+    const handleCurrencyData = (data:any)=>{
+        setSelectCurrency(data)
+    }
+    if(isLoading){
+        return 'Loading'
+    }
+    switch (step) {
+        case 'select_currency':
+            return <SelectCurrency currency={wallet} handleCurrencyData={handleCurrencyData} handleStepTransfer={handleStepTransfer} />;
+        case 'search_user':
+            return <SearchUser handleUserData={handleUserData} handleStepTransfer={handleStepTransfer} />;
+        case 'input_amount':
+            return <InputAmount currencyData={selectCurrency} userData={userData} handleStepTransfer={handleStepTransfer} />;
+        default:
+            return <div>Invalid step</div>;
+    }
+    }
 
 export default Transfer
