@@ -2,13 +2,11 @@ import BackArrow from '../../assets/svg/back_arrow.svg'
 import { Link } from 'react-router-dom'
 const HeaderDefault = ({...props}) => {
   return (
-    <div className='flex p-4 justify-between'>
-        <Link to=''>
-          <img src={BackArrow}></img>
-        </Link>
-        <h1 class={`text-lg font-semibold`}>{props.title}</h1>
-        <img></img>
-    </div>
+    <div class={`my-2 font-semibold flex justify-between text-lg`}>
+        <button onClick={props.onClick}><img class={`w-3`} src={BackArrow}></img></button>
+        <h1>{props.title}</h1>
+        <div></div>
+      </div>
   )
 }
 

@@ -5,8 +5,8 @@ import { useEffect,useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PageNotFound from '../page_not_found';
 import Loading from '../loading';
-import DrawerBottom from './drawer_bottom';
-import ApplyVoucher from './apply_voucher';
+import DrawerBottom from '../../components/payment/drawer_bottom';
+import ApplyVoucher from '../../components/payment/apply_voucher';
 type Transaction = {
     _id: string | undefined
     partnerID:{

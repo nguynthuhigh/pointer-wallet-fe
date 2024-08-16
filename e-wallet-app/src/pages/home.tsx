@@ -49,7 +49,6 @@ const Home = () => {
         if(response.status === 200){
           setWalletData(response.data.data.walletData)
           setUserData(response.data.data.userData)
-          console.log(response.data.data.userData)
           setIsLoading(false)
         }
       } catch (error) {
@@ -79,7 +78,7 @@ const Home = () => {
         
       </div>
       <div className="grid grid-flow-row grid-cols-5 gap-1">
-        <ButtonFeature image={CashInIcon} title="Gửi"></ButtonFeature>
+        <ButtonFeature link="/transfer" image={CashInIcon} title="Gửi"></ButtonFeature>
         <ButtonFeature image={HistoryIcon} title="Nhận"></ButtonFeature>
         <ButtonFeature link='/scan-qrcode' image={CashInIcon} title="Quét mã"></ButtonFeature>
         <ButtonFeature image={CashInIcon} title="Nạp/Rút"></ButtonFeature>
