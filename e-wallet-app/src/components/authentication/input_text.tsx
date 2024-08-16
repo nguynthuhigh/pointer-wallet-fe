@@ -8,7 +8,7 @@ const InputText = ({ ...props }) => {
         {props.title}
       </label>
       <input
-        {...props.register(props.name)}
+        {...(props.register ? props.register(props.name) : {})}
         onChange={props.onChange}
         required
         type={props.type}
