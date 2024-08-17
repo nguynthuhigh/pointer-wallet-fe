@@ -79,7 +79,7 @@ const Home = () => {
       </div>
       <div className="grid grid-flow-row grid-cols-5 gap-1">
         <ButtonFeature link="/transfer" image={CashInIcon} title="Gửi"></ButtonFeature>
-        <ButtonFeature image={HistoryIcon} title="Nhận"></ButtonFeature>
+        <ButtonFeature link="/receive-page" image={HistoryIcon} title="Nhận"></ButtonFeature>
         <ButtonFeature link='/scan-qrcode' image={CashInIcon} title="Quét mã"></ButtonFeature>
         <ButtonFeature image={CashInIcon} title="Nạp/Rút"></ButtonFeature>
         <ButtonFeature link='/transaction/history' image={HistoryIcon} title="Lịch sử"></ButtonFeature>
