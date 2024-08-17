@@ -20,4 +20,23 @@ export type TypeWallet = {
     _id:string,
     balance: number
 }
+export type TransactionData = {
+    amount: 50,
+    message: string,
+    currency: {
+        symbol: string,
+    }
+    sender: {
+        email: string,
+        full_name: string,
+        avatar: string
+    },
+    receiver: {
+        email: string,
+        full_name: string,
+        avatar:string
+    },
+    createdAt: date,
+}
+
    
