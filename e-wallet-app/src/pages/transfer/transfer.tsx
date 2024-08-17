@@ -30,6 +30,9 @@ const Transfer = () => {
         fetchProfile()
     },[])
     const handleStepTransfer = (step_change:string)=>{
+        if(step_change === 'home'){
+            navigate('/')
+        }
         setStep(step_change)
     }
     const handleUserData = (data:any)=>{
@@ -39,7 +42,7 @@ const Transfer = () => {
         setSelectCurrency(data)
     }
     if(isLoading){
-        return 'Loading'
+        return <div>...Loading</div>
     }
     switch (step) {
         case 'select_currency':

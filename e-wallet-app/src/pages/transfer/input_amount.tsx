@@ -31,8 +31,13 @@ const InputAmount = ({...props}) => {
     };
     const handleSubmit = ()=>{
         const amount = convertCurrency(dataSend.amount,props.currencyData.currency)
+        const balance = convertCurrency(props.currencyData.balance,props.currencyData.currency) || 0
         if(!amount){
-            return
+            return setError(`Vui lòng nhập số tiền`)
+        }
+        if(amount > balance){
+            console.log(amount)
+            return setError(`Số dư không đủ`)
         }
         if(amount < 100){
             return setError(`Số tiền chuyển tối thiểu là ${formatCurrency(convertCurrency(100,props.currencyData.currency),props.currencyData.currency)}`)
@@ -62,10 +67,10 @@ const InputAmount = ({...props}) => {
             <textarea onChange={handleChange} name='message' maxLength={100} class={`border mt-10 rounded-xl w-full h-24 p-1`} placeholder={`Nhập nội dung đính kèm`}></textarea>
         </div>
         <div class={`rounded-xl bg-gray-100 p-4 flex`}>
-            <img class={`w-10 h-10 rounded-full object-cover`} src={`https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/1024px-Typescript_logo_2020.svg.png`}></img>
+            <img class={`w-10 h-10 rounded-full object-cover`} src={props.currencyData.image}></img>
             <div class={`ml-4`}>
                 <h1 class={`text-sm text-gray-500`}>Số dư:</h1>
-                <h1 class={`text-md`}>đ100,000</h1>
+                <h1 class={`text-md`}>{formatCurrency(props.currencyData.balance,props.currencyData.currency)}</h1>
             </div>
         </div>
         <div class={`rounded-xl bg-gray-100 mt-2 p-4 flex`}>

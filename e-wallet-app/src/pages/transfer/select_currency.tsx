@@ -4,7 +4,6 @@ import HeaderDefault from '../../components/header/header_default'
 import VNDIcon from '../../assets/png/vnd_icon.png'
 import USDIcon from '../../assets/png/usd_icon.png'
 import ETHIcon from '../../assets/png/eth_icon.png'
-import { TypeWallet } from '../../types/transfer'
 type Props = {
   currency:any,
   handleStepTransfer:any,
@@ -13,7 +12,6 @@ type Props = {
 const SelectCurrency:React.FC<Props> = ({...props}) => {
   const handleSelectCurrency = ()=>{
     props.handleStepTransfer('search_user')
-    console.log("search user")
   }
   const handleCurrencyData = (data:any)=>{
     props.handleCurrencyData(data)
@@ -21,7 +19,7 @@ const SelectCurrency:React.FC<Props> = ({...props}) => {
   return (
     <>
       <div class={`p-4`}>
-          <HeaderDefault  title="Chọn loại tiền"></HeaderDefault>
+          <HeaderDefault onClick={()=>{props.handleStepTransfer('home')}} title="Chọn loại tiền"></HeaderDefault>
           <ItemCurrency image={VNDIcon} wallet={props.currency[0]} currency={`VND`} onClick={handleSelectCurrency} handleCurrencyData={handleCurrencyData}></ItemCurrency>
           <ItemCurrency image={USDIcon} wallet={props.currency[1]} currency={`USD`} onClick={handleSelectCurrency} handleCurrencyData={handleCurrencyData}></ItemCurrency>
           <ItemCurrency image={ETHIcon} wallet={props.currency[2]} currency={`ETH`} onClick={handleSelectCurrency} handleCurrencyData={handleCurrencyData}></ItemCurrency>
@@ -32,7 +30,7 @@ const SelectCurrency:React.FC<Props> = ({...props}) => {
 }
 const ItemCurrency = ({...props})=>{
   return(
-    <div onClick={()=>{props.onClick(); props.handleCurrencyData({...props.wallet,currency:props.currency})}} className={`flex justify-between items-center my-4 hover:bg-gray-100 p-2 rounded-lg cursor-pointer`}>
+    <div onClick={()=>{props.onClick(); props.handleCurrencyData({...props.wallet,currency:props.currency,image:props.image})}} className={`flex justify-between items-center my-4 hover:bg-gray-100 p-2 rounded-lg cursor-pointer`}>
       <div className={`flex items-center`}>
           <img src={props.image} className={`w-12 h-12`}></img>
           <div className={`ml-2`}>

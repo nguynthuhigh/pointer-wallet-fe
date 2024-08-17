@@ -1,8 +1,14 @@
+import HeaderDefault from "../../components/header/header_default"
 
 const TransactionDetails = () => {
 
   return (
-    <div>TransactionDetails</div>
+    <div>
+      <HeaderDefault></HeaderDefault>
+      <div>
+
+      </div>
+    </div>
   )
 }
 
