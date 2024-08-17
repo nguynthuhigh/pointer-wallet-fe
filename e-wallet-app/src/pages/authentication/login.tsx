@@ -1,10 +1,10 @@
+import { useState } from "preact/hooks";
+import { useNavigate, Link } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 import AuthImg from "../../assets/png/auth_img.png";
 import InputText from "../../components/authentication/input_text";
 import { ButtonSubmit } from "../../components/authentication/button_submit";
-import { Link } from "react-router-dom";
-import { useState } from "preact/hooks";
 import { loginAPI } from "../../services/api/auth.api";
-import { useNavigate } from "react-router-dom";
 const Login = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +32,7 @@ const Login = () => {
       return updatedFormData;
     });
   };
-  type ErrorReponse = {
+  type ErrorResponse = {
     response: {
       data: {
         message: string;
@@ -45,10 +45,12 @@ const Login = () => {
     try {
       const response = await loginAPI(loginData);
       if (response.status === 200) {
-        navigate("/auth/verify-login", { state: { loginData } });
+        navigate("/auth/verify-login", {
+          state: { loginData, message: response.data.message },
+        });
       }
     } catch (error: unknown) {
-      const typeError = error as ErrorReponse;
+      const typeError = error as ErrorResponse;
       setErrorValue({
         email: typeError.response.data.message,
         password: typeError.response.data.message,
@@ -56,6 +58,8 @@ const Login = () => {
       setIsLoading(false);
     }
   };
+  errorValue.email ? toast.error(errorValue.email) : null;
+
   return (
     <div class={`bg-white p-4`}>
       <img class={`mx-auto mt-10 w-52`} src={AuthImg}></img>
@@ -84,9 +88,6 @@ const Login = () => {
           name="password"
           placeholder="Nhập mật khẩu"
         ></InputText>
-        <h1 class={`text-center font-semibold text-red-500`}>
-          {errorValue.email}
-        </h1>
         <ButtonSubmit title="Đăng nhập" isLoading={isLoading} />
       </form>
       <h1 class={`text-center font-semibold`}>
@@ -95,6 +96,7 @@ const Login = () => {
           Đăng ký
         </Link>
       </h1>
+      <Toaster position="top-right" />
     </div>
   );
 };
