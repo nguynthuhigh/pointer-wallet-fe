@@ -1,25 +1,28 @@
 import Cookies from "universal-cookie";
 const cookie = new Cookies();
-import AuthImg from "../../assets/png/auth_img.png";
-import { useLocation } from "react-router-dom";
-import { useState } from "preact/hooks";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "preact/hooks";
 import OTPInput from "react-otp-input";
+import toast, { Toaster } from "react-hot-toast";
 import { verifyLoginAPI } from "../../services/api/auth.api";
 import LoadingIcon from "../../assets/svg/loading.svg";
 import PageNotFound from "../page_not_found";
-import { useNavigate } from "react-router-dom";
+import AuthImg from "../../assets/png/auth_img.png";
 const VerifyLogin = () => {
   const location = useLocation();
   const loginData = (location.state as { loginData?: any } | undefined)
     ?.loginData;
+  useEffect(() => {
+    toast.success(location.state?.message);
+  }, []);
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState(false);
   const navigate = useNavigate();
   if (!loginData) {
     return <PageNotFound />;
   }
-  type ErrorReponse = {
+  type ErrorResponse = {
     response: {
       data: {
         message: string;
@@ -28,7 +31,6 @@ const VerifyLogin = () => {
   };
   const handleChangeOTP = async (value: string) => {
     setOtp(value);
-    setError("");
     if (value.length === 6) {
       const body = {
         email: loginData.email,
@@ -50,8 +52,9 @@ const VerifyLogin = () => {
         }
       } catch (error: unknown) {
         setIsLoading(false);
-        const typeError = error as ErrorReponse;
-        setError(typeError.response.data.message);
+        setError(!error);
+        const typeError = error as ErrorResponse;
+        toast.error(typeError.response.data.message);
       }
     }
   };
@@ -70,7 +73,6 @@ const VerifyLogin = () => {
         </span>
       </h1>
       <div class={`mx-auto w-fit relative`}>
-        <h1 class={`text-center font-semibold text-red-500`}>{error}</h1>
         <OTPInput
           value={otp}
           onChange={handleChangeOTP}
@@ -86,11 +88,12 @@ const VerifyLogin = () => {
         />
         {isLoading && (
           <img
-            class={`animate-spin absolute top-[30%]  text-center right-[50%] left-[50%]`}
+            class={`animate-spin absolute -top-[50%] text-center right-[50%] left-[50%]`}
             src={LoadingIcon}
-          ></img>
+          />
         )}
       </div>
+      <Toaster position="top-right" />
     </div>
   );
 };

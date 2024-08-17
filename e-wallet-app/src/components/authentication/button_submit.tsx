@@ -6,6 +6,7 @@ export const ButtonSubmit = ({ ...props }) => {
       {!props.isLoading ? (
         <button
           class={`w-full bg-blue-default my-4 font-semibold text-white p-3 rounded-xl`}
+          onClick={props.onClick}
         >
           {props.title}
         </button>

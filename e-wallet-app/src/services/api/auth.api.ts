@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
 const cookie = new Cookies();
-const token = cookie.get("auth_token");
+const accessToken = cookie.get("token_auth");
 export const loginAPI = async (body: any) => {
   const response = await axios.post(
     `${import.meta.env.VITE_API_URL}/api/v1/user/signin`,
@@ -31,15 +31,23 @@ export const registerAPI = async (body: any) => {
   );
   return response;
 };
-export const securityCode = async (body: any) => {
-  const response = await axios.post(
-    `${import.meta.env.VITE_API_URL}/api/v1/user/profile/update-security-code`,
+export const securityCode = async (body: { security_code: string }) => {
+  console.log({ accessToken });
+  const response = await axios.put(
+    `${import.meta.env.VITE_API_URL}/api/v1/user/update-security-code`,
     body,
     {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     }
+  );
+  return response;
+};
+export const resendOTP = async (body: { email: string; password: string }) => {
+  const response = await axios.post(
+    `${import.meta.env.VITE_API_URL}/api/v1/user/resend-email`,
+    body
   );
   return response;
 };
