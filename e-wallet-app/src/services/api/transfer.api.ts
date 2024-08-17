@@ -12,3 +12,10 @@ export const sendMoneyAPI =async (body:DataSend)=>{
         }
     });
 }
+export const getTransactionAPI = async (id:string)=>{
+    return await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/transaction/get/transaction/details/${id}`,{
+        headers:{
+            Authorization: 'Bearer '+cookie.get('token_auth')
+        }
+    })
+}

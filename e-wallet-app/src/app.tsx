@@ -13,6 +13,7 @@ import Transfer from "./pages/transfer/transfer";
 import Register from "./pages/authentication/register";
 import VerifyRegister from "./pages/authentication/verify_register";
 import SecurityCode from "./pages/authentication/setup_security_code";
+import TransferResults from "./pages/transfer/transfer_results";
 export function App() {
   return (
     <Router>
@@ -32,6 +33,7 @@ export function App() {
           <Route path="/auth/verify-register" element={<VerifyRegister />} />
           <Route path="/auth/security-code" element={<SecurityCode />} />
           <Route path="/auth/register" element={<Register />} />
+          <Route path="/transfer/result" element={<TransferResults />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
