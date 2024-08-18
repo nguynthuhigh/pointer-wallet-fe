@@ -14,19 +14,29 @@ import VerifyRegister from "./pages/authentication/verify_register";
 import SecurityCode from "./pages/authentication/setup_security_code";
 import TransferResults from "./pages/transfer/transfer_results";
 import ProtectRoutes from "./utils/protect_routes";
+import DepositWithdraw from "./pages/deposit-withdraw";
+import Deposit from "./pages/deposit-withdraw/deposit";
+import Withdraw from "./pages/deposit-withdraw/withdraw";
 export function App() {
   return (
     <Router>
       <div className="font-inter">
         <Routes>
-          <Route element={<ProtectRoutes/>}>
+          <Route element={<ProtectRoutes />}>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/scan-qrcode" element={<ScanQR />} />
             <Route path="/payment" element={<PaymentGateway />} />
             <Route path="/transfer" element={<Transfer />} />
             <Route path="/transaction/history" element={<History />} />
-            <Route path="/transaction/details" element={<TransactionDetails />} />
+            <Route path="deposit-withdraw" element={<DepositWithdraw />}>
+              <Route path="deposit" element={<Deposit />} />
+              <Route path="withdraw" element={<Withdraw />} />
+            </Route>
+            <Route
+              path="/transaction/details"
+              element={<TransactionDetails />}
+            />
             <Route path="/receive-page" element={<ReceivePage />} />
             <Route path="/transfer/result" element={<TransferResults />} />
           </Route>

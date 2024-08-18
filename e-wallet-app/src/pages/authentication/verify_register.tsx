@@ -54,10 +54,6 @@ export default function VerifyRegister() {
   const resend = async () => {
     setIsLoading(true);
     try {
-      console.log({
-        email: location.state.email,
-        password: location.state.password,
-      });
       const response = await resendOTP({
         email: location.state.email,
         password: location.state.password,
@@ -79,7 +75,7 @@ export default function VerifyRegister() {
     }
   };
   const handleResendOTP = () => {
-    if (count >= 3) {
+    if (count > 2) {
       toast.error("Bạn đã đạt tới số lần gửi lại OTP tối đa.");
       return;
     }
@@ -124,12 +120,12 @@ export default function VerifyRegister() {
         <div class={`flex justify-end`}>
           <button
             class={`mt-4 font-semibold text-sm ${
-              isLoading || count > 3
-                ? "text-gray-400 cursor-not-allowed"
+              isLoading || count > 2
+                ? "text-gray-400 cursor-default"
                 : "text-blue-default"
             } px-2`}
             onClick={handleResendOTP}
-            disabled={isLoading || count > 3}
+            disabled={isLoading}
           >
             Gửi lại OTP
           </button>
