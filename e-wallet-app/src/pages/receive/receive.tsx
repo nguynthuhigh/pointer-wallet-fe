@@ -22,7 +22,7 @@ const ReceivePage:React.FC = () => {
     }
     return (
         <div class={`p-4`}>
-            <HeaderDefault path={'/'} title="Mã nhận tiền"></HeaderDefault>
+            <HeaderDefault title="Mã nhận tiền"></HeaderDefault>
             <div>
                 <QRCode class={`mx-auto mt-20`} value={url}></QRCode>
             </div>

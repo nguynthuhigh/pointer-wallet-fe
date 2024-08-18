@@ -17,6 +17,7 @@ import ProtectRoutes from "./utils/protect_routes";
 import DepositWithdraw from "./pages/deposit-withdraw";
 import Deposit from "./pages/deposit-withdraw/deposit";
 import Withdraw from "./pages/deposit-withdraw/withdraw";
+import PaymentResults from "./pages/payment/payment_results";
 export function App() {
   return (
     <Router>
@@ -27,6 +28,7 @@ export function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/scan-qrcode" element={<ScanQR />} />
             <Route path="/payment" element={<PaymentGateway />} />
+            <Route path="/payment/results" element={<PaymentResults />} />
             <Route path="/transfer" element={<Transfer />} />
             <Route path="/transaction/history" element={<History />} />
             <Route path="deposit-withdraw" element={<DepositWithdraw />}>

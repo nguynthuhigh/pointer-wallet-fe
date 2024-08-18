@@ -32,7 +32,6 @@ export const registerAPI = async (body: any) => {
   return response;
 };
 export const securityCode = async (body: { security_code: string }) => {
-  console.log({ accessToken });
   const response = await axios.put(
     `${import.meta.env.VITE_API_URL}/api/v1/user/update-security-code`,
     body,

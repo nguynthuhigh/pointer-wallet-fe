@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Box, Button, Drawer } from '@mui/material';
+import { Box, Drawer } from '@mui/material';
 import OTPInput from 'react-otp-input';
-import { confirmPaymentAPI } from '../../services/api/payment.api';
 import { useNavigate } from 'react-router-dom';
 import { DataSend } from '../../types/transfer';
 import { sendMoneyAPI } from '../../services/api/transfer.api';
