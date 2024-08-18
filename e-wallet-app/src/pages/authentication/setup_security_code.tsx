@@ -17,7 +17,7 @@ export default function SecurityCode() {
   useEffect(() => {
     const message = location.state?.message;
     if (message) {
-      toast(message, { icon: "✍️" });
+      toast(message, { icon: "🗝️" });
     }
   }, [location.state?.message]);
 
@@ -30,9 +30,10 @@ export default function SecurityCode() {
         });
         if (response.status === 200) {
           setError(false);
-          navigate("/", {
-            state: { message: response.data.message },
-          });
+          toast.success(response.data.message);
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
         } else {
           setError(true);
           toast.error(response.data.message);

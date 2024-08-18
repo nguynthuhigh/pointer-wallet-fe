@@ -22,22 +22,28 @@ export type TypeWallet = {
 };
 
 export type TransactionData = {
-    amount: 50,
-    message: string,
-    currency: {
-        symbol: string,
-    }
-    sender: {
-        email: string,
-        full_name: string,
-        avatar: string
-    },
-    receiver: {
-        email: string,
-        full_name: string,
-        avatar:string
-    },
-    createdAt: date,
-}
-
-   
+  amount: 50;
+  message: string;
+  currency: {
+    symbol: string;
+  };
+  sender: {
+    email: string;
+    full_name: string;
+    avatar: string;
+  };
+  receiver: {
+    email: string;
+    full_name: string;
+    avatar: string;
+  };
+  createdAt: date;
+};
+export type Card = {
+  number: string;
+  name: string;
+  cvv: number;
+  expiryMonth: number;
+  expiryYear: number;
+  type: string;
+};
