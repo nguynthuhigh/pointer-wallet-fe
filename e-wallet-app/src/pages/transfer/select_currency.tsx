@@ -20,9 +20,6 @@ const SelectCurrency: React.FC<Props> = ({ ...props }) => {
     <>
       <div class={`p-4`}>
         <HeaderDefault
-          onClick={() => {
-            props.handleStepTransfer("home");
-          }}
           title="Chọn loại tiền"
         ></HeaderDefault>
         <ItemCurrency

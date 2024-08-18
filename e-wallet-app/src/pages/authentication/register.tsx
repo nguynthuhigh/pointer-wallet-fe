@@ -9,7 +9,7 @@ import { ButtonSubmit } from "../../components/authentication/button_submit";
 
 export default function Register() {
   const navigate = useNavigate();
-  const {
+  const { 
     register,
     handleSubmit,
     reset,

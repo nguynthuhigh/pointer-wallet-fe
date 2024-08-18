@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import DrawerBottom from '../../components/transfer/drawer_security'
-import HeaderDefault from '../../components/header/header_default'
 import { DataSend,User } from '../../types/transfer'
 import { formatCurrency } from '../../utils/format_currency'
 import { convertCurrency } from '../../utils/convert_currency'
 import CurrencyInput from 'react-currency-input-field'
 import { symbolCurrency } from '../../utils/symbol_currency'
 import avatar from '../../assets/png/default_avatar.png'
+import HeaderTransfer from '../../components/header/header_transfer'
 type Props = {
     userData:User,
     currencyData:any
@@ -51,7 +51,7 @@ const InputAmount = ({...props}) => {
     }
   return (
     <div class={`p-4`}>
-      <HeaderDefault onClick={()=>{props.handleStepTransfer('search_user')}} title="Nhập số tiền"></HeaderDefault>
+      <HeaderTransfer onClick={()=>{props.handleStepTransfer('search_user')}} title="Nhập số tiền"></HeaderTransfer>
         <div class={`mt-14`}>
             <h1 class={`font-semibold text-center text-red-500`}>{error}</h1>
             <CurrencyInput
