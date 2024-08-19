@@ -4,7 +4,7 @@ import { formatDate } from "../../utils/format_date"
 import { Link } from "react-router-dom"
 const ItemTransaction = ({...props}) => {
   return (
-    <>
+    <div ref={props.ref}>
       <Link to={`/transaction/details?id=${props.item._id}`}>
         <div className={`flex justify-between items-center my-2 py-1 px-4 hover:bg-button-hover cursor-pointer`}>
             <div className={`flex items-center`}>
@@ -19,7 +19,7 @@ const ItemTransaction = ({...props}) => {
             </div>
         </div>
       </Link>
-    </>
+    </div>
   )
 }
 

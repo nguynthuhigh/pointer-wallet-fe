@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import avatar_default from '../../assets/png/default_avatar.png'
 import { Link } from 'react-router-dom'
 import ic_success from '../../assets/png/ic_success.png'
 import ic_home from '../../assets/svg/home.svg'

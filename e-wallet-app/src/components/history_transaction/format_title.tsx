@@ -1,6 +1,5 @@
 const FormatTitle = ({...props}) => {
   const transactionData:any = props?.item
-  console.log(transactionData)
   if(transactionData?.type === 'transfer' && transactionData.sender._id === props.userID){
     return <h1 className={`font-semibold text-base overflow-hidden w-full`}>Chuyển tiền đến {transactionData?.receiver?.full_name}</h1>
   }
