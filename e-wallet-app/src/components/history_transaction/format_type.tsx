@@ -1,6 +1,5 @@
 import { formatCurrency } from "../../utils/format_currency"
 const FormatTypeCurrency = ({...props}) => {
-  console.log(props?.item?.currency?.symbol ? props.item.currency.symbol : 'VND')
   const amount = formatCurrency(props.item.amount,props?.item?.currency?.symbol ? props.item.currency.symbol : 'VND')
   const data= props.item
   if(data.type === 'payment'){

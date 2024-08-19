@@ -64,7 +64,7 @@ const DrawerBottom:React.FC<BottomDrawerProps> = ({onClose,state,data}) => {
                                 onChange={handleChangeOTP}
                                 numInputs={6}
                                 inputType='password'
-                                renderInput={({style,...props}) => <input inputmode={`numeric`} pattern="[0-9]*" class={`rounded-full ${error && `border-red-500`} text-center font-semibold   border w-5 h-5  mx-2 bg-gray-50  ${error && 'border-red-500'}`} {...props} />}
+                                renderInput={({style,...props}) => <input inputmode='tel' pattern="[0-9]*" class={`rounded-full ${error && `border-red-500`} text-center font-semibold   border w-5 h-5  mx-2 bg-gray-50  ${error && 'border-red-500'}`} {...props} />}
                                 />
                             </div>
                            {isLoading &&  <div class={`absolute w-full bg-gray-100 rounded-full top-0 h-full`}>

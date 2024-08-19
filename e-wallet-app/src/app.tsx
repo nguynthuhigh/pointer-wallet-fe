@@ -18,6 +18,7 @@ import DepositWithdraw from "./pages/deposit-withdraw";
 import Deposit from "./pages/deposit-withdraw/deposit";
 import Withdraw from "./pages/deposit-withdraw/withdraw";
 import PaymentResults from "./pages/payment/payment_results";
+
 export function App() {
   return (
     <Router>
@@ -30,7 +31,7 @@ export function App() {
             <Route path="/payment" element={<PaymentGateway />} />
             <Route path="/payment/results" element={<PaymentResults />} />
             <Route path="/transfer" element={<Transfer />} />
-            <Route path="/transaction/history" element={<History />} />
+              <Route path="/transaction/history" element={<History />} />
             <Route path="deposit-withdraw" element={<DepositWithdraw />}>
               <Route path="deposit" element={<Deposit />} />
               <Route path="withdraw" element={<Withdraw />} />

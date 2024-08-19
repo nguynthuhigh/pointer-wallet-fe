@@ -3,6 +3,7 @@ import { Box, Drawer } from '@mui/material';
 import ic_close from '../../assets/svg/close.svg'
 import VoucherItem from './voucher_item';
 import { applyVoucher, getVouchersPartner } from '../../services/api/payment.api';
+import toast,{Toaster} from 'react-hot-toast';
 type ApplyVoucherType = () => void;
 
 interface BottomDrawerProps {
@@ -45,7 +46,9 @@ const ApplyVoucher:React.FC<BottomDrawerProps> = ({onClose,state,id,handleDataVo
                 setIsLoading(false)
             }
         } catch (error:any) {
-            setError(error.response.data.message)
+            console.log(error)
+
+            toast.error(error.response.data.message)
         }
     }
     const handleAvailableApplyVoucher =async(code:string)=>{
@@ -56,10 +59,11 @@ const ApplyVoucher:React.FC<BottomDrawerProps> = ({onClose,state,id,handleDataVo
             })
             if(response.status === 200){
                 handleDataVoucher(code,response.data.data)
+                toast.success("Áp dụng voucher thành công")
                 setIsLoading(false)
             }
         } catch (error:any) {
-            setError(error.response.data.message)
+            toast.error(error.response.data.message)
         }
     }
     useEffect(()=>{
@@ -68,10 +72,10 @@ const ApplyVoucher:React.FC<BottomDrawerProps> = ({onClose,state,id,handleDataVo
                 const response = await getVouchersPartner(partnerID)
                 if(response.status === 200){
                     setVoucherData(response.data.data)
+                    toast.success("Áp dụng voucher thành công")
                     setIsLoading(false)
                 }
             } catch (error) {
-                console.log(error)
                 setIsLoading(false)
             }            
         }
@@ -80,6 +84,7 @@ const ApplyVoucher:React.FC<BottomDrawerProps> = ({onClose,state,id,handleDataVo
     return (
     <div>
         <div>
+        <Toaster position="top-right" />
             <Drawer
                 anchor="bottom"
                 open={state}
