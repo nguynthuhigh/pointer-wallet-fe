@@ -8,11 +8,11 @@ import ic_close from '../../assets/svg/close.svg'
 import ic_loading from '../../assets/svg/loading.svg'
 type DrawerFunction = () => void;
 
-    interface BottomDrawerProps {
-        onClose: DrawerFunction;
-        state:boolean,
-        data:DataSend
-    }
+interface BottomDrawerProps {
+    onClose: DrawerFunction;
+    state:boolean,
+    data:DataSend
+}
 const DrawerBottom:React.FC<BottomDrawerProps> = ({onClose,state,data}) => {
     const [otp,setOtp] = useState('')
     const [error,setError] = useState<string | null>()
@@ -35,7 +35,8 @@ const DrawerBottom:React.FC<BottomDrawerProps> = ({onClose,state,data}) => {
                 }
             } catch (error:any) {
                 setIsLoading(false)
-                setError(error?.response.data.message)
+                setError(error)
+                console.log(error?.response.data.message)
             }
         }
     };

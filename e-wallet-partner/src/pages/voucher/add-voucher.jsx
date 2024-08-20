@@ -4,6 +4,8 @@ import voucherAPI from '../../api/voucher.api'
 import InputVoucher from '../../components/voucher/input_voucher';
 import SideBar from '../../components/dashboard/sidebar';
 import HeaderDashboard from '../../components/header/header_dashboard';
+import { useNavigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 const initialData = {
   title: '',
   code: '',
@@ -15,6 +17,7 @@ const initialData = {
   currency: ''
 }
 export default function VoucherForm() {
+  const navigate = useNavigate()
   const [voucherData, setVoucherData] = useState(initialData);
   const [errors, setErrors] = useState({});
   const [errorSubmit,setErrorSubmit] = useState(null)
@@ -23,7 +26,6 @@ export default function VoucherForm() {
   const handleChange = (name, value) => {
     setVoucherData({ ...voucherData, [name]: value });
     setErrors({discountValue:null,code:null})
-    console.log(voucherData)
   };
 
   const validate = () => {
@@ -52,29 +54,26 @@ export default function VoucherForm() {
 
   const handleSubmit =async (e) => {
     e.preventDefault();
-    console.log(e)
     try {
         if(validate() === false){
-          console.log("validate")
           return
-          
         }
-        console.log("?")
         setIsLoading(true)
         const response = await voucherAPI.addVoucher(voucherData)
         if(response.status === 200){
-            setMessage("Add successfully!")
+            toast.success("Add successfully!")
             setIsLoading(false)
+            navigate('/vouchers')
         }
     } catch (error) {
-      console.log(error)
-      setErrorSubmit(error.response.data.message)
+      toast.error(error.response.data.message)
       setIsLoading(false)
     }
   };
 
   return (
     <div className='flex'>
+      <Toaster position='top-right'></Toaster>
       <SideBar state='Vouchers'></SideBar>
       
       <form className="p-5 w-full mx-auto bg-white shadow rounded-[15px]" onSubmit={handleSubmit}>

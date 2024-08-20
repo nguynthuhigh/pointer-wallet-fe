@@ -7,7 +7,7 @@ const SideBar = ({...props}) => {
         setSelected(state)
     }
     return (
-    <div className='max-w-[220px] w-full'>
+    <div className='max-w-[230px] w-full bg-white pr-4 max-sm:hidden'>
         <SideBarPart link='/test' selected={selected} handleSelect = {()=>{handleSelect('Manage User')}} name="Manage User" icon={UserIcon}></SideBarPart>
         <SideBarPart link='/dashboard' selected={selected} handleSelect = {()=>{handleSelect('Dashboard')}} name='Dashboard' icon={UserIcon}></SideBarPart>
     </div>

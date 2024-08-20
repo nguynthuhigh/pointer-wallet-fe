@@ -1,8 +1,6 @@
 import HeaderDefault from '../../components/header/header_default'
 import ItemTransaction from '../../components/history_transaction/item_transaction'
 import USDTIcon from '../../assets/svg/usdt.svg'
-import dataTransaction from '../../dummy-data/transaction.json'
-import transaction from '../../dummy-data/transaction.json'
 import {useInfiniteQuery} from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
 import {useIntersection} from '@mantine/hooks'
@@ -16,13 +14,12 @@ const HistoryTransactions = () => {
       try {
         const response = await getTransactionPaginate(page)
         if(response.status === 200){
-          setUserID(response.data.id)
+          setUserID(response.data.data.id)
           setIsLoading(false)
           return response.data.data.transactions
 
         }
       } catch (error) {
-        console.log(error)
       }
     }
   const { data, fetchNextPage, isFetchingNextPage,hasNextPage } = useInfiniteQuery({
@@ -51,17 +48,19 @@ const HistoryTransactions = () => {
   },[entry])
   return (
     <div>
-        <HeaderDefault title="Lịch sử giao dịch"></HeaderDefault>
+        <div class={` p-4 `}>
+            <HeaderDefault title="Lịch sử giao dịch"></HeaderDefault>
+        </div>
         {!isLoading ? data?.pages.flat().map((item,key)=>{
      
             if(data?.pages.flat().length-1 === key){
-              return <div ref={ref} class={`w-full bg-blue-300 border h-20`}>
+              return <div ref={ref} >
                 <ItemTransaction item={item} userID={userID} key={key} icon={USDTIcon}/>
               </div>
             }
             return <ItemTransaction  item={item} userID={userID} key={key} icon={USDTIcon}/>
           }): 'loading'}
-          {isFetchingNextPage && 'fetchnext...'}
+          {isFetchingNextPage && <h1 class={`text-center`}>Đang tải..</h1>}
     </div>
   )
 }
