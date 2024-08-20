@@ -55,7 +55,6 @@ const Home = () => {
           navigate("/auth/login");
         }
       } catch (error) {
-        console.error(error);
         navigate("/auth/login");
       } finally {
         setIsLoading(false);
@@ -63,7 +62,7 @@ const Home = () => {
     };
 
     fetchProfile();
-  }, [cookies, navigate]);
+  }, []);
 
   return (
     <div className="p-4">
