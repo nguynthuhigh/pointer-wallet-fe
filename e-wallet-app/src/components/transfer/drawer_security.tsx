@@ -35,8 +35,7 @@ const DrawerBottom:React.FC<BottomDrawerProps> = ({onClose,state,data}) => {
                 }
             } catch (error:any) {
                 setIsLoading(false)
-                setError(error)
-                console.log(error?.response.data.message)
+                setError(error?.response.data.message)
             }
         }
     };

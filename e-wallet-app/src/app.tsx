@@ -22,26 +22,28 @@ import PaymentResults from "./pages/payment/payment_results";
 export function App() {
   return (
     <Router>
-      <div className="font-inter">
+      <div className="font-inter bg-gray-50 h-[100vh]">
+  
         <Routes>
           <Route element={<ProtectRoutes />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/scan-qrcode" element={<ScanQR />} />
-            <Route path="/payment" element={<PaymentGateway />} />
-            <Route path="/payment/results" element={<PaymentResults />} />
-            <Route path="/transfer" element={<Transfer />} />
-              <Route path="/transaction/history" element={<History />} />
-            <Route path="deposit-withdraw" element={<DepositWithdraw />}>
-              <Route path="deposit" element={<Deposit />} />
-              <Route path="withdraw" element={<Withdraw />} />
-            </Route>
-            <Route
-              path="/transaction/details"
-              element={<TransactionDetails />}
-            />
-            <Route path="/receive-page" element={<ReceivePage />} />
-            <Route path="/transfer/result" element={<TransferResults />} />
+            
+              <Route path="/" element={<Home />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/scan-qrcode" element={<ScanQR />} />
+              <Route path="/payment" element={<PaymentGateway />} />
+              <Route path="/payment/results" element={<PaymentResults />} />
+              <Route path="/transfer" element={<Transfer />} />
+                <Route path="/transaction/history" element={<History />} />
+              <Route path="deposit-withdraw" element={<DepositWithdraw />}>
+                <Route path="deposit" element={<Deposit />} />
+                <Route path="withdraw" element={<Withdraw />} />
+              </Route>
+              <Route
+                path="/transaction/details"
+                element={<TransactionDetails />}
+              />
+              <Route path="/receive-page" element={<ReceivePage />} />
+              <Route path="/transfer/result" element={<TransferResults />} />
           </Route>
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/verify-login" element={<VerifyLogin />} />
