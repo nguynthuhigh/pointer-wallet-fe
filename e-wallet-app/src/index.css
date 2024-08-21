@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer utilities{
+    .container-center{
+        @apply p-4 w-full bg-white m-2 rounded-lg max-w-[800px] shadow-xl
+    }
+    .container-full{
+        @apply p-4 w-full bg-white m-2 rounded-lg shadow-xl border
+    }
+}

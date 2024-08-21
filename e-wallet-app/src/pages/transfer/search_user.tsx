@@ -29,7 +29,7 @@ const SearchUser = ({...props}) => {
         }
     },1000)
     return (
-        <div class={`p-4`}>
+        <div class={`p-4 w-full bg-white m-2 rounded-lg max-w-[800px] shadow-xl`}>
         <HeaderTransfer onClick={()=>{props.handleStepTransfer('select_currency')}} title="Tìm kiếm người nhận"></HeaderTransfer>
         <input name='search' 
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {const { name, value } = e.target as HTMLInputElement;debounced(value.toLowerCase())}}  

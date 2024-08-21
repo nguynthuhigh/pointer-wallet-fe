@@ -12,7 +12,7 @@ const HistoryTransactions = () => {
   const fetchTransaction = async(page:number)=>{
     // 
       try {
-        const response = await getTransactionPaginate(page)
+        const response = await getTransactionPaginate(page,12)
         if(response.status === 200){
           setUserID(response.data.data.id)
           setIsLoading(false)
