@@ -18,7 +18,7 @@ const SelectCurrency: React.FC<Props> = ({ ...props }) => {
   };
   return (
     <>
-      <div class={`p-4`}>
+      <div class={`p-4 w-full bg-white m-2 rounded-lg max-w-[800px] shadow-xl`}>
         <HeaderDefault
           title="Chọn loại tiền"
         ></HeaderDefault>

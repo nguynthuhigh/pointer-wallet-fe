@@ -50,7 +50,7 @@ const InputAmount = ({...props}) => {
         setIsOpen(!isOpen)
     }
   return (
-    <div class={`p-4`}>
+    <div class={`container-center`}>
       <HeaderTransfer onClick={()=>{props.handleStepTransfer('search_user')}} title="Nhập số tiền"></HeaderTransfer>
         <div class={`mt-14`}>
             <h1 class={`font-semibold text-center text-red-500`}>{error}</h1>

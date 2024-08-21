@@ -6,6 +6,8 @@ import SelectCurrency from "./select_currency";
 import { useState, useEffect } from "react";
 import { Currency, User } from "../../types/transfer";
 import { getProfileAPI } from "../../services/api/user.api";
+import SideBar from "../../components/sidebar/sidebar";
+import Header from "../../components/header/header";
 const Transfer = () => {
   const [step, setStep] = useState("select_currency");
   const [selectCurrency, setSelectCurrency] = useState<Currency>();
@@ -47,26 +49,45 @@ const Transfer = () => {
   switch (step) {
     case "select_currency":
       return (
-        <SelectCurrency
-          currency={wallet}
-          handleCurrencyData={handleCurrencyData}
-          handleStepTransfer={handleStepTransfer}
-        />
+        <>
+          <Header></Header>
+          <div class={`flex`}>
+          <SideBar state='Chuyển tiền'></SideBar>
+          <SelectCurrency
+            currency={wallet}
+            handleCurrencyData={handleCurrencyData}
+            handleStepTransfer={handleStepTransfer}
+          />
+          </div>
+        </>
+       
       );
     case "search_user":
       return (
-        <SearchUser
-          handleUserData={handleUserData}
-          handleStepTransfer={handleStepTransfer}
-        />
+        <>
+          <Header></Header>
+        <div class={`flex`}>
+          <SideBar state='Chuyển tiền'></SideBar>
+          <SearchUser
+            handleUserData={handleUserData}
+            handleStepTransfer={handleStepTransfer}
+          />
+        </div>
+        </>
       );
     case "input_amount":
       return (
-        <InputAmount
-          currencyData={selectCurrency}
-          userData={userData}
-          handleStepTransfer={handleStepTransfer}
-        />
+        <>
+        <Header></Header>
+        <div class={`flex`}>
+          <SideBar state='Chuyển tiền'></SideBar>
+          <InputAmount
+            currencyData={selectCurrency}
+            userData={userData}
+            handleStepTransfer={handleStepTransfer}
+          />
+        </div>
+        </>
       );
     default:
       return <div>Invalid step</div>;
