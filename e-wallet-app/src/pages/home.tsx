@@ -4,10 +4,6 @@ import { useNavigate } from "react-router-dom";
 import CashInIcon from "../assets/svg/cashin.svg";
 
 import ButtonFeature from "../components/home/button_feat";
-import {
-  ItemCurrency,
-  ItemCurrencyLoading,
-} from "../components/home/item_currency";
 import Settings_Icon from "../assets/svg/settings.svg";
 import HistoryIcon from "../assets/svg/history_trans.svg";
 import { getProfileAPI } from "../services/api/user.api";

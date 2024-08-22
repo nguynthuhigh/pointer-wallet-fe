@@ -2,10 +2,33 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 const cookie = new Cookies();
 const accessToken = cookie.get("token_auth");
-import { Card } from "../../types/transfer";
-export const addCard = async (body: Card) => {
+interface CardsAPI {
+  message: string;
+  data: [ListCards];
+}
+export interface Card {
+  _id?: string;
+  name: string;
+  number: string;
+  cvv: string;
+  expiryMonth: string;
+  expiryYear: string;
+  type: string;
+}
+interface DetailCardAPI {
+  message: string;
+  data: Card;
+}
+
+interface ListCards {
+  _id: string;
+  number: string;
+  type: string;
+}
+type Item = Omit<Card, "_id">;
+export const addCard = async (body: Item) => {
   const response = await axios.post(
-    `${import.meta.env.VITE_API_URL}/api/v1/card/addcard`,
+    `${import.meta.env.VITE_API_URL}/api/v1/card/add-card`,
     body,
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
@@ -13,24 +36,47 @@ export const addCard = async (body: Card) => {
 };
 export const getCards = async () => {
   const response = await axios.get(
-    `${import.meta.env.VITE_API_URL}/api/v1/card/getcards
+    `${import.meta.env.VITE_API_URL}/api/v1/card/get-cards
 `,
     {
       headers: { Authorization: `Bearer ${accessToken}` },
     }
   );
-  return response;
+  return response.data;
 };
 export const getDetailCard = async (id: string) => {
   const response = await axios.get(
-    `${import.meta.env.VITE_API_URL}/api/v1/card/details/${id}`
+    `${import.meta.env.VITE_API_URL}/api/v1/card/details/${id}`,
+    { headers: { Authorization: `Bearer ${accessToken}` } }
+  );
+  return response.data;
+};
+export const deleteCard = async (id: string) => {
+  const response = await axios.delete(
+    `${import.meta.env.VITE_API_URL}/api/v1/card/delete-card/${id}
+  
+`,
+    { headers: { Authorization: `Bearer ${accessToken}` } }
   );
   return response;
 };
-export const deleteCard = async (id: string) => {
-  const response = await axios.delete(`${
-    import.meta.env.VITE_API_URL
-  }/api/v1/card/deletecard/${id}
-`);
-  return response;
+
+export const getAllCards = async (): Promise<Card[] | undefined> => {
+  try {
+    const cards: CardsAPI = await getCards();
+    if (Array.isArray(cards.data) && cards?.data) {
+      const listCards: Card[] = await Promise.all(
+        cards.data.map(async (item) => {
+          const card: DetailCardAPI = await getDetailCard(item._id);
+          return {
+            ...card.data,
+            _id: item._id,
+          };
+        })
+      );
+      return listCards;
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
