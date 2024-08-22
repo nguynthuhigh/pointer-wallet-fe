@@ -1,17 +1,17 @@
 [
-    {
-        "balance": 0,
-        "currency": "667ee9da8868e89c7832a35e",
-        "_id": "669e657df9193262fb710b66"
-    },
-    {
-        "balance": 165866,
-        "currency": "667ee9fb8868e89c7832a360",
-        "_id": "669e657df9193262fb710b67"
-    },
-    {
-        "balance": 10000,
-        "currency": "667eea0c8868e89c7832a362",
-        "_id": "669e657df9193262fb710b68"
-    }
+  {
+    "balance": 0,
+    "currency": "667ee9da8868e89c7832a35e",
+    "_id": "669e657df9193262fb710b66"
+  },
+  {
+    "balance": 165866,
+    "currency": "667ee9fb8868e89c7832a360",
+    "_id": "669e657df9193262fb710b67"
+  },
+  {
+    "balance": 10000,
+    "currency": "667eea0c8868e89c7832a362",
+    "_id": "669e657df9193262fb710b68"
+  }
 ]
