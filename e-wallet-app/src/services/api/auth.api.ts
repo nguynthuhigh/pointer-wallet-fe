@@ -1,13 +1,14 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
 const cookie = new Cookies();
-const accessToken = cookie.get("token_auth");
+const accessToken = cookie.get("access_token");
 import axiosConfig from '../../config/axios.config'
 
 export const loginAPI = async (body: any) => {
   const response = await axios.post(
     `${import.meta.env.VITE_API_URL}/api/v1/user/signin`,
-    body
+    body,
+    {withCredentials:true}
   );
   return response;
 };
@@ -15,7 +16,8 @@ export const loginAPI = async (body: any) => {
 export const verifyLoginAPI = async (body: any) => {
   const response = await axios.post(
     `${import.meta.env.VITE_API_URL}/api/v1/user/signin/verify`,
-    body
+    body,
+    {withCredentials:true}
   );
   return response;
 };

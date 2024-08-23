@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
 const cookie = new Cookies();
-const accessToken = cookie.get("token_auth");
+const accessToken = cookie.get("access_token");
 import axiosConfig from '../../config/axios.config'
 
 interface CardsAPI {

@@ -4,7 +4,8 @@ import Cookies from "universal-cookie";
 const cookie = new Cookies();
 
 const ProtectRoutes = () => {
-  const token = cookie.get("token_auth");
+  console.log(cookie.get('access_token'))
+  const token = '123'
   return token ? <Outlet /> : <Navigate to="/auth/login" />;
 };
 

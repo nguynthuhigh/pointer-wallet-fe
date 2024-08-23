@@ -10,14 +10,14 @@ export const getUserByEmail =async (email:string)=>{
 export const sendMoneyAPI =async (body:DataSend)=>{
     return  await axiosConfig.post(`/api/v1/wallet/send-money`,body,{
         headers:{
-            Authorization: 'Bearer '+cookie.get('token_auth')
+            Authorization: 'Bearer '+cookie.get('access_token')
         }
     });
 }
 export const getTransactionAPI = async (id:string)=>{
     return await axiosConfig.get(`/api/v1/transaction/get/transaction/details/${id}`,{
         headers:{
-            Authorization: 'Bearer '+cookie.get('token_auth')
+            Authorization: 'Bearer '+cookie.get('access_token')
         }
     })
 }
