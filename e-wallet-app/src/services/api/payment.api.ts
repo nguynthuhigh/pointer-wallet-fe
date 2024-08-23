@@ -16,7 +16,7 @@ export const confirmPaymentAPI = async (body: unknown) => {
     body,
     {
       headers: {
-        Authorization: `Bearer ${cookie.get("token_auth")}`,
+        Authorization: `Bearer ${cookie.get("access_token")}`,
       },
     }
   );
@@ -31,7 +31,7 @@ export const applyVoucher = async (body:ApplyVoucher) => {
   return await axiosConfig.post(
     `/api/v1/apply-voucher`,body, {
       headers: {
-        Authorization: `Bearer ${cookie.get("token_auth")}`,
+        Authorization: `Bearer ${cookie.get("access_token")}`,
       },
     }
   );

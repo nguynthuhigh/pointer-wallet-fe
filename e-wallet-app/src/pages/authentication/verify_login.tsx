@@ -36,17 +36,23 @@ const VerifyLogin = () => {
         email: loginData.email,
         otp: value,
       };
-      console.log(body);
       setIsLoading(true);
       try {
         const response = await verifyLoginAPI(body);
         if (response.status === 200) {
-          const expiryDate = new Date();
-          expiryDate.setMonth(expiryDate.getMonth() + 1);
-          cookie.set("token_auth", response.data.token, {
-            path: "/",
-            expires: expiryDate,
-          });
+          // cookie.set("access_token", response.data.data.accessToken, {
+          //   httpOnly:true,
+          //   // sameSite:'none',
+          //   // secure:true,
+          //   path:'/'
+          // });
+          // cookie.set("refresh_token", response.data.data.refreshToken, {
+          //   // httpOnly:true,
+          //   // sameSite:'none',
+          //   secure:true,
+          //   path:'/'
+          // });
+          toast.success('Đăng nhập thành công');
           navigate("/");
           setIsLoading(false);
         }
