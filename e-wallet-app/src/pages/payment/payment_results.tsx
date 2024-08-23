@@ -30,7 +30,7 @@ const PaymentResults:React.FC = () => {
         return <Loading></Loading>
     }
     return (
-        <div class={`p-4 bg-white`}>
+        <div class={`p-6 max-w-[600px] mx-auto bg-white rounded-lg shadow-lg`}>
             <Link to='/'><img class={`ml-auto`} src={ic_home}></img></Link>
             <div class={`bg-white rounded-2xl`}>
                 <img class={`mx-auto`} src={ic_success}></img>

@@ -43,6 +43,7 @@ const ApplyVoucher:React.FC<BottomDrawerProps> = ({onClose,state,id,handleDataVo
             })
             if(response.status === 200){
                 handleDataVoucher(current.value,response.data.data)
+                toast.success("Áp dụng voucher thành công")
                 setIsLoading(false)
             }
         } catch (error:any) {
@@ -72,7 +73,6 @@ const ApplyVoucher:React.FC<BottomDrawerProps> = ({onClose,state,id,handleDataVo
                 const response = await getVouchersPartner(partnerID)
                 if(response.status === 200){
                     setVoucherData(response.data.data)
-                    toast.success("Áp dụng voucher thành công")
                     setIsLoading(false)
                 }
             } catch (error) {

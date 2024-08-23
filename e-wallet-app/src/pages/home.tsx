@@ -39,24 +39,15 @@ const Home = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const token = cookies.get("token_auth");
-        if (!token) {
-          navigate("/auth/login");
-          return;
-        }
-
-        const response = await getProfileAPI(token);
+        const response = await getProfileAPI();
         if (response.status === 200) {
           setWalletData(response.data.data.walletData);
           setUserData(response.data.data.userData);
-        } else {
-          navigate("/auth/login");
-        }
+          setIsLoading(false);
+        } 
       } catch (error) {
-        navigate("/auth/login");
-      } finally {
-        setIsLoading(false);
-      }
+        setIsLoading(false)
+      } 
     };
 
     fetchProfile();
