@@ -12,7 +12,7 @@ export type TransactionPayment = {
     createdAt:Date,
     orderID:string,
     message:string,
-    createdAt:date,
+    createdAt:Date,
     partnerID:{
         _id:string,
         image:string

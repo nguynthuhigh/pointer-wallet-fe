@@ -2,6 +2,8 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 const cookie = new Cookies();
 const accessToken = cookie.get("token_auth");
+import axiosConfig from '../../config/axios.config'
+
 interface CardsAPI {
   message: string;
   data: [ListCards];
@@ -27,16 +29,16 @@ interface ListCards {
 }
 type Item = Omit<Card, "_id">;
 export const addCard = async (body: Item) => {
-  const response = await axios.post(
-    `${import.meta.env.VITE_API_URL}/api/v1/card/add-card`,
+  const response = await axiosConfig.post(
+    `/api/v1/card/add-card`,
     body,
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
   return response;
 };
 export const getCards = async () => {
-  const response = await axios.get(
-    `${import.meta.env.VITE_API_URL}/api/v1/card/get-cards
+  const response = await axiosConfig.get(
+    `/api/v1/card/get-cards
 `,
     {
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -45,15 +47,15 @@ export const getCards = async () => {
   return response.data;
 };
 export const getDetailCard = async (id: string) => {
-  const response = await axios.get(
-    `${import.meta.env.VITE_API_URL}/api/v1/card/details/${id}`,
+  const response = await axiosConfig.get(
+    `/api/v1/card/details/${id}`,
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
   return response.data;
 };
 export const deleteCard = async (id: string) => {
-  const response = await axios.delete(
-    `${import.meta.env.VITE_API_URL}/api/v1/card/delete-card/${id}
+  const response = await axiosConfig.delete(
+    `/api/v1/card/delete-card/${id}
   
 `,
     { headers: { Authorization: `Bearer ${accessToken}` } }

@@ -7,6 +7,8 @@ import DrawerBottom from '../../components/payment/drawer_bottom';
 import ApplyVoucher from '../../components/payment/apply_voucher';
 import { formatCurrency } from '../../utils/format_currency';
 import { TransactionPayment } from '../../types/payment';
+import Header from '../../components/header/header';
+import { formatDate } from '../../utils/format_date';
 
 export const PaymentGateway: React.FC = ()=>{
     const location = useLocation();
@@ -51,12 +53,13 @@ export const PaymentGateway: React.FC = ()=>{
     }
     return(
        <div>
-        <div class={`p-6 mt-20`} >
+        <h1 class={`font-semibold text-center my-4 text-lg`}>Thanh toán hóa đơn</h1>
+        <div class={`p-6  max-w-[600px] mx-auto bg-white rounded-lg shadow-lg`} >
             <div class={`flex items-center`}>
                 <div class={`font-semibold space-y-2`}>
                     <h1 class={`text-lg`}>Hóa đơn từ {dataTransaction?.partnerID.name}</h1>
-                    <h1 class={`text-6xl`}>{formatCurrency(dataTransaction?.amount,dataTransaction?.currency.symbol)}</h1>
-                    <h1 class={`text-gray-400 font-`}>2024-08-08 23:47:51</h1>
+                    <h1 class={`text-6xl max-sm:text-3xl`}>{formatCurrency(dataTransaction?.amount,dataTransaction?.currency.symbol)}</h1>
+                    <h1 class={`text-gray-400 font-`}>{formatDate(dataTransaction?.createdAt ? dataTransaction?.createdAt : new Date())}</h1>
                 </div>
                 <img class={`w-20 h-20 object-cover rounded-xl ml-auto`} src={`https://cdn.pixabay.com/photo/2014/11/30/14/11/cat-551554_1280.jpg`}></img>
             </div>
