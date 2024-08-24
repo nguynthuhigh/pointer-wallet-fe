@@ -40,18 +40,7 @@ const VerifyLogin = () => {
       try {
         const response = await verifyLoginAPI(body);
         if (response.status === 200) {
-          // cookie.set("access_token", response.data.data.accessToken, {
-          //   httpOnly:true,
-          //   // sameSite:'none',
-          //   // secure:true,
-          //   path:'/'
-          // });
-          // cookie.set("refresh_token", response.data.data.refreshToken, {
-          //   // httpOnly:true,
-          //   // sameSite:'none',
-          //   secure:true,
-          //   path:'/'
-          // });
+          localStorage.setItem('logged','true')
           toast.success('Đăng nhập thành công');
           navigate("/");
           setIsLoading(false);
