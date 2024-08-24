@@ -1,11 +1,17 @@
-import { render } from 'preact'
-import { App } from './app.tsx'
-import './index.css'
-import { QueryClient,QueryClientProvider } from "@tanstack/react-query";
-const queryClient = new QueryClient()
+import { render } from "preact";
+import { App } from "./app.tsx";
+import "./index.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { store } from "./redux/store.ts";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+const queryClient = new QueryClient();
 render(
+  <Provider store={store}>
     <QueryClientProvider client={queryClient}>
-        <App />
+      <App />
     </QueryClientProvider>
+  </Provider>,
 
-, document.getElementById('app')!)
+  document.getElementById("app")!
+);

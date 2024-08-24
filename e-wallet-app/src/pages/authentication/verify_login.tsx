@@ -1,25 +1,23 @@
-import Cookies from "universal-cookie";
-const cookie = new Cookies();
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "preact/hooks";
 import OTPInput from "react-otp-input";
 import toast, { Toaster } from "react-hot-toast";
+import { useSelector } from "react-redux";
 import { verifyLoginAPI } from "../../services/api/auth.api";
 import LoadingIcon from "../../assets/svg/loading.svg";
 import PageNotFound from "../page_not_found";
 import AuthImg from "../../assets/png/auth_img.png";
+import { RootType } from "../../redux/store";
 const VerifyLogin = () => {
-  const location = useLocation();
-  const loginData = (location.state as { loginData?: any } | undefined)
-    ?.loginData;
+  const data = useSelector((state: RootType) => state.auth.login);
   useEffect(() => {
-    toast.success(location.state?.message);
+    toast.success(data.currentUser.message);
   }, []);
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
-  if (!loginData) {
+  if (!data.currentUser?.user) {
     return <PageNotFound />;
   }
   type ErrorResponse = {
@@ -33,15 +31,15 @@ const VerifyLogin = () => {
     setOtp(value);
     if (value.length === 6) {
       const body = {
-        email: loginData.email,
+        email: data.currentUser.user.email,
         otp: value,
       };
       setIsLoading(true);
       try {
         const response = await verifyLoginAPI(body);
         if (response.status === 200) {
-          localStorage.setItem('logged','true')
-          toast.success('Đăng nhập thành công');
+          localStorage.setItem("logged", "true");
+          toast.success("Đăng nhập thành công");
           navigate("/");
           setIsLoading(false);
         }
@@ -64,7 +62,7 @@ const VerifyLogin = () => {
         <span
           class={`text-center font-inter text-sm my-2 text-blue-default font-semibold`}
         >
-          {loginData?.email}
+          {data.currentUser?.user.email}
         </span>
       </h1>
       <div class={`mx-auto w-fit relative`}>
@@ -83,7 +81,7 @@ const VerifyLogin = () => {
         />
         {isLoading && (
           <img
-            class={`animate-spin absolute -top-[50%] text-center right-[50%] left-[50%]`}
+            className={`animate-spin absolute -top-[50%] text-center right-[50%] left-[50%]`}
             src={LoadingIcon}
           />
         )}
