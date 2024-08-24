@@ -4,8 +4,8 @@ import Cookies from "universal-cookie";
 const cookie = new Cookies();
 
 const ProtectRoutes = () => {
-  console.log(cookie.get('access_token'))
-  const token = '123'
+  console.log(cookie.get('refresh_token'))
+  const token = localStorage.getItem('logged')
   return token ? <Outlet /> : <Navigate to="/auth/login" />;
 };
 

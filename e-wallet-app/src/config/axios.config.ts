@@ -1,6 +1,4 @@
 import axios from "axios"
-import Cookies from "universal-cookie";
-const cookie = new Cookies()
 import { useNavigate } from "react-router-dom";
 const axiosConfig = axios.create({
   baseURL: import.meta.env.VITE_API_URL, 
@@ -25,35 +23,21 @@ axiosConfig.interceptors.response.use(
         if(Date.now() - Number(lastTimeAccess) > 60*15*1000){
           //require providing a security code to refresh token
           //using redux
-          console.log('')
         }
         originalRequest._retry = true
-        const response = await axiosConfig.post(`${import.meta.env.VITE_API_URL}/api/v1/user/refresh-token`,{
-          withCredentials:true
-        })
-        if(response.status === 200){
-          cookie.set('refresh_token',response.data.data.refreshToken,
-            {
-              httpOnly:true,
-              path: "/",
-              secure:true,
-              sameSite:'none'
+        try {
+          const response = await axiosConfig.post(`${import.meta.env.VITE_API_URL}/api/v1/user/refresh-token`,{
+            withCredentials:true
+          })
+          if(response.status === 200){
+              originalRequest.headers['Authorization'] = 'Bearer ' + response.data.data.accessToken
+              return axiosConfig(originalRequest)
             }
-          )
-          cookie.set('access_token',response.data.data.accessToken,
-            {
-              httpOnly:true,
-              path: "/",
-              secure:true,
-              sameSite:'none'
-            }
-          )
-          originalRequest.headers['Authorization'] = 'Bearer ' + response.data.data.accessToken
-          return axiosConfig(originalRequest)
+        } catch (error) {
+          const navigate = useNavigate()
+          localStorage.removeItem('logged')
+          navigate('/auth/login')
         }
-        const navigate = useNavigate()
-        navigate('/auth/login')
-        //redirect to login
       }
       return Promise.reject(error);
     },
