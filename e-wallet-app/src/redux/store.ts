@@ -10,7 +10,6 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { PersistGate } from "redux-persist/integration/react";
 import authReducer from "./auth/authSlice";
 const persistConfig = {
   key: "root",
@@ -22,6 +21,16 @@ const persistConfig = {
 //   ...
 // });
 // const persistedReducer = persistReducer(persistConfig, rootReducer);
+// const store = configureStore({
+//   reducer: persistedReducer,
+//   middleware: (getDefaultMiddleware) =>
+//     getDefaultMiddleware({
+//       serializableCheck: {
+//         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+//       },
+//     }),
+// })
+// export let persistor = persistStore(store)
 
 export const store = configureStore({
   reducer: { auth: authReducer },
