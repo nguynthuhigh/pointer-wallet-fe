@@ -3,21 +3,23 @@ import { useEffect, useState } from "preact/hooks";
 import OTPInput from "react-otp-input";
 import toast, { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
+import Cookies from "universal-cookie";
+const cookie = new Cookies();
 import { verifyLoginAPI } from "../../services/api/auth.api";
 import LoadingIcon from "../../assets/svg/loading.svg";
 import PageNotFound from "../page_not_found";
 import AuthImg from "../../assets/png/auth_img.png";
-import { RootType } from "../../redux/store";
+import { RootState } from "../../redux/store";
 const VerifyLogin = () => {
-  const data = useSelector((state: RootType) => state.auth.login);
+  const data = useSelector((state: RootState) => state.auth.login);
   useEffect(() => {
-    toast.success(data.currentUser.message);
+    toast.success(data.loginUser.message);
   }, []);
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
-  if (!data.currentUser?.user) {
+  if (!data.loginUser?.email) {
     return <PageNotFound />;
   }
   type ErrorResponse = {
@@ -31,17 +33,22 @@ const VerifyLogin = () => {
     setOtp(value);
     if (value.length === 6) {
       const body = {
-        email: data.currentUser.user.email,
+        email: data.loginUser.email,
         otp: value,
       };
       setIsLoading(true);
       try {
         const response = await verifyLoginAPI(body);
         if (response.status === 200) {
-          localStorage.setItem("logged", "true");
+          await localStorage.setItem("logged", "true");
+          await cookie.set("accessToken", response.data.data.accessToken, {
+            path: "/",
+          });
           toast.success("Đăng nhập thành công");
-          navigate("/");
-          setIsLoading(false);
+          setTimeout(() => {
+            navigate("/");
+            setIsLoading(false);
+          }, 2000);
         }
       } catch (error: unknown) {
         setIsLoading(false);
@@ -62,7 +69,7 @@ const VerifyLogin = () => {
         <span
           class={`text-center font-inter text-sm my-2 text-blue-default font-semibold`}
         >
-          {data.currentUser?.user.email}
+          {data.loginUser?.email}
         </span>
       </h1>
       <div class={`mx-auto w-fit relative`}>

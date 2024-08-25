@@ -1,23 +1,26 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface UserState {
-  user: {
-    email: string;
-    password: string;
-  };
+  email: string;
+  password: string;
   message: string;
-  data: null;
 }
+type User = Omit<UserState, "password">;
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     login: {
-      currentUser: {
-        user: {
-          email: "",
-          password: "",
-        },
+      loginUser: {
+        email: "",
         message: "",
-        data: null,
+      } as User,
+      isFetching: false,
+      error: "",
+    },
+    register: {
+      registerUser: {
+        email: "",
+        password: "",
+        message: "",
       } as UserState,
       isFetching: false,
       error: "",
@@ -27,17 +30,37 @@ const authSlice = createSlice({
     loginStart: (state) => {
       state.login.isFetching = true;
     },
-    loginSuccess: (state, action: PayloadAction<UserState>) => {
+    loginSuccess: (state, action: PayloadAction<User>) => {
+      state.login.loginUser.email = action.payload.email;
       state.login.isFetching = false;
-      state.login.currentUser.user = action.payload.user;
       state.login.error = "";
-      state.login.currentUser.message = action.payload.message;
+      state.login.loginUser.message = action.payload.message;
     },
     loginFailed: (state, action: PayloadAction<{ message: string }>) => {
       state.login.isFetching = false;
       state.login.error = action.payload.message;
     },
+    registerStart: (state) => {
+      state.register.isFetching = true;
+    },
+    registerSuccess: (state, action: PayloadAction<UserState>) => {
+      state.register.isFetching = false;
+      state.register.registerUser = action.payload;
+      state.register.error = "";
+      state.register.registerUser.message = action.payload.message;
+    },
+    registerFailed: (state, action: PayloadAction<{ message: string }>) => {
+      state.register.isFetching = false;
+      state.register.error = action.payload.message;
+    },
   },
 });
-export const { loginStart, loginSuccess, loginFailed } = authSlice.actions;
+export const {
+  loginStart,
+  loginSuccess,
+  loginFailed,
+  registerStart,
+  registerSuccess,
+  registerFailed,
+} = authSlice.actions;
 export default authSlice.reducer;

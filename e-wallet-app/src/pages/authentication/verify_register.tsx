@@ -1,44 +1,45 @@
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useState, useEffect } from "preact/hooks";
 import Cookies from "universal-cookie";
 const cookie = new Cookies();
-import { useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "preact/hooks";
 import OTPInput from "react-otp-input";
 import toast, { Toaster } from "react-hot-toast";
 import LoadingIcon from "../../assets/svg/loading.svg";
 import { verifyRegisterAPI, resendOTP } from "../../services/api/auth.api";
 import AuthImg from "../../assets/png/auth_img.png";
+import { RootType } from "../../redux/store";
 
 export default function VerifyRegister() {
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [count, setCount] = useState(0);
-  const location = useLocation();
   const navigate = useNavigate();
+  const data = useSelector((state: RootType) => state.auth.register);
   useEffect(() => {
-    const message = location.state?.message;
-    toast.success(message);
-  }, []);
+    toast.success(data.registerUser.message);
+  }, [data.registerUser.message]);
   const handleChangeOTP = async (value: string) => {
     setOtp(value);
     if (value.length === 6) {
       setIsLoading(true);
       try {
         const response = await verifyRegisterAPI({
-          email: location.state.email,
+          email: data.registerUser.email,
           otp: value,
         });
         if (response.status === 200) {
           setError(false);
-          const expiryDate = new Date();
-          expiryDate.setMonth(expiryDate.getMonth() + 1);
-          cookie.set("token_auth", response.data.token, {
+          await cookie.set("accessToken", response.data.data.accessToken, {
             path: "/",
-            expires: expiryDate,
           });
-          navigate("/auth/security-code", {
-            state: { message: response.data.message },
-          });
+          toast.success(response.data.message);
+          setTimeout(() => {
+            navigate("/auth/security-code", {
+              state: { message: response.data.message },
+            });
+          }, 2000);
         } else {
           setError(true);
           toast.error(response.data.message);
@@ -55,8 +56,8 @@ export default function VerifyRegister() {
     setIsLoading(true);
     try {
       const response = await resendOTP({
-        email: location.state.email,
-        password: location.state.password,
+        email: data.registerUser.email,
+        password: data.registerUser.password,
       });
       if (response.status === 200) {
         setIsLoading(false);
@@ -94,7 +95,7 @@ export default function VerifyRegister() {
         <span
           class={`text-center font-inter text-sm my-2 text-blue-default font-semibold`}
         >
-          {location.state?.email}
+          {data.registerUser.email}
         </span>
       </h1>
       <div class={`mx-auto w-fit relative`}>
