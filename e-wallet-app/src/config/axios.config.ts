@@ -24,7 +24,7 @@ export const createAxios = () => {
             accessToken = response.data.data.accessToken;
             cookie.set("accessToken", accessToken, {
               path: "/",
-              maxAge: 60 * 60 * 24 * 15,
+              maxAge: 15 * 60,
             });
             config.headers["Authorization"] = `Bearer ${accessToken}`;
           } catch (error) {
