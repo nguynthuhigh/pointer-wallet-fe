@@ -33,7 +33,7 @@ export default function VerifyRegister() {
           setError(false);
           await cookie.set("accessToken", response.data.data.accessToken, {
             path: "/",
-            maxAge: 60 * 60 * 24 * 15,
+            maxAge: 15 * 60,
           });
           toast.success(response.data.message);
           setTimeout(() => {
