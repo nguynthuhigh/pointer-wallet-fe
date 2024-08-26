@@ -6,14 +6,14 @@ import AuthImg from "../../assets/png/auth_img.png";
 import InputText from "../../components/authentication/input_text";
 import { ButtonSubmit } from "../../components/authentication/button_submit";
 import { loginUser } from "../../redux/auth/authRequest";
-import { RootType } from "../../redux/store";
+import { RootState } from "../../redux/store";
 import { useEffect } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isFetching, error } = useSelector(
-    (state: RootType) => state.auth.login
+    (state: RootState) => state.auth.login
   );
 
   const [loginData, setLoginData] = useState({ email: "", password: "" });
