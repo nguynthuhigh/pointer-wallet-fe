@@ -43,6 +43,7 @@ const VerifyLogin = () => {
           await localStorage.setItem("logged", "true");
           await cookie.set("accessToken", response.data.data.accessToken, {
             path: "/",
+            maxAge: 15 * 60,
           });
           toast.success("Đăng nhập thành công");
           setTimeout(() => {

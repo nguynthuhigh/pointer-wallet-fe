@@ -8,7 +8,7 @@ import toast, { Toaster } from "react-hot-toast";
 import LoadingIcon from "../../assets/svg/loading.svg";
 import { verifyRegisterAPI, resendOTP } from "../../services/api/auth.api";
 import AuthImg from "../../assets/png/auth_img.png";
-import { RootType } from "../../redux/store";
+import { RootState } from "../../redux/store";
 
 export default function VerifyRegister() {
   const [otp, setOtp] = useState("");
@@ -16,7 +16,7 @@ export default function VerifyRegister() {
   const [error, setError] = useState(false);
   const [count, setCount] = useState(0);
   const navigate = useNavigate();
-  const data = useSelector((state: RootType) => state.auth.register);
+  const data = useSelector((state: RootState) => state.auth.register);
   useEffect(() => {
     toast.success(data.registerUser.message);
   }, [data.registerUser.message]);
@@ -33,6 +33,7 @@ export default function VerifyRegister() {
           setError(false);
           await cookie.set("accessToken", response.data.data.accessToken, {
             path: "/",
+            maxAge: 15 * 60,
           });
           toast.success(response.data.message);
           setTimeout(() => {
