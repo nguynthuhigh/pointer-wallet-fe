@@ -7,6 +7,7 @@ import InputText from "../../components/authentication/input_text";
 import { ButtonSubmit } from "../../components/authentication/button_submit";
 import { loginUser } from "../../redux/auth/authRequest";
 import { RootType } from "../../redux/store";
+import { useEffect } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,25 +17,15 @@ const Login = () => {
   );
 
   const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const [errorValue, setErrorValue] = useState<ErrorValue>({
-    email: null,
-    password: null,
-  });
 
   type HTMLElementEvent<T extends HTMLElement> = Event & {
     target: T;
-  };
-
-  type ErrorValue = {
-    email: string | null;
-    password: string | null;
   };
 
   const handleInputChange = (event: HTMLElementEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
     setLoginData((prevFormData) => {
-      setErrorValue({ email: null, password: null });
       return {
         ...prevFormData,
         [name]: value,
@@ -44,10 +35,14 @@ const Login = () => {
 
   const handleLogin = async (e: Event) => {
     e.preventDefault();
-    loginUser(loginData, dispatch, navigate);
+    await loginUser(loginData, dispatch, navigate);
   };
 
-  if (error) toast.error(error);
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   return (
     <div class="bg-white p-4 flex">
@@ -61,7 +56,7 @@ const Login = () => {
         </h1>
         <form onSubmit={handleLogin}>
           <InputText
-            error={errorValue.email}
+            error={error}
             onChange={handleInputChange}
             type="text"
             title="Email"
@@ -69,7 +64,7 @@ const Login = () => {
             placeholder="Nhập email hoặc username"
           />
           <InputText
-            error={errorValue.password}
+            error={error}
             onChange={handleInputChange}
             type="password"
             title="Mật khẩu"

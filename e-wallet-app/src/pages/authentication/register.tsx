@@ -2,14 +2,19 @@ import { FieldValues, useForm } from "react-hook-form";
 import { useState } from "preact/hooks";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
-import { registerAPI } from "../../services/api/auth.api";
+import { useDispatch, useSelector } from "react-redux";
 import AuthImg from "../../assets/png/auth_img.png";
 import InputText from "../../components/authentication/input_text";
 import { ButtonSubmit } from "../../components/authentication/button_submit";
+import { registerUser } from "../../redux/auth/authRequest";
+import { RootType } from "../../redux/store";
+import { useEffect } from "react";
 
 export default function Register() {
   const navigate = useNavigate();
-  const { 
+  const dispatch = useDispatch();
+  const registerData = useSelector((state: RootType) => state.auth.register);
+  const {
     register,
     handleSubmit,
     reset,
@@ -40,24 +45,27 @@ export default function Register() {
 
     setIsLoading(true);
     try {
-      const response = await registerAPI(data);
-      if (response.status === 200) {
-        reset();
-        navigate("/auth/verify-register", {
-          state: { ...data, message: response.data.message },
-        });
+      const user = {
+        email: data.email,
+        password: data.password,
+      };
+      await registerUser(user, dispatch, navigate);
+      if (registerData.registerUser.message) {
+        toast.success(registerData.registerUser.message);
       }
-    } catch (error: any) {
-      if (error.response && error.response.data) {
-        toast.error(error.response.data.message);
-      } else {
-        toast.error(error.message || "Đã xảy ra lỗi");
-      }
+      reset();
+    } catch (error) {
+      console.log(error);
+      toast.error(registerData.error);
     } finally {
       setIsLoading(false);
     }
   };
-
+  useEffect(() => {
+    if (registerData.error) {
+      toast.error(registerData.error);
+    }
+  }, [registerData.error]);
   const validatePassword = (password: string) => {
     const minLength = /.{8,}/;
     const hasUppercase = /[A-Z]/;

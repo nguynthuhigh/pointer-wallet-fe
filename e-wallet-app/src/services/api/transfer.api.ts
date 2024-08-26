@@ -22,6 +22,8 @@
 //     })
 // }
 import axios from "axios";
+import { createAxios } from "../../config/axios.config";
+const axiosInstance = createAxios();
 import { DataSend } from "../../types/transfer";
 import Cookies from "universal-cookie";
 const cookie = new Cookies();
@@ -31,24 +33,24 @@ export const getUserByEmail = async (email: string) => {
   );
 };
 export const sendMoneyAPI = async (body: DataSend) => {
-  return await axios.post(
+  return await axiosInstance.post(
     `${import.meta.env.VITE_API_URL}/api/v1/wallet/send-money`,
     body,
     {
       headers: {
-        Authorization: "Bearer " + cookie.get("access_token"),
+        Authorization: "Bearer " + cookie.get("accessToken"),
       },
     }
   );
 };
 export const getTransactionAPI = async (id: string) => {
-  return await axios.get(
+  return await axiosInstance.get(
     `${
       import.meta.env.VITE_API_URL
     }/api/v1/transaction/get/transaction/details/${id}`,
     {
       headers: {
-        Authorization: "Bearer " + cookie.get("access_token"),
+        Authorization: "Bearer " + cookie.get("accessToken"),
       },
     }
   );

@@ -38,6 +38,8 @@
 // };
 
 import axios from "axios";
+import { createAxios } from "../../config/axios.config";
+const axiosInstance = createAxios();
 import Cookies from "universal-cookie";
 import { ApplyVoucher } from "../../types/payment";
 const cookie = new Cookies();
@@ -48,12 +50,12 @@ export const paymentAPI = async (token: unknown) => {
 };
 
 export const confirmPaymentAPI = async (body: unknown) => {
-  return await axios.post(
+  return await axiosInstance.post(
     `${import.meta.env.VITE_API_URL}/api/v1/confirm-payment`,
     body,
     {
       headers: {
-        Authorization: `Bearer ${cookie.get("access_token")}`,
+        Authorization: `Bearer ${cookie.get("accessToken")}`,
       },
     }
   );
@@ -67,12 +69,12 @@ export const getVouchersPartner = async (id: string) => {
 };
 
 export const applyVoucher = async (body: ApplyVoucher) => {
-  return await axios.post(
+  return await axiosInstance.post(
     `${import.meta.env.VITE_API_URL}/api/v1/apply-voucher`,
     body,
     {
       headers: {
-        Authorization: `Bearer ${cookie.get("access_token")}`,
+        Authorization: `Bearer ${cookie.get("accessToken")}`,
       },
     }
   );
