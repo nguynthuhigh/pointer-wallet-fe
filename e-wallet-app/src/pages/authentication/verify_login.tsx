@@ -40,8 +40,8 @@ const VerifyLogin = () => {
       try {
         const response = await verifyLoginAPI(body);
         if (response.status === 200) {
-          await localStorage.setItem("logged", "true");
-          await cookie.set("accessToken", response.data.data.accessToken, {
+            localStorage.setItem("logged", "true");
+            cookie.set("accessToken", response.data.data.accessToken, {
             path: "/",
             maxAge: 15 * 60,
           });
