@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "preact/hooks";
-import Cookies from "universal-cookie";
-const cookie = new Cookies();
 import OTPInput from "react-otp-input";
 import toast, { Toaster } from "react-hot-toast";
 import LoadingIcon from "../../assets/svg/loading.svg";
@@ -31,10 +29,6 @@ export default function VerifyRegister() {
         });
         if (response.status === 200) {
           setError(false);
-          await cookie.set("accessToken", response.data.data.accessToken, {
-            path: "/",
-            maxAge: 15 * 60,
-          });
           toast.success(response.data.message);
           setTimeout(() => {
             navigate("/auth/security-code", {

@@ -1,66 +1,76 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { loginUser, registerUser } from "./authThunk";
+
 export interface UserState {
   email: string;
   password: string;
   message: string;
 }
+
 type User = Omit<UserState, "password">;
+
+const initialState = {
+  login: {
+    loginUser: {
+      email: "",
+      message: "",
+    } as User,
+    isFetching: false,
+    error: "",
+  },
+  register: {
+    registerUser: {
+      email: "",
+      password: "",
+      message: "",
+    } as UserState,
+    isFetching: false,
+    error: "",
+  },
+};
+
 const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    login: {
-      loginUser: {
-        email: "",
-        message: "",
-      } as User,
-      isFetching: false,
-      error: "",
-    },
-    register: {
-      registerUser: {
-        email: "",
-        password: "",
-        message: "",
-      } as UserState,
-      isFetching: false,
-      error: "",
-    },
-  },
-  reducers: {
-    loginStart: (state) => {
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(loginUser.pending, (state) => {
       state.login.isFetching = true;
-    },
-    loginSuccess: (state, action: PayloadAction<User>) => {
-      state.login.loginUser.email = action.payload.email;
-      state.login.isFetching = false;
       state.login.error = "";
-      state.login.loginUser.message = action.payload.message;
-    },
-    loginFailed: (state, action: PayloadAction<{ message: string }>) => {
+    });
+    builder.addCase(
+      loginUser.fulfilled,
+      (state, action: PayloadAction<User>) => {
+        state.login.loginUser.email = action.payload.email;
+        state.login.loginUser.message = action.payload.message;
+        state.login.isFetching = false;
+        state.login.error = "";
+      }
+    );
+    builder.addCase(loginUser.rejected, (state, action) => {
       state.login.isFetching = false;
-      state.login.error = action.payload.message;
-    },
-    registerStart: (state) => {
+      state.login.error = action.payload as string;
+    });
+
+    builder.addCase(registerUser.pending, (state) => {
       state.register.isFetching = true;
-    },
-    registerSuccess: (state, action: PayloadAction<UserState>) => {
-      state.register.isFetching = false;
-      state.register.registerUser = action.payload;
       state.register.error = "";
-      state.register.registerUser.message = action.payload.message;
-    },
-    registerFailed: (state, action: PayloadAction<{ message: string }>) => {
+    });
+    builder.addCase(
+      registerUser.fulfilled,
+      (state, action: PayloadAction<UserState>) => {
+        state.register.registerUser.email = action.payload.email;
+        state.register.registerUser.password = action.payload.password;
+        state.register.registerUser.message = action.payload.message;
+        state.register.isFetching = false;
+        state.register.error = "";
+      }
+    );
+    builder.addCase(registerUser.rejected, (state, action) => {
       state.register.isFetching = false;
-      state.register.error = action.payload.message;
-    },
+      state.register.error = action.payload as string;
+    });
   },
 });
-export const {
-  loginStart,
-  loginSuccess,
-  loginFailed,
-  registerStart,
-  registerSuccess,
-  registerFailed,
-} = authSlice.actions;
+
 export default authSlice.reducer;
