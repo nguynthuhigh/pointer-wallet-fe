@@ -6,14 +6,17 @@ import { useDispatch, useSelector } from "react-redux";
 import AuthImg from "../../assets/png/auth_img.png";
 import InputText from "../../components/authentication/input_text";
 import { ButtonSubmit } from "../../components/authentication/button_submit";
-import { registerUser } from "../../redux/auth/authRequest";
-import { RootType } from "../../redux/store";
+import { registerUser } from "../../redux/auth/authThunk";
+import { AppDispatch, RootState } from "../../redux/store";
 import { useEffect } from "react";
-
+interface User {
+  email: string;
+  password: string;
+}
 export default function Register() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const registerData = useSelector((state: RootType) => state.auth.register);
+  const dispatch = useDispatch<AppDispatch>();
+  const registerData = useSelector((state: RootState) => state.auth.register);
   const {
     register,
     handleSubmit,
@@ -45,11 +48,11 @@ export default function Register() {
 
     setIsLoading(true);
     try {
-      const user = {
+      const user: User = {
         email: data.email,
         password: data.password,
       };
-      await registerUser(user, dispatch, navigate);
+      await dispatch(registerUser({ user, navigate }));
       if (registerData.registerUser.message) {
         toast.success(registerData.registerUser.message);
       }

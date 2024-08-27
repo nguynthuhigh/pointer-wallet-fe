@@ -3,8 +3,6 @@ import { useEffect, useState } from "preact/hooks";
 import OTPInput from "react-otp-input";
 import toast, { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
-import Cookies from "universal-cookie";
-const cookie = new Cookies();
 import { verifyLoginAPI } from "../../services/api/auth.api";
 import LoadingIcon from "../../assets/svg/loading.svg";
 import PageNotFound from "../page_not_found";
@@ -12,6 +10,7 @@ import AuthImg from "../../assets/png/auth_img.png";
 import { RootState } from "../../redux/store";
 const VerifyLogin = () => {
   const data = useSelector((state: RootState) => state.auth.login);
+  console.log(data);
   useEffect(() => {
     toast.success(data.loginUser.message);
   }, []);
@@ -19,7 +18,7 @@ const VerifyLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
-  if (!data.loginUser?.email) {
+  if (!data.loginUser.email) {
     return <PageNotFound />;
   }
   type ErrorResponse = {
@@ -40,11 +39,6 @@ const VerifyLogin = () => {
       try {
         const response = await verifyLoginAPI(body);
         if (response.status === 200) {
-            localStorage.setItem("logged", "true");
-            cookie.set("accessToken", response.data.data.accessToken, {
-            path: "/",
-            maxAge: 15 * 60,
-          });
           toast.success("Đăng nhập thành công");
           setTimeout(() => {
             navigate("/");
