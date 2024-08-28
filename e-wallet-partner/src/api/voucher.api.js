@@ -1,39 +1,24 @@
-import axios from "axios";
-import Cookies from "universal-cookie";
-const cookie = new Cookies()
+import axiosConfig from "../configs/axios.config";
 export const addVoucher = async(body)=>{
-    const token = cookie.get('token_auth')
-    return await axios.post(process.env.REACT_APP_API+`/api/v1/voucher/add-voucher`,body,{
-        headers:{
-            Authorization: 'Bearer '+token
-        }
+    return await axiosConfig.post(process.env.REACT_APP_API+`/api/v1/voucher/add-voucher`,body,{
+        withCredentials:true
     })
 }
 export const getVoucher = async(voucherID)=>{
-    const token = cookie.get('token_auth')
-    return await axios.get(process.env.REACT_APP_API+`/api/v1/voucher/get-voucher?voucherID=`+voucherID,{
-        headers:{
-            Authorization: 'Bearer '+token
-        }
+    return await axiosConfig.get(process.env.REACT_APP_API+`/api/v1/voucher/get-voucher?voucherID=`+voucherID,{
+        withCredentials:true
     })
 }
 export const editVoucher = async(body)=>{
-    const token = cookie.get('token_auth')
-    return await axios.put(process.env.REACT_APP_API+`/api/v1/voucher/edit-voucher`,body,{
-        headers:{
-            Authorization: 'Bearer '+token
-        }
+    return await axiosConfig.put(process.env.REACT_APP_API+`/api/v1/voucher/edit-voucher`,body,{
+        withCredentials:true
     })
 }
 export const deleteVoucher = async (voucherID) => {
-    const token = cookie.get('token_auth');
-    console.log(voucherID);
-    return await axios.delete(
+    return await axiosConfig.delete(
       `${process.env.REACT_APP_API}/api/v1/voucher/delete-voucher`,
       {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
+        withCredentials:true,
         data:{voucherID:voucherID},
       }
     );

@@ -1,35 +1,26 @@
 import axios from "axios";
-import Cookies from "universal-cookie";
-const cookie = new Cookies()
+import axiosConfig from "../configs/axios.config";
 export const getProfilePartner =async ()=>{
-    return await axios.get(process.env.REACT_APP_API+'/api/v1/partner/dashboard',{
-        headers:{
-            Authorization: 'Bearer '+cookie.get('token_auth')
-        }
+    return await axiosConfig.get(process.env.REACT_APP_API+'/api/v1/partner/dashboard',{
+        withCredentials:true
     })
 }
 export const updateProfilePartner =async (body)=>{
-    return await axios.put(process.env.REACT_APP_API+'/api/v1/partner/update-profile',body,{
-        headers:{
-            Authorization: 'Bearer '+cookie.get('token_auth')
-        }
+    return await axiosConfig.put(process.env.REACT_APP_API+'/api/v1/partner/update-profile',body,{
+        withCredentials:true
     })
   
     
 }
 export const getTransactions = async(page,pagesize)=>{
-    return await axios.get(process.env.REACT_APP_API+'/api/v1/partner/get-transactions?page='+page+'&pagesize='+pagesize,{
-        headers:{
-            Authorization: 'Bearer '+cookie.get('token_auth')
-        }
+    return await axiosConfig.get(process.env.REACT_APP_API+'/api/v1/partner/get-transactions?page='+page+'&pagesize='+pagesize,{
+        withCredentials:true
     })
 
 }
 export const getVouchers = async()=>{
-    return await axios.get(process.env.REACT_APP_API+`/api/v1/voucher/get-vouchers`,{
-        headers:{
-            Authorization: 'Bearer '+cookie.get('token_auth')
-        }
+    return await axiosConfig.get(process.env.REACT_APP_API+`/api/v1/voucher/get-vouchers`,{
+        withCredentials:true
     })
 }
 const exportObject = {
