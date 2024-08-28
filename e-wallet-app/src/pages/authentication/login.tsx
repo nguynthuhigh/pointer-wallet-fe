@@ -1,22 +1,21 @@
 import { useState } from "preact/hooks";
 import { useNavigate, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
 import AuthImg from "../../assets/png/auth_img.png";
 import InputText from "../../components/authentication/input_text";
 import { ButtonSubmit } from "../../components/authentication/button_submit";
-import { loginUser } from "../../redux/auth/authRequest";
-import { RootType } from "../../redux/store";
+import { loginUser } from "../../redux/auth/authThunk";
+import { AppDispatch, RootState } from "../../redux/store";
 import { useEffect } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { isFetching, error } = useSelector(
-    (state: RootType) => state.auth.login
+    (state: RootState) => state.auth.login
   );
-
-  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [user, setUserData] = useState({ email: "", password: "" });
 
   type HTMLElementEvent<T extends HTMLElement> = Event & {
     target: T;
@@ -25,7 +24,7 @@ const Login = () => {
   const handleInputChange = (event: HTMLElementEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    setLoginData((prevFormData) => {
+    setUserData((prevFormData) => {
       return {
         ...prevFormData,
         [name]: value,
@@ -35,7 +34,7 @@ const Login = () => {
 
   const handleLogin = async (e: Event) => {
     e.preventDefault();
-    await loginUser(loginData, dispatch, navigate);
+    await dispatch(loginUser({ user, navigate }));
   };
 
   useEffect(() => {

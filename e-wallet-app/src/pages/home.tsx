@@ -9,18 +9,18 @@ import SideBar from "../components/sidebar/sidebar";
 import RecentTransaction from "../components/home/recent_transaction";
 import Assets from "../components/home/assets";
 import Header from "../components/header/header";
-import { getProfile } from "../redux/user/userRequest";
-import { RootState } from "../redux/store";
+import { getProfile } from "../redux/user/userThunk";
+import { AppDispatch, RootState } from "../redux/store";
 
 const Home = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const profile = useSelector((state: RootState) => state.user.userState);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { userData, walletData } = profile;
 
   useEffect(() => {
     const fetchData = async () => {
-      await getProfile(dispatch);
+      await dispatch(getProfile());
       setIsLoading(false);
     };
     fetchData();
