@@ -3,30 +3,16 @@ import SideBar from '../../components/dashboard/sidebar'
 import { ItemVoucherLoading,ItemVoucher } from '../../components/voucher/item_voucher'
 import { Link } from 'react-router-dom'
 import HeaderDashboard from '../../components/header/header_dashboard'
-import { useEffect,useState } from 'react'
 import partnerAPI from '../../api/partner.api'
+import { useQuery } from '@tanstack/react-query'
 const Voucher = () => {
-    const [isLoading,setIsLoading] = useState(true)
-    const [data,setData] = useState(null)
-    useEffect(()=>{
-        document.title = 'Voucher'
-        const fetchVouchers = async ()=>{
-            try {
-                
-                const response = await partnerAPI.getVouchers()
-                if(response.status === 200){
-                    setData(response.data.data)
-                    console.log(response.data.data)
-                    setIsLoading(false)
-                }
-            } catch (error) {
-                console.log(error)
-                setIsLoading(false)
-            }
-
-        }
-        fetchVouchers()
-    },[])
+    const {data,isLoading} = useQuery({
+        queryFn: async()=>{
+            const response = await partnerAPI.getVouchers()
+            return response.data.data
+        },
+        queryKey:['voucher']
+    })
   return (
     <div className='flex'>
         <SideBar state="Vouchers"></SideBar>

@@ -3,19 +3,15 @@ import { Link } from 'react-router-dom'
 import { useEffect,useState } from 'react'
 import partnerAPI from '../../api/partner.api'
 import ItemTransaction from './item_transaction'
+import { useQuery } from '@tanstack/react-query'
 const RecentTransaction = () => {
-    const [isLoading,setIsLoading] = useState(true)
-    const [transactionData,setTransactionData] = useState(null)
-    useEffect(()=>{
-      const fetchData =async ()=>{
+    const {data,isLoading} = useQuery({
+      queryFn:async()=>{
         const response = await partnerAPI.getTransactions(1,5)
-        if(response.status === 200){
-          setTransactionData(response.data.data.transaction)
-          setIsLoading(false)
-        }
-      }
-      fetchData()
-    },[])
+        return response.data.data.transaction
+      },
+      queryKey:'[recent_transactions]'
+    })
   return (
     <div>
     <div className='flex my-6'>
@@ -34,7 +30,7 @@ const RecentTransaction = () => {
         </tr>
         </thead>
         <tbody>
-        {!isLoading && transactionData.map((item,key)=>(
+        {!isLoading && data.map((item,key)=>(
             <ItemTransaction item={item} key={key}/>
         ))}
        

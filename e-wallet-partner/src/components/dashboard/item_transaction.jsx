@@ -1,7 +1,6 @@
 import React from 'react'
 import fomart from '../../utils/format'
 const AmountStyle =({data})=>{
-    console.log(data)
     if(data.type === 'payment'){
         return <span className='text-green-500'>+{fomart.formatCurrency(data.amount,'VND')}</span>
     }
@@ -10,7 +9,6 @@ const AmountStyle =({data})=>{
     }
 }
 const StatusStyle = ({data})=>{
-    console.log(data.status)
     if(data.status === 'completed' || data.status === 'refunded'){
         return <span className='ml-2 rounded-full bg-green-100 pb-1 text-sm font-semibold px-2 text-center text-green-600'>• Success</span>
     }
@@ -27,7 +25,6 @@ const TypeStyle = ({data})=>{
     }
 }
 const ItemTransaction = ({...props}) => {
-    console.log(props)
   return (
     <tr className='hover:bg-gray-100 cursor-pointer border-b-2'>
         <td className='p-4'><AmountStyle data={props.item}></AmountStyle></td>

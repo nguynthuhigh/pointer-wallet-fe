@@ -7,9 +7,9 @@ import { Routes,Route } from 'react-router-dom';
 import PageNotFound from './components/pages/page-not-found';
 import Payment from './pages/payment';
 import Developer from './pages/developer';
-import PaymentGateway from './components/payment-gateway/payment-gateway'
-import DemoPaymentGateway from './components/payment-gateway/demo'
-import Success from './components/payment-gateway/success';
+import PaymentGateway from './pages/payment/payment-gateway'
+import DemoPaymentGateway from './pages/payment/demo'
+import Success from './pages/payment/success';
 import WebHook from './pages/webhook';
 import DownloadApp from './pages/download-app';
 import Dashboard from './pages/dashboard';

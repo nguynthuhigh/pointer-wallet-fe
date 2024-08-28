@@ -3,39 +3,22 @@ import { useLocation } from 'react-router-dom';
 import paymentAPI from '../../api/payment-gateway.api'
 import { useEffect,useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import TabQrCode from './components/tab_qrcode';
-import TabInfo from './components/tab_info';
-import TabCard from './components/tab_card'
+import TabQrCode from '../../components/payment-gateway/components/tab_qrcode';
+import TabInfo from '../../components/payment-gateway/components/tab_info';
+import TabCard from '../../components/payment-gateway/components/tab_card'
+import { useQuery } from '@tanstack/react-query';
 export default function PaymentGateway(){
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const token = queryParams.get('token');
-    const [isLoading,setIsLoading] = useState(true)
-    const [dataTransaction,setDataTransaction] = useState(null)
-    const [currency,setCurrency] = useState('')
     const [isTab,setIsTab] = useState(true)
-    const navigate = useNavigate()
-    
-    useEffect(()=>{
-        const fetchTransaction = async ()=>{
-            try {
-                const response = await paymentAPI.PaymentGateway(token);
-                if(response.status===200){
-                    setDataTransaction(response.data.data)
-                    setCurrency(response?.data.data.currency?.symbol)
-                    setIsLoading(false)
-                }
-                if(response.status === 201){
-                    window.location.replace(response.data.data)
-                }
-                
-            } catch (error) {
-                console.log(error)
-                navigate('/*')
-            }
-        }
-        fetchTransaction()
-    },[])
+    const {data,isLoading,isFetching } = useQuery({
+        queryFn:async()=>{
+            const response = await paymentAPI.PaymentGateway(token)
+            return response.data.data
+        },
+        queryKey:['transaction-payment']
+    })
     if(isLoading){
         return(<div>Loading transaction....</div>)
     }
@@ -66,8 +49,8 @@ export default function PaymentGateway(){
                 <div className="max-w-[1200px] mx-auto h-[740px]  pt-10">
                     <div className="">
                         <div className='flex justify-between  py-20 inset-0 px-[100px] top-0 left-0 z-10'>
-                            <TabInfo currency={currency} dataTransaction={dataTransaction}></TabInfo>
-                            {isTab ? <TabQrCode dataTransaction={dataTransaction}></TabQrCode> : <TabCard dataTransaction={dataTransaction}></TabCard>}
+                            <TabInfo currency={data.currency?.symbol} dataTransaction={data}></TabInfo>
+                            {isTab ? <TabQrCode dataTransaction={data}></TabQrCode> : <TabCard dataTransaction={data}></TabCard>}
                         </div>
                     </div>
                 </div>

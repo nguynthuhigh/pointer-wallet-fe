@@ -4,34 +4,20 @@ import partnerAPI from '../api/partner.api'
 import { useEffect, useState } from "react"
 import ReactPaginate from 'react-paginate';
 import SideBar from '../components/dashboard/sidebar';
+import { useQuery } from '@tanstack/react-query';
 export default function Payment({ itemsPerPage }) {
-    const [isLoading, setIsLoading] = useState(true);
-    const [transactionData, setTransactionData] = useState([]);
     const [pageCount,setPageCount] = useState(null)
     const [page,setPage] = useState(1)
-    const [pageSize,setPageSize] = useState(10)
-    useEffect(() => {
-        document.title = 'History Payment';
-        const fetchData = async () => {
-            const response = await partnerAPI.getTransactions(page, pageSize);
-            if (response?.status === 200) {
-                setTransactionData(response.data.data.transaction || []);
-                setPageCount(response.data.data.page_count);
-                setIsLoading(false);
-            }
-        };
-        fetchData();
-    }, []);
+    const {data,isLoading} = useQuery({
+        queryFn: async() => {
+            const response = await partnerAPI.getTransactions(page, 10)
+            return response.data.data
+        },
+        queryKey:['transaction-history',page]
+    })
     const handlePageClick =async (event) => {
-        console.log(event)
+        console.log(event.selected+1)
         setPage(event.selected+1)
-        setIsLoading(true)
-        const response = await partnerAPI.getTransactions(page, pageSize);
-        if (response?.status === 200) {
-            setTransactionData(response.data.data.transaction || []);
-            setPageCount(response.data.data.page_count);
-            setIsLoading(false);
-        }
     };
     return (
         <div className='flex'>
@@ -53,7 +39,7 @@ export default function Payment({ itemsPerPage }) {
                     </tr>
                     </thead>
                     <tbody>
-                    {isLoading ? '...Loading' : transactionData.map((item,key)=>(
+                    {isLoading ? '...Loading' : data.transaction.map((item,key)=>(
                         <ItemTransaction item={item} key={key}/>
                     ))}
                     </tbody>
@@ -64,7 +50,7 @@ export default function Payment({ itemsPerPage }) {
                 onPageChange={handlePageClick}
                 pageRangeDisplayed={3}
                 marginPagesDisplayed={2}
-                pageCount={pageCount}
+                pageCount={data?.page_count}
                 previousLabel="previous"
                 pageClassName="inline-block mx-1"
                 pageLinkClassName="py-2 px-4 border rounded-lg text-blue-600 hover:bg-gray-200"

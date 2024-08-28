@@ -3,12 +3,10 @@ import logo from '../../assets/images/logo.png'
 import { Link } from 'react-router-dom'
 import authAPI from '../../api/auth.api'
 import { useState } from 'react'
-import Cookies from 'universal-cookie'
 import { useNavigate } from "react-router-dom"
 import {Loading, LoadingButton } from "./loading"
 
 export default function SignIn(){
-    const cookies = new Cookies()
     const [isLoading,setIsLoading] = useState(false)
     const [formData,setFormData] = useState({email:'',password:''})
     const [errorResponse, setErrorResponse] = useState({email:null,password:null})
@@ -26,10 +24,9 @@ export default function SignIn(){
         setIsLoading(true)
         try {
             const response =await authAPI.signinAPI(formData)
-            console.log(response)
             if(response.status === 200){
-                cookies.set('token_auth',response.data.data)
                 navigate('/dashboard')
+                setIsLoading(false)
             }
         } catch (error) {
             setErrorResponse({password:error.response.data.message})

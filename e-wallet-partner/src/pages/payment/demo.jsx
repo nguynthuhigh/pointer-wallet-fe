@@ -1,4 +1,4 @@
-import Header from '../header/header'
+import Header from '../../components/header/header'
 import paymentAPI from '../../api/payment-gateway.api'
 import { useState } from 'react'
 export default function Demo(){
