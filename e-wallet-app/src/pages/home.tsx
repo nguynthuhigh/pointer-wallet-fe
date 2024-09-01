@@ -16,6 +16,7 @@ const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
   const profile = useSelector((state: RootState) => state.user.userState);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const { userData, walletData } = profile;
 
   useEffect(() => {
@@ -57,7 +58,7 @@ const Home = () => {
                     <>
                       <h1 className="text-gray-500 text-sm">Chào buổi sáng</h1>
                       <h1 className="font-semibold text-lg">
-                        {userData?.full_name || "Người dùng"}
+                        {userData?.full_name || userData.email}
                       </h1>
                     </>
                   )}

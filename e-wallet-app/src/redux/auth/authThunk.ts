@@ -48,7 +48,7 @@ export const registerUser = createAsyncThunk(
       const res = await registerAPI(user);
       if (res.status === 200) {
         navigate("/auth/verify-register");
-        return { ...res.data, user };
+        return { ...res.data, ...user };
       } else {
         return rejectWithValue(res.data.message);
       }
