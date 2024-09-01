@@ -30,6 +30,7 @@ export default function VerifyRegister() {
         if (response.status === 200) {
           setError(false);
           toast.success(response.data.message);
+          localStorage.setItem("logged", "true");
           setTimeout(() => {
             navigate("/auth/security-code", {
               state: { message: response.data.message },

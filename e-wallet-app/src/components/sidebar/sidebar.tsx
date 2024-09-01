@@ -1,77 +1,67 @@
-import React, { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import SideBarPart from "./sidebar_part";
 import Icon from "../../assets/svg/send_money.svg";
-const SideBar = ({ ...props }) => {
-  const [selected, setSelected] = useState<string>(props.state);
+import Home from "../../assets/svg/Home.svg";
+import ReceiveMoney from "../../assets/svg/receive.svg";
+import Payment from "../../assets/svg/payment.svg";
+import DepositWithdraw from "../../assets/svg/depo-with.svg";
+import CreditCard from "../../assets/svg/credit-card.svg";
+import Settings from "../../assets/svg/set.svg";
+
+interface SideBarProps {
+  state: string;
+}
+
+const SideBar: React.FC<SideBarProps> = ({ state }) => {
+  const [selected, setSelected] = useState<string>(state);
+  const [collapsed, setCollapsed] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      window.innerWidth < 1024 ? setCollapsed(true) : setCollapsed(false);
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const handleSelect = (state: string) => {
     setSelected(state);
   };
+
+  const sidebarItems = useMemo(
+    () => [
+      { name: "Trang chủ", link: "/", icon: Home },
+      { name: "Chuyển tiền", link: "/transfer", icon: Icon },
+      { name: "Nhận tiền", link: "/transfer", icon: ReceiveMoney },
+      { name: "Thanh toán", link: "/dashboard", icon: Payment },
+      { name: "Nạp/Rút tiền", link: "/dashboard", icon: DepositWithdraw },
+      { name: "Quản lý thẻ", link: "/dashboard", icon: CreditCard },
+      { name: "Cài đặt", link: "/dashboard", icon: Settings },
+    ],
+    []
+  );
+
   return (
-    <div className="max-w-[250px] mt-2 rounded-r-lg border w-full h-full bg-white pr-4 max-lg:hidden shadow-lg mr-2">
-      <img></img>
-      <SideBarPart
-        link="/"
-        selected={selected}
-        handleSelect={() => {
-          handleSelect("Trang chủ");
-        }}
-        name="Trang chủ"
-        icon={Icon}
-      ></SideBarPart>
-      <SideBarPart
-        link="/transfer"
-        selected={selected}
-        handleSelect={() => {
-          handleSelect("Chuyển tiền");
-        }}
-        name="Chuyển tiền"
-        icon={Icon}
-      ></SideBarPart>
-      <SideBarPart
-        link="/dashboard"
-        selected={selected}
-        handleSelect={() => {
-          handleSelect("Cài đặt");
-        }}
-        name="Thanh toán"
-        icon={Icon}
-      ></SideBarPart>
-      <SideBarPart
-        link="/dashboard"
-        selected={selected}
-        handleSelect={() => {
-          handleSelect("Thông tin thẻ");
-        }}
-        name="Thông tin thẻ"
-        icon={Icon}
-      ></SideBarPart>
-      <SideBarPart
-        link="/dashboard"
-        selected={selected}
-        handleSelect={() => {
-          handleSelect("Dashboard");
-        }}
-        name="Cài đặt"
-        icon={Icon}
-      ></SideBarPart>
-      <SideBarPart
-        link="/dashboard"
-        selected={selected}
-        handleSelect={() => {
-          handleSelect("Dashboard");
-        }}
-        name="Dashboard"
-        icon={Icon}
-      ></SideBarPart>
-      <SideBarPart
-        link="/dashboard"
-        selected={selected}
-        handleSelect={() => {
-          handleSelect("Dashboard");
-        }}
-        name="Dashboard"
-        icon={Icon}
-      ></SideBarPart>
+    <div
+      className={`h-full bg-white shadow-lg transition-transform duration-300 ease-in-out w-[250px] mt-2 rounded-r-lg border pr-4 ${
+        collapsed ? "translate-x-[-250px]" : "translate-x-0"
+      } max-lg:fixed max-lg:left-0 `}
+    >
+      {sidebarItems.map((item) => (
+        <SideBarPart
+          key={item.name}
+          link={item.link}
+          selected={selected}
+          handleSelect={() => handleSelect(item.name)}
+          name={item.name}
+          icon={item.icon}
+        />
+      ))}
     </div>
   );
 };

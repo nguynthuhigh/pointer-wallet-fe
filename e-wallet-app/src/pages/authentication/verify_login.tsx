@@ -10,7 +10,6 @@ import AuthImg from "../../assets/png/auth_img.png";
 import { RootState } from "../../redux/store";
 const VerifyLogin = () => {
   const data = useSelector((state: RootState) => state.auth.login);
-  console.log(data);
   useEffect(() => {
     toast.success(data.loginUser.message);
   }, []);
@@ -40,6 +39,7 @@ const VerifyLogin = () => {
         const response = await verifyLoginAPI(body);
         if (response.status === 200) {
           toast.success("Đăng nhập thành công");
+          localStorage.setItem("logged", "true");
           setTimeout(() => {
             navigate("/");
             setIsLoading(false);
