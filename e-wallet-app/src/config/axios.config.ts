@@ -1,39 +1,66 @@
 import axios from "axios";
 
+let isRefreshing = false;
+let refreshSubscribers: (() => void)[] = [];
+
+const subscribeTokenRefresh = (cb: () => void) => {
+  refreshSubscribers.push(cb);
+};
+
+const onRefreshed = () => {
+  refreshSubscribers.forEach((cb) => cb());
+  refreshSubscribers = [];
+};
+
 export const createAxios = () => {
   const newInstance = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
     timeout: 10000,
+    withCredentials: true,
     headers: {
       "Content-Type": "application/json",
     },
   });
-  newInstance.defaults.withCredentials = true;
+
   newInstance.interceptors.response.use(
     function (response) {
       return response;
     },
     async function (error) {
       const originalRequest = error.config;
-      if (error.response.status === 401) {
+
+      if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
-        try {
-          const response = await newInstance.post(
-            `/api/v1/user/refresh-token`,
-            {
-              withCredentials: true,
+
+        if (!isRefreshing) {
+          isRefreshing = true;
+          try {
+            const response = await newInstance.post(
+              `/api/v1/user/refresh-token`
+            );
+
+            if (response.status === 200) {
+              onRefreshed();
+              isRefreshing = false;
+              return newInstance(originalRequest);
             }
-          );
-          if (response.status === 200) {
-            originalRequest.withCredentials = true;
-            return newInstance(originalRequest);
+          } catch (error) {
+            console.error("Failed to refresh token:", error);
+            localStorage.removeItem("logged");
+            isRefreshing = false;
           }
-        } catch (error) {
-          localStorage.removeItem("logged");
+        } else {
+          return new Promise((resolve) => {
+            subscribeTokenRefresh(() => {
+              resolve(newInstance(originalRequest));
+            });
+          });
         }
       }
+
       return Promise.reject(error);
     }
   );
+
   return newInstance;
 };

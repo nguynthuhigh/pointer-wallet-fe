@@ -22,7 +22,7 @@ export type TypeWallet = {
 };
 
 export type TransactionData = {
-  amount: 50;
+  amount: number;
   message: string;
   currency: {
     symbol: string;
