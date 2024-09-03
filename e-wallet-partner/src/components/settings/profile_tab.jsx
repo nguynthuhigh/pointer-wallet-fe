@@ -1,19 +1,44 @@
 import React, { useState } from 'react'
 import InputField from './input_field'
+import UploadImage from './upload_image'
+import { useMutation } from '@tanstack/react-query'
+import { updateProfile } from '../../api/setting.api'
+import toast, { Toaster } from 'react-hot-toast'
 const ProfileTab = () => {
   const [data,setData] = useState({email:'',name:'',description:''})
+  const [imageData, setImageData] = useState(null)
   const handleChange = (e)=>{
     setData({
       ...data,
       [e.target.name] : e.target.value
     })
   }
+  const handleImageChange = (file) =>{
+    setImageData(file); 
+  }
+  const mutation = useMutation({
+    mutationFn:async (formData)=>{
+      console.log(formData)
+      await updateProfile(formData)
+    },
+    onSuccess: () => {
+      toast.success("Update Success!");
+    },
+    onError: () => {
+      toast.error("Update Fail!");
+    }
+  })
   const handleUpdateProfile = (e)=>{
     e.preventDefault()
-    console.log(123)
+    const formData = new FormData()
+    formData.append('image',imageData)
+    formData.append('name',data.name)
+    formData.append('description',data.description)
+    mutation.mutate(formData)
   }
   return (
     <form className='p-4' onSubmit={handleUpdateProfile}> 
+      <Toaster position='top-right'></Toaster>
       <div className=' flex w-full max-w-[900px]'>
         <div className='space-y-5'>
           <InputField value={data.name} onChange={handleChange} name="name" title="Name"></InputField>
@@ -23,14 +48,7 @@ const ProfileTab = () => {
             <textarea value={data.description} onChange={handleChange} name='description' className=' border border-gray-300 rounded-lg p-2'></textarea>
           </div>
         </div>
-        <button type='upload' className='relative ml-auto'>
-          <img
-            alt=""
-            className="object-cover  cursor-pointer rounded-full h-48 w-48"
-            src="https://upload.wikimedia.org/wikipedia/commons/3/3c/V_in_the_Oval_Office_of_the_White_House%2C_May_31%2C_2022_%28cropped%29.jpg"
-          />
-          <img className='absolute  w-5' alt='' src='https://icons.veryicon.com/png/o/miscellaneous/linear-small-icon/edit-246.png'></img>
-        </button>
+        <UploadImage handleImageChange={handleImageChange}></UploadImage>
         </div>
         <button type='submit' className='font-semibold text-sm bg-gray-50 hover:bg-gray-100 border p-1.5 rounded-lg'>Update profile</button>
 
