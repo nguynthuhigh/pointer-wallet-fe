@@ -1,4 +1,4 @@
-import { useEffect, useState } from "preact/compat";
+import { useEffect, useState, useMemo } from "preact/compat";
 import CashInIcon from "../assets/svg/cashin.svg";
 import { useDispatch, useSelector } from "react-redux";
 import ButtonFeature from "../components/home/button_feat";
@@ -11,7 +11,6 @@ import Assets from "../components/home/assets";
 import Header from "../components/header/header";
 import { getProfile } from "../redux/user/userThunk";
 import { AppDispatch, RootState } from "../redux/store";
-import { Outlet } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -22,22 +21,59 @@ const Home = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(getProfile());
-      setIsLoading(false);
+      try {
+        await dispatch(getProfile());
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchData();
   }, [dispatch]);
 
-  const userAvatar = isLoading
-    ? "rounded-full w-[50px] h-[50px] bg-gray-200 animate-pulse"
-    : "rounded-full w-[50px] h-[50px] object-cover";
+  const userAvatar = useMemo(
+    () =>
+      isLoading
+        ? "rounded-full w-[50px] h-[50px] bg-gray-200 animate-pulse"
+        : "rounded-full w-[50px] h-[50px] object-cover",
+    [isLoading]
+  );
+
+  const renderUserGreeting = () => {
+    if (isLoading) {
+      return (
+        <>
+          <h1 className="bg-gray-200 w-20 rounded-full">&nbsp;</h1>
+          <div className="w-[200px] h-4 bg-gray-200 rounded-full animate-pulse mt-2"></div>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <h1 className="text-gray-500 text-sm">Chào buổi sáng</h1>
+        <h1 className="font-semibold text-lg">
+          {userData?.full_name || userData?.email}
+        </h1>
+      </>
+    );
+  };
+
+  const buttonFeatures = [
+    { link: "/transfer", image: CashInIcon, title: "Gửi" },
+    { link: "/receive-page", image: HistoryIcon, title: "Nhận" },
+    { link: "/scan-qrcode", image: CashInIcon, title: "Quét mã" },
+    { link: "/deposit-withdraw", image: CashInIcon, title: "Nạp/Rút" },
+    { link: "/transaction/history", image: HistoryIcon, title: "Lịch sử" },
+  ];
 
   return (
     <>
       <Header />
-      <div class="flex bg-gray-50 h-screen">
+      <div className="flex bg-gray-50 h-screen">
         <SideBar state="Trang chủ" />
-        <div class="flex max-sm:flex-wrap w-full h-fit">
+        <div className="flex max-sm:flex-wrap w-full h-fit">
           <div className="w-full bg-white m-2 rounded-lg border shadow-lg p-4">
             <div>
               <div className="flex">
@@ -50,19 +86,7 @@ const Home = () => {
                   )}
                 </div>
                 <div className="mx-3 h-full my-auto">
-                  {isLoading ? (
-                    <>
-                      <h1 className="bg-gray-200 w-20 rounded-full">&nbsp;</h1>
-                      <div className="w-[200px] h-4 bg-gray-200 rounded-full animate-pulse mt-2"></div>
-                    </>
-                  ) : (
-                    <>
-                      <h1 className="text-gray-500 text-sm">Chào buổi sáng</h1>
-                      <h1 className="font-semibold text-lg">
-                        {userData?.full_name || userData.email}
-                      </h1>
-                    </>
-                  )}
+                  {renderUserGreeting()}
                 </div>
                 <img
                   className="ml-auto hover:rotate-90 w-6 h-6 cursor-pointer"
@@ -83,38 +107,24 @@ const Home = () => {
                 )}
               </div>
               <div className="grid grid-flow-row grid-cols-5 gap-1">
-                <ButtonFeature link="transfer" image={CashInIcon} title="Gửi" />
-                <ButtonFeature
-                  link="/receive-page"
-                  image={HistoryIcon}
-                  title="Nhận"
-                />
-                <ButtonFeature
-                  link="/scan-qrcode"
-                  image={CashInIcon}
-                  title="Quét mã"
-                />
-                <ButtonFeature
-                  link="/deposit-withdraw"
-                  image={CashInIcon}
-                  title="Nạp/Rút"
-                />
-                <ButtonFeature
-                  link="/transaction/history"
-                  image={HistoryIcon}
-                  title="Lịch sử"
-                />
+                {buttonFeatures.map((feature) => (
+                  <ButtonFeature
+                    key={feature.link}
+                    link={feature.link}
+                    image={feature.image}
+                    title={feature.title}
+                  />
+                ))}
               </div>
             </div>
             <Assets isLoading={isLoading} walletData={walletData} />
           </div>
-          <div class="bg-white h-fit rounded-lg m-2 md:max-w-sm sm:w-full w-full border shadow-lg">
-            <h1 class="font-semibold text-sm m-4">Giao dịch gần đây</h1>
+          <div className="bg-white h-fit rounded-lg m-2 md:max-w-sm sm:w-full w-full border shadow-lg">
+            <h1 className="font-semibold text-sm m-4">Giao dịch gần đây</h1>
             <RecentTransaction />
           </div>
         </div>
       </div>
-      <Outlet />
     </>
   );
 };
