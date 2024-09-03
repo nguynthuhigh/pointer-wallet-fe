@@ -17,7 +17,7 @@ const RecentTransaction = () => {
   const {data,isLoading} = useQuery<PaginatedResponse<Transaction>>({
     queryFn: 
       getTransactionPaginate(1,5)
-    ,
+    fr,
     queryKey:['recent-transaction']
   })
   return (
