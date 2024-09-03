@@ -11,6 +11,7 @@ import Assets from "../components/home/assets";
 import Header from "../components/header/header";
 import { getProfile } from "../redux/user/userThunk";
 import { AppDispatch, RootState } from "../redux/store";
+import { Outlet } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -34,7 +35,7 @@ const Home = () => {
   return (
     <>
       <Header />
-      <div class="flex bg-gray-50 h-[100vh]">
+      <div class="flex bg-gray-50 h-screen">
         <SideBar state="Trang chủ" />
         <div class="flex max-sm:flex-wrap w-full h-fit">
           <div className="w-full bg-white m-2 rounded-lg border shadow-lg p-4">
@@ -82,11 +83,7 @@ const Home = () => {
                 )}
               </div>
               <div className="grid grid-flow-row grid-cols-5 gap-1">
-                <ButtonFeature
-                  link="/transfer"
-                  image={CashInIcon}
-                  title="Gửi"
-                />
+                <ButtonFeature link="transfer" image={CashInIcon} title="Gửi" />
                 <ButtonFeature
                   link="/receive-page"
                   image={HistoryIcon}
@@ -117,6 +114,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <Outlet />
     </>
   );
 };

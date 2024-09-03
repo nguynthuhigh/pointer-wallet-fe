@@ -19,6 +19,8 @@ import Deposit from "./pages/deposit-withdraw/deposit";
 import Withdraw from "./pages/deposit-withdraw/withdraw";
 import PaymentResults from "./pages/payment/payment_results";
 import AddCreditCard from "./pages/credit-card/add-credit-card";
+import CreditCard from "./pages/credit-card";
+import Setting from "./pages/setting";
 
 export function App() {
   return (
@@ -27,7 +29,7 @@ export function App() {
         <Routes>
           <Route element={<ProtectRoutes />}>
             <Route path="/" element={<Home />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/setting" element={<Setting />} />
             <Route path="/scan-qrcode" element={<ScanQR />} />
             <Route path="/payment" element={<PaymentGateway />} />
             <Route path="/payment/results" element={<PaymentResults />} />
@@ -37,6 +39,7 @@ export function App() {
               <Route path="deposit" element={<Deposit />} />
               <Route path="withdraw" element={<Withdraw />} />
             </Route>
+            <Route path="/credit-card" element={<CreditCard />} />
             <Route path="/credit-card/add-card" element={<AddCreditCard />} />
             <Route
               path="/transaction/details"

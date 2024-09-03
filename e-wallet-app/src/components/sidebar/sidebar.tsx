@@ -37,11 +37,15 @@ const SideBar: React.FC<SideBarProps> = ({ state }) => {
     () => [
       { name: "Trang chủ", link: "/", icon: Home },
       { name: "Chuyển tiền", link: "/transfer", icon: Icon },
-      { name: "Nhận tiền", link: "/transfer", icon: ReceiveMoney },
-      { name: "Thanh toán", link: "/dashboard", icon: Payment },
-      { name: "Nạp/Rút tiền", link: "/dashboard", icon: DepositWithdraw },
-      { name: "Quản lý thẻ", link: "/dashboard", icon: CreditCard },
-      { name: "Cài đặt", link: "/dashboard", icon: Settings },
+      { name: "Nhận tiền", link: "/receive-page", icon: ReceiveMoney },
+      { name: "Thanh toán", link: "/payment", icon: Payment },
+      {
+        name: "Nạp/Rút tiền",
+        link: "/deposit-withdraw",
+        icon: DepositWithdraw,
+      },
+      { name: "Quản lý thẻ", link: "/credit-card", icon: CreditCard },
+      { name: "Cài đặt", link: "/setting", icon: Settings },
     ],
     []
   );
