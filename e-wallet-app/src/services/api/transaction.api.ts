@@ -1,4 +1,3 @@
-import axios from "axios";
 import  { createAxios } from '../../config/axios.config'
 const axiosInstance = createAxios();
 export const getTransactionPaginate = async (page: number,limit:number) => {

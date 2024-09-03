@@ -4,7 +4,7 @@ import DashBoard from "./pages/dashboard"
 function App() {
 
   return (
-    <div className="font-inter">
+    <div className="font-inter container mx-auto">
       <BrowserRouter>
         <Routes>
           <Route path="/test" element={<Home></Home>}/>

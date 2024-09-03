@@ -1,41 +1,32 @@
-import ItemTransaction from "../../components/history_transaction/item_transaction";
-import USDTIcon from "../../assets/svg/usdt.svg";
-import { useEffect, useState } from "react";
-import { getTransactionPaginate } from "../../services/api/transaction.api";
+import ItemTransaction from '../../components/history_transaction/item_transaction'
+import USDTIcon from '../../assets/svg/usdt.svg'
+import { getTransactionPaginate } from '../../services/api/transaction.api'
+import { useQuery } from '@tanstack/react-query'
 const RecentTransaction = () => {
-  const [userID, setUserID] = useState<string>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [transactionData, setTransactionData] = useState([]);
+  // interface Transaction {
+  //   id: string;
+  // }
+  
+  // interface PaginatedResponse<T> {
+  //   data: {
+  //     transaction: T[];
+  //     id: string;
+  //   };
+  // }
+  // const {data,isLoading} = useQuery<PaginatedResponse<Transaction>>({
+  //   queryFn: 
+  //     getTransactionPaginate(1,5)
+  //   fr,
+  //   queryKey:['recent-transaction']
+  // })
+  // return (
+  //   <div>
+  //       {!isLoading ? data?.data.transaction?.map((item:any,key:any)=>(
+  //        <ItemTransaction  item={item} userID={data.data.id} key={key} icon={USDTIcon}/>
+  //       )): 'loading'}
 
-  useEffect(() => {
-    const fetchTransaction = async () => {
-      try {
-        const response = await getTransactionPaginate(2, 5);
-        if (response.status === 200) {
-          setUserID(response.data.data.id);
-          setTransactionData(response.data.data.transactions);
-          console.log(response.data.data.transactions);
-          setIsLoading(false);
-        }
-      } catch (error) {}
-    };
-    fetchTransaction();
-  }, []);
-
-  return (
-    <div>
-      {!isLoading
-        ? transactionData?.map((item: any, key: any) => (
-            <ItemTransaction
-              item={item}
-              userID={userID}
-              key={key}
-              icon={USDTIcon}
-            />
-          ))
-        : "loading"}
-    </div>
-  );
+  //   </div>
+  // );
 };
 
 export default RecentTransaction;
