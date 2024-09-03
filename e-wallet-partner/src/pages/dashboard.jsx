@@ -7,7 +7,7 @@ import RecentTransaction from '../components/dashboard/recent_transaction';
 import partnerAPI from '../api/partner.api'
 import { useQuery } from '@tanstack/react-query';
 const Dashboard = () => {
-    const {isLoading,isFetching,data} = useQuery({
+    const {isLoading,data} = useQuery({
         queryFn:async()=>{
             const response = await partnerAPI.getProfilePartner();
             return response.data.data

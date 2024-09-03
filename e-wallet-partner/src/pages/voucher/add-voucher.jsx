@@ -6,6 +6,7 @@ import SideBar from '../../components/dashboard/sidebar';
 import HeaderDashboard from '../../components/header/header_dashboard';
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
+import { useMutation } from '@tanstack/react-query';
 const initialData = {
   title: '',
   code: '',
@@ -20,14 +21,8 @@ export default function VoucherForm() {
   const navigate = useNavigate()
   const [voucherData, setVoucherData] = useState(initialData);
   const [errors, setErrors] = useState({});
-  const [errorSubmit,setErrorSubmit] = useState(null)
   const [isLoading,setIsLoading] = useState(false)
-  const [message,setMessage] = useState(false)
-  const handleChange = (name, value) => {
-    setVoucherData({ ...voucherData, [name]: value });
-    setErrors({discountValue:null,code:null})
-  };
-
+  const [image,setImage] = useState()
   const validate = () => {
     let tempErrors = {};
     if (voucherData.discountValue > 100 && voucherData.type === "discount_percent"){
@@ -51,24 +46,44 @@ export default function VoucherForm() {
       return false
     }
   };
-
+  const handleChange = (name, value) => {
+    if(name === 'image'){
+      setImage(value)
+    }
+    setVoucherData({ ...voucherData, [name]: value });
+    setErrors({discountValue:null,code:null})
+  };
+  const {isPending,mutate} = useMutation({
+    mutationFn:async(formData)=>{
+      console.log(formData)
+      await voucherAPI.addVoucher(formData)
+    },
+    onSuccess:()=>{
+      toast.success('Added Successfully!')
+      navigate('/vouchers')
+    },
+    onError:(error)=>{
+      toast.error(error.response.data.message)
+    }
+  })
   const handleSubmit =async (e) => {
     e.preventDefault();
-    try {
-        if(validate() === false){
-          return
-        }
-        setIsLoading(true)
-        const response = await voucherAPI.addVoucher(voucherData)
-        if(response.status === 200){
-            toast.success("Add successfully!")
-            setIsLoading(false)
-            navigate('/vouchers')
-        }
-    } catch (error) {
-      toast.error(error.response.data.message)
-      setIsLoading(false)
+    if(validate() === false){
+      return
     }
+    const formData =new FormData()
+    console.log(voucherData)
+    formData.append('title',voucherData.title)
+    formData.append('code',voucherData.code)
+    formData.append('content',voucherData.content)
+    formData.append('quantity',voucherData.quantity)
+    formData.append('discountValue',voucherData.discountValue)
+    formData.append('type',voucherData.type)
+    formData.append('currency',voucherData.currency)
+    formData.append('min_condition',voucherData.min_condition)
+    console.log(image)
+    formData.append('image',image)
+    mutate(formData)
   };
 
   return (
@@ -102,10 +117,8 @@ export default function VoucherForm() {
           <InputVoucher error={errors.currency} placeholder="VND, USD, ETH" name="Currency" value={voucherData.currency} onChange={(e) => handleChange('currency', e.target.value)} type="text"/>
         </div>
         <div>
-          <input required type='file'></input>
+          <input onChange={(e) => handleChange('image', e.target.files[0])} required type='file'></input>
         </div>
-        <div className='font-semibold text-center text-red-500'>{errorSubmit}</div>
-        <div className='font-semibold text-center text-green-500'>{message}</div>
       <div className='flex justify-between'>
         <button className='w-[49%] mt-4 py-4 border-gray-400  text-gray-400 border-2 font-semibold rounded-xl'>Cancel</button>
       {!isLoading ? <button

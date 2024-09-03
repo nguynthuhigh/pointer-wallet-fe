@@ -5,7 +5,7 @@ export const addVoucher = async(body)=>{
     })
 }
 export const getVoucher = async(voucherID)=>{
-    return await axiosConfig.get(process.env.REACT_APP_API+`/api/v1/voucher/get-voucher?voucherID=`+voucherID,{
+    return await axiosConfig.get(process.env.REACT_APP_API+`/api/v1/voucher/get-voucher-details?voucherID=`+voucherID,{
         withCredentials:true
     })
 }
