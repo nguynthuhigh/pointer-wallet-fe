@@ -14,11 +14,16 @@ interface SideBarProps {
 
 const SideBar: React.FC<SideBarProps> = ({ state }) => {
   const [selected, setSelected] = useState<string>(state);
-  const [collapsed, setCollapsed] = useState<boolean>(false);
+  const [collapsed, setCollapsed] = useState<boolean>(() => {
+    const savedState = localStorage.getItem("sidebar-collapsed");
+    return savedState ? JSON.parse(savedState) : false;
+  });
 
   useEffect(() => {
     const handleResize = () => {
-      window.innerWidth < 1024 ? setCollapsed(true) : setCollapsed(false);
+      const shouldCollapse = window.innerWidth < 1024;
+      setCollapsed(shouldCollapse);
+      localStorage.setItem("sidebar-collapsed", JSON.stringify(shouldCollapse));
     };
 
     window.addEventListener("resize", handleResize);

@@ -1,48 +1,8 @@
-// import axios from "axios";
-// import Cookies from "universal-cookie";
-// import { ApplyVoucher } from "../../types/payment";
-// const cookie = new Cookies();
-// import axiosConfig from '../../config/axios.config'
-
-// export const paymentAPI = async (token: unknown) => {
-//   return await axiosConfig.get(
-//     import.meta.env.VITE_API_URL + "/payment-gateway?token=" + token
-//   );
-// };
-
-// export const confirmPaymentAPI = async (body: unknown) => {
-//   return await axiosConfig.post(
-//     `/api/v1/confirm-payment`,
-//     body,
-//     {
-//       headers: {
-//         Authorization: `Bearer ${cookie.get("access_token")}`,
-//       },
-//     }
-//   );
-// };
-// export const getVouchersPartner = async (id:string) => {
-//   return await axiosConfig.get(
-//     `/api/v1/voucher/get-vouchers-partner?partnerID=${id}`
-//   );
-// };
-
-// export const applyVoucher = async (body:ApplyVoucher) => {
-//   return await axiosConfig.post(
-//     `/api/v1/apply-voucher`,body, {
-//       headers: {
-//         Authorization: `Bearer ${cookie.get("access_token")}`,
-//       },
-//     }
-//   );
-// };
-
 import axios from "axios";
 import { createAxios } from "../../config/axios.config";
 const axiosInstance = createAxios();
-import Cookies from "universal-cookie";
 import { ApplyVoucher } from "../../types/payment";
-const cookie = new Cookies();
+
 export const paymentAPI = async (token: unknown) => {
   return await axios.get(
     import.meta.env.VITE_API_URL + "/payment-gateway?token=" + token
@@ -50,15 +10,9 @@ export const paymentAPI = async (token: unknown) => {
 };
 
 export const confirmPaymentAPI = async (body: unknown) => {
-  return await axiosInstance.post(
-    `${import.meta.env.VITE_API_URL}/api/v1/confirm-payment`,
-    body,
-    {
-      headers: {
-        Authorization: `Bearer ${cookie.get("accessToken")}`,
-      },
-    }
-  );
+  return await axiosInstance.post(`/api/v1/confirm-payment`, body, {
+    withCredentials: true,
+  });
 };
 export const getVouchersPartner = async (id: string) => {
   return await axios.get(
@@ -69,13 +23,7 @@ export const getVouchersPartner = async (id: string) => {
 };
 
 export const applyVoucher = async (body: ApplyVoucher) => {
-  return await axiosInstance.post(
-    `${import.meta.env.VITE_API_URL}/api/v1/apply-voucher`,
-    body,
-    {
-      headers: {
-        Authorization: `Bearer ${cookie.get("accessToken")}`,
-      },
-    }
-  );
+  return await axiosInstance.post(`/api/v1/apply-voucher`, body, {
+    withCredentials: true,
+  });
 };
