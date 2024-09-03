@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 import toast, { Toaster } from "react-hot-toast";
@@ -27,7 +27,7 @@ export default function DepositWithdraw() {
   const navigate = useNavigate();
   const fetchCurrencies = async (): Promise<void> => {
     try {
-      const response = await getProfileAPI(accessToken);
+      const response = await getProfileAPI();
       if (response.status === 200) {
         setCurrencies(response.data?.data?.walletData?.currencies);
       }
@@ -105,7 +105,6 @@ export default function DepositWithdraw() {
           </div>
         </div>
       )}
-
       <Toaster position="top-center" />
       <Outlet />
     </div>
