@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ic_success from "../../assets/png/ic_success.png";
-import ic_home from "../../assets/svg/Home.svg";
+import ic_home from "../../assets/svg/home.svg";
 import { formatDate } from "../../utils/format_date";
 import { useLocation } from "react-router-dom";
 import { getTransactionAPI } from "../../services/api/transfer.api";
