@@ -5,10 +5,8 @@ import ButtonFeature from "../components/home/button_feat";
 import Settings_Icon from "../assets/svg/settings.svg";
 import HistoryIcon from "../assets/svg/history_trans.svg";
 import { formatCurrency } from "../utils/format_currency";
-import SideBar from "../components/sidebar/sidebar";
 import RecentTransaction from "../components/home/recent_transaction";
 import Assets from "../components/home/assets";
-import Header from "../components/header/header";
 import { getProfile } from "../redux/user/userThunk";
 import { AppDispatch, RootState } from "../redux/store";
 
@@ -70,59 +68,53 @@ const Home = () => {
 
   return (
     <>
-      <Header />
-      <div className="flex bg-gray-50 h-screen">
-        <SideBar state="Trang chủ" />
-        <div className="flex max-sm:flex-wrap w-full h-fit">
-          <div className="w-full bg-white m-2 rounded-lg border shadow-lg p-4">
-            <div>
-              <div className="flex">
-                <div className={userAvatar}>
-                  {!isLoading && (
-                    <img
-                      src={userData?.avatar}
-                      className="rounded-full w-[50px] h-[50px] object-cover"
-                    />
-                  )}
-                </div>
-                <div className="mx-3 h-full my-auto">
-                  {renderUserGreeting()}
-                </div>
-                <img
-                  className="ml-auto hover:rotate-90 w-6 h-6 cursor-pointer"
-                  src={Settings_Icon}
-                  alt="Settings"
-                />
-              </div>
-              <div>
-                {isLoading ? (
-                  <div className="w-[60%] h-8 my-6 bg-gray-200 rounded-full animate-pulse"></div>
-                ) : (
-                  <h1 className="font-semibold text-4xl my-6">
-                    {formatCurrency(
-                      walletData?.currencies?.[0]?.balance || 0,
-                      "VND"
-                    )}
-                  </h1>
+      <div className="flex max-sm:flex-wrap w-full h-fit">
+        <div className="w-full bg-white m-2 rounded-lg border shadow-lg p-4">
+          <div>
+            <div className="flex">
+              <div className={userAvatar}>
+                {!isLoading && (
+                  <img
+                    src={userData?.avatar}
+                    className="rounded-full w-[50px] h-[50px] object-cover"
+                  />
                 )}
               </div>
-              <div className="grid grid-flow-row grid-cols-5 gap-1">
-                {buttonFeatures.map((feature) => (
-                  <ButtonFeature
-                    key={feature.link}
-                    link={feature.link}
-                    image={feature.image}
-                    title={feature.title}
-                  />
-                ))}
-              </div>
+              <div className="mx-3 h-full my-auto">{renderUserGreeting()}</div>
+              <img
+                className="ml-auto hover:rotate-90 w-6 h-6 cursor-pointer"
+                src={Settings_Icon}
+                alt="Settings"
+              />
             </div>
-            <Assets isLoading={isLoading} walletData={walletData} />
+            <div>
+              {isLoading ? (
+                <div className="w-[60%] h-8 my-6 bg-gray-200 rounded-full animate-pulse"></div>
+              ) : (
+                <h1 className="font-semibold text-4xl my-6">
+                  {formatCurrency(
+                    walletData?.currencies?.[0]?.balance || 0,
+                    "VND"
+                  )}
+                </h1>
+              )}
+            </div>
+            <div className="grid grid-flow-row grid-cols-5 gap-1">
+              {buttonFeatures.map((feature) => (
+                <ButtonFeature
+                  key={feature.link}
+                  link={feature.link}
+                  image={feature.image}
+                  title={feature.title}
+                />
+              ))}
+            </div>
           </div>
-          <div className="bg-white h-fit rounded-lg m-2 md:max-w-sm sm:w-full w-full border shadow-lg">
-            <h1 className="font-semibold text-sm m-4">Giao dịch gần đây</h1>
-            <RecentTransaction />
-          </div>
+          <Assets isLoading={isLoading} walletData={walletData} />
+        </div>
+        <div className="bg-white h-fit rounded-lg m-2 md:max-w-sm sm:w-full w-full border shadow-lg">
+          <h1 className="font-semibold text-sm m-4">Giao dịch gần đây</h1>
+          <RecentTransaction />
         </div>
       </div>
     </>

@@ -16,7 +16,6 @@ const SideBarPart: React.FC<SideBarPartProps> = ({
   icon,
 }) => {
   const isSelected = name === selected;
-
   return (
     <Link
       to={link}

@@ -2,33 +2,24 @@ import { useNavigate } from "react-router-dom";
 import SearchUser from "./search_user";
 import InputAmount from "./input_amount";
 import SelectCurrency from "./select_currency";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Currency, User } from "../../types/transfer";
-import { getProfileAPI } from "../../services/api/user.api";
-import SideBar from "../../components/sidebar/sidebar";
-import Header from "../../components/header/header";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 const Transfer = () => {
   const [step, setStep] = useState("select_currency");
   const [selectCurrency, setSelectCurrency] = useState<Currency>();
-  const [wallet, setWallet] = useState();
   const [userData, setUserData] = useState<User>();
+  const [currency, setCurrency] = useState<Currency[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const wallet = useSelector(
+    (state: RootState) => state.user.userState.walletData.currencies
+  );
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await getProfileAPI();
-        if (response.status === 200) {
-          setWallet(response.data.data.walletData.currencies);
-          setIsLoading(false);
-        }
-      } catch (error) {
-        navigate("/auth/login");
-        setIsLoading(false);
-      }
-    };
-    fetchProfile();
-  }, []);
+    setCurrency(wallet);
+    setIsLoading(false);
+  }, [wallet]);
   const handleStepTransfer = (step_change: string) => {
     if (step_change === "home") {
       navigate("/");
@@ -41,20 +32,16 @@ const Transfer = () => {
   const handleCurrencyData = (data: any) => {
     setSelectCurrency(data);
   };
-  if (isLoading) {
-    return <div>...Loading</div>;
-  }
   switch (step) {
     case "select_currency":
       return (
         <>
-          <Header></Header>
-          <div class={`flex`}>
-            <SideBar state="Chuyển tiền"></SideBar>
+          <div class={`flex w-full`}>
             <SelectCurrency
-              currency={wallet}
+              currency={currency}
               handleCurrencyData={handleCurrencyData}
               handleStepTransfer={handleStepTransfer}
+              isLoading={isLoading}
             />
           </div>
         </>
@@ -62,9 +49,7 @@ const Transfer = () => {
     case "search_user":
       return (
         <>
-          <Header></Header>
           <div class={`flex`}>
-            <SideBar state="Chuyển tiền"></SideBar>
             <SearchUser
               handleUserData={handleUserData}
               handleStepTransfer={handleStepTransfer}
@@ -75,9 +60,7 @@ const Transfer = () => {
     case "input_amount":
       return (
         <>
-          <Header></Header>
           <div class={`flex`}>
-            <SideBar state="Chuyển tiền"></SideBar>
             <InputAmount
               currencyData={selectCurrency}
               userData={userData}

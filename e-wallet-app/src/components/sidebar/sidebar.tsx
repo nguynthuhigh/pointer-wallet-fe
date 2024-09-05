@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import SideBarPart from "./sidebar_part";
 import Icon from "../../assets/svg/send_money.svg";
-import Home from "../../assets/svg/home.svg";
+import Home from "../../assets/svg/Home.svg";
 import ReceiveMoney from "../../assets/svg/receive.svg";
 import Payment from "../../assets/svg/payment.svg";
 import DepositWithdraw from "../../assets/svg/depo-with.svg";
@@ -13,10 +13,13 @@ interface SideBarProps {
 }
 
 const SideBar: React.FC<SideBarProps> = ({ state }) => {
-  const [selected, setSelected] = useState<string>(state);
+  const [selected, setSelected] = useState<string>(() => {
+    return localStorage.getItem("selectedTab") || state;
+  });
+
   const [collapsed, setCollapsed] = useState<boolean>(() => {
     const savedState = localStorage.getItem("sidebar-collapsed");
-    return savedState ? JSON.parse(savedState) : false;
+    return savedState ? JSON.parse(savedState) : window.innerWidth < 1024;
   });
 
   useEffect(() => {
@@ -27,8 +30,6 @@ const SideBar: React.FC<SideBarProps> = ({ state }) => {
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize();
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -36,6 +37,7 @@ const SideBar: React.FC<SideBarProps> = ({ state }) => {
 
   const handleSelect = (state: string) => {
     setSelected(state);
+    localStorage.setItem("selectedTab", state);
   };
 
   const sidebarItems = useMemo(
@@ -59,7 +61,7 @@ const SideBar: React.FC<SideBarProps> = ({ state }) => {
     <div
       className={`h-full bg-white shadow-lg transition-transform duration-300 ease-in-out w-[250px] mt-2 rounded-r-lg border pr-4 ${
         collapsed ? "translate-x-[-250px]" : "translate-x-0"
-      } max-lg:fixed max-lg:left-0 `}
+      } max-lg:fixed max-lg:left-0`}
     >
       {sidebarItems.map((item) => (
         <SideBarPart

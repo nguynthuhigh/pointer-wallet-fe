@@ -1,5 +1,6 @@
 import React from "react";
 import { formatCurrency } from "../../utils/format_currency";
+import { ItemCurrencyLoading } from "../../components/home/item_currency";
 import HeaderDefault from "../../components/header/header_default";
 import VNDIcon from "../../assets/png/vnd_icon.png";
 import USDIcon from "../../assets/png/usd_icon.png";
@@ -8,6 +9,7 @@ type Props = {
   currency: any;
   handleStepTransfer: any;
   handleCurrencyData: any;
+  isLoading: boolean;
 };
 const SelectCurrency: React.FC<Props> = ({ ...props }) => {
   const handleSelectCurrency = () => {
@@ -18,31 +20,41 @@ const SelectCurrency: React.FC<Props> = ({ ...props }) => {
   };
   return (
     <>
-      <div class={`p-4 w-full bg-white m-2 rounded-lg max-w-[800px] shadow-xl`}>
-        <HeaderDefault
-          title="Chọn loại tiền"
-        ></HeaderDefault>
-        <ItemCurrency
-          image={VNDIcon}
-          wallet={props.currency[0]}
-          currency={`VND`}
-          onClick={handleSelectCurrency}
-          handleCurrencyData={handleCurrencyData}
-        ></ItemCurrency>
-        <ItemCurrency
-          image={USDIcon}
-          wallet={props.currency[1]}
-          currency={`USD`}
-          onClick={handleSelectCurrency}
-          handleCurrencyData={handleCurrencyData}
-        ></ItemCurrency>
-        <ItemCurrency
-          image={ETHIcon}
-          wallet={props.currency[2]}
-          currency={`ETH`}
-          onClick={handleSelectCurrency}
-          handleCurrencyData={handleCurrencyData}
-        ></ItemCurrency>
+      <div
+        class={`p-4 bg-white m-2 rounded-lg w-1/2 max-w-[800px] shadow-xl border`}
+      >
+        <HeaderDefault title="Chọn loại tiền"></HeaderDefault>
+        {props.isLoading ? (
+          <>
+            <ItemCurrencyLoading />
+            <ItemCurrencyLoading />
+            <ItemCurrencyLoading />
+          </>
+        ) : (
+          <>
+            <ItemCurrency
+              image={VNDIcon}
+              wallet={props.currency[0]}
+              currency={`VND`}
+              onClick={handleSelectCurrency}
+              handleCurrencyData={handleCurrencyData}
+            ></ItemCurrency>
+            <ItemCurrency
+              image={USDIcon}
+              wallet={props.currency[1]}
+              currency={`USD`}
+              onClick={handleSelectCurrency}
+              handleCurrencyData={handleCurrencyData}
+            ></ItemCurrency>
+            <ItemCurrency
+              image={ETHIcon}
+              wallet={props.currency[2]}
+              currency={`ETH`}
+              onClick={handleSelectCurrency}
+              handleCurrencyData={handleCurrencyData}
+            ></ItemCurrency>
+          </>
+        )}
       </div>
     </>
   );

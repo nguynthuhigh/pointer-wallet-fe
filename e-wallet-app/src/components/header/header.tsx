@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 export default function Header() {
   return (
     <div>
-      <div class={`h-20 w-full flex fixed bg-white p-4 items-center shadow-sm`}>
+      <div
+        class={`h-20 w-full flex fixed top-0 left-0 right-0 z-50 bg-white p-4 items-center shadow-sm`}
+      >
         <Link to="/">
           <img class={`w-40`} src={LogoPressPay} />
         </Link>
