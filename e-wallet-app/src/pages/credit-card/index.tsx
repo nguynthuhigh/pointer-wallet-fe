@@ -1,44 +1,44 @@
 import { Link, Outlet } from "react-router-dom";
-import { useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Toaster } from "react-hot-toast";
 import Cards from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import HeaderDefault from "../../components/header/header_default";
-import { getAllCards, Card } from "../../services/api/credit-card.api";
+import { getCardList } from "../../redux/credit-card/cardThunk";
+import { AppDispatch, RootState } from "../../redux/store";
 
 export default function CreditCard() {
-  const [listCards, setListCards] = useState<Card[]>([]);
-  const [isShowing, setIsShowing] = useState<boolean>(true);
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    getListCards();
-  }, []);
+    dispatch(getCardList());
+  }, [dispatch]);
 
-  const getListCards = async (): Promise<void> => {
-    try {
-      const response = await getAllCards();
-
-      if (Array.isArray(response) && response.length > 0) {
-        setListCards(response);
-        setIsShowing(false);
-      } else {
-        setIsShowing(true);
-      }
-    } catch (error) {
-      console.error("Đã xảy ra lỗi khi tải thẻ!", error);
-      toast.error("Đã xảy ra lỗi khi tải thẻ!");
-    }
-  };
+  const state = useSelector((state: RootState) => state.cards);
+  const {
+    cardState: { cards },
+    isFetching,
+  } = state;
 
   return (
     <>
-      <div className="p-4 border bg-white m-2 rounded-lg w-1/2 max-w-[800px] shadow-xl h-fit">
+      <div className="p-4 border bg-white m-2 rounded-lg w-full shadow-xl h-fit">
         <HeaderDefault title="Quản lý thẻ" />
-        {!isShowing && (
-          <div className={`mt-4`}>
-            {listCards.map((card, index) => (
-              <Cards
+        {isFetching ? (
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
+            {[1, 2, 3, 4].map((index) => (
+              <div
                 key={index}
+                className="animate-pulse p-4 bg-gray-400 rounded-2xl h-[182px] w-[290px] shadow-lg mx-auto"
+              ></div>
+            ))}
+          </div>
+        ) : (
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {cards.map((card) => (
+              <Cards
+                key={card._id}
                 number={card.number}
                 expiry={`${card.expiryMonth}/${card.expiryYear}`}
                 cvc={card.cvv}
@@ -47,8 +47,10 @@ export default function CreditCard() {
             ))}
           </div>
         )}
-        <div>
-          <Link to={`add-card`}>Thêm thẻ</Link>
+        <div className="mt-4">
+          <Link to={`add-card`} className="text-blue-500">
+            Thêm thẻ
+          </Link>
         </div>
       </div>
       <Toaster position="top-center" />

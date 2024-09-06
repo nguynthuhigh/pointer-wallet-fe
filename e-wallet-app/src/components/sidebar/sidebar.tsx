@@ -40,6 +40,17 @@ const SideBar: React.FC<SideBarProps> = ({ state }) => {
     localStorage.setItem("selectedTab", state);
   };
 
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      localStorage.removeItem("selectedTab");
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
   const sidebarItems = useMemo(
     () => [
       { name: "Trang chủ", link: "/", icon: Home },
