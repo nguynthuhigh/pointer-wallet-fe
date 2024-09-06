@@ -23,7 +23,7 @@ export const loginUser = createAsyncThunk(
     try {
       const res = await loginAPI(user);
       if (res.status === 200) {
-        navigate("/auth/verify-login");
+        navigate("/auth/login/verify-login");
         const { email } = user;
         return { ...res.data, email };
       } else {
@@ -47,7 +47,7 @@ export const registerUser = createAsyncThunk(
     try {
       const res = await registerAPI(user);
       if (res.status === 200) {
-        navigate("/auth/verify-register");
+        navigate("/auth/register/verify-register");
         return { ...res.data, ...user };
       } else {
         return rejectWithValue(res.data.message);

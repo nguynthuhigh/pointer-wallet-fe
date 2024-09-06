@@ -32,7 +32,7 @@ export default function VerifyRegister() {
           toast.success(response.data.message);
           localStorage.setItem("logged", "true");
           setTimeout(() => {
-            navigate("/auth/security-code", {
+            navigate("/auth/register/security-code", {
               state: { message: response.data.message },
             });
           }, 2000);
