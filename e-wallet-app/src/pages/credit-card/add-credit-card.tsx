@@ -1,11 +1,13 @@
 import React, { useState, ChangeEvent, FocusEvent } from "react";
-
 import Cards from "react-credit-cards-2";
+import Select from "react-select";
+
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import {
   formatCreditCardNumber,
   formatCVC,
 } from "../../utils/format-credit-card";
+import Payment from "payment";
 
 type Focused = "number" | "name" | "expiry" | "cvc" | undefined;
 
@@ -29,7 +31,7 @@ export default function AddCreditCard() {
     setState: React.Dispatch<React.SetStateAction<string>>,
     formatFn?: (value: string) => string
   ) => {
-    const value = e.target?.value;
+    const value = e.target?.value || "";
     const formattedValue = formatFn ? formatFn(value) : value;
     setState(formattedValue);
   };
@@ -40,6 +42,25 @@ export default function AddCreditCard() {
     setFocus(e.target.name as Focused);
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const cardData = {
+      number,
+      name,
+      expiryMonth,
+      expiryYear,
+      cvv,
+      issuer: Payment.fns.cardType(number),
+    };
+
+    console.log("Card Data:", cardData);
+  };
+
+  const cardType = Payment.fns.cardType(number);
+  const monthOptions = months.map((month) => ({ value: month, label: month }));
+  const yearOptions = years.map((year) => ({ value: year, label: year }));
+
   return (
     <div className="p-6 border bg-white m-4 w-full max-w-lg rounded-lg shadow-lg">
       <Cards
@@ -49,16 +70,16 @@ export default function AddCreditCard() {
         name={name}
         focused={focus}
       />
-      <form className="mt-6 space-y-6">
+      <form className="mt-6 space-y-6" onSubmit={handleSubmit}>
         <div className="relative">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-semibold text-gray-300">
             Số thẻ
           </label>
           <input
             type="text"
             name="number"
-            className="mt-1 p-3 block w-full border border-gray-300 rounded-md focus:border-blue-500 focus:ring-blue-500"
-            value={formatCreditCardNumber(number)}
+            className="mt-1 p-3 block w-full border border-gray-300 rounded-md focus:outline-blue-default"
+            value={number}
             onChange={(e) =>
               handleInputChange(e, setNumber, formatCreditCardNumber)
             }
@@ -69,13 +90,13 @@ export default function AddCreditCard() {
         </div>
 
         <div className="relative">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-semibold text-gray-700">
             Tên chủ thẻ
           </label>
           <input
             type="text"
             name="name"
-            className="mt-1 p-3 block w-full border border-gray-300 rounded-md focus:border-blue-500 focus:ring-blue-500"
+            className="mt-1 p-3 block w-full border border-gray-300 rounded-md focus:outline-blue-default"
             value={name}
             onChange={(e) => handleInputChange(e, setName)}
             onFocus={handleInputFocus}
@@ -83,67 +104,57 @@ export default function AddCreditCard() {
           />
         </div>
 
-        <div className="flex space-x-4">
-          <div className="w-1/2">
-            <label className="block text-sm font-medium text-gray-700">
+        <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
+          <div className="w-full sm:w-1/2">
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
               Tháng hết hạn
             </label>
-            <select
-              name="expiry"
-              className="mt-1 p-3 block w-full border border-gray-300 rounded-md focus:border-blue-500 focus:ring-blue-500"
-              value={expiryMonth}
-              onChange={(e) => handleInputChange(e, setExpiryMonth)}
-              onFocus={handleInputFocus}
-            >
-              <option value="">Tháng</option>
-              {months.map((month) => (
-                <option key={month} value={month}>
-                  {month}
-                </option>
-              ))}
-            </select>
+            <Select
+              options={monthOptions}
+              placeholder="Chọn tháng"
+              className="react-select-container"
+              classNamePrefix="react-select"
+              onChange={(option) => setExpiryMonth(option?.value || "")}
+            />
           </div>
-
-          <div className="w-1/2">
-            <label className="block text-sm font-medium text-gray-700">
+          <div className="w-full sm:w-1/2">
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
               Năm hết hạn
             </label>
-            <select
-              name="expiry"
-              className="mt-1 p-3 block w-full border border-gray-300 rounded-md focus:border-blue-500 focus:ring-blue-500"
-              value={expiryYear}
-              onChange={(e) => handleInputChange(e, setExpiryYear)}
-              onFocus={handleInputFocus}
-            >
-              <option value="">Năm</option>
-              {years.map((year) => (
-                <option key={year} value={year}>
-                  {year}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="w-1/2">
-            <label className="block text-sm font-medium text-gray-700">
-              CVV
-            </label>
-            <input
-              type="text"
-              name="cvc"
-              className="mt-1 p-3 block w-full border border-gray-300 rounded-md focus:border-blue-500 focus:ring-blue-500"
-              value={formatCVC(cvv, number)}
-              onChange={(e) =>
-                handleInputChange(e, setCvv, (value) =>
-                  formatCVC(value, number)
-                )
-              }
-              onFocus={handleInputFocus}
-              maxLength={4}
-              placeholder="123"
+            <Select
+              options={yearOptions}
+              placeholder="Chọn năm"
+              className="react-select-container"
+              classNamePrefix="react-select"
+              onChange={(option) => setExpiryYear(option?.value || "")}
             />
           </div>
         </div>
+
+        <div className="w-1/2">
+          <label className="block text-sm font-semibold text-gray-700">
+            CVV
+          </label>
+          <input
+            type="text"
+            name="cvc"
+            className="mt-1 p-3 block w-full border border-gray-300 rounded-md focus:outline-blue-default"
+            value={cvv}
+            onChange={(e) =>
+              handleInputChange(e, setCvv, (value) => formatCVC(value, number))
+            }
+            onFocus={handleInputFocus}
+            maxLength={cardType === "amex" ? 4 : 3}
+            placeholder="123"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="w-full py-3 px-6 bg-blue-600 text-white rounded-md"
+        >
+          Thêm thẻ
+        </button>
       </form>
     </div>
   );
