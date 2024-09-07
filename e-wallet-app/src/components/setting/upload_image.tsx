@@ -8,7 +8,7 @@ interface UploadImageProps {
 const UploadImage: React.FC<UploadImageProps> = (props) => {
   const inputFileRef = useRef<HTMLInputElement | null>(null);
   const [image, setImage] = useState<string | undefined>(props.image);
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = () => {
     if (inputFileRef.current && inputFileRef.current.files) {
       const file = inputFileRef.current.files[0];
       if (file) {

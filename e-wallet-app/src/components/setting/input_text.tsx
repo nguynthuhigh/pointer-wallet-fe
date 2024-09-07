@@ -1,15 +1,17 @@
 import React, { ChangeEvent } from 'react';
 
 interface InputTextProps {
-  name: string;
+  name?: string;
   field: string;
-  value: string;
+  value?: string;
   onChange: (field: string, value: string) => void;
-  disable:boolean;
-  type:string
+  disable?:boolean;
+  type:string;
+  maxLength?:number;
+  pattern?:string
 }
 
-const InputText: React.FC<InputTextProps> = ({ name, field, value, onChange,disable,type }) => {
+const InputText: React.FC<InputTextProps> = ({ name, field, value, onChange,disable,type,maxLength,pattern }) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChange(field, (e.target as HTMLInputElement).value);
   };
@@ -23,6 +25,8 @@ const InputText: React.FC<InputTextProps> = ({ name, field, value, onChange,disa
         value={value}
         onChange={handleChange}
         disabled={disable}
+        maxLength={maxLength}
+        pattern={pattern}
       />
     </div>
   );

@@ -20,7 +20,7 @@ export const verifyLoginAPI = async (body: any) => {
 };
 export const verifyRegisterAPI = async (body: any) => {
   const response = await axios.post(
-    `${import.meta.env.VITE_API_URL}/api/v1/user/signup/verify`,
+    `${import.meta.env.VITE_API_URL}/api/v1/user/signup/verify`,body,
     {
       withCredentials:true
     }
