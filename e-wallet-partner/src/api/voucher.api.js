@@ -1,7 +1,10 @@
 import axiosConfig from "../configs/axios.config";
 export const addVoucher = async(body)=>{
     return await axiosConfig.post(process.env.REACT_APP_API+`/api/v1/voucher/add-voucher`,body,{
-        withCredentials:true
+        withCredentials:true,
+        headers:{
+            'Content-Type':'multipart/form-data'
+        }
     })
 }
 export const getVoucher = async(voucherID)=>{
@@ -11,7 +14,10 @@ export const getVoucher = async(voucherID)=>{
 }
 export const editVoucher = async(body)=>{
     return await axiosConfig.put(process.env.REACT_APP_API+`/api/v1/voucher/edit-voucher`,body,{
-        withCredentials:true
+        withCredentials:true,
+        headers:{
+            'Content-Type':'multipart/form-data'
+        }
     })
 }
 export const deleteVoucher = async (voucherID) => {

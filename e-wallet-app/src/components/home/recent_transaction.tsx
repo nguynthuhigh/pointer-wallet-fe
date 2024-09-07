@@ -4,21 +4,11 @@ import { getTransactionPaginate } from "../../services/api/transaction.api";
 import { useQuery } from "@tanstack/react-query";
 
 const RecentTransaction = () => {
-  interface Transaction {
-    id: string;
-  }
+  const {data,isLoading} = useQuery({
+    queryFn:async ()=>{
+      const response = await getTransactionPaginate(1,5)
+      return response.data
 
-  interface PaginatedResponse<T> {
-    data: {
-      transactions: T[];
-      id: string;
-    };
-  }
-
-  const { data, isLoading } = useQuery({
-    queryFn: async () => {
-      const response = await getTransactionPaginate(1, 5);
-      return response.data;
     },
     queryKey: ["recent-transaction"],
   });

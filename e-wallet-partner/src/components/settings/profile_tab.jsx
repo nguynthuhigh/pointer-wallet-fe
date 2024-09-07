@@ -18,7 +18,7 @@ const ProfileTab = () => {
   }
   const mutation = useMutation({
     mutationFn:async (formData)=>{
-      console.log(formData)
+      console.log(formData.get('image'))
       await updateProfile(formData)
     },
     onSuccess: () => {
@@ -51,7 +51,6 @@ const ProfileTab = () => {
         <UploadImage handleImageChange={handleImageChange}></UploadImage>
         </div>
         <button type='submit' className='font-semibold text-sm bg-gray-50 hover:bg-gray-100 border p-1.5 rounded-lg'>Update profile</button>
-
     </form>
    
   )

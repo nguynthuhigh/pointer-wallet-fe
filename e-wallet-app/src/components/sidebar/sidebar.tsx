@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import SideBarPart from "./sidebar_part";
 import Icon from "../../assets/svg/send_money.svg";
-import Home from "../../assets/svg/Home.svg";
+import Home from "../../assets/svg/home.svg";
 import ReceiveMoney from "../../assets/svg/receive.svg";
 import Payment from "../../assets/svg/payment.svg";
 import DepositWithdraw from "../../assets/svg/depo-with.svg";
@@ -67,7 +67,6 @@ const SideBar: React.FC<SideBarProps> = ({ state }) => {
     ],
     []
   );
-
   return (
     <div
       className={`h-full bg-white shadow-lg transition-transform duration-300 ease-in-out w-[250px] mt-2 rounded-r-lg border pr-4 ${
