@@ -13,17 +13,23 @@ interface SideBarProps {
 }
 
 const SideBar: React.FC<SideBarProps> = ({ state }) => {
-  const [selected, setSelected] = useState<string>(state);
-  const [collapsed, setCollapsed] = useState<boolean>(false);
+  const [selected, setSelected] = useState<string>(() => {
+    return localStorage.getItem("selectedTab") || state;
+  });
+
+  const [collapsed, setCollapsed] = useState<boolean>(() => {
+    const savedState = localStorage.getItem("sidebar-collapsed");
+    return savedState ? JSON.parse(savedState) : window.innerWidth < 1024;
+  });
 
   useEffect(() => {
     const handleResize = () => {
-      window.innerWidth < 1024 ? setCollapsed(true) : setCollapsed(false);
+      const shouldCollapse = window.innerWidth < 1024;
+      setCollapsed(shouldCollapse);
+      localStorage.setItem("sidebar-collapsed", JSON.stringify(shouldCollapse));
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize();
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -31,7 +37,19 @@ const SideBar: React.FC<SideBarProps> = ({ state }) => {
 
   const handleSelect = (state: string) => {
     setSelected(state);
+    localStorage.setItem("selectedTab", state);
   };
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      localStorage.removeItem("selectedTab");
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   const sidebarItems = useMemo(
     () => [
@@ -53,7 +71,7 @@ const SideBar: React.FC<SideBarProps> = ({ state }) => {
     <div
       className={`h-full bg-white shadow-lg transition-transform duration-300 ease-in-out w-[250px] mt-2 rounded-r-lg border pr-4 ${
         collapsed ? "translate-x-[-250px]" : "translate-x-0"
-      } max-lg:fixed max-lg:left-0 `}
+      } max-lg:fixed max-lg:left-0`}
     >
       {sidebarItems.map((item) => (
         <SideBarPart

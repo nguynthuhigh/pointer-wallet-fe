@@ -9,10 +9,13 @@ import { ButtonSubmit } from "../../components/authentication/button_submit";
 import { registerUser } from "../../redux/auth/authThunk";
 import { AppDispatch, RootState } from "../../redux/store";
 import { useEffect } from "react";
+import { validatePassword } from "../../utils/validate-password";
+
 interface User {
   email: string;
   password: string;
 }
+
 export default function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -23,8 +26,38 @@ export default function Register() {
     reset,
     setError,
     formState: { errors },
-  } = useForm();
+  } = useForm<FieldValues>();
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (registerData.error) {
+      toast.error(registerData.error);
+    }
+  }, [registerData.error]);
+
+  useEffect(() => {
+    if (registerData.registerUser.message) {
+      toast.success(registerData.registerUser.message);
+    }
+  }, [registerData.registerUser.message]);
+
+  const handleRegistration = async (data: FieldValues) => {
+    setIsLoading(true);
+    try {
+      const user: User = {
+        email: data.email,
+        password: data.password,
+      };
+      await dispatch(registerUser({ user, navigate }));
+      reset();
+    } catch (error) {
+      console.log(error);
+      toast.error("Có lỗi xảy ra trong quá trình đăng ký!");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const onSubmit = async (data: FieldValues) => {
     if (data.password !== data.confirmPassword) {
       setError("confirmPassword", {
@@ -46,43 +79,7 @@ export default function Register() {
       return;
     }
 
-    setIsLoading(true);
-    try {
-      const user: User = {
-        email: data.email,
-        password: data.password,
-      };
-      await dispatch(registerUser({ user, navigate }));
-      if (registerData.registerUser.message) {
-        toast.success(registerData.registerUser.message);
-      }
-      reset();
-    } catch (error) {
-      console.log(error);
-      toast.error(registerData.error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  useEffect(() => {
-    if (registerData.error) {
-      toast.error(registerData.error);
-    }
-  }, [registerData.error]);
-  const validatePassword = (password: string) => {
-    const minLength = /.{8,}/;
-    const hasUppercase = /[A-Z]/;
-    const hasLowercase = /[a-z]/;
-    const hasNumber = /[0-9]/;
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
-
-    return (
-      minLength.test(password) &&
-      hasUppercase.test(password) &&
-      hasLowercase.test(password) &&
-      hasNumber.test(password) &&
-      hasSpecialChar.test(password)
-    );
+    await handleRegistration(data);
   };
 
   return (

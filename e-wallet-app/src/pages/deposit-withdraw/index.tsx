@@ -1,6 +1,5 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Cookies from "universal-cookie";
 import toast, { Toaster } from "react-hot-toast";
 import Cards from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
@@ -10,8 +9,6 @@ import { Wallet, wallet } from "../../components/button/wallet";
 import { getProfileAPI } from "../../services/api/user.api";
 import { getAllCards } from "../../services/api/credit-card.api";
 import { Card } from "../../services/api/credit-card.api";
-const cookie = new Cookies();
-const accessToken = cookie.get("token_auth");
 interface Currencies {
   _id: string;
   balance: number;
@@ -40,7 +37,7 @@ export default function DepositWithdraw() {
   useEffect(() => {
     fetchCurrencies();
     getListCards();
-  }, [accessToken]);
+  }, []);
   const getListCards = async (): Promise<void> => {
     try {
       const response = await getAllCards();
