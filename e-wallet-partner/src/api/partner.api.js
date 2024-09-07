@@ -1,4 +1,3 @@
-import axios from "axios";
 import axiosConfig from "../configs/axios.config";
 export const getProfilePartner =async ()=>{
     return await axiosConfig.get(process.env.REACT_APP_API+'/api/v1/partner/dashboard',{
@@ -7,7 +6,10 @@ export const getProfilePartner =async ()=>{
 }
 export const updateProfilePartner =async (body)=>{
     return await axiosConfig.put(process.env.REACT_APP_API+'/api/v1/partner/update-profile',body,{
-        withCredentials:true
+        withCredentials:true,
+        headers:{
+            'Content-Type':'multipart/form-data'
+        }
     })
   
     

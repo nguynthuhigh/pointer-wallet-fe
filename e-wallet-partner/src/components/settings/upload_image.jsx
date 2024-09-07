@@ -5,7 +5,8 @@ const UploadImage = ({...props}) => {
     const [image, setImage] = useState(DefaultAvatar);
   
     const handleImageChange = (event) => {
-        const file = event.target.files[0];
+      console.log(inputFileRef.current.files[0])
+        const file = inputFileRef.current.files[0]
         if (file) {
             props.handleImageChange(file)
             setImage(URL.createObjectURL(file));
