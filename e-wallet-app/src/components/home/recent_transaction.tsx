@@ -3,16 +3,6 @@ import USDTIcon from '../../assets/svg/usdt.svg'
 import { getTransactionPaginate } from '../../services/api/transaction.api'
 import { useQuery } from '@tanstack/react-query'
 const RecentTransaction = () => {
-  interface Transaction {
-    id: string;
-  }
-  
-  interface PaginatedResponse<T> {
-    data: {
-      transaction: T[];
-      id: string;
-    };
-  }
   const {data,isLoading} = useQuery({
     queryFn:async ()=>{
       const response = await getTransactionPaginate(1,5)

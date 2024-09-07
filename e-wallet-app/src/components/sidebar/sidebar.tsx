@@ -49,7 +49,6 @@ const SideBar: React.FC<SideBarProps> = ({ state }) => {
     ],
     []
   );
-
   return (
     <div
       className={`h-full bg-white shadow-lg transition-transform duration-300 ease-in-out w-[250px] mt-2 rounded-r-lg border pr-4 ${
