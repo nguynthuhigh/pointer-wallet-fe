@@ -2,37 +2,45 @@ import HeaderDefault from "../../components/header/header_default";
 import VNDIcon from "../../assets/png/vnd_icon.png";
 import QRCode from "react-qr-code";
 import { useState } from "preact/hooks";
-import wallet from "../../dummy-data/wallet.json";
 import { formatCurrency } from "../../utils/format_currency";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 type DataReceive = {
   userID: string;
   currency: string;
 };
+
 const ReceivePage: React.FC = () => {
-  const [selected, SetSelected] = useState<string>("VND");
+  const wallet = useSelector(
+    (state: RootState) => state.user.userState.walletData.currencies
+  );
+  const user = useSelector(
+    (state: RootState) => state.user.userState.userData
+  );
+  const [selected, setSelected] = useState<string>("VND");
   const [data, setData] = useState<DataReceive>({
-    userID: "",
+    userID: user.email,
     currency: "VND",
   });
   const [url, setUrl] = useState<string>(
-    `${import.meta.env.VITE_WALLET_URL}/send-money?userID=${
-      data.userID
-    }&currency=${data.currency}`
+    `${import.meta.env.VITE_WALLET_URL}/transfer/info?email=${
+        data.userID
+      }&currency=${'VND'}`
   );
   const handleSelect = (select: string) => {
-    SetSelected(select);
+    setSelected(select);
     setData({
       ...data,
       currency: select,
     });
     setUrl(
-      `${import.meta.env.VITE_WALLET_URL}/send-money?userID=${
+      `${import.meta.env.VITE_WALLET_URL}/transfer/info?email=${
         data.userID
       }&currency=${select}`
     );
   };
   return (
-    <div class={`p-4`}>
+    <div class={`container-center`}>
       <HeaderDefault title="Mã nhận tiền"></HeaderDefault>
       <div>
         <QRCode class={`mx-auto mt-20`} value={url}></QRCode>

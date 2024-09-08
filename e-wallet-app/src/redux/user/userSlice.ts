@@ -33,7 +33,9 @@ interface WalletData {
 
 interface Currencies {
   balance: number;
-  currency: string;
+  currency: {
+    symbol:string
+  };
   _id: string;
 }
 
@@ -62,7 +64,9 @@ const initialState = {
       balance: 0,
       userID: "",
       partnerID: null,
-      currencies: [{ balance: 0, currency: "", _id: "" }],
+      currencies: [{ balance: 0, currency: {
+        symbol:''
+      }, _id: "" }],
       createdAt: "",
       updatedAt: "",
       __v: 0,
