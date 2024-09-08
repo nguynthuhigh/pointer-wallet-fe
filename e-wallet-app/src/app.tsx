@@ -29,7 +29,8 @@ import CreditCard from "./pages/credit-card";
 import Setting from "./pages/setting";
 import SideBar from "./components/sidebar/sidebar";
 import Header from "./components/header/header";
-
+import TransferByQrCode from "./pages/receive/transfer";
+import SelectOptions from "./pages/payment/select_options";
 const AuthenticatedLayout: React.FC = () => {
   return (
     <>
@@ -62,7 +63,10 @@ export default function App() {
             <Route path="/payment" element={<PaymentGateway />} />
             <Route path="/payment/results" element={<PaymentResults />} />
             <Route path="/transfer" element={<Transfer />} />
+            <Route path="/option-payment" element={<SelectOptions />} />
+
             <Route path="/transfer/result" element={<TransferResults />} />
+            <Route path="/transfer/info" element={<TransferByQrCode />} />
             <Route path="/transaction/history" element={<History />} />
             <Route
               path="/transaction/details"
