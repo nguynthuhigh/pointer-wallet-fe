@@ -23,7 +23,7 @@ interface ListCards {
   number: string;
   type: string;
 }
-type Item = Omit<Card, "_id">;
+export type Item = Omit<Card, "_id">;
 export const addCard = async (body: Item) => {
   const response = await axiosInstance.post(`/api/v1/card/add-card`, body, {
     withCredentials: true,
