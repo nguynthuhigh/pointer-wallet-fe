@@ -1,4 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Outlet,
+} from "react-router-dom";
 import Home from "../src/pages/home";
 import History from "./pages/transaction/history";
 import TransactionDetails from "./pages/transaction/details";
@@ -24,42 +30,57 @@ import Setting from "./pages/setting";
 import SideBar from "./components/sidebar/sidebar";
 import Header from "./components/header/header";
 
-export default function App() {
+const AuthenticatedLayout: React.FC = () => {
   return (
-    <Router>
+    <>
       <Header />
       <div className="font-inter bg-gray-50 h-screen flex w-full">
         <SideBar state="Trang chủ" />
-        <Routes>
-          <Route element={<ProtectRoutes />}>
+        <Outlet />
+      </div>
+    </>
+  );
+};
+
+const NonAuthenticatedLayout: React.FC = () => {
+  return (
+    <div className={`font-inter`}>
+      <Outlet />;
+    </div>
+  );
+};
+
+export default function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route element={<ProtectRoutes />}>
+          <Route element={<AuthenticatedLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/setting" element={<Setting />} />
-
             <Route path="/scan-qrcode" element={<ScanQR />} />
             <Route path="/payment" element={<PaymentGateway />} />
             <Route path="/payment/results" element={<PaymentResults />} />
-
             <Route path="/transfer" element={<Transfer />} />
             <Route path="/transfer/result" element={<TransferResults />} />
-
             <Route path="/transaction/history" element={<History />} />
             <Route
               path="/transaction/details"
               element={<TransactionDetails />}
             />
-
             <Route path="/deposit-withdraw" element={<DepositWithdraw />}>
               <Route path="deposit" element={<Deposit />} />
               <Route path="withdraw" element={<Withdraw />} />
             </Route>
-
             <Route path="/credit-card" element={<CreditCard />}>
               <Route path="add-card" element={<AddCreditCard />} />
             </Route>
-
             <Route path="/receive-page" element={<ReceivePage />} />
           </Route>
+          <Route path="*" element={<PageNotFound />} />
+        </Route>
 
+        <Route element={<NonAuthenticatedLayout />}>
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/login/verify-login" element={<VerifyLogin />} />
           <Route path="/auth/register" element={<Register />} />
@@ -71,10 +92,8 @@ export default function App() {
             path="/auth/register/security-code"
             element={<SecurityCode />}
           />
-
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </div>
+        </Route>
+      </Routes>
     </Router>
   );
 }

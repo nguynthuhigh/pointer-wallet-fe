@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { useLocation } from "react-router-dom";
 import SideBarPart from "./sidebar_part";
 import Icon from "../../assets/svg/send_money.svg";
 import Home from "../../assets/svg/home.svg";
@@ -13,6 +14,7 @@ interface SideBarProps {
 }
 
 const SideBar: React.FC<SideBarProps> = ({ state }) => {
+  const location = useLocation(); 
   const [selected, setSelected] = useState<string>(() => {
     return localStorage.getItem("selectedTab") || state;
   });
@@ -35,14 +37,29 @@ const SideBar: React.FC<SideBarProps> = ({ state }) => {
     };
   }, []);
 
-  const handleSelect = (state: string) => {
-    setSelected(state);
-    localStorage.setItem("selectedTab", state);
+  useEffect(() => {
+    const currentPath = location.pathname;
+    const matchingTab = sidebarItems.find((item) => item.link === currentPath);
+    if (matchingTab) {
+      setSelected(matchingTab.name);
+      localStorage.setItem("selectedTab", matchingTab.name);
+    }
+  }, [location]);
+
+  const handleSelect = (tabName: string) => {
+    setSelected(tabName);
+    localStorage.setItem("selectedTab", tabName);
   };
 
   useEffect(() => {
-    const handleBeforeUnload = () => {
-      localStorage.removeItem("selectedTab");
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      const origin = window.location.origin;
+      if (event.target instanceof Window) {
+        const nextUrl = new URL(event.target.location.href);
+        if (nextUrl.origin !== origin) {
+          localStorage.removeItem("selectedTab");
+        }
+      }
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);

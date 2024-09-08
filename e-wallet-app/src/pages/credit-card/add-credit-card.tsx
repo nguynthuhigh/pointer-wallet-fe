@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FocusEvent } from "react";
 import Cards from "react-credit-cards-2";
 import Select from "react-select";
-
+import toast, { Toaster } from "react-hot-toast";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import {
   formatCreditCardNumber,
@@ -42,8 +42,34 @@ export default function AddCreditCard() {
     setFocus(e.target.name as Focused);
   };
 
+  const validateCardData = () => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth() + 1;
+    const cardType = Payment.fns.cardType(number);
+
+    if (
+      parseInt(expiryYear, 10) < currentYear ||
+      (parseInt(expiryYear, 10) === currentYear &&
+        parseInt(expiryMonth, 10) <= currentMonth)
+    ) {
+      toast.error("Tháng và năm hết hạn không hợp lệ");
+      return false;
+    }
+
+    if (!cardType) {
+      toast.error("Số thẻ không hợp lệ");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!validateCardData()) {
+      return;
+    }
 
     const cardData = {
       number,
@@ -55,6 +81,7 @@ export default function AddCreditCard() {
     };
 
     console.log("Card Data:", cardData);
+    toast.success("Thẻ đã được thêm thành công!");
   };
 
   const cardType = Payment.fns.cardType(number);
@@ -62,7 +89,7 @@ export default function AddCreditCard() {
   const yearOptions = years.map((year) => ({ value: year, label: year }));
 
   return (
-    <div className="p-6 border bg-white m-4 w-full max-w-lg rounded-lg shadow-lg">
+    <div className="p-4 border bg-white m-2 w-full max-w-lg rounded-lg shadow-lg">
       <Cards
         number={number}
         expiry={`${expiryMonth}/${expiryYear}`}
@@ -88,7 +115,6 @@ export default function AddCreditCard() {
             placeholder="1234 5678 9012 3456"
           />
         </div>
-
         <div className="relative">
           <label className="block text-sm font-semibold text-gray-700">
             Tên chủ thẻ
@@ -148,14 +174,14 @@ export default function AddCreditCard() {
             placeholder="123"
           />
         </div>
-
         <button
           type="submit"
-          className="w-full py-3 px-6 bg-blue-600 text-white rounded-md"
+          className="w-full py-3 px-6 bg-blue-600 font-semibold text-base text-white rounded-md"
         >
           Thêm thẻ
         </button>
       </form>
+      <Toaster position="top-right" />
     </div>
   );
 }
