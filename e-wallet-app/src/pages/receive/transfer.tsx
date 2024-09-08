@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import DrawerBottom from "../../components/transfer/drawer_security";
 import { DataSend } from "../../types/transfer";
 import { formatCurrency } from "../../utils/format_currency";
