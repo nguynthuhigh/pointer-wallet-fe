@@ -1,7 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Toaster } from "react-hot-toast";
 import Cards from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import HeaderDefault from "../../components/header/header_default";
@@ -25,8 +24,7 @@ export default function CreditCard() {
   return (
     <>
       <div
-        className={`p-4 border bg-white m-2 rounded-xl shadow-lg h-fit max-w-[700px]"
-        `}
+        className={`p-4 border bg-white m-2 rounded-xl shadow-lg h-fit max-w-[700px]"`}
       >
         <HeaderDefault title="Quản lý thẻ" />
         {isFetching ? (
@@ -59,19 +57,14 @@ export default function CreditCard() {
         )}
         <div className="mt-6 flex justify-center">
           <Link
-            to={`add-card`}
-            className={`${
-              displayBtn
-                ? "hidden"
-                : "text-white bg-blue-600 hover:bg-blue-700 font-semibold text-base transition-colors duration-300 py-2 px-4 rounded-lg shadow-md"
-            } `}
+            to={displayBtn ? `` : `add-card`}
+            className={`text-white bg-blue-600 hover:bg-blue-700 font-semibold text-base transition-colors duration-300 py-2 px-4 rounded-lg shadow-md`}
             onClick={() => setDisplayBtn(!displayBtn)}
           >
-            Thêm thẻ
+            {displayBtn ? "Hủy thêm" : "Thêm thẻ"}
           </Link>
         </div>
       </div>
-      <Toaster position="top-center" />
       <Outlet />
     </>
   );

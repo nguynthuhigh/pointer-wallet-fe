@@ -2,22 +2,29 @@ import React, { useState, ChangeEvent, FocusEvent } from "react";
 import Cards from "react-credit-cards-2";
 import Select from "react-select";
 import toast, { Toaster } from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import {
   formatCreditCardNumber,
   formatCVC,
 } from "../../utils/format-credit-card";
 import Payment from "payment";
-
+import { addCreditCard } from "../../redux/credit-card/cardThunk";
+import { Item as CardType } from "../../services/api/credit-card.api";
+import { AppDispatch } from "../../redux/store";
 type Focused = "number" | "name" | "expiry" | "cvc" | undefined;
 
 export default function AddCreditCard() {
+  const dispatch = useDispatch<AppDispatch>();
   const [number, setNumber] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [expiryMonth, setExpiryMonth] = useState<string>("");
   const [expiryYear, setExpiryYear] = useState<string>("");
   const [cvv, setCvv] = useState<string>("");
   const [focus, setFocus] = useState<Focused>(undefined);
+  const [isNumberValid, setIsNumberValid] = useState<boolean>(true);
+  const [isExpiryMonthValid, setIsExpiryMonthValid] = useState<boolean>(true);
+  const [isExpiryYearValid, setIsExpiryYearValid] = useState<boolean>(true);
 
   const months = Array.from({ length: 12 }, (_, i) =>
     (i + 1).toString().padStart(2, "0")
@@ -47,23 +54,35 @@ export default function AddCreditCard() {
     const currentMonth = new Date().getMonth() + 1;
     const cardType = Payment.fns.cardType(number);
 
+    let isValid = true;
+
     if (
       parseInt(expiryYear, 10) < currentYear ||
       (parseInt(expiryYear, 10) === currentYear &&
         parseInt(expiryMonth, 10) <= currentMonth)
     ) {
+      setIsExpiryMonthValid(false);
+      setIsExpiryYearValid(false);
       toast.error("Tháng và năm hết hạn không hợp lệ");
-      return false;
+      isValid = false;
+    } else {
+      setIsExpiryMonthValid(true);
+      setIsExpiryYearValid(true);
     }
 
     if (!cardType) {
+      setIsNumberValid(false);
       toast.error("Số thẻ không hợp lệ");
-      return false;
+      isValid = false;
+    } else {
+      setIsNumberValid(true);
     }
 
-    return true;
+    return isValid;
   };
-
+  const addCard = async (cardData: CardType) => {
+    return await dispatch(addCreditCard(cardData));
+  };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -77,11 +96,19 @@ export default function AddCreditCard() {
       expiryMonth,
       expiryYear,
       cvv,
-      issuer: Payment.fns.cardType(number),
+      type: Payment.fns.cardType(number),
     };
 
-    console.log("Card Data:", cardData);
-    toast.success("Thẻ đã được thêm thành công!");
+    addCard(cardData).then(() => {
+      toast.success("Thẻ đã được thêm thành công!");
+
+      setNumber("");
+      setName("");
+      setExpiryMonth("");
+      setExpiryYear("");
+      setCvv("");
+      setFocus(undefined);
+    });
   };
 
   const cardType = Payment.fns.cardType(number);
@@ -99,13 +126,15 @@ export default function AddCreditCard() {
       />
       <form className="mt-6 space-y-6" onSubmit={handleSubmit}>
         <div className="relative">
-          <label className="block text-sm font-semibold text-gray-300">
+          <label className="block text-sm font-semibold text-gray-700">
             Số thẻ
           </label>
           <input
             type="text"
             name="number"
-            className="mt-1 p-3 block w-full border border-gray-300 rounded-md focus:outline-blue-default"
+            className={`mt-1 p-3 block w-full border ${
+              isNumberValid ? "border-gray-300" : "border-red-500"
+            } rounded-md focus:outline-blue-default`}
             value={number}
             onChange={(e) =>
               handleInputChange(e, setNumber, formatCreditCardNumber)
@@ -138,7 +167,9 @@ export default function AddCreditCard() {
             <Select
               options={monthOptions}
               placeholder="Chọn tháng"
-              className="react-select-container"
+              className={`react-select-container ${
+                isExpiryMonthValid ? "" : "border-red-500"
+              }`}
               classNamePrefix="react-select"
               onChange={(option) => setExpiryMonth(option?.value || "")}
             />
@@ -150,7 +181,9 @@ export default function AddCreditCard() {
             <Select
               options={yearOptions}
               placeholder="Chọn năm"
-              className="react-select-container"
+              className={`react-select-container ${
+                isExpiryYearValid ? "" : "border-red-500"
+              }`}
               classNamePrefix="react-select"
               onChange={(option) => setExpiryYear(option?.value || "")}
             />
