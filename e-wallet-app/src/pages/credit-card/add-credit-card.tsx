@@ -1,8 +1,8 @@
-import React, { useState, ChangeEvent, FocusEvent } from "react";
+import React, { useState, ChangeEvent, FocusEvent, useEffect } from "react";
 import Cards from "react-credit-cards-2";
 import Select from "react-select";
 import toast, { Toaster } from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import {
   formatCreditCardNumber,
@@ -11,27 +11,50 @@ import {
 import Payment from "payment";
 import { addCreditCard } from "../../redux/credit-card/cardThunk";
 import { Item as CardType } from "../../services/api/credit-card.api";
-import { AppDispatch } from "../../redux/store";
+import { AppDispatch, RootState } from "../../redux/store";
+import { clearMessage } from "../../redux/credit-card/cardSlice";
+
 type Focused = "number" | "name" | "expiry" | "cvc" | undefined;
 
 export default function AddCreditCard() {
   const dispatch = useDispatch<AppDispatch>();
+  const data = useSelector((state: RootState) => state.cards);
   const [number, setNumber] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [expiryMonth, setExpiryMonth] = useState<string>("");
   const [expiryYear, setExpiryYear] = useState<string>("");
   const [cvv, setCvv] = useState<string>("");
+  const [cvvLength, setCvvLength] = useState<number>(3);
   const [focus, setFocus] = useState<Focused>(undefined);
   const [isNumberValid, setIsNumberValid] = useState<boolean>(true);
   const [isExpiryMonthValid, setIsExpiryMonthValid] = useState<boolean>(true);
   const [isExpiryYearValid, setIsExpiryYearValid] = useState<boolean>(true);
-
+  const [isCvvValid, setIsCvvValid] = useState<boolean>(true);
   const months = Array.from({ length: 12 }, (_, i) =>
     (i + 1).toString().padStart(2, "0")
   );
   const years = Array.from({ length: 10 }, (_, i) =>
     (new Date().getFullYear() + i).toString()
   );
+
+  useEffect(() => {
+    if (data && data.message) {
+      toast.success(data.message);
+      dispatch(clearMessage());
+      resetForm();
+    } else if (data && data.error) {
+      toast.error(data.error);
+    }
+  }, [data]);
+
+  const resetForm = () => {
+    setNumber("");
+    setName("");
+    setExpiryMonth("");
+    setExpiryYear("");
+    setCvv("");
+    setFocus(undefined);
+  };
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -49,12 +72,30 @@ export default function AddCreditCard() {
     setFocus(e.target.name as Focused);
   };
 
+  const handleNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = formatCreditCardNumber(e.target?.value);
+    setNumber(value);
+
+    const cardType = Payment.fns.cardType(value);
+    if (cardType === "amex") {
+      setCvvLength(4);
+    } else {
+      setCvvLength(3);
+    }
+  };
+
   const validateCardData = () => {
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth() + 1;
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
     const cardType = Payment.fns.cardType(number);
 
     let isValid = true;
+
+    if (!number || !name || !expiryMonth || !expiryYear || !cvv) {
+      toast.error("Vui lòng nhập đầy đủ thông tin thẻ");
+      isValid = false;
+    }
 
     if (
       parseInt(expiryYear, 10) < currentYear ||
@@ -78,12 +119,22 @@ export default function AddCreditCard() {
       setIsNumberValid(true);
     }
 
+    if (cvv.length !== cvvLength) {
+      setIsCvvValid(false);
+      toast.error("CVV không hợp lệ");
+      isValid = false;
+    } else {
+      setIsCvvValid(true);
+    }
+
     return isValid;
   };
+
   const addCard = async (cardData: CardType) => {
     return await dispatch(addCreditCard(cardData));
   };
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateCardData()) {
@@ -99,24 +150,18 @@ export default function AddCreditCard() {
       type: Payment.fns.cardType(number),
     };
 
-    addCard(cardData).then(() => {
-      toast.success("Thẻ đã được thêm thành công!");
-
-      setNumber("");
-      setName("");
-      setExpiryMonth("");
-      setExpiryYear("");
-      setCvv("");
-      setFocus(undefined);
-    });
+    try {
+      await addCard(cardData);
+    } catch (error) {
+      toast.error("Đã xảy ra lỗi trong quá trình thêm thẻ");
+    }
   };
 
-  const cardType = Payment.fns.cardType(number);
   const monthOptions = months.map((month) => ({ value: month, label: month }));
   const yearOptions = years.map((year) => ({ value: year, label: year }));
 
   return (
-    <div className="p-4 border bg-white m-2 w-full max-w-lg rounded-lg shadow-lg">
+    <div className="p-4 border bg-white m-2 w-full max-w-lg rounded-2xl shadow-lg">
       <Cards
         number={number}
         expiry={`${expiryMonth}/${expiryYear}`}
@@ -136,9 +181,7 @@ export default function AddCreditCard() {
               isNumberValid ? "border-gray-300" : "border-red-500"
             } rounded-md focus:outline-blue-default`}
             value={number}
-            onChange={(e) =>
-              handleInputChange(e, setNumber, formatCreditCardNumber)
-            }
+            onChange={handleNumberChange}
             onFocus={handleInputFocus}
             maxLength={19}
             placeholder="1234 5678 9012 3456"
@@ -197,19 +240,22 @@ export default function AddCreditCard() {
           <input
             type="text"
             name="cvc"
-            className="mt-1 p-3 block w-full border border-gray-300 rounded-md focus:outline-blue-default"
+            className={`mt-1 p-3 block w-full border ${
+              isCvvValid ? "border-gray-300" : "border-red-500"
+            } rounded-md focus:outline-blue-default`}
             value={cvv}
             onChange={(e) =>
               handleInputChange(e, setCvv, (value) => formatCVC(value, number))
             }
             onFocus={handleInputFocus}
-            maxLength={cardType === "amex" ? 4 : 3}
+            maxLength={cvvLength}
             placeholder="123"
           />
         </div>
+
         <button
           type="submit"
-          className="w-full py-3 px-6 bg-blue-600 font-semibold text-base text-white rounded-md"
+          className="w-full p-3 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           Thêm thẻ
         </button>

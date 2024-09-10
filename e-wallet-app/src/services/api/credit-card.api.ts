@@ -5,13 +5,13 @@ interface CardsAPI {
   data: [ListCards];
 }
 export interface Card {
-  _id?: string;
   name: string;
   number: string;
   cvv: string;
   expiryMonth: string;
   expiryYear: string;
   type: string;
+  _id?: string;
 }
 interface DetailCardAPI {
   message: string;
@@ -46,9 +46,9 @@ export const getDetailCard = async (id: string) => {
   });
   return response.data;
 };
-export const deleteCard = async (id: string) => {
+export const deleteCard = async (_id: string) => {
   const response = await axiosInstance.delete(
-    `/api/v1/card/delete-card/${id}
+    `/api/v1/card/delete-card/${_id}
   
 `,
     { withCredentials: true }

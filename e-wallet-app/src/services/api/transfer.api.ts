@@ -20,3 +20,13 @@ export const getTransactionAPI = async (id: string) => {
     }
   );
 };
+interface DepositProps {
+  currency: string;
+  cardID: string;
+  security_code: string;
+}
+export const depositMoney = async (body: DepositProps) => {
+  return await axiosInstance.post(`/api/v1/wallet/deposit-money`, body, {
+    withCredentials: true,
+  });
+};
