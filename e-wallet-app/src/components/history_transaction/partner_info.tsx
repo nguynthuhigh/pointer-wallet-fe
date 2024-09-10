@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PartnerInfo = () => {
+const PartnerInfo:React.FC = () => {
   return (
     <div class={`border rounded-xl p-4`}>
     <div>

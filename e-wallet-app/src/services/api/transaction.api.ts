@@ -8,3 +8,13 @@ export const getTransactionPaginate = async (page: number, limit: number) => {
     }
   );
 };
+
+export const getTransactionDetails = async (id:string) => {
+  return await axiosInstance.get(
+    `/api/v1/transaction/get/transaction/details/${id}`,
+    {
+      withCredentials: true,
+    }
+  );
+};
+
