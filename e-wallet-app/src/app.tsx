@@ -21,8 +21,6 @@ import SecurityCode from "./pages/authentication/setup_security_code";
 import TransferResults from "./pages/transfer/transfer_results";
 import ProtectRoutes from "./utils/protect_routes";
 import DepositWithdraw from "./pages/deposit-withdraw";
-import Deposit from "./pages/deposit-withdraw/deposit";
-import Withdraw from "./pages/deposit-withdraw/withdraw";
 import PaymentResults from "./pages/payment/payment_results";
 import AddCreditCard from "./pages/credit-card/add-credit-card";
 import CreditCard from "./pages/credit-card";
@@ -72,10 +70,8 @@ export default function App() {
               path="/transaction/details"
               element={<TransactionDetails />}
             />
-            <Route path="/deposit-withdraw" element={<DepositWithdraw />}>
-              <Route path="deposit" element={<Deposit />} />
-              <Route path="withdraw" element={<Withdraw />} />
-            </Route>
+            <Route path="/deposit-withdraw" element={<DepositWithdraw />} />
+
             <Route path="/credit-card" element={<CreditCard />}>
               <Route path="add-card" element={<AddCreditCard />} />
             </Route>
