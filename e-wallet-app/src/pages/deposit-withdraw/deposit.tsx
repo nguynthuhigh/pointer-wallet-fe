@@ -25,7 +25,6 @@ export default function Deposit({ cardId, currency }: DepositProps) {
   const handleAmountChange = (value: string | undefined) => {
     setAmount(value || "");
   };
-
   const selectedCard = cardData.find((card) => card._id === cardId);
 
   const handleCopyAddress = () => {
@@ -45,14 +44,14 @@ export default function Deposit({ cardId, currency }: DepositProps) {
 
       <div className="mt-4">
         {currency === "ETH" ? (
-          <div className="mb-4 text-center">
+          <div className="mb-4 text-center flex items-center space-x-5">
             <span className="font-semibold">Địa chỉ ví: </span>
-            <div className="mt-2 flex items-center justify-center">
+            <div className="mt-2 flex items-center justify-center max-w-xs w-full">
               <input
                 type="text"
                 value={walletAddress}
                 readOnly
-                className="border p-2 rounded w-full text-center bg-gray-100 cursor-pointer"
+                className="border p-2 rounded w-full text-center bg-gray-100 cursor-pointer "
                 onClick={handleCopyAddress}
               />
               <button
@@ -90,7 +89,6 @@ export default function Deposit({ cardId, currency }: DepositProps) {
             Số tiền:
           </label>
           <CurrencyInput
-            id="amount"
             name="amount"
             placeholder="Nhập số tiền"
             value={amount}
@@ -118,7 +116,13 @@ export default function Deposit({ cardId, currency }: DepositProps) {
       <DrawerBottom
         onClose={() => setDrawerOpen(false)}
         state={drawerOpen}
-        data={{ currency: currency!, cardID: cardId!, security_code: "" }}
+        data={{
+          currency: currency!,
+          cardID: cardId!,
+          security_code: "",
+          amount: amount!,
+          isDeposit: true, 
+        }}
       />
     </div>
   );
