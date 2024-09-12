@@ -1,23 +1,31 @@
 import React, { useState } from "react";
 import { Box, Drawer } from "@mui/material";
 import OTPInput from "react-otp-input";
-import { depositMoney } from "../../services/api/transfer.api";
+import { depositMoney, withdrawMoney } from "../../services/api/transfer.api";
 import toast, { Toaster } from "react-hot-toast";
 import ic_close from "../../assets/svg/close.svg";
 import ic_loading from "../../assets/svg/loading.svg";
 
 type DrawerFunction = () => void;
-
-interface DepositProps {
+interface ErrorResponse {
+  response: {
+    data: {
+      message: string;
+    };
+  };
+}
+interface DrawerDataProps {
   currency: string;
   cardID: string;
   security_code: string;
+  amount: string;
+  isDeposit: boolean;
 }
 
 interface BottomDrawerProps {
   onClose: DrawerFunction;
   state: boolean;
-  data: DepositProps;
+  data: DrawerDataProps;
 }
 
 const DrawerBottom: React.FC<BottomDrawerProps> = ({
@@ -37,16 +45,22 @@ const DrawerBottom: React.FC<BottomDrawerProps> = ({
         ...data,
         security_code: value,
       };
-      console.log(body);
       setIsLoading(true);
       try {
-        await depositMoney(body);
-        toast.success("Nạp tiền thành công!");
+        if (data.isDeposit) {
+          await depositMoney(body);
+          toast.success("Nạp tiền thành công!");
+        } else {
+          await withdrawMoney(body);
+          toast.success("Rút tiền thành công!");
+        }
         setIsLoading(false);
         onClose();
-      } catch (error: any) {
+      } catch (error: unknown) {
         setIsLoading(false);
-        setError(error?.response?.data?.message || "Đã xảy ra lỗi.");
+        const typedError = error as ErrorResponse;
+        const errorMsg = typedError?.response?.data?.message;
+        setError(errorMsg || "Đã xảy ra lỗi.");
       }
     }
   };
@@ -58,7 +72,7 @@ const DrawerBottom: React.FC<BottomDrawerProps> = ({
           className="bg-gray-100 m-2 rounded-full p-2 ml-auto"
           onClick={onClose}
         >
-          <img src={ic_close}></img>
+          <img src={ic_close} alt="close icon"></img>
         </button>
         <Box
           sx={{

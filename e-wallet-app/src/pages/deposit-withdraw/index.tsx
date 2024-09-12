@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import Modal from "../credit-card/modal";
 import Deposit from "./deposit";
+import Withdraw from "./withdraw";
 
 export default function DepositWithdraw() {
   const [isSelectedCard, setIsSelectedCard] = useState<string | null>(null);
@@ -17,6 +18,8 @@ export default function DepositWithdraw() {
     "VND"
   );
   const [isDepositModalOpen, setIsDepositModalOpen] = useState<boolean>(false);
+  const [isWithdrawModalOpen, setIsWithdrawModalOpen] =
+    useState<boolean>(false);
 
   const navigate = useNavigate();
   const walletData = useSelector((state: RootState) => state.user);
@@ -54,6 +57,10 @@ export default function DepositWithdraw() {
     setIsDepositModalOpen(true);
   };
 
+  const handleWithdrawSelect = () => {
+    setIsWithdrawModalOpen(true);
+  };
+
   const showActionButtons = isSelectedCard && isSelectedCurrency;
 
   return (
@@ -81,7 +88,7 @@ export default function DepositWithdraw() {
                   onClick={() => handleCardSelect(card._id ?? "")}
                   className={`my-4 rounded-[18px] shadow-lg cursor-pointer transition-all flex items-center justify-center w-fit ${
                     isSelectedCard === card._id
-                      ? "border-2 border-blue-500"
+                      ? "border-4 border-blue-500"
                       : "border-2 border-gray-200"
                   } hover:bg-gray-200`}
                 >
@@ -125,7 +132,10 @@ export default function DepositWithdraw() {
               >
                 Nạp tiền
               </button>
-              <button className="bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600">
+              <button
+                className="bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600"
+                onClick={handleWithdrawSelect}
+              >
                 Rút tiền
               </button>
             </div>
@@ -133,12 +143,21 @@ export default function DepositWithdraw() {
         </>
       )}
 
-      {/* Modal for Deposit */}
       <Modal
         isOpen={isDepositModalOpen}
         onClose={() => setIsDepositModalOpen(false)}
       >
         <Deposit
+          cardId={isSelectedCard ?? ""}
+          currency={isSelectedCurrency ?? ""}
+        />
+      </Modal>
+
+      <Modal
+        isOpen={isWithdrawModalOpen}
+        onClose={() => setIsWithdrawModalOpen(false)}
+      >
+        <Withdraw
           cardId={isSelectedCard ?? ""}
           currency={isSelectedCurrency ?? ""}
         />
