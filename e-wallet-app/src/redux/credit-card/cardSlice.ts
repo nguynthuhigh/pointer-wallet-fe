@@ -26,6 +26,9 @@ const cardSlice = createSlice({
     clearMessage: (state) => {
       state.message = "";
     },
+    clearError: (state) => {
+      state.error = "";
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getCardList.pending, (state) => {
@@ -88,6 +91,6 @@ const cardSlice = createSlice({
   },
 });
 
-export const { clearMessage } = cardSlice.actions;
+export const { clearMessage, clearError } = cardSlice.actions;
 
 export default cardSlice.reducer;

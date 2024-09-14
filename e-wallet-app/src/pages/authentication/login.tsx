@@ -2,12 +2,13 @@ import { useState } from "preact/hooks";
 import { useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
 import AuthImg from "../../assets/png/auth_img.png";
 import InputText from "../../components/authentication/input_text";
 import { ButtonSubmit } from "../../components/authentication/button_submit";
-import { loginUser } from "../../redux/auth/authThunk";
+import { loginUsers } from "../../redux/auth/authThunk";
 import { AppDispatch, RootState } from "../../redux/store";
-import { useEffect } from "react";
+import { clearError } from "../../redux/auth/authSlice";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,6 +17,14 @@ const Login = () => {
     (state: RootState) => state.auth.login
   );
   const [user, setUserData] = useState({ email: "", password: "" });
+  const [formErrors, setFormErrors] = useState("");
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      setFormErrors(error);
+      dispatch(clearError("login"));
+    }
+  }, [error]);
 
   type HTMLElementEvent<T extends HTMLElement> = Event & {
     target: T;
@@ -34,14 +43,13 @@ const Login = () => {
 
   const handleLogin = async (e: Event) => {
     e.preventDefault();
-    await dispatch(loginUser({ user, navigate }));
-  };
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(user.email)) {
+      toast.error("Email không hợp lệ.");
+      return;
     }
-  }, [error]);
+    await dispatch(loginUsers({ user, navigate }));
+  };
 
   return (
     <div class="bg-white p-4 flex">
@@ -55,7 +63,7 @@ const Login = () => {
         </h1>
         <form onSubmit={handleLogin}>
           <InputText
-            error={error}
+            error={formErrors}
             onChange={handleInputChange}
             type="text"
             title="Email"
@@ -63,7 +71,7 @@ const Login = () => {
             placeholder="Nhập email hoặc username"
           />
           <InputText
-            error={error}
+            error={formErrors}
             onChange={handleInputChange}
             type="password"
             title="Mật khẩu"

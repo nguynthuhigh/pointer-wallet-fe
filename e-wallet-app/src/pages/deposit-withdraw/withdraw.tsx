@@ -1,5 +1,5 @@
 import { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Cards from "react-credit-cards-2";
 import CurrencyInput from "react-currency-input-field";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
@@ -78,7 +78,6 @@ export default function Withdraw({ cardId, currency }: DepositProps) {
           Xác nhận rút tiền
         </button>
       </div>
-      <Toaster position="top-center" />
 
       <DrawerBottom
         onClose={() => setDrawerOpen(false)}

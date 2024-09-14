@@ -1,5 +1,5 @@
 import { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Cards from "react-credit-cards-2";
 import CurrencyInput from "react-currency-input-field";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
@@ -111,7 +111,6 @@ export default function Deposit({ cardId, currency }: DepositProps) {
           </button>
         </div>
       )}
-      <Toaster position="top-center" />
 
       <DrawerBottom
         onClose={() => setDrawerOpen(false)}
@@ -121,7 +120,7 @@ export default function Deposit({ cardId, currency }: DepositProps) {
           cardID: cardId!,
           security_code: "",
           amount: amount!,
-          isDeposit: true, 
+          isDeposit: true,
         }}
       />
     </div>
