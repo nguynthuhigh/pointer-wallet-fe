@@ -46,7 +46,7 @@ const initialState = {
     walletData: {
       _id: "",
       balance: 0,
-      address:"",
+      address: "",
       userID: "",
       partnerID: null,
       currencies: [
@@ -66,7 +66,11 @@ const initialState = {
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    clearError: (state) => {
+      state.error = "";
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getProfile.pending, (state) => {
       state.isFetching = true;
@@ -85,5 +89,5 @@ const userSlice = createSlice({
     });
   },
 });
-
+export const { clearError } = userSlice.actions;
 export default userSlice.reducer;

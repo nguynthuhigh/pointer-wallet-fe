@@ -2,22 +2,27 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "preact/hooks";
 import OTPInput from "react-otp-input";
 import toast, { Toaster } from "react-hot-toast";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { verifyLoginAPI } from "../../services/api/auth.api";
 import LoadingIcon from "../../assets/svg/loading.svg";
 import PageNotFound from "../page_not_found";
 import AuthImg from "../../assets/png/auth_img.png";
-import { RootState } from "../../redux/store";
+import { RootState, AppDispatch } from "../../redux/store";
+import { clearMessage } from "../../redux/auth/authSlice";
 const VerifyLogin = () => {
-  const data = useSelector((state: RootState) => state.auth.login);
-  useEffect(() => {
-    toast.success(data.loginUser.message);
-  }, []);
-  const [otp, setOtp] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const { isFetching, error, loginUser } = useSelector(
+    (state: RootState) => state.auth.login
+  );
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  if (!data.loginUser.email) {
+  useEffect(() => {
+    if (loginUser.message) {
+      toast.success(loginUser.message);
+      dispatch(clearMessage("login"));
+    }
+  }, [loginUser.message]);
+  const [otp, setOtp] = useState("");
+  if (!loginUser.email) {
     return <PageNotFound />;
   }
   type ErrorResponse = {
@@ -31,23 +36,19 @@ const VerifyLogin = () => {
     setOtp(value);
     if (value.length === 6) {
       const body = {
-        email: data.loginUser.email,
+        email: loginUser.email,
         otp: value,
       };
-      setIsLoading(true);
       try {
         const response = await verifyLoginAPI(body);
         if (response.status === 200) {
-          toast.success("Đăng nhập thành công");
+          toast.success("Đăng nhập thành công!");
           localStorage.setItem("logged", "true");
           setTimeout(() => {
             navigate("/");
-            setIsLoading(false);
           }, 2000);
         }
       } catch (error: unknown) {
-        setIsLoading(false);
-        setError(!error);
         const typeError = error as ErrorResponse;
         toast.error(typeError.response.data.message);
       }
@@ -64,7 +65,7 @@ const VerifyLogin = () => {
         <span
           class={`text-center font-inter text-sm my-2 text-blue-default font-semibold`}
         >
-          {data.loginUser?.email}
+          {loginUser?.email}
         </span>
       </h1>
       <div class={`mx-auto w-fit relative`}>
@@ -81,7 +82,7 @@ const VerifyLogin = () => {
             />
           )}
         />
-        {isLoading && (
+        {isFetching && (
           <img
             className={`animate-spin absolute -top-[50%] text-center right-[50%] left-[50%]`}
             src={LoadingIcon}

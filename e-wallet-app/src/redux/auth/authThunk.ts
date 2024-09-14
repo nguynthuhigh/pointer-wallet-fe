@@ -14,7 +14,7 @@ interface ErrorResponse {
   };
 }
 
-export const loginUser = createAsyncThunk(
+export const loginUsers = createAsyncThunk(
   "auth/loginUser",
   async (
     { user, navigate }: { user: User; navigate: (path: string) => void },
@@ -38,7 +38,7 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const registerUser = createAsyncThunk(
+export const registerUsers = createAsyncThunk(
   "auth/registerUser",
   async (
     { user, navigate }: { user: User; navigate: (path: string) => void },
