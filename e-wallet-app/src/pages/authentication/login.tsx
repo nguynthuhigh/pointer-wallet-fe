@@ -69,6 +69,7 @@ const Login = () => {
             title="Email"
             name="email"
             placeholder="Nhập email hoặc username"
+            isFetching={isFetching}
           />
           <InputText
             error={formErrors}
@@ -77,6 +78,7 @@ const Login = () => {
             title="Mật khẩu"
             name="password"
             placeholder="Nhập mật khẩu"
+            isFetching={isFetching}
           />
           <ButtonSubmit title="Đăng nhập" isLoading={isFetching} />
         </form>

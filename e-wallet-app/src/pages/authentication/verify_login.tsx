@@ -9,29 +9,34 @@ import PageNotFound from "../page_not_found";
 import AuthImg from "../../assets/png/auth_img.png";
 import { RootState, AppDispatch } from "../../redux/store";
 import { clearMessage } from "../../redux/auth/authSlice";
+type ErrorResponse = {
+  response: {
+    data: {
+      message: string;
+    };
+  };
+};
+
 const VerifyLogin = () => {
-  const { isFetching, error, loginUser } = useSelector(
+  const { error, loginUser } = useSelector(
     (state: RootState) => state.auth.login
   );
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  if (!loginUser.email) {
+    return <PageNotFound />;
+  }
+
   useEffect(() => {
     if (loginUser.message) {
       toast.success(loginUser.message);
       dispatch(clearMessage("login"));
     }
   }, [loginUser.message]);
+
   const [otp, setOtp] = useState("");
-  if (!loginUser.email) {
-    return <PageNotFound />;
-  }
-  type ErrorResponse = {
-    response: {
-      data: {
-        message: string;
-      };
-    };
-  };
+
   const handleChangeOTP = async (value: string) => {
     setOtp(value);
     if (value.length === 6) {
@@ -39,6 +44,7 @@ const VerifyLogin = () => {
         email: loginUser.email,
         otp: value,
       };
+      setIsLoading(true);
       try {
         const response = await verifyLoginAPI(body);
         if (response.status === 200) {
@@ -51,12 +57,15 @@ const VerifyLogin = () => {
       } catch (error: unknown) {
         const typeError = error as ErrorResponse;
         toast.error(typeError.response.data.message);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
+
   return (
     <div>
-      <img class={`mx-auto mt-10 w-52`} src={AuthImg}></img>
+      <img class={`mx-auto mt-10 w-52`} src={AuthImg} />
       <h1 class={`text-center font-semibold text-2xl my-4`}>
         Xác minh đăng nhập
       </h1>
@@ -73,16 +82,18 @@ const VerifyLogin = () => {
           value={otp}
           onChange={handleChangeOTP}
           numInputs={6}
+          inputType="tel"
           renderInput={({ style, ...props }) => (
             <input
-              class={`text-center font-semibold text-3xl border w-14 h-14 mx-2 bg-gray-50 rounded-xl ${
+              class={`text-center font-semibold text-3xl border w-14 h-14 mx-2 focus:outline-blue-default bg-gray-50 rounded-xl ${
                 error && "border-red-500"
-              }`}
+              } ${isLoading ? "cursor-not-allowed bg-gray-200" : ""}`}
+              disabled={isLoading}
               {...props}
             />
           )}
         />
-        {isFetching && (
+        {isLoading && (
           <img
             className={`animate-spin absolute -top-[50%] text-center right-[50%] left-[50%]`}
             src={LoadingIcon}

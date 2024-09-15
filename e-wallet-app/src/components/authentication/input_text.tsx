@@ -5,7 +5,9 @@ const InputText = ({ ...props }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible);
+    if (!props.isFetching) {
+      setIsPasswordVisible(!isPasswordVisible);
+    }
   };
 
   return (
@@ -18,16 +20,21 @@ const InputText = ({ ...props }) => {
       </label>
       <input
         {...(props.register ? props.register(props.name) : {})}
-        onChange={props.onChange}
+        onChange={(e) => {
+          if (!props.isFetching) {
+            props.onChange(e);
+          }
+        }}
         required
         type={
           isPasswordVisible && props.type === "password" ? "text" : props.type
         }
         name={props.name}
         placeholder={props.placeholder}
+        disabled={props.isFetching}
         class={`pl-2 focus:outline-blue-default text-sm w-full border-2 py-3 rounded-xl p-2 ${
-          props.error && "border-red-400"
-        }`}
+          props.error ? "border-red-400" : ""
+        } ${props.isFetching ? "cursor-not-allowed bg-gray-100" : ""}`}
       />
       {props.type === "password" && (
         <div
