@@ -83,7 +83,7 @@ export default function Register() {
   };
 
   return (
-    <div className="bg-white p-4">
+    <div className="container-auth">
       <img className="mx-auto mt-10 w-52" src={AuthImg} alt="auth image" />
       <h1 className="text-center font-semibold text-2xl mt-5">
         Đăng ký tài khoản

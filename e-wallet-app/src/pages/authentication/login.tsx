@@ -44,7 +44,7 @@ const Login = () => {
   }, [error]);
 
   return (
-    <div class="bg-white p-4 flex">
+    <div class="container-auth">
       <div class="w-full">
         <img class="mx-auto mt-10 w-52" src={AuthImg}></img>
         <h1 class="text-center font-semibold text-2xl mt-5">

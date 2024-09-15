@@ -10,4 +10,7 @@
     .container-full{
         @apply p-4 w-full bg-white m-2 rounded-lg shadow-xl border
     }
+    .container-auth{
+        @apply bg-white p-4 max-w-[500px] mx-auto rounded-xl border mt-10
+    }
 }

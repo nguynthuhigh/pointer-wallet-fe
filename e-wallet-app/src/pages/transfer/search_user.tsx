@@ -29,7 +29,7 @@ const SearchUser = ({ ...props }) => {
     }
   }, 1000);
   return (
-    <div class={`p-4 w-full bg-white m-2 rounded-lg max-w-[800px] shadow-xl`}>
+    <div class={`container-center`}>
       <HeaderTransfer
         onClick={() => {
           props.handleStepTransfer("select_currency");

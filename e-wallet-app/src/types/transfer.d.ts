@@ -11,11 +11,11 @@ export type DataSend = {
   currency: string;
   security_code: string;
 };
-export type Currency = {
+export type Currency = [{
   _id: string;
   balance: number;
   currency: string;
-};
+}];
 export type TypeWallet = {
   _id: string;
   balance: number;
