@@ -77,7 +77,15 @@ export default function Register() {
       );
       return;
     }
-
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email)) {
+      setError("email", {
+        type: "manual",
+        message: "Email không hợp lệ.",
+      });
+      toast.error("Email không hợp lệ.");
+      return;
+    }
     await handleRegistration(data);
   };
 
@@ -95,6 +103,7 @@ export default function Register() {
           type="email"
           title="Email"
           placeholder="Nhập địa chỉ Email"
+          isFetching={isFetching}
         />
 
         <InputText
@@ -104,6 +113,7 @@ export default function Register() {
           type="password"
           title="Mật khẩu"
           placeholder="Nhập mật khẩu"
+          isFetching={isFetching}
         />
 
         <InputText
@@ -113,6 +123,7 @@ export default function Register() {
           type="password"
           title="Nhập lại mật khẩu"
           placeholder="Nhập lại mật khẩu"
+          isFetching={isFetching}
         />
 
         <ButtonSubmit title="Đăng ký" isLoading={isFetching} />
