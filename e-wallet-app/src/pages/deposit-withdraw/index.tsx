@@ -1,9 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import Cards from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
-import { FaCreditCard } from "react-icons/fa";
+import CreditCard from "../../assets/svg/cCard.svg";
 import HeaderDefault from "../../components/header/header_default";
 import { Wallet, wallet } from "../../components/button/wallet";
 import { useSelector } from "react-redux";
@@ -27,19 +27,27 @@ export default function DepositWithdraw() {
 
   useEffect(() => {
     if (cardData?.cardState?.cards.length === 0) {
-      toast((t) => (
-        <div className="flex items-center gap-2">
-          <FaCreditCard size={24} />
-          <span className="whitespace-nowrap">Vui lòng thêm thẻ tín dụng!</span>
-          <button
-            className="bg-blue-500 text-white px-3 py-1 rounded whitespace-nowrap"
-            onClick={() => {
-              toast.dismiss(t.id);
-              navigate("/credit-card/add-card");
-            }}
-          >
-            Thêm thẻ
-          </button>
+      toast.custom((t) => (
+        <div
+          className={`${
+            t.visible ? "animate-enter" : "animate-leave"
+          } max-w-md w-fit px-3 py-2 bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+        >
+          <div className="flex items-center gap-2">
+            <img src={CreditCard} className={`w-8 h-8`} />
+            <span className={` whitespace-nowrap text-gray-600 text-base`}>
+              Vui lòng thêm thẻ tín dụng!
+            </span>
+            <button
+              className="bg-blue-500 text-white px-2 py-1 rounded whitespace-nowrap"
+              onClick={() => {
+                toast.dismiss(t.id);
+                navigate("/credit-card");
+              }}
+            >
+              Thêm thẻ
+            </button>
+          </div>
         </div>
       ));
     }
@@ -64,105 +72,99 @@ export default function DepositWithdraw() {
   const showActionButtons = isSelectedCard && isSelectedCurrency;
 
   return (
-    <div className="p-4 border bg-white m-2 rounded-xl shadow-lg h-fit w-full">
+    <div className="p-4 border bg-white sm:m-2 rounded-xl shadow-lg h-fit w-full">
       <HeaderDefault title="Nạp/Rút" />
-      {cardData?.isFetching ? (
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[1, 2, 3, 4].map((index) => (
-            <div
-              key={index}
-              className="animate-pulse p-4 bg-gray-300 rounded-xl h-[182px] w-[290px] shadow-md mx-auto"
-            ></div>
-          ))}
+      {cardData?.cardState?.cards.length === 0 ? (
+        <div
+          className={`flex items-center justify-center text-lg text-gray-500`}
+        >
+          Bạn chưa liên kết với bất kỳ thẻ nào!
+          <span className={`ml-2`}>
+            <Link
+              to={`/credit-card`}
+              className={`text-blue-default font-semibold`}
+            >
+              Nhấn vào đây để liên kết thẻ.
+            </Link>
+          </span>
         </div>
       ) : (
         <>
-          <div >
-          <div className="flex flex-col mt-6 mx-auto">
-            <div className="font-semibold text-gray-600 text-lg mb-2">
-              Chọn nguồn tiền
-            </div>
-            <div className="flex items-center gap-4 flex-wrap max-w-full">
-              {wallet.map((value, index) => (
-                <Wallet
-                  key={index}
-                  icon={value.img}
-                  currency={value.currency}
-                  balance={
-                    walletData?.userState?.walletData?.currencies?.[index]
-                      ?.balance
-                  }
-                  isSelected={isSelectedCurrency === value.currency}
-                  isLoading={walletData.isFetching}
-                  onClick={() => handleCurrencySelect(value.currency)}
-                />
-              ))}
-            </div>
-          </div>
-
-            <div className="font-semibold text-gray-500 text-base">
-              Chọn thẻ tín dụng
-            </div>
-            <div className="grid grid-cols-1 sm:grid-flow-col-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {cardData?.cardState?.cards.map((card) => (
+          {cardData?.isFetching ? (
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[1, 2, 3, 4].map((index) => (
                 <div
-                  key={card._id}
-                  onClick={() => handleCardSelect(card._id ?? "")}
-                  className={`my-1 rounded-[18px] md:w-fit shadow-lg cursor-pointer transition-all flex items-center justify-center  ${
-                    isSelectedCard === card._id
-                      ? "border-4 border-blue-500"
-                      : "border-2 border-gray-200"
-                  } hover:bg-gray-200`}
-                >
-                 <div class={`max-md:hidden mx-auto w-fit`}>
-                  <Cards
-                      number={card.number}
-                      expiry={`${card.expiryMonth}/${card.expiryYear}`}
-                      cvc={card.cvv}
-                      name={card.name}
-                    />
-                 </div>
-                 <div class={`md:hidden w-full flex items-center p-2`}>
-                  <img class={`w-10 h-fit`} src={`https://static-00.iconduck.com/assets.00/visa-icon-2048x628-6yzgq2vq.png`}></img>
-                  <div class={`font-semibold ml-4`}>
-                    <h1>{card.number}</h1>
-                    <h1 class={`text-sm`}>{card.type}</h1>
-                  </div>
-                 
-                  {
-                    isSelectedCard === card._id 
-                    ? <div class={`rounded-full border-[1px] w-5 h-5 bg-blue-500 ml-auto flex justify-center items-center`}>
-                        <div class={`rounded-full w-3 h-3 bg-white flex justify-center items-center`}>
-                          <div class={`rounded-full w-[7px] h-[7px] bg-blue-500`}>
-                          
-                          </div>
-                        </div>
-                      </div> 
-                    : <div class={`rounded-full w-5 h-5 bg-blue-500 ml-auto flex justify-center items-center`}>
-                        <div class={`rounded-full w-3 h-3 bg-white`}></div>
-                      </div>
-                  }
-                 </div>
-                </div>
+                  key={index}
+                  className="animate-pulse p-4 bg-gray-300 rounded-xl h-[182px] w-[290px] shadow-md mx-auto"
+                ></div>
               ))}
             </div>
-          </div>
-       
-          {showActionButtons && (
-            <div className="mt-6 flex gap-4 justify-center">
-              <button
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600"
-                onClick={handleDepositSelect}
-              >
-                Nạp tiền
-              </button>
-              <button
-                className="bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600"
-                onClick={handleWithdrawSelect}
-              >
-                Rút tiền
-              </button>
-            </div>
+          ) : (
+            <>
+              <div>
+                <div className="font-semibold text-gray-600 text-lg mb-2">
+                  Chọn thẻ tín dụng
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 self-center justify-items-center align-items-center">
+                  {cardData?.cardState?.cards.map((card) => (
+                    <div
+                      key={card._id}
+                      onClick={() => handleCardSelect(card._id ?? "")}
+                      className={`my-4 rounded-[18px] shadow-lg cursor-pointer transition-all flex items-center justify-center w-fit ${
+                        isSelectedCard === card._id
+                          ? "border-4 border-blue-500"
+                          : "border-2 border-gray-200"
+                      } hover:bg-gray-200`}
+                    >
+                      <Cards
+                        number={card.number}
+                        expiry={`${card.expiryMonth}/${card.expiryYear}`}
+                        cvc={card.cvv}
+                        name={card.name}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="flex flex-col mt-6">
+                <div className="font-semibold text-gray-600 text-lg mb-2">
+                  Chọn nguồn tiền
+                </div>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 flex-wrap">
+                  {wallet.map((value, index) => (
+                    <Wallet
+                      key={index}
+                      icon={value.img}
+                      currency={value.currency}
+                      balance={
+                        walletData?.userState?.walletData?.currencies?.[index]
+                          ?.balance
+                      }
+                      isSelected={isSelectedCurrency === value.currency}
+                      isLoading={walletData.isFetching}
+                      onClick={() => handleCurrencySelect(value.currency)}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {showActionButtons && (
+                <div className="mt-6 flex gap-4 justify-center">
+                  <button
+                    className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600"
+                    onClick={handleDepositSelect}
+                  >
+                    Nạp tiền
+                  </button>
+                  <button
+                    className="bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600"
+                    onClick={handleWithdrawSelect}
+                  >
+                    Rút tiền
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </>
       )}
