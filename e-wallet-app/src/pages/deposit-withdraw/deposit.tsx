@@ -22,6 +22,9 @@ export default function Deposit({ cardId, currency }: DepositProps) {
     (state: RootState) => state.user.userState.walletData.address
   );
 
+  const MIN_DEPOSIT = 10000;
+  const MAX_DEPOSIT = 10000000;
+
   const handleAmountChange = (value: string | undefined) => {
     setAmount(value || "");
   };
@@ -33,6 +36,18 @@ export default function Deposit({ cardId, currency }: DepositProps) {
   };
 
   const handleConfirmDeposit = () => {
+    const numericAmount = parseFloat(amount.replace(/[^0-9.-]+/g, ""));
+
+    if (numericAmount < MIN_DEPOSIT) {
+      toast.error(`Số tiền nạp tối thiểu là ${MIN_DEPOSIT.toLocaleString()}!`);
+      return;
+    }
+
+    if (numericAmount > MAX_DEPOSIT) {
+      toast.error(`Số tiền nạp tối đa là ${MAX_DEPOSIT.toLocaleString()} !`);
+      return;
+    }
+
     if (currency !== "ETH" && selectedCard) {
       setDrawerOpen(true);
     }

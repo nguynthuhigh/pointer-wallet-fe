@@ -60,7 +60,7 @@ export const Wallet: React.FC<Props> = ({
               className={` w-full h-5 rounded-full animate-pulse bg-gray-400`}
             ></div>
           ) : (
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-gray-600 max-w-16 truncate">
               {formatCurrency(balance, currency)}
             </div>
           )}
