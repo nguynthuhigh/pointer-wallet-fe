@@ -17,11 +17,18 @@ const Security:React.FC = () => {
         <div class={`border p-2 rounded-lg  `}>
           <Toaster position='top-right'></Toaster>
           <Select name='Đổi mật khẩu' handleOpenModal={handleOpenModal} field='password'></Select>
-          <Popup  modal={true} open={isOpen.password}>
+          <Popup  
+              modal={true} 
+              open={isOpen.password}
+              overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)'}}
+              >
             <ChangePassword handleOpenModal={handleOpenModal}></ChangePassword>
           </Popup>
           <Select handleOpenModal={handleOpenModal} name='Đổi mã bảo mật' field='security_code'></Select>
-          <Popup  modal={true} open={isOpen.security_code}>
+          <Popup 
+              modal={true} 
+              open={isOpen.security_code}
+              overlayStyle={{ background: 'rgba(0, 0, 0, 0.5)'}}>
             <ChangeSecurityCode handleOpenModal={handleOpenModal}/>
           </Popup>
         </div>

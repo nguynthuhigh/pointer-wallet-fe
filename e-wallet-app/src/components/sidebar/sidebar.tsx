@@ -74,12 +74,9 @@ const SideBar: React.FC<SideBarProps> = ({ state }) => {
       { name: "Chuyển tiền", link: "/transfer", icon: Icon },
       { name: "Nhận tiền", link: "/receive-page", icon: ReceiveMoney },
       { name: "Thanh toán", link: "/option-payment", icon: Payment },
-      {
-        name: "Nạp/Rút tiền",
-        link: "/deposit-withdraw",
-        icon: DepositWithdraw,
-      },
+      { name: "Nạp/Rút tiền", link: "/deposit-withdraw",icon: DepositWithdraw},
       { name: "Quản lý thẻ", link: "/credit-card", icon: CreditCard },
+      { name: "Lịch sử giao dịch", link: "/transaction/history", icon: CreditCard },
       { name: "Cài đặt", link: "/setting", icon: Settings },
     ],
     []

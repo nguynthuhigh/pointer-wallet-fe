@@ -7,8 +7,8 @@ import USDIcon from "../../assets/png/usd_icon.png";
 import ETHIcon from "../../assets/png/eth_icon.png";
 type Props = {
   currency: any;
-  handleStepTransfer: any;
-  handleCurrencyData: any;
+  handleStepTransfer: (key:string)=>void;
+  handleCurrencyData: (data:any)=>void;
   isLoading: boolean;
 };
 const SelectCurrency: React.FC<Props> = ({ ...props }) => {
@@ -19,9 +19,8 @@ const SelectCurrency: React.FC<Props> = ({ ...props }) => {
     props.handleCurrencyData(data);
   };
   return (
-    <>
       <div
-        class={`p-4 bg-white m-2 rounded-lg w-1/2 max-w-[800px] shadow-xl border`}
+        class={`container-center`}
       >
         <HeaderDefault title="Chọn loại tiền"></HeaderDefault>
         {props.isLoading ? (
@@ -56,7 +55,6 @@ const SelectCurrency: React.FC<Props> = ({ ...props }) => {
           </>
         )}
       </div>
-    </>
   );
 };
 const ItemCurrency = ({ ...props }) => {
