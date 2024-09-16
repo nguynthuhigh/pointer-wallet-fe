@@ -24,7 +24,20 @@ export default function Withdraw({ cardId, currency }: DepositProps) {
   };
   const selectedCard = cardData.find((card) => card._id === cardId);
 
+  const MIN_WITHDRAW = 10000;
+  const MAX_WITHDRAW = 10000000;
   const handleConfirmDeposit = () => {
+    const numericAmount = parseFloat(amount.replace(/[^0-9.-]+/g, ""));
+
+    if (numericAmount < MIN_WITHDRAW) {
+      toast.error(`Số tiền rút tối thiểu là ${MIN_WITHDRAW.toLocaleString()}!`);
+      return;
+    }
+
+    if (numericAmount > MAX_WITHDRAW) {
+      toast.error(`Số tiền rút tối đa là ${MAX_WITHDRAW.toLocaleString()} !`);
+      return;
+    }
     if (selectedCard) {
       setDrawerOpen(true);
     }

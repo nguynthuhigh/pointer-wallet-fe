@@ -19,11 +19,6 @@ export default function CreditCard() {
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
   const [deleteCardId, setDeleteCardId] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
-    dispatch(getCardList());
-  }, [dispatch]);
-
   const {
     cardState: { cards },
     isFetching,
@@ -31,6 +26,9 @@ export default function CreditCard() {
     error,
   } = useSelector((state: RootState) => state.cards);
 
+  useEffect(() => {
+    dispatch(getCardList());
+  }, [dispatch]);
   useEffect(() => {
     if (message) {
       toast.success(message);
@@ -59,14 +57,14 @@ export default function CreditCard() {
 
   return (
     <>
-      <div className="p-4 border bg-white m-2 rounded-xl shadow-lg h-fit w-full">
+      <div className="p-4 border bg-white sm:m-2 sm:rounded-xl sm:shadow-lg h-fit w-full">
         <HeaderDefault title="Quản lý thẻ" />
         {isFetching ? (
           <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[1, 2, 3, 4].map((index) => (
               <div
                 key={index}
-                className="animate-pulse p-4 bg-gray-300 rounded-xl h-[182px] w-[290px] shadow-md mx-auto"
+                className="animate-pulse p-4 bg-gray-200 rounded-xl h-[182px] w-[290px] shadow-md mx-auto"
               ></div>
             ))}
           </div>
@@ -78,8 +76,7 @@ export default function CreditCard() {
           <div className="mt-6 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
             {cards.map((card) => (
               <div
-                key={card._id}
-                className="relative"
+                className="relative w-[290px] h-[182px] mx-auto"
                 onMouseEnter={() => setHoveredCardId(card._id ?? null)}
                 onMouseLeave={() => setHoveredCardId(null)}
               >
@@ -90,7 +87,7 @@ export default function CreditCard() {
                   name={card.name}
                 />
                 <div
-                  className={`absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-xl transition-opacity duration-300 ${
+                  className={`absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 rounded-xl transition-opacity duration-300 ${
                     hoveredCardId === card._id ? "opacity-100" : "opacity-0"
                   }`}
                 >
@@ -126,7 +123,7 @@ export default function CreditCard() {
 
       {deleteCardId && (
         <Modal isOpen={!!deleteCardId} onClose={() => setDeleteCardId(null)}>
-          <div className="p-4 w-full">
+          <div className="p-1 sm:p-4 w-full">
             <p className={`text-center text-lg text-gray-600`}>
               Bạn có chắc chắn muốn xóa thẻ này?
             </p>

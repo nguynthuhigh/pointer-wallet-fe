@@ -30,7 +30,7 @@ export default function Modal({ children, isOpen, onClose }: ModalProps) {
       onClick={onClose}
     >
       <div
-        className={`bg-white flex items-center rounded-2xl shadow-lg max-w-lg w-full p-4 relative transform transition-transform duration-300 ${
+        className={`bg-white flex items-center rounded-2xl shadow-lg max-w-lg w-full p-4 mx-4 relative transform transition-transform duration-300 ${
           isVisible ? "scale-100" : "scale-95"
         }`}
         onClick={(e) => e.stopPropagation()}
