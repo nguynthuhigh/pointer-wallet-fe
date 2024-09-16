@@ -77,32 +77,8 @@ export default function DepositWithdraw() {
         </div>
       ) : (
         <>
-          <div>
-            <div className="font-semibold text-gray-500 text-base">
-              Chọn thẻ tín dụng
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {cardData?.cardState?.cards.map((card) => (
-                <div
-                  key={card._id}
-                  onClick={() => handleCardSelect(card._id ?? "")}
-                  className={`my-4 rounded-[18px] shadow-lg cursor-pointer transition-all flex items-center justify-center w-fit ${
-                    isSelectedCard === card._id
-                      ? "border-4 border-blue-500"
-                      : "border-2 border-gray-200"
-                  } hover:bg-gray-200`}
-                >
-                  <Cards
-                    number={card.number}
-                    expiry={`${card.expiryMonth}/${card.expiryYear}`}
-                    cvc={card.cvv}
-                    name={card.name}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="flex flex-col mt-6">
+          <div >
+          <div className="flex flex-col mt-6 mx-auto">
             <div className="font-semibold text-gray-600 text-lg mb-2">
               Chọn nguồn tiền
             </div>
@@ -124,6 +100,54 @@ export default function DepositWithdraw() {
             </div>
           </div>
 
+            <div className="font-semibold text-gray-500 text-base">
+              Chọn thẻ tín dụng
+            </div>
+            <div className="grid grid-cols-1 sm:grid-flow-col-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {cardData?.cardState?.cards.map((card) => (
+                <div
+                  key={card._id}
+                  onClick={() => handleCardSelect(card._id ?? "")}
+                  className={`my-1 rounded-[18px] md:w-fit shadow-lg cursor-pointer transition-all flex items-center justify-center  ${
+                    isSelectedCard === card._id
+                      ? "border-4 border-blue-500"
+                      : "border-2 border-gray-200"
+                  } hover:bg-gray-200`}
+                >
+                 <div class={`max-md:hidden mx-auto w-fit`}>
+                  <Cards
+                      number={card.number}
+                      expiry={`${card.expiryMonth}/${card.expiryYear}`}
+                      cvc={card.cvv}
+                      name={card.name}
+                    />
+                 </div>
+                 <div class={`md:hidden w-full flex items-center p-2`}>
+                  <img class={`w-10 h-fit`} src={`https://static-00.iconduck.com/assets.00/visa-icon-2048x628-6yzgq2vq.png`}></img>
+                  <div class={`font-semibold ml-4`}>
+                    <h1>{card.number}</h1>
+                    <h1 class={`text-sm`}>{card.type}</h1>
+                  </div>
+                 
+                  {
+                    isSelectedCard === card._id 
+                    ? <div class={`rounded-full border-[1px] w-5 h-5 bg-blue-500 ml-auto flex justify-center items-center`}>
+                        <div class={`rounded-full w-3 h-3 bg-white flex justify-center items-center`}>
+                          <div class={`rounded-full w-[7px] h-[7px] bg-blue-500`}>
+                          
+                          </div>
+                        </div>
+                      </div> 
+                    : <div class={`rounded-full w-5 h-5 bg-blue-500 ml-auto flex justify-center items-center`}>
+                        <div class={`rounded-full w-3 h-3 bg-white`}></div>
+                      </div>
+                  }
+                 </div>
+                </div>
+              ))}
+            </div>
+          </div>
+       
           {showActionButtons && (
             <div className="mt-6 flex gap-4 justify-center">
               <button

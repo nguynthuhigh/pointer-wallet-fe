@@ -10,12 +10,13 @@ const Transfer = () => {
   const [step, setStep] = useState("select_currency");
   const [selectCurrency, setSelectCurrency] = useState<Currency>();
   const [userData, setUserData] = useState<User>();
-  const [currency, setCurrency] = useState<Currency[]>([]);
+  const [currency, setCurrency] = useState<Currency>();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const wallet = useSelector(
     (state: RootState) => state.user.userState.walletData.currencies
   );
+  console.log(wallet)
   useEffect(() => {
     setCurrency(wallet);
     setIsLoading(false);
@@ -35,39 +36,27 @@ const Transfer = () => {
   switch (step) {
     case "select_currency":
       return (
-        <>
-          <div class={`flex w-full`}>
-            <SelectCurrency
-              currency={currency}
-              handleCurrencyData={handleCurrencyData}
-              handleStepTransfer={handleStepTransfer}
-              isLoading={isLoading}
-            />
-          </div>
-        </>
+        <SelectCurrency
+          currency={currency}
+          handleCurrencyData={handleCurrencyData}
+          handleStepTransfer={handleStepTransfer}
+          isLoading={isLoading}
+        />
       );
     case "search_user":
       return (
-        <>
-          <div class={`flex`}>
-            <SearchUser
-              handleUserData={handleUserData}
-              handleStepTransfer={handleStepTransfer}
-            />
-          </div>
-        </>
+        <SearchUser
+          handleUserData={handleUserData}
+          handleStepTransfer={handleStepTransfer}
+        />
       );
     case "input_amount":
       return (
-        <>
-          <div class={`flex`}>
-            <InputAmount
-              currencyData={selectCurrency}
-              userData={userData}
-              handleStepTransfer={handleStepTransfer}
-            />
-          </div>
-        </>
+        <InputAmount
+          currencyData={selectCurrency}
+          userData={userData}
+          handleStepTransfer={handleStepTransfer}
+        />
       );
     default:
       return <div>Invalid step</div>;

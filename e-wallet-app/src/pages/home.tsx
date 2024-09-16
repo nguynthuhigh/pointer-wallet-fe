@@ -29,7 +29,6 @@ const Home = () => {
     };
     fetchData();
   }, [dispatch]);
-
   const userAvatar = useMemo(
     () =>
       isLoading

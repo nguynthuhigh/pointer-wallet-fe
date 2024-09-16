@@ -9,10 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emotion/react": "^11.13.0",
+    "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@mantine/hooks": "^7.12.1",
-    "@mui/material": "^5.16.6",
+    "@mui/material": "^5.16.7",
+    "@mui/styled-engine-sc": "^6.1.0",
     "@reduxjs/toolkit": "^2.2.7",
     "@tanstack/react-query": "^5.52.2",
     "@tanstack/react-query-devtools": "^5.53.1",
@@ -42,6 +43,7 @@
     "react-webcam": "^7.2.0",
     "reactjs-popup": "^2.0.6",
     "redux-persist": "^6.0.0",
+    "styled-components": "^6.1.13",
     "universal-cookie": "^7.2.0",
     "use-debounce": "^10.0.2"
   },
