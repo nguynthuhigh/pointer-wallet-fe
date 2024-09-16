@@ -1,11 +1,11 @@
 import React from "react"
 import HeaderDefault from "../../components/header/header_default"
-import TransactionInfo from "../../components/history_transaction/transaction_info"
+import TransactionInfo from "../../components/transaction/transaction_info"
 import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "react-router-dom"
 import Loading from "../loading"
 import { getTransactionDetails } from "../../services/api/transaction.api"
-import InfoDetails from "../../components/history_transaction/info_details"
+import InfoDetails from "../../components/transaction/info_details"
 const TransactionDetails:React.FC = () => {
   const [searchParams] = useSearchParams()
   const transactionID = searchParams.get('id') || ''

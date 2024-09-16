@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FocusEvent, useEffect } from "react";
 import Cards from "react-credit-cards-2";
 import Select from "react-select";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import {
@@ -18,7 +18,9 @@ type Focused = "number" | "name" | "expiry" | "cvc" | undefined;
 
 export default function AddCreditCard() {
   const dispatch = useDispatch<AppDispatch>();
-  const data = useSelector((state: RootState) => state.cards);
+  const { isFetching, error, message } = useSelector(
+    (state: RootState) => state.cards
+  );
   const [number, setNumber] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [expiryMonth, setExpiryMonth] = useState<string>("");
@@ -38,14 +40,14 @@ export default function AddCreditCard() {
   );
 
   useEffect(() => {
-    if (data && data.message) {
-      toast.success(data.message);
+    if (message) {
+      toast.success(message);
       dispatch(clearMessage());
       resetForm();
-    } else if (data && data.error) {
-      toast.error(data.error);
+    } else if (error) {
+      toast.error(error);
     }
-  }, [data]);
+  }, [message, error]);
 
   const resetForm = () => {
     setNumber("");
@@ -255,9 +257,37 @@ export default function AddCreditCard() {
 
         <button
           type="submit"
-          className="w-full p-3 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className={`w-full p-3 text-white font-semibold rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+    ${isFetching ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"}`}
+          disabled={isFetching}
         >
-          Thêm thẻ
+          {isFetching ? (
+            <div className="flex justify-center items-center">
+              <svg
+                className="animate-spin h-5 w-5 text-white mr-2"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                ></path>
+              </svg>
+              Đang xử lý...
+            </div>
+          ) : (
+            "Thêm thẻ"
+          )}
         </button>
       </form>
       {/* <Toaster position="top-right" /> */}

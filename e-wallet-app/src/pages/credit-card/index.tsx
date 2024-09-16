@@ -17,54 +17,39 @@ import toast, { Toaster } from "react-hot-toast";
 export default function CreditCard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
+  const [deleteCardId, setDeleteCardId] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     dispatch(getCardList());
   }, [dispatch]);
 
-  const state = useSelector((state: RootState) => state.cards);
   const {
     cardState: { cards },
     isFetching,
     message,
-  } = state;
+    error,
+  } = useSelector((state: RootState) => state.cards);
 
   useEffect(() => {
     if (message) {
       toast.success(message);
       dispatch(clearMessage());
+    } else if (error) {
+      toast.error(error);
+      dispatch(clearMessage());
     }
-  }, [message, dispatch]);
+  }, [message, error, dispatch]);
 
   const handleDeleteCard = (id: string) => {
-    toast(
-      (t) => (
-        <div>
-          <p>Bạn có chắc chắn muốn xóa thẻ này?</p>
-          <div className="mt-2 flex justify-center">
-            <button
-              className="mr-2 bg-red-600 text-white py-1 px-2 rounded-md hover:bg-red-700"
-              onClick={() => {
-                dispatch(deleteCreditCard(id));
-                toast.dismiss(t.id);
-              }}
-            >
-              Xóa
-            </button>
-            <button
-              className="bg-gray-600 text-white py-1 px-2 rounded-md hover:bg-gray-700"
-              onClick={() => toast.dismiss(t.id)}
-            >
-              Hủy
-            </button>
-          </div>
-        </div>
-      ),
-      {
-        duration: 5000,
-      }
-    );
+    setDeleteCardId(id);
+  };
+
+  const confirmDeleteCard = () => {
+    if (deleteCardId) {
+      dispatch(deleteCreditCard(deleteCardId));
+      setDeleteCardId(null);
+    }
   };
 
   const handleAddCardClick = () => {
@@ -85,6 +70,10 @@ export default function CreditCard() {
               ></div>
             ))}
           </div>
+        ) : cards.length === 0 ? (
+          <p className="text-center text-gray-500">
+            Bạn chưa có liên kết với bất kỳ thẻ nào!
+          </p>
         ) : (
           <div className="mt-6 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
             {cards.map((card) => (
@@ -134,6 +123,31 @@ export default function CreditCard() {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <AddCreditCard />
       </Modal>
+
+      {deleteCardId && (
+        <Modal isOpen={!!deleteCardId} onClose={() => setDeleteCardId(null)}>
+          <div className="p-4 w-full">
+            <p className={`text-center text-lg text-gray-600`}>
+              Bạn có chắc chắn muốn xóa thẻ này?
+            </p>
+            <div className="mt-2 flex justify-center">
+              <button
+                className="mr-2 bg-red-600 text-white py-1 px-2 rounded-md hover:bg-red-700"
+                onClick={confirmDeleteCard}
+              >
+                Xóa
+              </button>
+              <button
+                className="bg-gray-600 text-white py-1 px-2 rounded-md hover:bg-gray-700"
+                onClick={() => setDeleteCardId(null)}
+              >
+                Hủy
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
+
       <Toaster position="top-center" />
     </>
   );

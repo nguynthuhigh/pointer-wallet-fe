@@ -1,17 +1,16 @@
 import HeaderDefault from '../../components/header/header_default'
-import ItemTransaction from '../../components/history_transaction/item_transaction'
+import ItemTransaction from '../../components/transaction/item_transaction'
 import USDTIcon from '../../assets/svg/usdt.svg'
 import {useInfiniteQuery} from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
 import {useIntersection} from '@mantine/hooks'
 import { getTransactionPaginate } from '../../services/api/transaction.api'
+import Filter from '../../components/transaction/filter'
 
 const HistoryTransactions = () => {
   const [userID,setUserID] = useState<string>()
   const [isLoading,setIsLoading] = useState<boolean>(true)
   const fetchTransaction = async(page:number)=>{
-    // 
-      try {
         const response = await getTransactionPaginate(page,12)
         if(response.status === 200){
           setUserID(response.data.data.id)
@@ -19,8 +18,6 @@ const HistoryTransactions = () => {
           return response.data.data.transactions
 
         }
-      } catch (error) {
-      }
     }
   const { data, fetchNextPage, isFetchingNextPage,hasNextPage } = useInfiniteQuery({
     queryKey: ['query'],  
@@ -47,10 +44,11 @@ const HistoryTransactions = () => {
     }
   },[entry])
   return (
-    <div>
+    <div class={`container-full `}>
         <div class={` p-4 `}>
             <HeaderDefault title="Lịch sử giao dịch"></HeaderDefault>
         </div>
+        <Filter></Filter>
         {!isLoading ? data?.pages.flat().map((item,key)=>{
      
             if(data?.pages.flat().length-1 === key){

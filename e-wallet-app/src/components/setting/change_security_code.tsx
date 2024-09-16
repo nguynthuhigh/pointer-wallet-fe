@@ -3,6 +3,7 @@ import InputText from './input_text'
 import { useMutation } from '@tanstack/react-query';
 import { changeSecurityCode } from '../../services/api/setting.api';
 import toast from 'react-hot-toast';
+import CloseIcon from '../../assets/svg/plus.svg'
 type FormData = {
     old_code: string;
     new_code: string;
@@ -51,9 +52,15 @@ const ChangePassword:React.FC<ChangeSecurityCodeProps> = ({handleOpenModal}) => 
         mutate(formData)
     }
     return (
-        <form onSubmit={handleSubmit} class={`bg-white p-4 border rounded-3xl font-semibold w-full max-w-2xl`}>
-            <h1 class={`text-xl`}>Đổi mã bảo mật</h1>
-            <h1 class={`text-gray-400`}>Mã bảo mật của bạn phải có 6 ký tự là chữ số.</h1>
+        <div class={`bg-white p-4 border rounded-3xl font-semibold w-full max-w-2xl`}>
+             <div class={`flex `}>
+                <div>
+                <h1 class={`text-xl`}>Đổi mã bảo mật</h1>
+                <h1 class={`text-gray-400`}>Mã bảo mật của bạn phải có 6 ký tự là chữ số.</h1>
+                </div>
+                <button onClick={()=>{handleOpenModal('security_code')}} class={`bg-gray-200 w-fit h-fit p-1 ml-2 rounded-full`}><img class='rotate-45 ' src={CloseIcon}></img></button>
+            </div>
+            <form onSubmit={handleSubmit}>
             <InputText
                 name="Mã bảo mật cũ"
                 field="old_code"
@@ -88,7 +95,8 @@ const ChangePassword:React.FC<ChangeSecurityCodeProps> = ({handleOpenModal}) => 
             <div class={`my-2 w-full`}>
                 <button type={'submit'}  class={`w-full font-semibold text-sm bg-blue-default text-white p-3 rounded-full`}>Đổi mã bảo mật </button>
             </div>
-    </form>
+        </form>
+    </div>
   )
 }
 

@@ -1,6 +1,11 @@
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 import LogoPressPay from "../../assets/svg/logo_presspay.svg";
 import { Link } from "react-router-dom";
 export default function Header() {
+  const user = useSelector(
+    (state: RootState) => state.user.userState.userData
+  );
   return (
     <div>
       <div
@@ -9,7 +14,9 @@ export default function Header() {
         <Link to="/">
           <img class={`w-40`} src={LogoPressPay} />
         </Link>
-        <h1 class={`ml-auto`}>note: Drawer</h1>
+        <div class={`ml-auto`}>
+          <img class={`w-14 h-14 object-cover rounded-full`} src={user.avatar}></img>
+        </div>
       </div>
       <div class={`h-20`}></div>
     </div>

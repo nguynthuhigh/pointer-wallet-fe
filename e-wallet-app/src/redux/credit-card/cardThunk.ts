@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
-  getAllCards,
+  getCards,
   addCard,
   deleteCard,
 } from "../../services/api/credit-card.api";
@@ -16,7 +16,7 @@ export const getCardList = createAsyncThunk(
   "card/getCardList",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await getAllCards();
+      const res = await getCards();
       if (Array.isArray(res) && res.length > 0) {
         return res;
       } else {

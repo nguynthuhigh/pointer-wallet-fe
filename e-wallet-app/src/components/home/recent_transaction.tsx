@@ -1,4 +1,4 @@
-import ItemTransaction from "../../components/history_transaction/item_transaction";
+import ItemTransaction from "../transaction/item_transaction";
 import USDTIcon from "../../assets/svg/usdt.svg";
 import { getTransactionPaginate } from "../../services/api/transaction.api";
 import { useQuery } from "@tanstack/react-query";
@@ -9,7 +9,6 @@ const RecentTransaction:React.FC = () => {
     queryFn:async ()=>{
       const response = await getTransactionPaginate(1,5)
       return response.data
-
     },
     queryKey: ["recent-transaction"],
   });

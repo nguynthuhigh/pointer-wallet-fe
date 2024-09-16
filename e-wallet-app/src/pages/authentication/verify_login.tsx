@@ -2,60 +2,70 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "preact/hooks";
 import OTPInput from "react-otp-input";
 import toast, { Toaster } from "react-hot-toast";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { verifyLoginAPI } from "../../services/api/auth.api";
 import LoadingIcon from "../../assets/svg/loading.svg";
 import PageNotFound from "../page_not_found";
 import AuthImg from "../../assets/png/auth_img.png";
-import { RootState } from "../../redux/store";
-const VerifyLogin = () => {
-  const data = useSelector((state: RootState) => state.auth.login);
-  useEffect(() => {
-    toast.success(data.loginUser.message);
-  }, []);
-  const [otp, setOtp] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const navigate = useNavigate();
-  if (!data.loginUser.email) {
-    return <PageNotFound />;
-  }
-  type ErrorResponse = {
-    response: {
-      data: {
-        message: string;
-      };
+import { RootState, AppDispatch } from "../../redux/store";
+import { clearMessage } from "../../redux/auth/authSlice";
+type ErrorResponse = {
+  response: {
+    data: {
+      message: string;
     };
   };
+};
+
+const VerifyLogin = () => {
+  const { error, loginUser } = useSelector(
+    (state: RootState) => state.auth.login
+  );
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  if (!loginUser.email) {
+    return <PageNotFound />;
+  }
+
+  useEffect(() => {
+    if (loginUser.message) {
+      toast.success(loginUser.message);
+      dispatch(clearMessage("login"));
+    }
+  }, [loginUser.message]);
+
+  const [otp, setOtp] = useState("");
+
   const handleChangeOTP = async (value: string) => {
     setOtp(value);
     if (value.length === 6) {
       const body = {
-        email: data.loginUser.email,
+        email: loginUser.email,
         otp: value,
       };
       setIsLoading(true);
       try {
         const response = await verifyLoginAPI(body);
         if (response.status === 200) {
-          toast.success("Đăng nhập thành công");
+          toast.success("Đăng nhập thành công!");
           localStorage.setItem("logged", "true");
           setTimeout(() => {
             navigate("/");
-            setIsLoading(false);
           }, 2000);
         }
       } catch (error: unknown) {
-        setIsLoading(false);
-        setError(!error);
         const typeError = error as ErrorResponse;
         toast.error(typeError.response.data.message);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
+
   return (
     <div>
-      <img class={`mx-auto mt-10 w-52`} src={AuthImg}></img>
+      <img class={`mx-auto mt-10 w-52`} src={AuthImg} />
       <h1 class={`text-center font-semibold text-2xl my-4`}>
         Xác minh đăng nhập
       </h1>
@@ -64,7 +74,7 @@ const VerifyLogin = () => {
         <span
           class={`text-center font-inter text-sm my-2 text-blue-default font-semibold`}
         >
-          {data.loginUser?.email}
+          {loginUser?.email}
         </span>
       </h1>
       <div class={`mx-auto w-fit relative`}>
@@ -72,11 +82,13 @@ const VerifyLogin = () => {
           value={otp}
           onChange={handleChangeOTP}
           numInputs={6}
+          inputType="tel"
           renderInput={({ style, ...props }) => (
             <input
-              class={`text-center font-semibold text-3xl border w-14 h-14 mx-2 bg-gray-50 rounded-xl ${
+              class={`text-center font-semibold text-3xl border w-14 h-14 mx-2 focus:outline-blue-default bg-gray-50 rounded-xl ${
                 error && "border-red-500"
-              }`}
+              } ${isLoading ? "cursor-not-allowed bg-gray-200" : ""}`}
+              disabled={isLoading}
               {...props}
             />
           )}
