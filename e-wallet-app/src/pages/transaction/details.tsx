@@ -26,7 +26,7 @@ const TransactionDetails:React.FC = () => {
   }
   return (
     <div class={`container-center font-semibold`}>
-      <HeaderDefault title={'Chi tiết giao dịch'}></HeaderDefault>
+      <HeaderDefault  title={'Chi tiết giao dịch'}></HeaderDefault>
       <TransactionInfo {...data}></TransactionInfo>
       <InfoDetails {...data}></InfoDetails>
     </div>

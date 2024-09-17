@@ -1,11 +1,10 @@
+import axios from "axios";
 import axiosConfig from "../configs/axios.config";
-export const addVoucher = async(body)=>{
-    return await axiosConfig.post(process.env.REACT_APP_API+`/api/v1/voucher/add-voucher`,body,{
-        withCredentials:true,
-        headers:{
-            'Content-Type':'multipart/form-data'
-        }
-    })
+export const addVoucher = async(formData)=>{
+    return await axios.post(`${process.env.REACT_APP_API}/api/v1/voucher/add-voucher`, formData, {
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" }
+    }); 
 }
 export const getVoucher = async(voucherID)=>{
     return await axiosConfig.get(process.env.REACT_APP_API+`/api/v1/voucher/get-voucher-details?voucherID=`+voucherID,{
