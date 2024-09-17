@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Box, Drawer } from "@mui/material";
 import OTPInput from "react-otp-input";
-import { depositMoney, withdrawMoney } from "../../services/api/transfer.api";
 import toast, { Toaster } from "react-hot-toast";
+import { depositMoney, withdrawMoney } from "../../services/api/transfer.api";
+import { useNavigate } from "react-router-dom";
 import ic_close from "../../assets/svg/close.svg";
 import ic_loading from "../../assets/svg/loading.svg";
 
@@ -33,6 +34,7 @@ const DrawerBottom: React.FC<BottomDrawerProps> = ({
   state,
   data,
 }) => {
+  const navigate = useNavigate();
   const [otp, setOtp] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -48,11 +50,39 @@ const DrawerBottom: React.FC<BottomDrawerProps> = ({
       setIsLoading(true);
       try {
         if (data.isDeposit) {
-          await depositMoney(body);
-          toast.success("Nạp tiền thành công!");
+          const res = await depositMoney(body);
+          if (res.status === 200) {
+            toast.success("Nạp tiền thành công!");
+            setTimeout(() => {
+              navigate("/deposit-withdraw/result", {
+                state: {
+                  type: "Nạp tiền",
+                  amount: res.data.data.amount,
+                  currency: data.currency,
+                  createdAt: res.data.data.updatedAt,
+                },
+              });
+            }, 2000);
+          } else {
+            toast.error(res.data.message);
+          }
         } else {
-          await withdrawMoney(body);
-          toast.success("Rút tiền thành công!");
+          const res = await withdrawMoney(body);
+          if (res.status === 200) {
+            toast.success("Rút tiền thành công!");
+            setTimeout(() => {
+              navigate("/deposit-withdraw/result", {
+                state: {
+                  type: "Rút tiền",
+                  amount: res.data.data.amount,
+                  currency: data.currency,
+                  createdAt: res.data.data.updatedAt,
+                },
+              });
+            }, 2000);
+          } else {
+            toast.error(res.data.message);
+          }
         }
         setIsLoading(false);
         onClose();
@@ -90,7 +120,7 @@ const DrawerBottom: React.FC<BottomDrawerProps> = ({
               error && "border-red-500"
             } relative w-fit border rounded-full`}
           >
-            <div class={`p-4`}>
+            <div class="p-4">
               <OTPInput
                 value={otp}
                 onChange={handleChangeOTP}
@@ -102,7 +132,7 @@ const DrawerBottom: React.FC<BottomDrawerProps> = ({
                     pattern="[0-9]*"
                     class={`rounded-full ${
                       error && `border-red-500`
-                    } text-center font-semibold   border w-5 h-5  mx-2 bg-gray-50  ${
+                    } text-center font-semibold border w-5 h-5 mx-2 bg-gray-50 ${
                       error && "border-red-500"
                     }`}
                     {...props}

@@ -13,18 +13,9 @@ import Deposit from "./deposit";
 import Withdraw from "./withdraw";
 
 export default function DepositWithdraw() {
-  const [isSelectedCard, setIsSelectedCard] = useState<string | null>(null);
-  const [isSelectedCurrency, setIsSelectedCurrency] = useState<string | null>(
-    "VND"
-  );
-  const [isDepositModalOpen, setIsDepositModalOpen] = useState<boolean>(false);
-  const [isWithdrawModalOpen, setIsWithdrawModalOpen] =
-    useState<boolean>(false);
-
   const navigate = useNavigate();
   const walletData = useSelector((state: RootState) => state.user);
   const cardData = useSelector((state: RootState) => state.cards);
-
   useEffect(() => {
     if (cardData?.cardState?.cards.length === 0) {
       toast.custom((t) => (
@@ -52,13 +43,24 @@ export default function DepositWithdraw() {
       ));
     }
   }, [cardData?.cardState?.cards]);
+  const [isSelectedCard, setIsSelectedCard] = useState<string | null>(null);
+  const [isSelectedCurrency, setIsSelectedCurrency] = useState<string | null>(
+    "VND"
+  );
+  const [selectedBalance, setSelectedBalance] = useState<number>(
+    walletData?.userState?.walletData?.currencies?.[0]?.balance
+  );
+  const [isDepositModalOpen, setIsDepositModalOpen] = useState<boolean>(false);
+  const [isWithdrawModalOpen, setIsWithdrawModalOpen] =
+    useState<boolean>(false);
 
   const handleCardSelect = (cardId: string) => {
     setIsSelectedCard(cardId);
   };
 
-  const handleCurrencySelect = (currency: string) => {
+  const handleCurrencySelect = (currency: string, balance: number) => {
     setIsSelectedCurrency(currency);
+    setSelectedBalance(balance);
   };
 
   const handleDepositSelect = () => {
@@ -84,7 +86,7 @@ export default function DepositWithdraw() {
               to={`/credit-card`}
               className={`text-blue-default font-semibold`}
             >
-              Nhấn vào đây để liên kết thẻ.
+              Liên kết thẻ.
             </Link>
           </span>
         </div>
@@ -142,7 +144,13 @@ export default function DepositWithdraw() {
                       }
                       isSelected={isSelectedCurrency === value.currency}
                       isLoading={walletData.isFetching}
-                      onClick={() => handleCurrencySelect(value.currency)}
+                      onClick={() =>
+                        handleCurrencySelect(
+                          value.currency,
+                          walletData?.userState?.walletData?.currencies?.[index]
+                            ?.balance
+                        )
+                      }
                     />
                   ))}
                 </div>
@@ -176,6 +184,7 @@ export default function DepositWithdraw() {
         <Deposit
           cardId={isSelectedCard ?? ""}
           currency={isSelectedCurrency ?? ""}
+          balance={selectedBalance}
         />
       </Modal>
 
@@ -186,6 +195,7 @@ export default function DepositWithdraw() {
         <Withdraw
           cardId={isSelectedCard ?? ""}
           currency={isSelectedCurrency ?? ""}
+          balance={selectedBalance}
         />
       </Modal>
 

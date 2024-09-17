@@ -4,15 +4,17 @@ import Cards from "react-credit-cards-2";
 import CurrencyInput from "react-currency-input-field";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import { useSelector } from "react-redux";
+import { formatCurrency } from "../../utils/format_currency";
 import { RootState } from "../../redux/store";
 import DrawerBottom from "./drawer_security";
 
-interface DepositProps {
+interface WithdrawProps {
   cardId: string | null;
   currency: string | null;
+  balance: number;
 }
 
-export default function Withdraw({ cardId, currency }: DepositProps) {
+export default function Withdraw({ cardId, currency, balance }: WithdrawProps) {
   const [amount, setAmount] = useState<string>("");
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const cardData = useSelector(
@@ -64,6 +66,10 @@ export default function Withdraw({ cardId, currency }: DepositProps) {
         <div className="mb-4">
           <span className="font-semibold">Tiền tệ: </span>
           {currency}
+        </div>
+        <div className="mb-4">
+          <span className="font-semibold">Số dư: </span>
+          {balance ? formatCurrency(balance, currency) : 0}
         </div>
       </div>
 
