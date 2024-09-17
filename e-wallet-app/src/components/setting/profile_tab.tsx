@@ -22,7 +22,7 @@ const Profile: React.FC<ProfileProps> = (props) => {
     };
     const [isLoading,setIsLoading] = useState<boolean>(false)
     const {mutate} = useMutation({
-        mutationFn: async (formData:any)=>{
+        mutationFn: async (formData:FormData)=>{
             setIsLoading(true)
             await editProfile(formData)
         },

@@ -53,9 +53,8 @@ export default function VoucherForm() {
     setVoucherData({ ...voucherData, [name]: value });
     setErrors({discountValue:null,code:null})
   };
-  const {isPending,mutate} = useMutation({
+  const {mutate} = useMutation({
     mutationFn:async(formData)=>{
-      console.log(formData)
       await voucherAPI.addVoucher(formData)
     },
     onSuccess:()=>{
@@ -72,7 +71,6 @@ export default function VoucherForm() {
       return
     }
     const formData =new FormData()
-    console.log(voucherData)
     formData.append('title',voucherData.title)
     formData.append('code',voucherData.code)
     formData.append('content',voucherData.content)
@@ -81,8 +79,8 @@ export default function VoucherForm() {
     formData.append('type',voucherData.type)
     formData.append('currency',voucherData.currency)
     formData.append('min_condition',voucherData.min_condition)
-    console.log(image)
     formData.append('image',image)
+    console.log(...formData.entries())
     mutate(formData)
   };
 
