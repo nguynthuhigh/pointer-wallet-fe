@@ -92,7 +92,7 @@ const SideBar: React.FC<SideBarProps> = ({ state }) => {
   );
   return (
     <div
-      className={`h-full bg-white shadow-lg transition-transform duration-300 ease-in-out w-[280px] mt-2 rounded-r-lg border pr-4 ${
+      className={`h-full bg-white shadow-lg transition-transform duration-300 ease-in-out w-[250px] mt-2 rounded-r-lg border pr-4 ${
         collapsed ? "translate-x-[-250px]" : "translate-x-0"
       } max-lg:fixed max-lg:left-0`}
     >
