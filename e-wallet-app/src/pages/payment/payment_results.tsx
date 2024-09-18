@@ -8,29 +8,22 @@ import { getTransactionAPI } from "../../services/api/transfer.api";
 import Loading from "../loading";
 import { formatCurrency } from "../../utils/format_currency";
 import { TransactionPayment } from "../../types/payment";
+import { useQuery } from "@tanstack/react-query";
 const PaymentResults: React.FC = () => {
   const location = useLocation();
-  const [transactionData, setTransactionData] = useState<TransactionPayment>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  useEffect(() => {
-    const fetchTransaction = async () => {
-      try {
-        const response = await getTransactionAPI(location.state.id);
-        if (response.status === 200) {
-          setTransactionData(response.data.data);
-          setIsLoading(false);
-        }
-      } catch (error) {
-        setIsLoading(false);
-      }
-    };
-    fetchTransaction();
-  }, []);
+  console.log(location.state.id)
+  const {data,isLoading,isError} = useQuery({
+    queryKey:['payment',location.state.id],
+    queryFn: async()=>{
+      const response = await getTransactionAPI(location.state.id);
+      return response.data.data
+    }
+  })
   if (isLoading) {
     return <Loading></Loading>;
   }
   return (
-    <div class={`p-6 max-w-[600px] mx-auto bg-white rounded-lg shadow-lg`}>
+    <div class={`container-center`}>
       <Link to="/">
         <img class={`ml-auto`} src={ic_home}></img>
       </Link>
@@ -40,12 +33,12 @@ const PaymentResults: React.FC = () => {
           <h1 class={`text-lg`}>Thanh toán thành công</h1>
           <h1 class={`text-5xl font-bold text-blue-600`}>
             {formatCurrency(
-              transactionData?.amount,
-              transactionData?.currency.symbol
+              data?.amount,
+              data?.currency.symbol
             )}
           </h1>
           <h1 class={`text-sm text-gray-500`}>
-            {formatDate(transactionData?.createdAt ?? new Date())}
+            {formatDate(data?.createdAt ?? new Date())}
           </h1>
         </div>
         <div class={`p-4 font-semibold`}>
@@ -55,13 +48,13 @@ const PaymentResults: React.FC = () => {
               <div class={`flex`}>
                 <h1 class={`text-sm text-gray-400`}>Tên sản phẩm</h1>
                 <h1 class={`text-sm text-black ml-auto`}>
-                  {transactionData?.message}
+                  {data?.message}
                 </h1>
               </div>
               <div class={`flex`}>
                 <h1 class={`text-sm text-gray-400`}>Nhà cung cấp</h1>
                 <h1 class={`text-sm text-black ml-auto`}>
-                  {transactionData?.partnerID.name}
+                  {data?.partnerID.name}
                 </h1>
               </div>
             </div>

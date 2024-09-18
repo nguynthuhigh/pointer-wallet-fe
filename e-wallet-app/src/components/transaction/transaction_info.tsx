@@ -25,7 +25,7 @@ interface TransactionInfoProps{
 }
 const TransactionInfo:React.FC<TransactionInfoProps> = (props) => {
   return (
-    <div>
+    <div class={`max-sm:text-sm`}>
         <div class={`flex items-center justify-between`}>
        <div class={`flex items-center`}>
           <img class={`w-20 h-20 `} src=''></img>
@@ -40,7 +40,7 @@ const TransactionInfo:React.FC<TransactionInfoProps> = (props) => {
       
       <div class={` p-4 my-2`}>
         <div class={`flex items-center justify-between my-3`}>
-          <h1 class={`text-4xl`}>{formatCurrency(props.amount,props.currency.symbol)}</h1>
+          <h1 class={`text-4xl max-sm:text-2xl`}>{formatCurrency(props.amount,props.currency.symbol)}</h1>
           <h1 class={`bg-green-50 text-green-500 w-fit h-fit p-1.5 rounded-full text-sm`}>✔ Completed</h1>
         </div>
       </div>

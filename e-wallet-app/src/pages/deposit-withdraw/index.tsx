@@ -103,32 +103,7 @@ export default function DepositWithdraw() {
             </div>
           ) : (
             <>
-              <div>
-                <div className="font-semibold text-gray-600 text-lg mb-2">
-                  Chọn thẻ tín dụng
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 self-center justify-items-center align-items-center">
-                  {cardData?.cardState?.cards.map((card) => (
-                    <div
-                      key={card._id}
-                      onClick={() => handleCardSelect(card._id ?? "")}
-                      className={`my-4 rounded-[18px] shadow-lg cursor-pointer transition-all flex items-center justify-center w-fit ${
-                        isSelectedCard === card._id
-                          ? "border-4 border-blue-500"
-                          : "border-2 border-gray-200"
-                      } hover:bg-gray-200`}
-                    >
-                      <Cards
-                        number={card.number}
-                        expiry={`${card.expiryMonth}/${card.expiryYear}`}
-                        cvc={card.cvv}
-                        name={card.name}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="flex flex-col mt-6">
+                <div className="flex flex-col mt-6">
                 <div className="font-semibold text-gray-600 text-lg mb-2">
                   Chọn nguồn tiền
                 </div>
@@ -155,6 +130,42 @@ export default function DepositWithdraw() {
                   ))}
                 </div>
               </div>
+              <div>
+                <div className="font-semibold text-gray-600 text-lg mb-2">
+                  Chọn thẻ tín dụng
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 self-center justify-items-center align-items-center">
+                  {cardData?.cardState?.cards.map((card) => (
+                    <div
+                      key={card._id}
+                      onClick={() => handleCardSelect(card._id ?? "")}
+                      className={` rounded-[18px] shadow-lg cursor-pointer w-full transition-all flex items-center justify-center ${
+                        isSelectedCard === card._id
+                          ? "border-4 border-blue-500"
+                          : "border-2 border-gray-200"
+                      } hover:bg-gray-200`}
+                    >
+                      <div class={`max-md:hidden mx-auto w-fit`}>
+                      <Cards
+                        number={card.number}
+                        expiry={`${card.expiryMonth}/${card.expiryYear}`}
+                        cvc={card.cvv}
+                        name={card.name}
+                      />
+                      </div>
+                    
+                        <div class={`md:hidden w-full flex items-center p-2`}>
+                          <img class={`w-10 h-fit`} src={`https://static-00.iconduck.com/assets.00/visa-icon-2048x628-6yzgq2vq.png`}></img>
+                          <div class={`font-semibold ml-4`}>
+                            <h1>{card.number}</h1>
+                            <h1 class={`text-sm`}>{card.type}</h1>
+                          </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+          
 
               {showActionButtons && (
                 <div className="mt-6 flex gap-4 justify-center">

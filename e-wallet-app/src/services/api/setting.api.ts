@@ -1,6 +1,6 @@
 import { createAxios } from "../../config/axios.config";
 const axiosInstance = createAxios();
-export const editProfile = async (formData:any) => {
+export const editProfile = async (formData:FormData) => {
   return await axiosInstance.put(
     `/api/v1/user/edit-profile`,formData,
     {
