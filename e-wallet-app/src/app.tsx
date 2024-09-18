@@ -28,6 +28,7 @@ import Setting from "./pages/setting";
 import SideBar from "./components/sidebar/sidebar";
 import Header from "./components/header/header";
 import TransferByQrCode from "./pages/receive/transfer";
+import Result from "./pages/deposit-withdraw/result";
 import SelectOptions from "./pages/payment/select_options";
 import RegisteredRoute from "./utils/registered-route";
 
@@ -72,9 +73,11 @@ export default function App() {
               element={<TransactionDetails />}
             />
             <Route path="/deposit-withdraw" element={<DepositWithdraw />} />
+            <Route path="/deposit-withdraw/result" element={<Result />} />
             <Route path="/credit-card" element={<CreditCard />}>
               <Route path="add-card" element={<AddCreditCard />} />
             </Route>
+
             <Route path="/receive-page" element={<ReceivePage />} />
           </Route>
           <Route path="*" element={<PageNotFound />} />

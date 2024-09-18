@@ -8,13 +8,14 @@ import Payment from "../../assets/svg/payment.svg";
 import DepositWithdraw from "../../assets/svg/depo-with.svg";
 import CreditCard from "../../assets/svg/credit-card.svg";
 import Settings from "../../assets/svg/set.svg";
+import History from "../../assets/svg/transaction-history.svg";
 
 interface SideBarProps {
   state: string;
 }
 
 const SideBar: React.FC<SideBarProps> = ({ state }) => {
-  const location = useLocation(); 
+  const location = useLocation();
   const [selected, setSelected] = useState<string>(() => {
     return localStorage.getItem("selectedTab") || state;
   });
@@ -74,9 +75,17 @@ const SideBar: React.FC<SideBarProps> = ({ state }) => {
       { name: "Chuyển tiền", link: "/transfer", icon: Icon },
       { name: "Nhận tiền", link: "/receive-page", icon: ReceiveMoney },
       { name: "Thanh toán", link: "/option-payment", icon: Payment },
-      { name: "Nạp/Rút tiền", link: "/deposit-withdraw",icon: DepositWithdraw},
+      {
+        name: "Nạp/Rút tiền",
+        link: "/deposit-withdraw",
+        icon: DepositWithdraw,
+      },
       { name: "Quản lý thẻ", link: "/credit-card", icon: CreditCard },
-      { name: "Lịch sử giao dịch", link: "/transaction/history", icon: CreditCard },
+      {
+        name: "Lịch sử giao dịch",
+        link: "/transaction/history",
+        icon: History,
+      },
       { name: "Cài đặt", link: "/setting", icon: Settings },
     ],
     []

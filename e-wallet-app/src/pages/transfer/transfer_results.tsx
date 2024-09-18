@@ -13,7 +13,6 @@ const TransferResults: React.FC = () => {
   const location = useLocation();
   const [transactionData, setTransactionData] = useState<TransactionData>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  console.log(location.state.id);
   useEffect(() => {
     const fetchTransaction = async () => {
       try {

@@ -13,18 +13,9 @@ import Deposit from "./deposit";
 import Withdraw from "./withdraw";
 
 export default function DepositWithdraw() {
-  const [isSelectedCard, setIsSelectedCard] = useState<string | null>(null);
-  const [isSelectedCurrency, setIsSelectedCurrency] = useState<string | null>(
-    "VND"
-  );
-  const [isDepositModalOpen, setIsDepositModalOpen] = useState<boolean>(false);
-  const [isWithdrawModalOpen, setIsWithdrawModalOpen] =
-    useState<boolean>(false);
-
   const navigate = useNavigate();
   const walletData = useSelector((state: RootState) => state.user);
   const cardData = useSelector((state: RootState) => state.cards);
-
   useEffect(() => {
     if (cardData?.cardState?.cards.length === 0) {
       toast.custom((t) => (
@@ -52,13 +43,24 @@ export default function DepositWithdraw() {
       ));
     }
   }, [cardData?.cardState?.cards]);
+  const [isSelectedCard, setIsSelectedCard] = useState<string | null>(null);
+  const [isSelectedCurrency, setIsSelectedCurrency] = useState<string | null>(
+    "VND"
+  );
+  const [selectedBalance, setSelectedBalance] = useState<number>(
+    walletData?.userState?.walletData?.currencies?.[0]?.balance
+  );
+  const [isDepositModalOpen, setIsDepositModalOpen] = useState<boolean>(false);
+  const [isWithdrawModalOpen, setIsWithdrawModalOpen] =
+    useState<boolean>(false);
 
   const handleCardSelect = (cardId: string) => {
     setIsSelectedCard(cardId);
   };
 
-  const handleCurrencySelect = (currency: string) => {
+  const handleCurrencySelect = (currency: string, balance: number) => {
     setIsSelectedCurrency(currency);
+    setSelectedBalance(balance);
   };
 
   const handleDepositSelect = () => {
@@ -84,7 +86,7 @@ export default function DepositWithdraw() {
               to={`/credit-card`}
               className={`text-blue-default font-semibold`}
             >
-              Nhấn vào đây để liên kết thẻ.
+              Liên kết thẻ.
             </Link>
           </span>
         </div>
@@ -101,7 +103,7 @@ export default function DepositWithdraw() {
             </div>
           ) : (
             <>
-                <div className="flex flex-col mt-6">
+              <div className="flex flex-col mt-6">
                 <div className="font-semibold text-gray-600 text-lg mb-2">
                   Chọn nguồn tiền
                 </div>
@@ -117,7 +119,13 @@ export default function DepositWithdraw() {
                       }
                       isSelected={isSelectedCurrency === value.currency}
                       isLoading={walletData.isFetching}
-                      onClick={() => handleCurrencySelect(value.currency)}
+                      onClick={() =>
+                        handleCurrencySelect(
+                          value.currency,
+                          walletData?.userState?.walletData?.currencies?.[index]
+                            ?.balance
+                        )
+                      }
                     />
                   ))}
                 </div>
@@ -131,33 +139,35 @@ export default function DepositWithdraw() {
                     <div
                       key={card._id}
                       onClick={() => handleCardSelect(card._id ?? "")}
-                      className={` rounded-[18px] shadow-lg cursor-pointer w-full transition-all flex items-center justify-center ${
+                      className={` rounded-[18px] shadow-lg cursor-pointer w-fit transition-all flex items-center justify-center ${
                         isSelectedCard === card._id
                           ? "border-4 border-blue-500"
                           : "border-2 border-gray-200"
                       } hover:bg-gray-200`}
                     >
                       <div class={`max-md:hidden mx-auto w-fit`}>
-                      <Cards
-                        number={card.number}
-                        expiry={`${card.expiryMonth}/${card.expiryYear}`}
-                        cvc={card.cvv}
-                        name={card.name}
-                      />
+                        <Cards
+                          number={card.number}
+                          expiry={`${card.expiryMonth}/${card.expiryYear}`}
+                          cvc={card.cvv}
+                          name={card.name}
+                        />
                       </div>
-                    
-                        <div class={`md:hidden w-full flex items-center p-2`}>
-                          <img class={`w-10 h-fit`} src={`https://static-00.iconduck.com/assets.00/visa-icon-2048x628-6yzgq2vq.png`}></img>
-                          <div class={`font-semibold ml-4`}>
-                            <h1>{card.number}</h1>
-                            <h1 class={`text-sm`}>{card.type}</h1>
-                          </div>
+
+                      <div class={`md:hidden w-full flex items-center p-2`}>
+                        <img
+                          class={`w-10 h-fit`}
+                          src={`https://static-00.iconduck.com/assets.00/visa-icon-2048x628-6yzgq2vq.png`}
+                        ></img>
+                        <div class={`font-semibold ml-4`}>
+                          <h1>{card.number}</h1>
+                          <h1 class={`text-sm`}>{card.type}</h1>
+                        </div>
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
-          
 
               {showActionButtons && (
                 <div className="mt-6 flex gap-4 justify-center">
@@ -187,6 +197,7 @@ export default function DepositWithdraw() {
         <Deposit
           cardId={isSelectedCard ?? ""}
           currency={isSelectedCurrency ?? ""}
+          balance={selectedBalance}
         />
       </Modal>
 
@@ -197,6 +208,7 @@ export default function DepositWithdraw() {
         <Withdraw
           cardId={isSelectedCard ?? ""}
           currency={isSelectedCurrency ?? ""}
+          balance={selectedBalance}
         />
       </Modal>
 
