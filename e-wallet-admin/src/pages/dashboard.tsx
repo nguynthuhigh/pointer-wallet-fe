@@ -1,4 +1,3 @@
-import React from 'react'
 import SideBar from '../components/sidebar/sidebar'
 import TotalStatistic from '../components/dashboard/total_statistic'
 import TotalUser from '../assets/svg/total_user.svg'

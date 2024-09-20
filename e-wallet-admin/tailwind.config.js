@@ -6,10 +6,17 @@ export default {
   ],
   theme: {
     fontFamily: {
-      inter: ['Inter', 'sans-serif'],
+      poppins: ['Poppins', 'sans-serif'],
+      merryweather: ['Merryweather','serif']
+    },
+    screen: {
+      'xs' : '480px',
+      'sm': '640px',
     },
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar-hide'),
+  ],
 }
 
