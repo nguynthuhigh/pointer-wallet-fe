@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import Cookies from "universal-cookie"
-import { Loading } from "./loading"
+import { Loading } from "../../components/auth/loading"
 import authAPI from '../../api/auth.api'
 
 export default function VerifyForm(){
