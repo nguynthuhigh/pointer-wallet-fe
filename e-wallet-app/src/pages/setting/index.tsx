@@ -1,30 +1,36 @@
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import Profile from '../../components/setting/profile_tab';
-import Security from '../../components/setting/security_tab';
-import { useQuery } from '@tanstack/react-query';
-import { getProfileAPI } from '../../services/api/user.api';
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import Profile from "../../components/setting/profile_tab";
+import Security from "../../components/setting/security_tab";
+import { useQuery } from "@tanstack/react-query";
+import { getProfileAPI } from "../../services/api/user.api";
 export default function Setting() {
-  const {data, isLoading} = useQuery({
-    queryKey:['userProfile'],
-    queryFn:async()=>{
-      const response = await getProfileAPI()
-      return response.data.data.userData
-    }
-  })
-  return <div class={`container-center`}>
-    {isLoading ? '...loading'  : 
-       <Tabs selectedTabClassName={`bg-blue-500 text-white rounded-lg focus:outline-none `}>
-            <TabList className={`flex font-semibold`}>
-              <Tab  className={`p-2 cursor-pointer`}>Thông tin</Tab>
-              <Tab className={`p-2 cursor-pointer`}>Bảo mật</Tab>
-            </TabList>
-            <TabPanel>
-                <Profile data={data} />
-            </TabPanel>
-            <TabPanel>
-                <Security/>
-            </TabPanel>
+  const { data, isLoading } = useQuery({
+    queryKey: ["userProfile"],
+    queryFn: async () => {
+      const response = await getProfileAPI();
+      return response.data.data.userData;
+    },
+  });
+  return (
+    <div class={`container-center`}>
+      {isLoading ? (
+        "...loading"
+      ) : (
+        <Tabs
+          selectedTabClassName={`bg-blue-500 text-white rounded-lg focus:outline-none `}
+        >
+          <TabList className={`flex font-semibold`}>
+            <Tab className={`p-2 cursor-pointer`}>Thông tin</Tab>
+            <Tab className={`p-2 cursor-pointer`}>Bảo mật</Tab>
+          </TabList>
+          <TabPanel>
+            <Profile data={data} />
+          </TabPanel>
+          <TabPanel>
+            <Security />
+          </TabPanel>
         </Tabs>
-        }
-  </div>;
+      )}
+    </div>
+  );
 }
