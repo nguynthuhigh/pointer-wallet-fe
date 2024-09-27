@@ -33,7 +33,6 @@ const Partners = () => {
         setSelectedFromDate(null);
         setSelectedToDate(null);
     }
-    console.log(sortOrder)
     return (
         <>
             <div className="flex w-full h-screen font-poppins">

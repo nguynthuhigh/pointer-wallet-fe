@@ -50,13 +50,13 @@ export const PaginatePartners = ({selectedFromDate,selectedToDate,sort,search,in
 
     const itemsPerPage = 8;
     const {data,isLoading,isError} = useQuery({
-        queryKey: ['Partners',currentPage],
+        queryKey: ['Partners',currentPage,sort,inactive,selectedFromDate,selectedToDate],
         queryFn: async () => {
             const response = await axiosInstance.get(`/api/v1/partner-management/get-partners`,{
                 params: {
                     page:currentPage,
                     page_limit: itemsPerPage,
-                    inactive:inactive,
+                    active:inactive,
                     start:selectedFromDate?.toISOString(),
                     end:selectedToDate?.toISOString(),
                     sort:sort,
@@ -69,6 +69,7 @@ export const PaginatePartners = ({selectedFromDate,selectedToDate,sort,search,in
     if (isLoading) return 'Loading...'
     if (isError) return 'Error Fetch Data'
     console.log(data)
+    console.log(sort)
 
     const handlePageClick = (e: {selected: number}) => {
         setCurrentPage(e.selected+1)

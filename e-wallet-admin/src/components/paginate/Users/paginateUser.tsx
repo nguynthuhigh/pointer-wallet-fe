@@ -16,6 +16,7 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
+import UserCard from "@/components/user/user_card";
 
     export interface IDataItem {
         _id: string,
