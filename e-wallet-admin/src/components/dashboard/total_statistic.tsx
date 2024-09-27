@@ -1,4 +1,3 @@
-import React from 'react'
 import CountUp from 'react-countup'
 const TotalStatistic = ({...props}) => {
   return (
@@ -17,7 +16,7 @@ const TotalStatistic = ({...props}) => {
                 <img className='w-6 ' src={props.image}></img>
             </div>
         </div>
-        <h1 className='mt-5 text-sm font-semibold text-gray-600'><span className='text-green-500'>8,5% </span>Up from yesterday</h1>
+        <h1 className='mt-5 text-sm font-semibold text-gray-600'><span className='text-green-500'>8,5% Up from yesterday</span></h1>
     </div>
   )
 }

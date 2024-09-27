@@ -40,3 +40,31 @@
 .read-the-docs {
   color: #888;
 }
+
+.overflow-x-auto::-webkit-scrollbar {
+  height: 12px; 
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: #0094FF; 
+  border-radius: 8px; 
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+  background: #0077cc; 
+}
+td {
+  padding: 0; 
+  height: 50px; 
+  box-sizing: border-box; 
+}
+.react-datepicker{
+  z-index: 9999;
+}
+.table-container {
+  display: block !important
+}
