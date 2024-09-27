@@ -52,43 +52,45 @@ const Login = () => {
   };
 
   return (
-    <div class="container-auth">
-      <div class="w-full">
-        <img class="mx-auto mt-10 w-52" src={AuthImg}></img>
-        <h1 class="text-center font-semibold text-2xl mt-5">
-          Thông tin đăng nhập
-        </h1>
-        <h1 class="text-center font-inter font-semibold text-blue-default text-sm my-2">
-          Chào mừng bạn trở lại!
-        </h1>
-        <form onSubmit={handleLogin}>
-          <InputText
-            error={formErrors}
-            onChange={handleInputChange}
-            type="text"
-            title="Email"
-            name="email"
-            placeholder="Nhập email hoặc username"
-            isFetching={isFetching}
-          />
-          <InputText
-            error={formErrors}
-            onChange={handleInputChange}
-            type="password"
-            title="Mật khẩu"
-            name="password"
-            placeholder="Nhập mật khẩu"
-            isFetching={isFetching}
-          />
-          <ButtonSubmit title="Đăng nhập" isLoading={isFetching} />
-        </form>
-        <h1 class="text-center font-semibold">
-          Bạn chưa có tài khoản?{" "}
-          <Link to="/auth/register" class="font-semibold text-blue-default">
-            Đăng ký
-          </Link>
-        </h1>
-        <Toaster position="top-right" />
+    <div className={`w-screen h-screen bg-gray-50`}>
+      <div class="container-auth">
+        <div class="w-full">
+          <img class="mx-auto mt-10 w-52" src={AuthImg}></img>
+          <h1 class="text-center font-semibold text-2xl mt-5">
+            Thông tin đăng nhập
+          </h1>
+          <h1 class="text-center font-inter font-semibold text-blue-default text-sm my-2">
+            Chào mừng bạn trở lại!
+          </h1>
+          <form onSubmit={handleLogin}>
+            <InputText
+              error={formErrors}
+              onChange={handleInputChange}
+              type="text"
+              title="Email"
+              name="email"
+              placeholder="Nhập email hoặc username"
+              isFetching={isFetching}
+            />
+            <InputText
+              error={formErrors}
+              onChange={handleInputChange}
+              type="password"
+              title="Mật khẩu"
+              name="password"
+              placeholder="Nhập mật khẩu"
+              isFetching={isFetching}
+            />
+            <ButtonSubmit title="Đăng nhập" isLoading={isFetching} />
+          </form>
+          <h1 class="text-center font-semibold">
+            Bạn chưa có tài khoản?{" "}
+            <Link to="/auth/register" class="font-semibold text-blue-default">
+              Đăng ký
+            </Link>
+          </h1>
+          <Toaster position="top-right" />
+        </div>
       </div>
     </div>
   );

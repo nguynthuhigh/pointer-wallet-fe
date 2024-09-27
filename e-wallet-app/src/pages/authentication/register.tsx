@@ -90,51 +90,53 @@ export default function Register() {
   };
 
   return (
-    <div className="container-auth">
-      <img className="mx-auto mt-10 w-52" src={AuthImg} alt="auth image" />
-      <h1 className="text-center font-semibold text-2xl mt-5">
-        Đăng ký tài khoản
-      </h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
-        <InputText
-          error={errors.email?.message}
-          register={register}
-          name="email"
-          type="email"
-          title="Email"
-          placeholder="Nhập địa chỉ Email"
-          isFetching={isFetching}
-        />
+    <div className={`h-screen w-screen bg-gray-50`}>
+      <div className="container-auth">
+        <img className="mx-auto mt-10 w-52" src={AuthImg} alt="auth image" />
+        <h1 className="text-center font-semibold text-2xl mt-5">
+          Đăng ký tài khoản
+        </h1>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
+          <InputText
+            error={errors.email?.message}
+            register={register}
+            name="email"
+            type="email"
+            title="Email"
+            placeholder="Nhập địa chỉ Email"
+            isFetching={isFetching}
+          />
 
-        <InputText
-          error={errors.password?.message}
-          register={register}
-          name="password"
-          type="password"
-          title="Mật khẩu"
-          placeholder="Nhập mật khẩu"
-          isFetching={isFetching}
-        />
+          <InputText
+            error={errors.password?.message}
+            register={register}
+            name="password"
+            type="password"
+            title="Mật khẩu"
+            placeholder="Nhập mật khẩu"
+            isFetching={isFetching}
+          />
 
-        <InputText
-          error={errors.confirmPassword?.message}
-          register={register}
-          name="confirmPassword"
-          type="password"
-          title="Nhập lại mật khẩu"
-          placeholder="Nhập lại mật khẩu"
-          isFetching={isFetching}
-        />
+          <InputText
+            error={errors.confirmPassword?.message}
+            register={register}
+            name="confirmPassword"
+            type="password"
+            title="Nhập lại mật khẩu"
+            placeholder="Nhập lại mật khẩu"
+            isFetching={isFetching}
+          />
 
-        <ButtonSubmit title="Đăng ký" isLoading={isFetching} />
-      </form>
-      <h1 className="text-center font-semibold">
-        Bạn đã có tài khoản?{" "}
-        <Link to="/auth/login" className="font-semibold text-blue-default">
-          Đăng nhập
-        </Link>
-      </h1>
-      <Toaster position="top-right" />
+          <ButtonSubmit title="Đăng ký" isLoading={isFetching} />
+        </form>
+        <h1 className="text-center font-semibold">
+          Bạn đã có tài khoản?{" "}
+          <Link to="/auth/login" className="font-semibold text-blue-default">
+            Đăng nhập
+          </Link>
+        </h1>
+        <Toaster position="top-right" />
+      </div>
     </div>
   );
 }

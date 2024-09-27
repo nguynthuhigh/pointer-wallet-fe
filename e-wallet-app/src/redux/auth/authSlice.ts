@@ -9,7 +9,7 @@ export interface UserState {
 
 type User = Omit<UserState, "password">;
 
-interface AuthState {
+export interface AuthState {
   login: {
     loginUser: User;
     isFetching: boolean;
