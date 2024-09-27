@@ -65,3 +65,6 @@ td {
 .react-datepicker{
   z-index: 9999;
 }
+.table-container {
+  display: block !important
+}

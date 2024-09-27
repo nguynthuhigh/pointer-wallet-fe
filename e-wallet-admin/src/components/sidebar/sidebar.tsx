@@ -7,20 +7,19 @@ import { PiTicketBold } from "react-icons/pi";
 import { FaHandshake } from "react-icons/fa";
 import { TbLogout2 } from "react-icons/tb";
 
-
 const SideBar = ({...props}) => {
     const [selected, setSelected] = useState<string>(props.state)
     const handleSelect = (state: string) => {
         setSelected(state)
     }
     return (
-        <div className=' min-w-[200px] bg-white border-r-4 h-screen flex flex-col'>
+        <div className='max-w-[270px] bg-white border-r-4 h-screen flex flex-col'>
             <div id="Logo" className='flex justify-center cursor-pointer mt-[20px] mb-[16px]'>
                 <img src={Logo} className='w-max h-[60px]' />
             </div>
-            <div className='sm:w-full sm:px-[10px] flex flex-col w-full gap-y-[16px] lg:px-[20px] flex-grow'>
+            <div className='flex flex-col w-full gap-y-[16px] px-[20px] flex-grow'>
                 <SideBarPart link='/dashboard' selected={selected} handleSelect={() => { handleSelect('Dashboard') }} name='Dashboard' icon={<RxDashboard size={24} />} />
-                <SideBarPart link='/listUser' selected={selected} handleSelect={() => { handleSelect('Customers') }} name='Customers' icon={<LuUser size={24} />} />
+                <SideBarPart link='/listUser' selected={selected} handleSelect={() => { handleSelect('Users') }} name='Users' icon={<LuUser size={24} />} />
                 <SideBarPart link='/listVoucher' selected={selected} handleSelect={() => { handleSelect('Vouchers') }} name='Vouchers' icon={<PiTicketBold size={24} />} />
                 <SideBarPart link='/listPartner' selected={selected} handleSelect={() => { handleSelect('Partners') }} name='Partners' icon={<FaHandshake size={24} />} />
                 <div className='mt-auto'>

@@ -53,13 +53,13 @@ export function formatDate(dateString:string):string{
 
 function TransactionHistory({message,amount,status,createdAt,type}:TransactionHistory){
     return (
-        <>
-            <td className="p-4 font-bold font-poppins "> 
-              <div className="text-sm ">{message}</div>
+        <>  
+            <td> 
+              <div className="pl-2">{message}</div>
             </td>
-            <td className={`p-4 text-sm ${amount < 0 ? 'text-[#FF1717]' : 'text-[#027A48]'}`}>{formatCurrency(amount)}</td>
-            <td className="p-4 ">
-              <div className={`w-fit ${status.toLowerCase() ==='completed' ? 'text-[#027A48] bg-[#ECFDF3]' 
+            <td className={` ${amount < 0 ? 'text-[#FF1717]' : 'text-[#027A48]'}`}>{formatCurrency(amount)}</td>
+            <td>
+              <div className={`pl-2 w-fit ${status.toLowerCase() ==='completed' ? 'text-[#027A48] bg-[#ECFDF3]' 
                 : status.toLowerCase() === 'refund' ? 'bg-[#F2F4F7] text-[#344054]' 
                 : status.toLowerCase() === 'pending' ? 'bg-[#FFF3CD] text-[#F59E0B]' 
                 : 'bg-[#FFE3E3] text-[#FF1717]'} h-[30px] px-[8px] rounded-[16px] flex items-center`}>
@@ -69,12 +69,15 @@ function TransactionHistory({message,amount,status,createdAt,type}:TransactionHi
                     {status.toLowerCase() === 'fail' &&'Fail'}
                     {status.toLowerCase() === 'pending' &&'Pending'}
                     {status.toLowerCase() === 'refund' &&'Refund'}
-
                 </div>
               </div>
             </td>
-            <td className="p-4 text-sm">{createdAt ? formatDate(createdAt) : 'N/A'}</td>
-            <td className="p-4 ">
+            <td>
+              <div className="pl-2"> 
+                {createdAt ? formatDate(createdAt) : 'N/A'}
+              </div>
+            </td>
+            <td className="py-4">
               <div className={`w-fit border-[2.5px] ${type.toLowerCase() ==='transfer' ? 'text-[#175CD3] border-[#175CD3]' 
                 : type.toLowerCase() === 'deposit' ? 'border-[#039855] text-[#039855]' 
                 : type.toLowerCase() === 'withdraw' ? 'border-[#F59E0B] text-[#F59E0B]' 

@@ -8,7 +8,7 @@ type SortBoxProps = {
 
 export const SortBox = ({handleSortOrder,sortOrder}:SortBoxProps) => {
     return (
-        <button className="flex items-center justify-center border-[1px] border-gray-300 rounded-[8px] px-3 hover:shadow-lg hover:shadow-[#0094FF]/50 duration-300 transition-all hover:bg-[#0094FF] hover:border-[#0094FF] hover:text-white"
+        <button className="border-[1px] border-gray-300 rounded-[8px] px-3 hover:shadow-lg hover:shadow-[#0094FF]/50 duration-300 transition-all hover:bg-[#0094FF] hover:border-[#0094FF] hover:text-white"
             onClick={handleSortOrder}
             >
             {sortOrder === 'asc' ? <CgSortZa className='size-[18px]'/> : <CgSortAz className='size-[18px]'/>}

@@ -2,9 +2,9 @@ import { GoDotFill } from "react-icons/go";
 import AvatarDefault from '../../assets/png/Avatar.png'
 import { useNavigate } from "react-router-dom";
 export interface UserProps {
-    _id: string;
+    _id?: string;
     avatar?: string;
-    full_name?: string;
+    full_name: string;
     email: string;
     createdAt: string;
     updateAt?: string;
@@ -55,10 +55,7 @@ const UserRow: React.FC<UserProps> = ({_id, avatar, full_name, email, createdAt,
                 <td className="pl-4 h-[50px] whitespace-nowrap text-[#0094FF] font-semibold hover:transition-transform hover:-translate-y-2 duration-300 ">
                     <button key={_id} onClick={() => handleUserClick({ avatar, full_name, email, createdAt, inactive, _id:''})}>View Profile</button>
                 </td>
-            </tr>
-
-            {/* Card Layout (Sm,MD Screen) */}
-           
+            </tr>           
         </>
 
     );

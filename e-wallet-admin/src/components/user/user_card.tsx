@@ -10,7 +10,7 @@ export interface UserProps {
     email: string;
     createdAt: string;
     updateAt?: string;
-    inactive: boolean;
+    inactive: 'false' | 'true' | string;
 }
 
 const UserCard:React.FC<UserProps> = ({_id, avatar, full_name, email, createdAt, inactive }) => {
