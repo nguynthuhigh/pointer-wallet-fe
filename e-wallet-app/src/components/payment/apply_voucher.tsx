@@ -47,8 +47,6 @@ const ApplyVoucher:React.FC<BottomDrawerProps> = ({onClose,state,id,handleDataVo
                 setIsLoading(false)
             }
         } catch (error:any) {
-            console.log(error)
-
             toast.error(error.response.data.message)
         }
     }

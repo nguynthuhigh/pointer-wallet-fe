@@ -5,7 +5,7 @@ import VerifyForm from './components/auth/verify-form';
 import UpdateProfile from './components/auth/update-profile'
 import { Routes,Route } from 'react-router-dom';
 import PageNotFound from './components/pages/page-not-found';
-import Payment from './pages/payment';
+import TransactionHistory from './pages/transaction-history';
 import Developer from './pages/developer';
 import PaymentGateway from './pages/payment/payment-gateway'
 import DemoPaymentGateway from './pages/payment/demo'
@@ -26,7 +26,7 @@ function App() {
       <Route path='/sign-up' element={<SignUp/>}/>
       <Route path='/verify' element={<VerifyForm/>}/>
       <Route path='/dashboard' element={<Dashboard/>}/>
-      <Route path='/transaction-history' element={<Payment/>}/>
+      <Route path='/transaction-history' element={<TransactionHistory/>}/>
       <Route path='/update-profile' element={<UpdateProfile/>}/>
       <Route path='/docs' element={<Developer/>}/>
       <Route path='/payment-gateway' element={<PaymentGateway/>}/>

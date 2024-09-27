@@ -14,7 +14,7 @@ interface ErrorResponse {
   };
 }
 
-export const loginUser = createAsyncThunk(
+export const loginUsers = createAsyncThunk(
   "auth/loginUser",
   async (
     { user, navigate }: { user: User; navigate: (path: string) => void },
@@ -23,7 +23,7 @@ export const loginUser = createAsyncThunk(
     try {
       const res = await loginAPI(user);
       if (res.status === 200) {
-        navigate("/auth/verify-login");
+        navigate("/auth/login/verify-login");
         const { email } = user;
         return { ...res.data, email };
       } else {
@@ -38,7 +38,7 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const registerUser = createAsyncThunk(
+export const registerUsers = createAsyncThunk(
   "auth/registerUser",
   async (
     { user, navigate }: { user: User; navigate: (path: string) => void },
@@ -47,8 +47,8 @@ export const registerUser = createAsyncThunk(
     try {
       const res = await registerAPI(user);
       if (res.status === 200) {
-        navigate("/auth/verify-register");
-        return { ...res.data, user };
+        navigate("/auth/register/verify-register");
+        return { ...res.data, ...user };
       } else {
         return rejectWithValue(res.data.message);
       }

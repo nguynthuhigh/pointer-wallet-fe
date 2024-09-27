@@ -9,31 +9,24 @@ interface UserData {
   _id: string;
   avatar: "" | string;
   email: string;
-  password: string;
   inactive: boolean;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-  security_code: string;
   full_name: string;
 }
 
 interface WalletData {
   _id: string;
   address: string;
-  mnemonic: string;
   balance: number;
   userID: string;
   partnerID: null | string;
   currencies: Currencies[];
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
 }
 
 interface Currencies {
   balance: number;
-  currency: string;
+  currency: {
+    symbol: string;
+  };
   _id: string;
 }
 
@@ -47,25 +40,24 @@ const initialState = {
       _id: "",
       avatar: "",
       email: "",
-      password: "",
-      createdAt: "",
-      updatedAt: "",
-      __v: 0,
-      security_code: "",
       inactive: false,
       full_name: "",
     },
     walletData: {
       _id: "",
-      address: "",
-      mnemonic: "",
       balance: 0,
+      address: "",
       userID: "",
       partnerID: null,
-      currencies: [{ balance: 0, currency: "", _id: "" }],
-      createdAt: "",
-      updatedAt: "",
-      __v: 0,
+      currencies: [
+        {
+          balance: 0,
+          currency: {
+            symbol: "",
+          },
+          _id: "",
+        },
+      ],
     },
   } as UserProfileState,
   isFetching: false,
@@ -74,7 +66,11 @@ const initialState = {
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    clearError: (state) => {
+      state.error = "";
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getProfile.pending, (state) => {
       state.isFetching = true;
@@ -93,5 +89,5 @@ const userSlice = createSlice({
     });
   },
 });
-
+export const { clearError } = userSlice.actions;
 export default userSlice.reducer;

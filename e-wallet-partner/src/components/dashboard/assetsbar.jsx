@@ -4,7 +4,6 @@ import LogoVND from '../../assets/svg/logo_vnd.svg'
 import LogoUSD from '../../assets/svg/logoUSD.svg'
 import LogoETH from '../../assets/svg/logo_eth.svg'
 export const AssetBar = ({...props}) => {
- 
   return (
     <div className='pl-2'>
         <div className='relative h-[200px]'>

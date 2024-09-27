@@ -2,12 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-
-@layer utilities{
-    .container-center{
-        @apply p-4 w-full bg-white m-2 rounded-lg max-w-[800px] shadow-xl
-    }
-    .container-full{
-        @apply p-4 w-full bg-white m-2 rounded-lg shadow-xl border
-    }
+@layer utilities {
+  .container-center {
+    @apply p-4 w-full bg-white m-2 rounded-lg max-w-[800px] shadow-xl;
+  }
+  .container-full {
+    @apply p-4 w-full h-fit bg-white m-2 rounded-lg shadow-xl border;
+  }
+  .container-auth {
+    @apply bg-gray-50 p-6 max-w-[500px] mx-auto rounded-lg border border-gray-400 mt-8 shadow-lg;
+  }
 }

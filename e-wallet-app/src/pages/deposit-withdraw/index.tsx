@@ -1,113 +1,218 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Cookies from "universal-cookie";
 import toast, { Toaster } from "react-hot-toast";
 import Cards from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
-import { FaCreditCard } from "react-icons/fa";
+import CreditCard from "../../assets/svg/cCard.svg";
 import HeaderDefault from "../../components/header/header_default";
 import { Wallet, wallet } from "../../components/button/wallet";
-import { getProfileAPI } from "../../services/api/user.api";
-import { getAllCards } from "../../services/api/credit-card.api";
-import { Card } from "../../services/api/credit-card.api";
-const cookie = new Cookies();
-const accessToken = cookie.get("token_auth");
-interface Currencies {
-  _id: string;
-  balance: number;
-  currency: string;
-}
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import Modal from "../credit-card/modal";
+import Deposit from "./deposit";
+import Withdraw from "./withdraw";
 
 export default function DepositWithdraw() {
-  const [currencies, setCurrencies] = useState<Currencies[]>([]);
-  const [listCards, setListCards] = useState<Card[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isShowing, setIsShowing] = useState<boolean>(true);
-  const [isSelected, setIsSelected] = useState<number>(0);
   const navigate = useNavigate();
-  const fetchCurrencies = async (): Promise<void> => {
-    try {
-      const response = await getProfileAPI(accessToken);
-      if (response.status === 200) {
-        setCurrencies(response.data?.data?.walletData?.currencies);
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const walletData = useSelector((state: RootState) => state.user);
+  const cardData = useSelector((state: RootState) => state.cards);
   useEffect(() => {
-    fetchCurrencies();
-    getListCards();
-  }, [accessToken]);
-  const getListCards = async (): Promise<void> => {
-    try {
-      const response = await getAllCards();
-      if (Array.isArray(response) && response.length == 0) {
-        setIsShowing(true);
-        toast((t) => (
+    if (cardData?.cardState?.cards.length === 0) {
+      toast.custom((t) => (
+        <div
+          className={`${
+            t.visible ? "animate-enter" : "animate-leave"
+          } max-w-md w-fit px-3 py-2 bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+        >
           <div className="flex items-center gap-2">
-            <FaCreditCard size={24} />
-            <span className={`whitespace-nowrap`}>
+            <img src={CreditCard} className={`w-8 h-8`} />
+            <span className={` whitespace-nowrap text-gray-600 text-base`}>
               Vui lòng thêm thẻ tín dụng!
             </span>
             <button
-              className="bg-blue-500 text-white px-3 py-1 rounded whitespace-nowrap"
+              className="bg-blue-500 text-white px-2 py-1 rounded whitespace-nowrap"
               onClick={() => {
                 toast.dismiss(t.id);
-                navigate("/credit-card/add-card");
+                navigate("/credit-card");
               }}
             >
               Thêm thẻ
             </button>
           </div>
-        ));
-      } else if (response !== undefined) {
-        setListCards(response);
-        setIsShowing(true);
-      } else {
-        toast.error("Đã xảy ra lỗi!");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  return (
-    <div className={`p-4`}>
-      <HeaderDefault title="Nạp / Rút" />
-      {isShowing ? null : (
-        <div>
-          {listCards.map((card, index) => {
-            return (
-              <Cards
-                key={index}
-                number={card.number}
-                expiry={`${card.expiryMonth}/${card.expiryYear}`}
-                cvc={card.cvv}
-                name={card.name}
-              />
-            );
-          })}
-          <div className={`flex items-center justify-between mt-4`}>
-            {wallet.map((value, index) => {
-              return (
-                <Wallet
-                  icon={value.img}
-                  currency={value.currency}
-                  balance={currencies[index]?.balance}
-                  isSelected={isSelected === index}
-                  isLoading={isLoading}
-                  onClick={() => setIsSelected(index)}
-                />
-              );
-            })}
-          </div>
         </div>
+      ));
+    }
+  }, [cardData?.cardState?.cards]);
+  const [isSelectedCard, setIsSelectedCard] = useState<string | null>(null);
+  const [isSelectedCurrency, setIsSelectedCurrency] = useState<string | null>(
+    "VND"
+  );
+  const [selectedBalance, setSelectedBalance] = useState<number>(
+    walletData?.userState?.walletData?.currencies?.[0]?.balance
+  );
+  const [isDepositModalOpen, setIsDepositModalOpen] = useState<boolean>(false);
+  const [isWithdrawModalOpen, setIsWithdrawModalOpen] =
+    useState<boolean>(false);
+
+  const handleCardSelect = (cardId: string) => {
+    setIsSelectedCard(cardId);
+  };
+
+  const handleCurrencySelect = (currency: string, balance: number) => {
+    setIsSelectedCurrency(currency);
+    setSelectedBalance(balance);
+  };
+
+  const handleDepositSelect = () => {
+    setIsDepositModalOpen(true);
+  };
+
+  const handleWithdrawSelect = () => {
+    setIsWithdrawModalOpen(true);
+  };
+
+  const showActionButtons = isSelectedCard && isSelectedCurrency;
+
+  return (
+    <div className="p-4 border bg-white sm:m-2 rounded-xl shadow-lg h-fit w-full">
+      <HeaderDefault title="Nạp/Rút" />
+      {cardData?.cardState?.cards.length === 0 ? (
+        <div
+          className={`flex items-center justify-center text-lg text-gray-500`}
+        >
+          Bạn chưa liên kết với bất kỳ thẻ nào!
+          <span className={`ml-2`}>
+            <Link
+              to={`/credit-card`}
+              className={`text-blue-default font-semibold`}
+            >
+              Liên kết thẻ.
+            </Link>
+          </span>
+        </div>
+      ) : (
+        <>
+          {cardData?.isFetching ? (
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[1, 2, 3, 4].map((index) => (
+                <div
+                  key={index}
+                  className="animate-pulse p-4 bg-gray-300 rounded-xl h-[182px] w-[290px] shadow-md mx-auto"
+                ></div>
+              ))}
+            </div>
+          ) : (
+            <>
+              <div className="flex flex-col mt-6">
+                <div className="font-semibold text-gray-600 text-lg mb-2">
+                  Chọn nguồn tiền
+                </div>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 flex-wrap">
+                  {wallet.map((value, index) => (
+                    <Wallet
+                      key={index}
+                      icon={value.img}
+                      currency={value.currency}
+                      balance={
+                        walletData?.userState?.walletData?.currencies?.[index]
+                          ?.balance
+                      }
+                      isSelected={isSelectedCurrency === value.currency}
+                      isLoading={walletData.isFetching}
+                      onClick={() =>
+                        handleCurrencySelect(
+                          value.currency,
+                          walletData?.userState?.walletData?.currencies?.[index]
+                            ?.balance
+                        )
+                      }
+                    />
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div className="font-semibold text-gray-600 text-lg mb-2">
+                  Chọn thẻ tín dụng
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 self-center justify-items-center align-items-center">
+                  {cardData?.cardState?.cards.map((card) => (
+                    <div
+                      key={card._id}
+                      onClick={() => handleCardSelect(card._id ?? "")}
+                      className={` rounded-[18px] shadow-lg cursor-pointer w-fit transition-all flex items-center justify-center ${
+                        isSelectedCard === card._id
+                          ? "border-4 border-blue-500"
+                          : "border-2 border-gray-200"
+                      } hover:bg-gray-200`}
+                    >
+                      <div class={`max-md:hidden mx-auto w-fit`}>
+                        <Cards
+                          number={card.number}
+                          expiry={`${card.expiryMonth}/${card.expiryYear}`}
+                          cvc={card.cvv}
+                          name={card.name}
+                        />
+                      </div>
+
+                      <div class={`md:hidden w-full flex items-center p-2`}>
+                        <img
+                          class={`w-10 h-fit`}
+                          src={`https://static-00.iconduck.com/assets.00/visa-icon-2048x628-6yzgq2vq.png`}
+                        ></img>
+                        <div class={`font-semibold ml-4`}>
+                          <h1>{card.number}</h1>
+                          <h1 class={`text-sm`}>{card.type}</h1>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {showActionButtons && (
+                <div className="mt-6 flex gap-4 justify-center">
+                  <button
+                    className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600"
+                    onClick={handleDepositSelect}
+                  >
+                    Nạp tiền
+                  </button>
+                  <button
+                    className="bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600"
+                    onClick={handleWithdrawSelect}
+                  >
+                    Rút tiền
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </>
       )}
 
+      <Modal
+        isOpen={isDepositModalOpen}
+        onClose={() => setIsDepositModalOpen(false)}
+      >
+        <Deposit
+          cardId={isSelectedCard ?? ""}
+          currency={isSelectedCurrency ?? ""}
+          balance={selectedBalance}
+        />
+      </Modal>
+
+      <Modal
+        isOpen={isWithdrawModalOpen}
+        onClose={() => setIsWithdrawModalOpen(false)}
+      >
+        <Withdraw
+          cardId={isSelectedCard ?? ""}
+          currency={isSelectedCurrency ?? ""}
+          balance={selectedBalance}
+        />
+      </Modal>
+
       <Toaster position="top-center" />
-      <Outlet />
     </div>
   );
 }

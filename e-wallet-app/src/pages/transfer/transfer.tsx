@@ -1,36 +1,26 @@
 import { useNavigate } from "react-router-dom";
-import Cookies from "universal-cookie";
 import SearchUser from "./search_user";
 import InputAmount from "./input_amount";
 import SelectCurrency from "./select_currency";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Currency, User } from "../../types/transfer";
-import { getProfileAPI } from "../../services/api/user.api";
-import SideBar from "../../components/sidebar/sidebar";
-import Header from "../../components/header/header";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 const Transfer = () => {
   const [step, setStep] = useState("select_currency");
   const [selectCurrency, setSelectCurrency] = useState<Currency>();
-  const [wallet, setWallet] = useState();
   const [userData, setUserData] = useState<User>();
+  const [currency, setCurrency] = useState<Currency>();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  const cookies = new Cookies();
+  const wallet = useSelector(
+    (state: RootState) => state.user.userState.walletData.currencies
+  );
+  console.log(wallet)
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await getProfileAPI(cookies.get("token_auth"));
-        if (response.status === 200) {
-          setWallet(response.data.data.walletData.currencies);
-          setIsLoading(false);
-        }
-      } catch (error) {
-        navigate("/auth/login");
-        setIsLoading(false);
-      }
-    };
-    fetchProfile();
-  }, []);
+    setCurrency(wallet);
+    setIsLoading(false);
+  }, [wallet]);
   const handleStepTransfer = (step_change: string) => {
     if (step_change === "home") {
       navigate("/");
@@ -43,51 +33,30 @@ const Transfer = () => {
   const handleCurrencyData = (data: any) => {
     setSelectCurrency(data);
   };
-  if (isLoading) {
-    return <div>...Loading</div>;
-  }
   switch (step) {
     case "select_currency":
       return (
-        <>
-          <Header></Header>
-          <div class={`flex`}>
-          <SideBar state='Chuyển tiền'></SideBar>
-          <SelectCurrency
-            currency={wallet}
-            handleCurrencyData={handleCurrencyData}
-            handleStepTransfer={handleStepTransfer}
-          />
-          </div>
-        </>
-       
+        <SelectCurrency
+          currency={currency}
+          handleCurrencyData={handleCurrencyData}
+          handleStepTransfer={handleStepTransfer}
+          isLoading={isLoading}
+        />
       );
     case "search_user":
       return (
-        <>
-          <Header></Header>
-        <div class={`flex`}>
-          <SideBar state='Chuyển tiền'></SideBar>
-          <SearchUser
-            handleUserData={handleUserData}
-            handleStepTransfer={handleStepTransfer}
-          />
-        </div>
-        </>
+        <SearchUser
+          handleUserData={handleUserData}
+          handleStepTransfer={handleStepTransfer}
+        />
       );
     case "input_amount":
       return (
-        <>
-        <Header></Header>
-        <div class={`flex`}>
-          <SideBar state='Chuyển tiền'></SideBar>
-          <InputAmount
-            currencyData={selectCurrency}
-            userData={userData}
-            handleStepTransfer={handleStepTransfer}
-          />
-        </div>
-        </>
+        <InputAmount
+          currencyData={selectCurrency}
+          userData={userData}
+          handleStepTransfer={handleStepTransfer}
+        />
       );
     default:
       return <div>Invalid step</div>;

@@ -44,7 +44,7 @@ export const Wallet: React.FC<Props> = ({
     <div
       className={`${
         isSelected ? "border-[#0094FF] shadow-lg" : "border-gray-300"
-      } px-4 py-2 border-2 rounded-xl bg-white mr-2 transition-all duration-300 ease-in-out cursor-pointer hover:bg-[#F0F9FF] hover:border-[#0094FF] hover:shadow-lg`}
+      } px-4 py-2 border-2 rounded-xl bg-white transition-all duration-300 ease-in-out cursor-pointer hover:bg-[#F0F9FF] hover:border-[#0094FF] hover:shadow-lg`}
       onClick={onClick}
     >
       <div className="flex items-center">
@@ -60,7 +60,7 @@ export const Wallet: React.FC<Props> = ({
               className={` w-full h-5 rounded-full animate-pulse bg-gray-400`}
             ></div>
           ) : (
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-gray-600 max-w-16 truncate">
               {formatCurrency(balance, currency)}
             </div>
           )}

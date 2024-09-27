@@ -1,33 +1,48 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
-const SideBarPart = ({ ...props }) => {
+interface SideBarPartProps {
+  link: string;
+  handleSelect: () => void;
+  name: string;
+  selected: string;
+  icon: string;
+}
+
+const SideBarPart: React.FC<SideBarPartProps> = ({
+  link,
+  handleSelect,
+  name,
+  selected,
+  icon,
+}) => {
+  const isSelected = name === selected;
   return (
     <Link
-      to={props.link}
-      onClick={props.handleSelect}
-      className="h-[50px] my-2 w-full flex"
+      to={link}
+      onClick={handleSelect}
+      className="my-2 w-full flex h-[50px]"
     >
       <div
         className={`h-full w-[5px] rounded-r-lg transition-all duration-300 ${
-          props.name === props.selected && "bg-blue-600"
+          isSelected ? "bg-blue-600" : ""
         }`}
       ></div>
       <div
-        className={`flex h-full w-full items-center rounded-lg ml-4 px-4 hover:bg-gray-100 transition-colors duration-300 ${
-          props.name === props.selected && "bg-blue-500 hover:bg-blue-400"
+        className={`flex h-full w-full items-center rounded-lg ml-4 px-4 transition-colors duration-300 ${
+          isSelected ? "bg-blue-500 hover:bg-blue-400" : "hover:bg-gray-100"
         }`}
       >
         <img
           className="w-[20px] transition-transform duration-300"
-          src={props.icon}
-        ></img>
+          src={icon}
+          alt={`${name} icon`}
+        />
         <h1
           className={`font-semibold ml-2 transition-colors duration-300 ${
-            props.name === props.selected ? "text-white" : "text-gray-800"
+            isSelected ? "text-white" : "text-gray-800"
           }`}
         >
-          {props.name}
+          {name}
         </h1>
       </div>
     </Link>

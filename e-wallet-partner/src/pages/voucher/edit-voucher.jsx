@@ -1,10 +1,12 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState } from 'react';
 import { Loading } from '../../components/auth/loading';
 import voucherAPI from '../../api/voucher.api'
 import { useNavigate ,useLocation} from 'react-router-dom';
 import InputVoucher from '../../components/voucher/input_voucher';
 import HeaderDashboard from '../../components/header/header_dashboard';
 import SideBar from '../../components/dashboard/sidebar';
+import { useQuery,useMutation } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 const initialData = {
     title: '',
     code: '',
@@ -17,35 +19,26 @@ const initialData = {
 export default function EditVoucher() {
     const navigate = useNavigate()
     const [voucherData, setVoucherData] = useState(initialData);
+    const [image, setImage] = useState(initialData);
     const [errors, setErrors] = useState({});
     const [errorSubmit,setErrorSubmit] = useState(null)
-    const [isLoading,setIsLoading] = useState(true)
-    const [message,setMessage] = useState(false)
     const handleChange = (name, value) => {
+        if(name === 'image'){
+          setImage(value)
+        }
         setVoucherData({ ...voucherData, [name]: value });
         setErrors({discountValue:null,code:null})
-        console.log(voucherData)
     };
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const id = queryParams.get('id');
-    console.log(id)
-    useEffect(()=>{
-        const fetchVoucher =async()=>{
-            try {
-                const response =await voucherAPI.getVoucher(id)
-                if(response.status === 200){
-                    setVoucherData(response.data.data)
-                    console.log(response.data.data)
-                    setIsLoading(false)
-                }
-            } catch (error) {
-                console.log(error)
-                navigate('/*')
-            }
-        }
-    fetchVoucher()
-  },[])
+    const {data,isLoading} = useQuery({
+      queryFn:async()=>{
+        const data = await voucherAPI.getVoucher(id)
+        return data.data
+      },
+      queryKey:['voucher',id]
+    })
   const validate = () => {
     let tempErrors = {};
     if (voucherData.discountValue > 100 && voucherData.type === "discount_percent"){
@@ -69,50 +62,57 @@ export default function EditVoucher() {
       return false
     }
   };
-  
+  const {isPending,mutate} = useMutation({
+    mutationFn:async(formData)=>{
+      console.log(formData)
+      await voucherAPI.editVoucher(formData)
+    },
+    onSuccess:()=>{
+      toast.success('Added Successfully!')
+      navigate('/vouchers')
+    },
+    onError:(error)=>{
+      toast.error(error.response.data.message)
+    }
+  })
   const handleSubmit =async (e) => {
     e.preventDefault();
     if(validate() === false){
         return
     }
-    const body = {
-        ...voucherData,
-        voucherID: id
-    }
-    try {
-        setIsLoading(true)
-        const response = await voucherAPI.editVoucher(body)
-        if(response.status === 200){
-            alert("Edit successfully!")
-            navigate('/vouchers')
-            setIsLoading(false)
-        }
-    } catch (error) {
-      console.log(error)
-      setErrorSubmit(error.response.data.message)
-      setIsLoading(false)
-    }
+    const formData =new FormData()
+    formData.append('title',voucherData.title)
+    formData.append('code',voucherData.code)
+    formData.append('content',voucherData.content)
+    formData.append('quantity',voucherData.quantity)
+    formData.append('discountValue',voucherData.discountValue)
+    formData.append('type',voucherData.type)
+    formData.append('currency',voucherData.currency)
+    formData.append('min_condition',voucherData.min_condition)
+    formData.append('voucherID',id)
+    console.log(image)
+    formData.append('image',image)
+    mutate(formData)
   };
-
   return (
     <div className='flex'>
     <SideBar state='Vouchers'></SideBar>
-    
+    {isLoading ? 'Loading...' : 
     <form className="p-5 w-full mx-auto bg-white shadow rounded-[15px]" onSubmit={handleSubmit}>
       <HeaderDashboard title="Edit Voucher"></HeaderDashboard>
       <div className="mb-5 grid grid-cols-2 gap-4">
-        <InputVoucher placeholder="Discount 10% when payment with pressPay" name="Title" value={voucherData.title} onChange={(e) => handleChange('title', e.target.value)}/>
-        <InputVoucher error={errors.code} placeholder="VOUCHER100K" name="Code" value={voucherData.code} onChange={(e) => handleChange('code', e.target.value)}/>
+        <InputVoucher placeholder="Discount 10% when payment with pressPay" name="Title" value={data.data.title} onChange={(e) => handleChange('title', e.target.value)}/>
+        <InputVoucher error={errors.code} placeholder="VOUCHER100K" name="Code" value={data.data.code} onChange={(e) => handleChange('code', e.target.value)}/>
       </div>
       <div className="mb-5 grid grid-cols-2 gap-4">
-        <InputVoucher error={errors.content} placeholder="Descriptions voucher" name="Descriptions" value={voucherData.content} onChange={(e) => handleChange('content', e.target.value)}/>
-        <InputVoucher error={errors.quantity} placeholder="99" name="Quantity" value={voucherData.quantity} onChange={(e) => handleChange('quantity', e.target.value)} type="number"/>
+        <InputVoucher error={errors.content} placeholder="Descriptions voucher" name="Descriptions" value={data.data.content} onChange={(e) => handleChange('content', e.target.value)}/>
+        <InputVoucher error={errors.quantity} placeholder="99" name="Quantity" value={data.data.quantity} onChange={(e) => handleChange('quantity', e.target.value)} type="number"/>
       </div>
       <div className="mb-5 grid grid-cols-2 gap-4">
-      <InputVoucher error={errors.discountValue} placeholder="-99,000đ or -99%" name="Discount Value" value={voucherData.discountValue} onChange={(e) => handleChange('discountValue', e.target.value)} type="number"/>
+      <InputVoucher error={errors.discountValue} placeholder="-99,000đ or -99%" name="Discount Value" value={data.data.discountValue} onChange={(e) => handleChange('discountValue', e.target.value)} type="number"/>
         <div>
           <label className="block text-lg font-semibold mb-2">Type</label>
-          <select id="countries" onChange={(e) => handleChange('type', e.target.value)} value={voucherData.type} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-g0 ">
+          <select id="countries" onChange={(e) => handleChange('type', e.target.value)} value={data.data.type} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-g0 ">
             <option value="discount_amount" >Discount amount</option>
             <option value="discount_percent" >Percent discount</option>
           </select>
@@ -120,10 +120,9 @@ export default function EditVoucher() {
         </div>
       </div>
       <div className="mb-5 grid grid-cols-2 gap-4">
-        <InputVoucher error={errors.min_condition} placeholder="120,000..." name="Discount Value" value={voucherData.min_condition} onChange={(e) => handleChange('min_condition', e.target.value)} type="number"/>
+        <InputVoucher error={errors.min_condition} placeholder="120,000..." name="Discount Value" value={data.data.min_condition} onChange={(e) => handleChange('min_condition', e.target.value)} type="number"/>
       </div>
       <div className='font-semibold text-center text-red-500'>{errorSubmit}</div>
-      <div className='font-semibold text-center text-green-500'>{message}</div>
       {!isLoading ? <button
         type="submit"
         className="w-full mt-4 py-4 bg-blue-700 text-white  font-semibold rounded-xl"
@@ -138,6 +137,7 @@ export default function EditVoucher() {
         <Loading/>
       </button>}
     </form>
+    }
   </div>
   );
 }

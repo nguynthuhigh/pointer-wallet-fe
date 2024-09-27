@@ -6,7 +6,6 @@ import Partners from "./pages/partners"
 import DetailListUser from "./pages/detailListUser"
 import Login from "./pages/login"
 import { QueryClient,QueryClientProvider } from "@tanstack/react-query"
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 function App() {
   const queryClient = new QueryClient({
     defaultOptions:{
@@ -16,7 +15,7 @@ function App() {
     }
   });
   return (
-    <div className="font-poppins">
+    <div className="font-inter container mx-auto">
       <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
@@ -27,10 +26,8 @@ function App() {
           <Route path="/listPartner" element = {<Partners/>}/>
           <Route path="/listUser/detailListUser/:id" element = {<DetailListUser/>}/>
           <Route path="/LoginAdmin" element ={<Login/>}/>
-
         </Routes>
       </BrowserRouter>
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </div>
  

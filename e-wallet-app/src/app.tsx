@@ -1,4 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Outlet,
+} from "react-router-dom";
 import Home from "../src/pages/home";
 import History from "./pages/transaction/history";
 import TransactionDetails from "./pages/transaction/details";
@@ -15,44 +21,86 @@ import SecurityCode from "./pages/authentication/setup_security_code";
 import TransferResults from "./pages/transfer/transfer_results";
 import ProtectRoutes from "./utils/protect_routes";
 import DepositWithdraw from "./pages/deposit-withdraw";
-import Deposit from "./pages/deposit-withdraw/deposit";
-import Withdraw from "./pages/deposit-withdraw/withdraw";
 import PaymentResults from "./pages/payment/payment_results";
 import AddCreditCard from "./pages/credit-card/add-credit-card";
+import CreditCard from "./pages/credit-card";
+import Setting from "./pages/setting";
+import SideBar from "./components/sidebar/sidebar";
+import Header from "./components/header/header";
+import TransferByQrCode from "./pages/receive/transfer";
+import Result from "./pages/deposit-withdraw/result";
+import SelectOptions from "./pages/payment/select_options";
+import RegisteredRoute from "./utils/registered-route";
 
-export function App() {
+const AuthenticatedLayout: React.FC = () => {
+  return (
+    <>
+      <Header />
+      <div className="font-inter bg-gray-50 h-screen flex w-full">
+        <SideBar state="Trang chủ" />
+        <Outlet />
+      </div>
+    </>
+  );
+};
+
+const NonAuthenticatedLayout: React.FC = () => {
+  return (
+    <div className="font-inter">
+      <Outlet />
+    </div>
+  );
+};
+
+export default function App() {
   return (
     <Router>
-      <div className="font-inter bg-gray-50 h-[100vh]">
-        <Routes>
-          <Route element={<ProtectRoutes />}>
+      <Routes>
+        <Route element={<ProtectRoutes />}>
+          <Route element={<AuthenticatedLayout />}>
             <Route path="/" element={<Home />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/setting" element={<Setting />} />
             <Route path="/scan-qrcode" element={<ScanQR />} />
             <Route path="/payment" element={<PaymentGateway />} />
             <Route path="/payment/results" element={<PaymentResults />} />
             <Route path="/transfer" element={<Transfer />} />
+            <Route path="/option-payment" element={<SelectOptions />} />
+            <Route path="/transfer/result" element={<TransferResults />} />
+            <Route path="/transfer/info" element={<TransferByQrCode />} />
             <Route path="/transaction/history" element={<History />} />
-            <Route path="deposit-withdraw" element={<DepositWithdraw />}>
-              <Route path="deposit" element={<Deposit />} />
-              <Route path="withdraw" element={<Withdraw />} />
-            </Route>
-            <Route path="/credit-card/add-card" element={<AddCreditCard />} />
             <Route
               path="/transaction/details"
               element={<TransactionDetails />}
             />
+            <Route path="/deposit-withdraw" element={<DepositWithdraw />} />
+            <Route path="/deposit-withdraw/result" element={<Result />} />
+            <Route path="/credit-card" element={<CreditCard />}>
+              <Route path="add-card" element={<AddCreditCard />} />
+            </Route>
+
             <Route path="/receive-page" element={<ReceivePage />} />
-            <Route path="/transfer/result" element={<TransferResults />} />
           </Route>
-          <Route path="/auth/login" element={<Login />} />
-          <Route path="/auth/verify-login" element={<VerifyLogin />} />
-          <Route path="/auth/verify-register" element={<VerifyRegister />} />
-          <Route path="/auth/security-code" element={<SecurityCode />} />
-          <Route path="/auth/register" element={<Register />} />
           <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </div>
+        </Route>
+
+        <Route element={<RegisteredRoute />}>
+          <Route element={<NonAuthenticatedLayout />}>
+            <Route path="/auth/login" element={<Login />} />
+            <Route path="/auth/login/verify-login" element={<VerifyLogin />} />
+            <Route path="/auth/register" element={<Register />} />
+            <Route
+              path="/auth/register/verify-register"
+              element={<VerifyRegister />}
+            />
+            <Route
+              path="/auth/register/security-code"
+              element={<SecurityCode />}
+            />
+          </Route>
+        </Route>
+
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
     </Router>
   );
 }

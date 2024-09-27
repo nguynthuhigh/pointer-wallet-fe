@@ -1,17 +1,22 @@
+import axios from "axios";
 import axiosConfig from "../configs/axios.config";
-export const addVoucher = async(body)=>{
-    return await axiosConfig.post(process.env.REACT_APP_API+`/api/v1/voucher/add-voucher`,body,{
-        withCredentials:true
-    })
+export const addVoucher = async(formData)=>{
+    return await axios.post(`${process.env.REACT_APP_API}/api/v1/voucher/add-voucher`, formData, {
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" }
+    }); 
 }
 export const getVoucher = async(voucherID)=>{
-    return await axiosConfig.get(process.env.REACT_APP_API+`/api/v1/voucher/get-voucher?voucherID=`+voucherID,{
+    return await axiosConfig.get(process.env.REACT_APP_API+`/api/v1/voucher/get-voucher-details?voucherID=`+voucherID,{
         withCredentials:true
     })
 }
 export const editVoucher = async(body)=>{
     return await axiosConfig.put(process.env.REACT_APP_API+`/api/v1/voucher/edit-voucher`,body,{
-        withCredentials:true
+        withCredentials:true,
+        headers:{
+            'Content-Type':'multipart/form-data'
+        }
     })
 }
 export const deleteVoucher = async (voucherID) => {

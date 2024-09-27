@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import ReactPaginate from 'react-paginate';
 import SideBar from '../components/dashboard/sidebar';
 import { useQuery } from '@tanstack/react-query';
-export default function Payment({ itemsPerPage }) {
+export default function TransactionHistory({ itemsPerPage }) {
     const [pageCount,setPageCount] = useState(null)
     const [page,setPage] = useState(1)
     const {data,isLoading} = useQuery({

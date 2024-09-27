@@ -1,30 +1,62 @@
 import { FieldValues, useForm } from "react-hook-form";
-import { useState } from "preact/hooks";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import AuthImg from "../../assets/png/auth_img.png";
 import InputText from "../../components/authentication/input_text";
 import { ButtonSubmit } from "../../components/authentication/button_submit";
-import { registerUser } from "../../redux/auth/authThunk";
+import { registerUsers } from "../../redux/auth/authThunk";
 import { AppDispatch, RootState } from "../../redux/store";
-import { useEffect } from "react";
+import { validatePassword } from "../../utils/validate-password";
+import { clearMessage, clearError } from "../../redux/auth/authSlice";
+
 interface User {
   email: string;
   password: string;
 }
+
 export default function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const registerData = useSelector((state: RootState) => state.auth.register);
+  const { isFetching, error, registerUser } = useSelector(
+    (state: RootState) => state.auth.register
+  );
   const {
     register,
     handleSubmit,
     reset,
     setError,
     formState: { errors },
-  } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
+  } = useForm<FieldValues>();
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(clearError("register"));
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (registerUser.message) {
+      toast.success(registerUser.message);
+      dispatch(clearMessage("register"));
+    }
+  }, [registerUser.message]);
+
+  const handleRegistration = async (data: FieldValues) => {
+    try {
+      const user: User = {
+        email: data.email,
+        password: data.password,
+      };
+      await dispatch(registerUsers({ user, navigate }));
+      reset();
+    } catch (error) {
+      toast.error("Có lỗi xảy ra trong quá trình đăng ký!");
+    }
+  };
+
   const onSubmit = async (data: FieldValues) => {
     if (data.password !== data.confirmPassword) {
       setError("confirmPassword", {
@@ -45,48 +77,20 @@ export default function Register() {
       );
       return;
     }
-
-    setIsLoading(true);
-    try {
-      const user: User = {
-        email: data.email,
-        password: data.password,
-      };
-      await dispatch(registerUser({ user, navigate }));
-      if (registerData.registerUser.message) {
-        toast.success(registerData.registerUser.message);
-      }
-      reset();
-    } catch (error) {
-      console.log(error);
-      toast.error(registerData.error);
-    } finally {
-      setIsLoading(false);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email)) {
+      setError("email", {
+        type: "manual",
+        message: "Email không hợp lệ.",
+      });
+      toast.error("Email không hợp lệ.");
+      return;
     }
-  };
-  useEffect(() => {
-    if (registerData.error) {
-      toast.error(registerData.error);
-    }
-  }, [registerData.error]);
-  const validatePassword = (password: string) => {
-    const minLength = /.{8,}/;
-    const hasUppercase = /[A-Z]/;
-    const hasLowercase = /[a-z]/;
-    const hasNumber = /[0-9]/;
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
-
-    return (
-      minLength.test(password) &&
-      hasUppercase.test(password) &&
-      hasLowercase.test(password) &&
-      hasNumber.test(password) &&
-      hasSpecialChar.test(password)
-    );
+    await handleRegistration(data);
   };
 
   return (
-    <div className="bg-white p-4">
+    <div className="container-auth">
       <img className="mx-auto mt-10 w-52" src={AuthImg} alt="auth image" />
       <h1 className="text-center font-semibold text-2xl mt-5">
         Đăng ký tài khoản
@@ -99,6 +103,7 @@ export default function Register() {
           type="email"
           title="Email"
           placeholder="Nhập địa chỉ Email"
+          isFetching={isFetching}
         />
 
         <InputText
@@ -108,6 +113,7 @@ export default function Register() {
           type="password"
           title="Mật khẩu"
           placeholder="Nhập mật khẩu"
+          isFetching={isFetching}
         />
 
         <InputText
@@ -117,9 +123,10 @@ export default function Register() {
           type="password"
           title="Nhập lại mật khẩu"
           placeholder="Nhập lại mật khẩu"
+          isFetching={isFetching}
         />
 
-        <ButtonSubmit title="Đăng ký" isLoading={isLoading} />
+        <ButtonSubmit title="Đăng ký" isLoading={isFetching} />
       </form>
       <h1 className="text-center font-semibold">
         Bạn đã có tài khoản?{" "}

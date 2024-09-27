@@ -8,68 +8,94 @@ import { verifyRegisterAPI, resendOTP } from "../../services/api/auth.api";
 import AuthImg from "../../assets/png/auth_img.png";
 import { RootState } from "../../redux/store";
 
+interface ErrorResponse {
+  response: {
+    data: {
+      message: string;
+    };
+  };
+}
+
+const setWithExpiry = (key: string, value: string, ttl: number) => {
+  const now = new Date();
+  const item = {
+    value: value,
+    expiry: now.getTime() + ttl,
+  };
+  localStorage.setItem(key, JSON.stringify(item));
+};
+
 export default function VerifyRegister() {
-  const [otp, setOtp] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [count, setCount] = useState(0);
   const navigate = useNavigate();
-  const data = useSelector((state: RootState) => state.auth.register);
+  const [otp, setOtp] = useState("");
+  const [count, setCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>("");
+  const { registerUser } = useSelector(
+    (state: RootState) => state.auth.register
+  );
+
   useEffect(() => {
-    toast.success(data.registerUser.message);
-  }, [data.registerUser.message]);
+    if (registerUser.message) {
+      toast.success(registerUser.message);
+    }
+  }, [registerUser.message]);
+
   const handleChangeOTP = async (value: string) => {
     setOtp(value);
     if (value.length === 6) {
       setIsLoading(true);
       try {
         const response = await verifyRegisterAPI({
-          email: data.registerUser.email,
+          email: registerUser.email,
           otp: value,
         });
         if (response.status === 200) {
-          setError(false);
           toast.success(response.data.message);
+          setWithExpiry("registered", "true", 900000);
           setTimeout(() => {
-            navigate("/auth/security-code", {
+            navigate("/auth/register/security-code", {
               state: { message: response.data.message },
             });
           }, 2000);
         } else {
-          setError(true);
           toast.error(response.data.message);
+          setError(response.data.message);
         }
-      } catch (error) {
-        setError(true);
-        toast.error("Mã OTP đã hết hạn vui lòng thử lại");
+      } catch (error: unknown) {
+        const typedError = error as ErrorResponse;
+        const errorMsg = typedError?.response?.data?.message || "Đã xảy ra lỗi";
+        toast.error(errorMsg);
+        setError(errorMsg);
       } finally {
         setIsLoading(false);
       }
     }
   };
+
   const resend = async () => {
     setIsLoading(true);
     try {
       const response = await resendOTP({
-        email: data.registerUser.email,
-        password: data.registerUser.password,
+        email: registerUser.email,
+        password: registerUser.password,
       });
       if (response.status === 200) {
-        setIsLoading(false);
         toast.success(response.data.message);
       } else {
         toast.error(response.data.message);
+        setError(response.data.message);
       }
-    } catch (error: any) {
-      if (error.response && error.response.data) {
-        toast.error(error.response.data.message);
-      } else {
-        toast.error(error.message);
-      }
+    } catch (error: unknown) {
+      const typedError = error as ErrorResponse;
+      const errorMsg = typedError?.response?.data?.message || "Đã xảy ra lỗi!";
+      toast.error(errorMsg);
+      setError(errorMsg);
     } finally {
       setIsLoading(false);
     }
   };
+
   const handleResendOTP = () => {
     if (count > 2) {
       toast.error("Bạn đã đạt tới số lần gửi lại OTP tối đa.");
@@ -81,7 +107,7 @@ export default function VerifyRegister() {
 
   return (
     <div>
-      <img class={`mx-auto mt-10 w-52`} src={AuthImg}></img>
+      <img class={`mx-auto mt-10 w-52`} src={AuthImg} alt="Auth" />
       <h1 class={`text-center font-semibold text-2xl my-4`}>
         Xác minh đăng ký
       </h1>
@@ -90,7 +116,7 @@ export default function VerifyRegister() {
         <span
           class={`text-center font-inter text-sm my-2 text-blue-default font-semibold`}
         >
-          {data.registerUser.email}
+          {registerUser.email}
         </span>
       </h1>
       <div class={`mx-auto w-fit relative`}>
@@ -98,11 +124,13 @@ export default function VerifyRegister() {
           value={otp}
           onChange={handleChangeOTP}
           numInputs={6}
+          inputType="tel"
           renderInput={({ style, ...props }) => (
             <input
-              class={`text-center font-semibold text-3xl border w-14 h-14 mx-2 bg-gray-50 rounded-xl ${
+              class={`text-center font-semibold text-3xl border w-14 h-14 mx-2 focus:outline-blue-default bg-gray-50 rounded-xl ${
                 error && "border-red-500"
-              }`}
+              } ${isLoading ? "cursor-not-allowed bg-gray-200" : ""}`}
+              disabled={isLoading}
               {...props}
             />
           )}
@@ -111,7 +139,8 @@ export default function VerifyRegister() {
           <img
             class={`animate-spin absolute -top-[35%] text-center right-[50%] left-[50%]`}
             src={LoadingIcon}
-          ></img>
+            alt="Loading"
+          />
         )}
         <div class={`flex justify-end`}>
           <button

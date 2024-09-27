@@ -25,9 +25,6 @@ const Voucher = () => {
                 {isLoading ? <ItemVoucherLoading></ItemVoucherLoading> : data.map((item,key)=>(
                     <ItemVoucher data={item} key={key}></ItemVoucher>
                 ))}
-                {/*  */}
-            
-
             </div>
         </div>
     </div>
