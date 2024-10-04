@@ -15,7 +15,7 @@ export const FilterBox = ({filter,handleFilterChange}: FilterBoxProps) => {
                 <option value="false">Active</option>
                 <option value="true">Inactive</option>
             </select>
-            <span className='absolute top-[-0.5rem] left-[32px] bg-white text-[#0094FF] transform -translate-x-1/2 text-sm'>Filter</span>
+            <span className='absolute top-[-0.7rem]  left-[32px] bg-white text-[#0094FF] transform -translate-x-1/2 text-sm'>Filter</span>
         </>
     )
 

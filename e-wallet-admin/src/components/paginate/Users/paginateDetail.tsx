@@ -14,58 +14,33 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-  } from "@/components/ui/table"
+} from "@/components/ui/table"
+import PaginateComponents from "../paginateComponent/PaginateComponents";
+import { ITransaction } from "@/interface/Transaction";
 
-export interface ITransactionHistory {
-    _id: string;
-    title?: string;
-    message?: string;
-    amount: number;
-    status: string;
-    type: string;
+interface IPaginateDetail extends PaginateProps {
+    filterType: 'all' | 'transfer' | 'deposit' | 'payment' | 'withdraw';
+    filterStatus: 'all' | 'completed' | 'fail' | 'pending' | 'refund';
+}
 
-    currency?: {
-      _id: string;
-      symbol: string;
-      name: string;
-    };
-    receiver?: {
-      _id:string;
-      email:string;
-    }
-    sender?: {
-      _id:string;
-      email: string;
-      full_name:string;
-      avatar:string;
-    }
-    createdAt: string;
-    updatedAt?: string
-
-    }
-    interface IPaginateDetail extends PaginateProps {
-        filterType: string;
-        filterStatus: string;
-     }
-    
-    type PaginateDetail = Pick<IPaginateDetail, 'currentPage' |'setCurrentPage'| 'selectedFromDate' | 'selectedToDate'  | 'sortOrder' | 'filterType' | 'filterStatus' >
-    const itemsPerPage = 8 ;
+type PaginateDetail = Pick<IPaginateDetail, 'currentPage' | 'setCurrentPage' | 'selectedFromDate' | 'selectedToDate' | 'sortOrder' | 'filterType' | 'filterStatus'>
+const itemsPerPage = 10;
 //Paginate
-const Paginate = ({currentPage,setCurrentPage,selectedFromDate,selectedToDate,sortOrder,filterType,filterStatus}: PaginateDetail) => {
-    const {id} = useParams();
-    const { data , isLoading, isError } = useQuery({
-        queryKey: ['transactions', currentPage,selectedFromDate,selectedToDate,sortOrder,filterType,filterStatus],
+const Paginate = ({ currentPage, setCurrentPage, selectedFromDate, selectedToDate, sortOrder, filterType, filterStatus }: PaginateDetail) => {
+    const { id } = useParams();
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ['transactions', currentPage, selectedFromDate, selectedToDate, sortOrder, filterType, filterStatus],
         queryFn: async () => {
-            const response = await axiosInstance.get(`/api/v1/user/get-transactions`,{
-                params:{
-                    page:currentPage,
-                    page_limit:itemsPerPage,
-                    selectedToFrom: selectedFromDate?.toISOString(),
-                    selectedToDate: selectedToDate?.toISOString(),
-                    sort:sortOrder,
-                    filterType,
-                    filterStatus,
-                    id:id,
+            const response = await axiosInstance.get(`/api/v1/user/get-transactions`, {
+                params: {
+                    page: currentPage,
+                    page_limit: itemsPerPage,
+                    start: selectedFromDate?.toISOString(),
+                    end: selectedToDate?.toISOString(),
+                    sort: sortOrder,
+                    type: filterType,
+                    status: filterStatus,
+                    id: id,
                 }
             });
             return response.data.data
@@ -73,91 +48,71 @@ const Paginate = ({currentPage,setCurrentPage,selectedFromDate,selectedToDate,so
     });
     console.log(data)
 
-    if(isLoading){
+    if (isLoading) {
         return <div>Loading</div>
-    } 
-    if(isError){
+    }
+    if (isError) {
         return <div>Error</div>
     }
     console.log(data.transactions)
-    
+
     const handlePageClick = (e: { selected: number }) => {
         setCurrentPage(e.selected + 1)
     };
-    const getNumber = (index:number) => {
+    const getNumber = (index: number) => {
         const customNumber = (currentPage - 1) * itemsPerPage + index + 1
-        return customNumber.toString().padStart(2,'0')
-    }
-    
-    const DetailUser = (): ITransactionHistory[] => {
-        if (!data || !data.transactions) return []
-        console.log([])
-
-        return data.transactions.filter((detailUser:ITransactionHistory) => {
-            if (!detailUser.createdAt) return false
-
-            const joinDate = new Date (detailUser.createdAt)
-            const endDate = selectedToDate ? new Date(selectedToDate): null
-            if (endDate) endDate.setHours(23,59,59,999);
-            
-            const RangeDate = (!selectedFromDate || joinDate >= selectedFromDate) && 
-                (!endDate || joinDate <= endDate)
-                return (filterType ? detailUser.type.toLowerCase() === filterType.toLowerCase():true) &&
-                        (filterStatus ? detailUser.status.toLowerCase() === filterStatus.toLowerCase():true) && RangeDate
-        }) .sort ((a:ITransactionHistory,b:ITransactionHistory) => { 
-            const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0
-            const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0
-            return sortOrder === 'asc' ? dateA - dateB : dateB - dateA
-        })
+        return customNumber.toString().padStart(2, '0')
     }
 
-    return (    
-        <>   
+    // const DetailUser = (): ITransaction[] => {
+    //     if (!data || !data.transactions) return []
+    //     console.log([])
+
+    //     return data.transactions.filter((detailUser:ITransaction) => {
+    //         if (!detailUser.createdAt) return false
+
+    //         const joinDate = new Date (detailUser.createdAt)
+    //         const endDate = selectedToDate ? new Date(selectedToDate): null
+    //         if (endDate) endDate.setHours(23,59,59,999);
+
+    //         const RangeDate = (!selectedFromDate || joinDate >= selectedFromDate) && 
+    //             (!endDate || joinDate <= endDate)
+    //             return (filterType ? detailUser.type.toLowerCase() === filterType.toLowerCase():true) &&
+    //                     (filterStatus ? detailUser.status.toLowerCase() === filterStatus.toLowerCase():true) && RangeDate
+    //     }) .sort ((a:ITransaction,b:ITransaction) => { 
+    //         const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0
+    //         const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0
+    //         return sortOrder === 'asc' ? dateA - dateB : dateB - dateA
+    //     })
+    // }
+
+    return (
+        <>
+            <div>
                 <Table>
                     <TableHeader className="uppercase" >
-                    <TableRow>
-                        <TableHead className="text-[#1A3E5F] font-bold">No.</TableHead>
-                        <TableHead className="text-[#1A3E5F] font-bold">Messenger</TableHead>
-                        <TableHead className="text-[#1A3E5F] font-bold ">Amount</TableHead>
-                        <TableHead className="text-[#1A3E5F] font-bold">Join Date</TableHead>
-                        <TableHead className="text-[#1A3E5F] font-bold">Status</TableHead>
-                        <TableHead className="text-[#1A3E5F] font-bold">Action</TableHead>
-                    </TableRow>
+                        <TableRow>
+                            <TableHead className="text-[#1A3E5F] font-bold">No.</TableHead>
+                            <TableHead className="text-[#1A3E5F] font-bold">Messenger</TableHead>
+                            <TableHead className="text-[#1A3E5F] font-bold ">Amount</TableHead>
+                            <TableHead className="text-[#1A3E5F] font-bold">Join Date</TableHead>
+                            <TableHead className="text-[#1A3E5F] font-bold">Status</TableHead>
+                            <TableHead className="text-[#1A3E5F] font-bold">Type</TableHead>
+                        </TableRow>
                     </TableHeader>
                     <TableBody>
-                    {DetailUser().map((transactions:ITransactionHistory,index:number) => (
-                        <TableRow key={index}>
-                            <td className="pl-3">{getNumber(index)}</td>
-                            <TransactionHistory {...transactions}/>
-                        </TableRow>
-                    ))}
+                        {data.transactions.map((transactions: ITransaction, index: number) => (
+                            <TableRow key={index}>
+                                <td className="pl-3 h-[65px]">{getNumber(index)}</td>
+                                <TransactionHistory {...transactions} />
+                            </TableRow>
+                        ))}
                     </TableBody>
-                    <TableFooter>
-                    <TableRow>
-                            <ReactPaginate
-                            className="w-[1280px] flex items-center justify-center gap-x-[10px] fixed"
-                            onPageChange={handlePageClick}
-                            pageRangeDisplayed={3}
-                            marginPagesDisplayed={3}
-                            pageCount={data.pageCount}
-                            previousLabel={<IoChevronBackOutline className="size-[16px] text-[#0094FF]" />}
-                            pageClassName="inline-block mx-1"
-                            pageLinkClassName="py-2 px-4 border rounded-lg text-[#0094FF] hover:bg-gray-200"
-                            previousClassName="inline-block"
-                            previousLinkClassName="py-2 px-4 text-[#0094FF]"
-                            nextLabel={<IoChevronForwardOutline className="size-[16px] text-[#0094FF]" />}
-                            nextClassName="inline-block"
-                            nextLinkClassName="py-2 px-4 text-[#0094FF]"
-                            breakLabel="..."
-                            breakClassName="inline-block mx-1"
-                            breakLinkClassName="py-2 px-4 border rounded-lg text-[#0094FF] hover:bg-gray-200"
-                            containerClassName="flex justify-center py-4"
-                            activeClassName="font-bold text-white "
-                            activeLinkClassName="font-bold "
-                        />
-                    </TableRow>
-                    </TableFooter>
-                </Table>    
+                </Table>
+                <div>
+                    <PaginateComponents pageCount={data.pageCount} handlePageClick={handlePageClick} />
+                </div>
+            </div>
         </>
     );
 };

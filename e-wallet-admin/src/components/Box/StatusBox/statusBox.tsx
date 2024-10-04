@@ -1,6 +1,6 @@
 
 export const selectStatus = [
-    {value: '',name: "All"},
+    {value: 'all',name: "All"},
     {value: 'completed',name: "Completed"},
     {value: 'fail',name: "Fail"},
     {value: 'pending',name: "Pending"},

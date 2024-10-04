@@ -2,7 +2,7 @@ import React from "react";
 
 
 export const selectType = [
-    {value: '', name: 'All'},
+    {value: 'all', name: 'All'},
     {value: 'transfer', name: 'Transfer'},
     {value: 'deposit', name: 'Deposit'},
     {value: 'payment', name: 'Payment'},

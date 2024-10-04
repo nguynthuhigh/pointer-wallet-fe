@@ -7,7 +7,7 @@ import { SortBox } from '../../components/Box/SortBox/sortBox'
 import { FilterBox } from '../../components/Box/FilterBox/filterBox';
 import { DateFrom } from '../../components/Date/DateFrom/dateFrom';
 import { DateTo } from '../../components/Date/DateTo/dateTo';
-import PaginateUser from '../../components/paginate/Users/paginateUser';
+import { PaginateUser } from '@/components/paginate/Users/paginateUser';
 
 export default function ListUser() {
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -68,18 +68,17 @@ export default function ListUser() {
     };
 
     return (
-        <div className="flex w-full h-screen font-poppins">
+        <div className="flex w-full">
             <div className='hidden sm:hidden lg:block'>   
                 <SideBar state={"Users"}/>
             </div>
-            <div className="flex-1 flex flex-col ml-[20px] mr-[20px]">
-                <div id="Title" className="text-[30px] font-bold mt-[10px]">Users Management</div>
-                <div id="TitleDetail" className="text-[17px] flex text-[#0094FF]">Find all platform users here!</div>
-                <div className="flex items-center justify-between">
-                    <div className="flex text-base mb-[20px] mt-[20px] gap-x-[20px] cursor-pointer">
+            <div className="flex-1 flex flex-col mr-[20px] ml-[230px] h-screen">
+                <div id="Title" className="text-[36px] font-bold ">Users Management</div>
+                <div id="TitleDetail" className="text-[17px] flex text-[#0094FF] pb-[10px]">Find all platform users here!</div>
+                <div className="flex items-center justify-between pb-[10px]">
+                    <div className="flex text-base py-[10px] gap-x-[20px] cursor-pointer">
                         <div id='FilterBox' className="relative flex justify-center">
-                            <FilterBox filter={filter} handleFilterChange={handleFilterChange}/>
-                            
+                            <FilterBox filter={filter} handleFilterChange={handleFilterChange}/>   
                         </div>
                         <div className="relative z-20"> 
                             <div id="FromDate">
@@ -98,7 +97,7 @@ export default function ListUser() {
                         <SortBox sortOrder={sortOrder} handleSortOrder={(handleSortOrder)}/>
                     </div>
                 </div>
-                <div className='flex justify-center'>
+                <div>
                     <PaginateUser
                     inactive = {filter}
                     currentPage={currentPage}
@@ -109,7 +108,6 @@ export default function ListUser() {
                     sortOrder={sortOrder}
                     />
                 </div>
-                
             </div>
         </div>
     );

@@ -16,7 +16,7 @@ export const DateFrom = ({selectedFromDate,setSelectedFromDate}: DateFromProps) 
             placeholderText='yyyy/mm/dd'
             className={`border-[1px] p-1 rounded-[4px] border-gray-300 w-full h-[36px] text-center text-sm`}
             />
-            <span className=' absolute top-[-0.5rem] left-[35px] bg-white text-[#0094FF] text-sm transform -translate-x-1/2'>From:</span>
+            <span className=' absolute top-[-0.7rem] left-[35px] bg-white text-[#0094FF] text-sm transform -translate-x-1/2'>From:</span>
         </>
     )
 }

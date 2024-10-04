@@ -12,22 +12,44 @@ import { Button } from "@mui/material";
 import { SortBox } from "@/components/Box/SortBox/sortBox";
 import { SiTicktick } from "react-icons/si";
 import { GiCancel } from "react-icons/gi";
-import { SlCalender } from "react-icons/sl";
-import { SlEnvolope } from "react-icons/sl";
-import { formatDate } from "@/components/transaction/TransactionHistory";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import PaginatePartnersDetail from "@/components/paginate/PartnersP/paginatePartnersDetail";
 const PartnersDetail = () => {
   const {id} = useParams();
   const location = useLocation();
   const {getName} = location.state;
-  const [status,setStatus] = useState<string>('');
-  const [type,setType] = useState<string>('');
+  const [status,setStatus] = useState<'all' | 'completed' | 'fail' | 'pending' | 'refund'>('all');
+  const [type,setType] = useState<'all' | 'transfer' | 'deposit' | 'payment' | 'withdraw'>('all');
   const [sort,setSort] = useState<'asc' | 'desc'>('desc');
   const [selectDateFrom,setSelectDateFrom] = useState<Date | null>(null);
   const [selectDateTo,setSelectDateTo] = useState<Date | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
+  useEffect(() => {
+    const storedCurrentPage = Number(localStorage.getItem('currentPage')) || 1;
+    const storedStatus = localStorage.getItem('status') || '';
+    const storedType = localStorage.getItem('type') || '';
+    const storedSort = localStorage.getItem('sortOrder') || 'desc';
+    const storedFromDate = localStorage.getItem('selectedFromDate');
+    const storedToDate = localStorage.getItem('selectedToDate');
 
+    setCurrentPage(storedCurrentPage);
+    setStatus(storedStatus as 'all' | 'completed' | 'fail' | 'pending' | 'refund');
+    setType(storedType as 'all' | 'transfer' | 'deposit' | 'payment' | 'withdraw');
+    setSort(storedSort as 'asc' | 'desc');
+    setSelectDateFrom(storedFromDate ? new Date(storedFromDate) : null);
+    setSelectDateTo(storedToDate ? new Date(storedToDate) : null);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('currentPage', currentPage.toString());
+    localStorage.setItem('status', status);
+    localStorage.setItem('type', type);
+    localStorage.setItem('sortOrder', sort);
+    localStorage.setItem('selectedFromDate', selectDateFrom?.toISOString() || '');
+    localStorage.setItem('selectedToDate', selectDateTo?.toISOString() || '');
+  }, [currentPage, status, type, sort, selectDateFrom, selectDateTo]);
   const {data,isLoading,isError} = useQuery({
     queryKey: ['get-details-partners'],
     queryFn: async () => {
@@ -45,28 +67,32 @@ const PartnersDetail = () => {
 
   //Handle
   const handleStatus = (e:React.ChangeEvent<HTMLSelectElement>) => {
-    setStatus(e.target.value as string)
+    setStatus(e.target.value as 'all' | 'completed' | 'fail' | 'pending' | 'refund')
   }
   const handleType = (e:React.ChangeEvent<HTMLSelectElement>) => {
-    setType (e.target.value as string)
+    setType (e.target.value as 'all' | 'transfer' | 'deposit' | 'payment' | 'withdraw')
   }
   const handleSort = () => {
     setSort(sort === 'asc' ? 'desc' : 'asc')
   }
   const resetFilter = () => {
-    setStatus('')
-    setType('')
-    setSelectDateFrom(null)
-    setSelectDateTo(null)
+    setStatus('all');
+        setType('all');
+        setSelectDateFrom(null);
+        setSelectDateTo(null);
+        localStorage.removeItem('Type')
+        localStorage.removeItem('Status')
+        localStorage.removeItem('selectedFromDate')
+        localStorage.removeItem('selectedToDate')
   }
   return (
     <>
         <div className="flex w-full font-poppins h-screen">
                 <SideBar state={"Partners"} />
-                <div className="flex flex-1 flex-col px-4">
-                    <div id="Title" className="text-[30px] mt-[10px] mb-[5px] font-bold ">Partner Information</div>
-                        <div className=" px-6 py-6 border-[2px] rounded-[16px] flex justify-between shadow-[4px_4px_4px_rgba(0,0,0,0.10)]">
-                        <div id="ViewUser">
+                <div className="flex flex-1 flex-col px-4 ml-[210px]">
+                    <div id="Title" className="text-[30px] mt-[10px] font-bold "></div>
+                        <div className=" px-4 py-4 border-[2px] rounded-[16px] flex justify-between shadow-[4px_4px_4px_rgba(0,0,0,0.10)]">
+                        <div id="ViewPartner">
                                 <div id="InforPartner" className="flex items-center h-full">
                                     <div id="avatarPartner" className=" shrink-0">
                                         <img src={data.avatar ? data.avatar : AvatarDefault} className="size-[60px] border rounded-full" /> 
@@ -86,7 +112,7 @@ const PartnersDetail = () => {
                                 <AlertDialog/>
                             </div>
                     <div className="overflow-x-auto h-screen relative">
-                        <div id="stick" className="flex justify-between items-center mt-[20px] mb-[20px]">
+                        <div id="stick" className="flex justify-between items-center mt-[20px]">
                             <div id="Title" className="text-[20px] font-semibold">Transaction History</div>
                             <div className="flex items-center gap-x-[10px] mx-2">
                                 <div id="FromDate" className="relative z-20 ">
@@ -109,7 +135,14 @@ const PartnersDetail = () => {
                                 </div>
                             </div>
                         </div>
-                          <PaginatePartnersDetail/>
+                          <PaginatePartnersDetail
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                            filterType={type}
+                            filterStatus={status}
+                            selectedFromDate={selectDateFrom}
+                            selectedToDate={selectDateTo}
+                            sortOrder={sort}/>
                     </div>
                 </div>
             </div>
