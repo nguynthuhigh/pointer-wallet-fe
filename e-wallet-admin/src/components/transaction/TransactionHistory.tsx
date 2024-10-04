@@ -1,33 +1,7 @@
 import { GoDotFill } from "react-icons/go";
+import {ITransaction} from '@/interface/Transaction'
 
-interface TransactionHistory{
-    _id: string;
-    title?: string;
-    message?: string;
-    amount: number;
-    status: string;
-    type: string;
-
-    currency?: {
-      _id: string;
-      symbol: string;
-      name: string;
-    };
-    receiver?: {
-      _id:string;
-      email:string;
-    }
-    sender?: {
-      _id:string;
-      email: string;
-      full_name:string;
-      avatar:string;
-    }
-    createdAt?: string;
-    updatedAt?: string
-}
-
-export type listTransactions = Pick<TransactionHistory,'message' | 'amount' | 'createdAt' | 'status' | 'type'>
+export type listTransactions = Pick<ITransaction,'message' | 'amount' | 'createdAt' | 'status' | 'type'>
 
 function formatCurrency(money: number): string {
   return new Intl.NumberFormat('en-US', {
@@ -51,7 +25,7 @@ export function formatDate(dateString:string):string{
 }
 
 
-function TransactionHistory({message,amount,status,createdAt,type}:TransactionHistory){
+function TransactionHistory({message,amount,status,createdAt,type}:ITransaction){
     return (
         <>  
             <td> 

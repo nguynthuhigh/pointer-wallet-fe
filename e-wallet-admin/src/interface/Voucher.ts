@@ -1,0 +1,18 @@
+export interface IVoucher {
+    _id: string,
+    title: string,
+    image: string,
+    content: string,
+    code: string,
+    quantity: number,
+    usedCount: number,
+    statusPublic: boolean,
+    discountValue: number,
+    type: string,
+    min_condition: number,
+    partnerID: string,
+    currency: string,
+    isPublic: boolean,
+    createdAt: string,
+    updatedAt: string,
+}

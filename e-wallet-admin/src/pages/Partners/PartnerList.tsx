@@ -33,18 +33,17 @@ const Partners = () => {
         setSelectedFromDate(null);
         setSelectedToDate(null);
     }
-    console.log(sortOrder)
     return (
         <>
-            <div className="flex w-full h-screen font-poppins">
+            <div className="flex w-full h-screen">
             <div className='hidden sm:hidden lg:block'>   
                 <SideBar state={"Partners"}/>
             </div>
-            <div className="flex-1 flex flex-col ml-[20px] mr-[20px]">
-                <div id="Title" className="text-[30px] font-bold mt-[10px]">Partners Management</div>
-                <div id="TitleDetail" className="text-[17px] flex text-[#0094FF]">Manage your service partners and find all platform partners here!</div>
+            <div className="flex-1 flex flex-col ml-[230px] mr-[20px]">
+                <div id="Title" className="text-[36px] font-bold ">Partners Management</div>
+                <div id="TitleDetail" className="text-[17px] flex text-[#0094FF] pb-[10px]">Manage your service partners and find all platform partners here!</div>
                 <div className="flex items-center justify-between">
-                    <div className="flex text-base mb-[20px] mt-[20px] gap-x-[20px] cursor-pointer">
+                    <div className="flex text-base py-[10px] gap-x-[20px] cursor-pointer">
                         <div id='FilterBox' className="relative flex justify-center">
                             <FilterBox filter={filter} handleFilterChange={handleFilterChange}/>
                         </div>
@@ -68,7 +67,7 @@ const Partners = () => {
                     </div>
 
                 </div>
-                <div id="Table&Paginate">
+                <div>
                     <PaginatePartners
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
