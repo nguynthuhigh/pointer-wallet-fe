@@ -29,10 +29,10 @@ const SideBar = ({...props}) => {
             <div className=' uppercase text-xs text-[#1A3E5F] mb-3 mx-4 font-bold'>Main menu</div>
             <div className='flex flex-col w-fit gap-y-[16px] text-md mx-[12px] text-[#ADB5BD]'>
                 <SideBarPart link='/dashboard' selected={selected} handleSelect={() => { handleSelect('Chart Dashboard') }} name='Chart Dashboard' icon={<FaChartBar size={20}  />} />
-                <SideBarPart link='/listUser' selected={selected} handleSelect={() => { handleSelect('Users') }} name='Users' icon={<TbUsers size={20}/>} />
-                <SideBarPart link='/listVoucher' selected={selected} handleSelect={() => { handleSelect('Vouchers') }} name='Vouchers' icon={<PiTicketBold size={20}/>} />
-                <SideBarPart link='/listPartner' selected={selected} handleSelect={() => { handleSelect('Partners') }} name='Partners' icon={<FaRegHandshake size={20} />} /> 
-                <SideBarPart link='/listTransaction' selected={selected} handleSelect={() => { handleSelect('Transactions') }} name='Transactions' icon={<MdCurrencyExchange size={20} />} /> 
+                <SideBarPart link='/customer-list' selected={selected} handleSelect={() => { handleSelect('Customers') }} name='Customers' icon={<TbUsers size={20}/>} />
+                <SideBarPart link='/voucher-list' selected={selected} handleSelect={() => { handleSelect('Vouchers') }} name='Vouchers' icon={<PiTicketBold size={20}/>} />
+                <SideBarPart link='/partner-list' selected={selected} handleSelect={() => { handleSelect('Partners') }} name='Partners' icon={<FaRegHandshake size={20} />} /> 
+                <SideBarPart link='/transaction-list' selected={selected} handleSelect={() => { handleSelect('Transactions') }} name='Transactions' icon={<MdCurrencyExchange size={20} />} /> 
 
             </div>
             <div className='border-b-[3px] mx-4 rounded-[8px] mt-[20px] mb-3'></div>

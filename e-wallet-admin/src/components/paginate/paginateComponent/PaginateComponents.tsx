@@ -17,7 +17,7 @@ const PaginateComponents = ({handlePageClick,pageCount}:PaginateCompo) => {
             marginPagesDisplayed={3}
             pageCount={pageCount}
             previousLabel={<IoChevronBackOutline className="size-[16px] text-[#0094FF]" />}
-            pageClassName="inline-block mx-1"
+            // pageClassName="inline-block mx-1"
             pageLinkClassName="py-1 px-3 border rounded-lg text-[#0094FF] hover:bg-gray-200"
             previousClassName="inline-block mx-1"
             previousLinkClassName="text-[#0094FF]"
@@ -28,7 +28,7 @@ const PaginateComponents = ({handlePageClick,pageCount}:PaginateCompo) => {
             breakClassName="inline-block mx-1"
             breakLinkClassName="py-1 px-3 border rounded-lg text-[#0094FF] hover:bg-gray-200"
             containerClassName="flex justify-center py-4"
-            activeClassName="font-bold text-white "
+            // activeClassName="font-bold text-white "
             activeLinkClassName="font-bold "
         />
     </>

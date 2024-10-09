@@ -1,7 +1,7 @@
 import SideBar from "../../components/sidebar/sidebar";
 import { SiTicktick } from "react-icons/si";
 import { GiCancel } from "react-icons/gi";
-import Paginate from "../../components/paginate/Users/paginateDetail";
+import Paginate from "../../components/paginate/users/paginateDetail";
 import AvatarDefault from '../../assets/png/Avatar.png'
 import React, { useState } from "react";
 import { Button } from "@mui/material";
@@ -17,17 +17,16 @@ import { SortBox } from "../../components/Box/SortBox/sortBox";
 import AlertDialog from "../../components/Box/DialogBox/dialogBox";
 import axiosInstance from "../../components/API/axiosInstance";
 import { useEffect } from "react";
+import { IUser } from "@/interface/user";
 
 const DetailListUser = () => {
-    const { id } = useParams()
+    const {id} = useParams()
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [status, setStatus] = useState<'all' | 'completed' | 'fail' | 'pending' | 'refund'>('all');
     const [type, setType] = useState<'all' | 'transfer' | 'deposit' | 'payment' | 'withdraw'>('all');
     const [sort, setSort] = useState<'asc' | 'desc'>('desc');
     const [selectDateFrom, setSelectDateFrom] = useState<Date | null>(null);
     const [selectDateTo, setSelectDateTo] = useState<Date | null>(null);
-    const location = useLocation();
-    const { nameID } = location.state;
     useEffect(() => {
         const storedCurrentPage = Number(localStorage.getItem('currentPage')) || 1;
         const storedStatus = localStorage.getItem('status') || '';
@@ -56,7 +55,11 @@ const DetailListUser = () => {
     const { data, isLoading, isError } = useQuery({
         queryKey: ['get-details', id],
         queryFn: async () => {
-            const response = await axiosInstance.get(`/api/v1/user/get-details?id=${id}`);
+            const response = await axiosInstance.get(`/api/v1/user/get-details`,{
+                params:{
+                    id:id
+                }
+            });
             return response.data.data
         }
     })
@@ -92,12 +95,16 @@ const DetailListUser = () => {
         localStorage.removeItem('selectedFromDate')
         localStorage.removeItem('selectedToDate')
     }
-
+    const getNameID = (user: IUser) => {
+        if (user.full_name)
+            return user.full_name
+        return `U${user._id.slice(-4)}`
+    }
 
     return (
         <>
             <div className="flex w-full h-screen">
-                <SideBar state={"Users"} />
+                <SideBar state={"Customers"} />
                 <div className="flex flex-1 flex-col px-4 ml-[210px] mt-[8px]">
                     <div className=" px-4 py-4 border-[2px] rounded-[16px] flex justify-between shadow-[4px_4px_4px_rgba(0,0,0,0.10)]">
                         <div id="ViewUser">
@@ -107,7 +114,7 @@ const DetailListUser = () => {
                                 </div>
                                 <div className="flex flex-col h-full justify-between pl-5 ">
                                     <div className="w-fit flex justify-between items-center">
-                                        <div id="nameUser" className="text-xl font-bold text-[#1E3A5F] uppercase flex-grow ">{data.full_name || nameID}</div>
+                                        <div id="nameUser" className="text-xl font-bold text-[#1E3A5F] uppercase flex-grow ">{data.full_name || getNameID(data)}</div>
                                         <div className={`flex items-center gap-x-[5px] pl-2 ${!data?.inactive ? 'text-[#027A48]' : 'text-[#FF1717]'}`}>
                                             <div id="iconActiveUser">{!data?.inactive ? <SiTicktick /> : <GiCancel />}</div>
                                             <div id="activeUser" className="text-md"> {!data?.inactive ? 'Active' : "Inactive"}</div>
@@ -124,18 +131,19 @@ const DetailListUser = () => {
                         <div id="stick" className="flex justify-between items-center mt-[20px]">
                             <div id="Title" className="text-[20px] font-semibold">Transaction History</div>
                             <div className="flex items-center gap-x-[10px] mx-2">
-                                <div id="FromDate" className="relative z-20 ">
-                                    <DateFrom selectedFromDate={selectDateFrom} setSelectedFromDate={setSelectDateFrom} />
-                                </div>
-                                <div id="ToDate" className=" relative z-20">
-                                    <DateTo selectedToDate={selectDateTo} setSelectedToDate={setSelectDateTo} />
-                                </div>
                                 <div id="Status" className="flex items-center gap-x-[10px] ">
                                     <StatusBox status={status} handleStatus={handleStatus} select={selectStatus} />
                                 </div>
                                 <div id="Type" className="flex items-center gap-x-[10px] ">
                                     <TypeBox type={type} handleType={handleType} select={selectType} />
                                 </div>
+                                <div id="FromDate" className="relative z-20 ">
+                                    <DateFrom selectedFromDate={selectDateFrom} setSelectedFromDate={setSelectDateFrom} />
+                                </div>
+                                <div id="ToDate" className=" relative z-20">
+                                    <DateTo selectedToDate={selectDateTo} setSelectedToDate={setSelectDateTo} />
+                                </div>
+
                                 <div id="DeleteFilter">
                                     <Button variant="contained" className="h-[56px] bg-[#FF1717]" sx={{ height: 36 }} onClick={resetFilter}>Delete </Button>
                                 </div>

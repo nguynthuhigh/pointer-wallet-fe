@@ -5,7 +5,7 @@ import { DateFrom } from "../../components/Date/DateFrom/dateFrom"
 import { DateTo } from "../../components/Date/DateTo/dateTo"
 import { SearchBox } from "../../components/Box/SearchBox/searchBox"
 import { SortBox } from "../../components/Box/SortBox/sortBox"
-import { PaginatePartners } from "@/components/paginate/PartnersP/paginatePartners"
+import { PaginatePartners } from "@/components/paginate/partners/paginatePartners"
 import { Button } from "@mui/material"
 
 const Partners = () => {
@@ -47,12 +47,12 @@ const Partners = () => {
                         <div id='FilterBox' className="relative flex justify-center">
                             <FilterBox filter={filter} handleFilterChange={handleFilterChange}/>
                         </div>
-                        <div className="relative z-20"> 
+                        <div className="relative z-30"> 
                             <div id="FromDate">
                                 <DateFrom selectedFromDate={selectedFromDate} setSelectedFromDate={setSelectedFromDate}/>
                             </div>
                         </div>
-                        <div className='relative z-20'>
+                        <div className='relative z-30'>
                             <div id="ToDate" className=" relative">
                                 <DateTo selectedToDate={selectedToDate} setSelectedToDate={setSelectedToDate}/>
                             </div>

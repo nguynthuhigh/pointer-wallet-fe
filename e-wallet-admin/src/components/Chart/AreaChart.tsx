@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { ITransaction } from '@/interface/Transaction';
+import { ITransaction } from '@/interface/transaction';
 import TransactionHistory from '../transaction/TransactionHistory';
 import { useState } from 'react';
 export const AreaChart = () => {
@@ -145,8 +145,8 @@ export const AreaChart = () => {
                         <TableHead className="text-[#1A3E5F] font-bold">No.</TableHead>
                         <TableHead className="text-[#1A3E5F] font-bold">Messenger</TableHead>
                         <TableHead className="text-[#1A3E5F] font-bold ">Amount</TableHead>
-                        <TableHead className="text-[#1A3E5F] font-bold">Join Date</TableHead>
                         <TableHead className="text-[#1A3E5F] font-bold">Status</TableHead>
+                        <TableHead className="text-[#1A3E5F] font-bold">Join Date</TableHead>
                         <TableHead className="text-[#1A3E5F] font-bold">Type</TableHead>
                     </TableRow>
                 </TableHeader>

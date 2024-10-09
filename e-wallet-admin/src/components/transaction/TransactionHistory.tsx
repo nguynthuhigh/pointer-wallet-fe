@@ -1,9 +1,9 @@
 import { GoDotFill } from "react-icons/go";
-import {ITransaction} from '@/interface/Transaction'
+import {ITransaction} from '@/interface/transaction'
 
 export type listTransactions = Pick<ITransaction,'message' | 'amount' | 'createdAt' | 'status' | 'type'>
 
-function formatCurrency(money: number): string {
+export function formatCurrency(money: number): string {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'VND'
@@ -29,11 +29,11 @@ function TransactionHistory({message,amount,status,createdAt,type}:ITransaction)
     return (
         <>  
             <td> 
-              <div className="pl-2">{message}</div>
+              <div className="pl-3">{message}</div>
             </td>
-            <td className={` ${amount < 0 ? 'text-[#FF1717]' : 'text-[#027A48]'}`}>{formatCurrency(amount)}</td>
+            <td className={` pl-3 ${amount < 0 ? 'text-[#FF1717]' : 'text-[#027A48]'}`}>{formatCurrency(amount)}</td>
             <td>
-              <div className={`pl-2 w-fit ${status.toLowerCase() ==='completed' ? 'text-[#027A48] bg-[#ECFDF3]' 
+              <div className={`pl-3 w-fit ${status.toLowerCase() ==='completed' ? 'text-[#027A48] bg-[#ECFDF3]' 
                 : status.toLowerCase() === 'refund' ? 'bg-[#F2F4F7] text-[#344054]' 
                 : status.toLowerCase() === 'pending' ? 'bg-[#FFF3CD] text-[#F59E0B]' 
                 : 'bg-[#FFE3E3] text-[#FF1717]'} h-[30px] px-[8px] rounded-[16px] flex items-center`}>
@@ -47,7 +47,7 @@ function TransactionHistory({message,amount,status,createdAt,type}:ITransaction)
               </div>
             </td>
             <td>
-              <div className="pl-2"> 
+              <div className="pl-3"> 
                 {createdAt ? formatDate(createdAt) : 'N/A'}
               </div>
             </td>
@@ -61,6 +61,7 @@ function TransactionHistory({message,amount,status,createdAt,type}:ITransaction)
                     {type.toLowerCase() === 'transfer' && 'Transfer'}
                     {type.toLowerCase() === 'deposit' && 'Deposit'}
                     {type.toLowerCase() === 'payment'&& 'Payment'}
+                    {type.toLowerCase() === 'pay-with-card'&& 'Payment'}
                     {type.toLowerCase() === 'withdraw'&& 'Withdraw'}
                 </div>
               </div>

@@ -27,7 +27,7 @@ export const TypeBox = ({type,select,handleType} : TypeBoxProps) => {
                         <option key={items.value} value={items.value}>{items.name}</option> 
                     ))}
                 </select>
-            <span className="absolute top-[-0.5rem] left-[30px] transform -translate-x-1/2 bg-white text-sm text-[#0094FF] px-1">Type</span>
+            <span className="absolute top-[-0.8rem] left-[30px] transform -translate-x-1/2 bg-white text-sm text-[#0094FF] px-1">Type</span>
             </div>
         </>
     )

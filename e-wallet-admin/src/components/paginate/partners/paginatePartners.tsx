@@ -1,8 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "@/components/API/axiosInstance";
-import ReactPaginate from "react-paginate";
-import { IoChevronBackOutline } from "react-icons/io5";
-import { IoChevronForwardOutline } from "react-icons/io5";
 import { GoDotFill } from "react-icons/go";
 
 import {
@@ -29,7 +26,7 @@ interface IPartnersProps {
     description: string,
 }
 
-interface IPartnerData extends IPartnersProps {
+export interface IPartnerData extends IPartnersProps {
     selectedFromDate: Date | null
     selectedToDate: Date | null
     sort: 'asc' | 'desc'
@@ -43,9 +40,8 @@ type PartnerPick = Pick<IPartnerData, 'currentPage' | 'setCurrentPage' | 'inacti
 export const PaginatePartners = ({ selectedFromDate, selectedToDate, sort, search, inactive, currentPage, setCurrentPage }: PartnerPick) => {
 
     const navigate = useNavigate();
-    const handleClickDetail = (partners: IPartnersProps, customID: string, getName: string) => {
-        const { _id = '', name, email, image, inactive, createdAt } = partners
-        navigate(`/listPartner/detailListPartner/${_id}`, { state: { customID, getName, name, email, image, inactive, createdAt } })
+    const handleClickDetail = (id:string) => {
+        navigate(`/partner-list/detail/${id}`)
     }
 
     const itemsPerPage = 10;
@@ -60,7 +56,9 @@ export const PaginatePartners = ({ selectedFromDate, selectedToDate, sort, searc
                     start: selectedFromDate?.toISOString(),
                     end: selectedToDate?.toISOString(),
                     sort: sort,
-                    search
+                    search:search
+
+                    
                 }
             })
             return response.data.data;
@@ -114,7 +112,7 @@ export const PaginatePartners = ({ selectedFromDate, selectedToDate, sort, searc
                                         {!partners.inactive ? 'Active' : 'Inactive'}
                                     </div>
                                 </TableCell>
-                                <TableCell key={partners._id} onClick={() => handleClickDetail(partners, getID(index), getNameID(partners))} className="text-[#0094FF] font-bold hover:transition-all hover:-translate-y-2 duration-300 cursor-pointer">View Profile</TableCell>
+                                <TableCell key={partners._id} onClick={() => handleClickDetail(partners._id)} className="text-[#0094FF] font-bold hover:transition-all hover:-translate-y-2 duration-300 cursor-pointer">View Profile</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
