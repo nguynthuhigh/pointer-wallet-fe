@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/table"
 import TransactionHistory from "@/components/transaction/TransactionHistory";
 import PaginateComponents from "../paginateComponent/PaginateComponents";
-import { ITransaction } from '@/interface/Transaction'
-import { PaginateProps } from "../Users/paginateUser";
+import { ITransaction } from '@/interface/transaction'
+import { PaginateProps } from "../users/paginateUser";
 
 
 interface IPaginatePartnerDetail extends PaginateProps {

@@ -3,7 +3,7 @@ import ReactPaginate from 'react-paginate';
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from '../../API/axiosInstance';
 import { PaginateProps } from "./paginateUser";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { IoChevronForwardOutline } from "react-icons/io5";
 import {
@@ -16,7 +16,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import PaginateComponents from "../paginateComponent/PaginateComponents";
-import { ITransaction } from "@/interface/Transaction";
+import { ITransaction } from "@/interface/transaction";
 
 interface IPaginateDetail extends PaginateProps {
     filterType: 'all' | 'transfer' | 'deposit' | 'payment' | 'withdraw';
@@ -27,7 +27,10 @@ type PaginateDetail = Pick<IPaginateDetail, 'currentPage' | 'setCurrentPage' | '
 const itemsPerPage = 10;
 //Paginate
 const Paginate = ({ currentPage, setCurrentPage, selectedFromDate, selectedToDate, sortOrder, filterType, filterStatus }: PaginateDetail) => {
+
     const { id } = useParams();
+    const navigate = useNavigate()
+
     const { data, isLoading, isError } = useQuery({
         queryKey: ['transactions', currentPage, selectedFromDate, selectedToDate, sortOrder, filterType, filterStatus],
         queryFn: async () => {
@@ -56,6 +59,10 @@ const Paginate = ({ currentPage, setCurrentPage, selectedFromDate, selectedToDat
     }
     console.log(data.transactions)
 
+    const handleTransactionDetail = (id:string) => {
+        console.log(id)
+        navigate(`/transaction-list/detail/${id}`)
+    }
     const handlePageClick = (e: { selected: number }) => {
         setCurrentPage(e.selected + 1)
     };
@@ -64,28 +71,7 @@ const Paginate = ({ currentPage, setCurrentPage, selectedFromDate, selectedToDat
         return customNumber.toString().padStart(2, '0')
     }
 
-    // const DetailUser = (): ITransaction[] => {
-    //     if (!data || !data.transactions) return []
-    //     console.log([])
-
-    //     return data.transactions.filter((detailUser:ITransaction) => {
-    //         if (!detailUser.createdAt) return false
-
-    //         const joinDate = new Date (detailUser.createdAt)
-    //         const endDate = selectedToDate ? new Date(selectedToDate): null
-    //         if (endDate) endDate.setHours(23,59,59,999);
-
-    //         const RangeDate = (!selectedFromDate || joinDate >= selectedFromDate) && 
-    //             (!endDate || joinDate <= endDate)
-    //             return (filterType ? detailUser.type.toLowerCase() === filterType.toLowerCase():true) &&
-    //                     (filterStatus ? detailUser.status.toLowerCase() === filterStatus.toLowerCase():true) && RangeDate
-    //     }) .sort ((a:ITransaction,b:ITransaction) => { 
-    //         const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0
-    //         const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0
-    //         return sortOrder === 'asc' ? dateA - dateB : dateB - dateA
-    //     })
-    // }
-
+    
     return (
         <>
             <div>
@@ -98,6 +84,7 @@ const Paginate = ({ currentPage, setCurrentPage, selectedFromDate, selectedToDat
                             <TableHead className="text-[#1A3E5F] font-bold">Join Date</TableHead>
                             <TableHead className="text-[#1A3E5F] font-bold">Status</TableHead>
                             <TableHead className="text-[#1A3E5F] font-bold">Type</TableHead>
+                            <TableHead className="text-[#1A3E5F] font-bold">Action</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -105,6 +92,7 @@ const Paginate = ({ currentPage, setCurrentPage, selectedFromDate, selectedToDat
                             <TableRow key={index}>
                                 <td className="pl-3 h-[65px]">{getNumber(index)}</td>
                                 <TransactionHistory {...transactions} />
+                                <td key={transactions._id} onClick={() => handleTransactionDetail(transactions._id)} className="text-[#0094FF] font-bold hover:transition-all hover:-translate-y-2 duration-300 cursor-pointer">View Detail</td>
                             </TableRow>
                         ))}
                     </TableBody>

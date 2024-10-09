@@ -26,7 +26,7 @@ import {
 import { BarChart, Bar,ResponsiveContainer, Tooltip, CartesianGrid, XAxis, Legend, YAxis,PieChart,Pie,Cell} from 'recharts';
 import PaginateComponents from '@/components/paginate/paginateComponent/PaginateComponents'
 import TransactionHistory, { formatDate } from '@/components/transaction/TransactionHistory'
-import { ITransaction } from '@/interface/Transaction'
+import { ITransaction } from '@/interface/transaction'
 import { useContext, useState } from 'react'
 import moment from 'moment';
 import { DateFrom } from '@/components/Date/DateFrom/dateFrom'
@@ -123,7 +123,7 @@ const DashBoard = () => {
               </div>
             </div>
             </div>
-            <div className='flex gap-x-[25px] mt-2'>
+            <div className='flex gap-x-[30px] mt-2'>
               <AreaCard title='Total Users' value={totalUsers} textInfo='Users Growth Rate: +2,5%' color='#0094FF'/>
               <AreaCard title='Total Partners' value={totalPartners} textInfo='Partners Growth Rate: +1,2%' color='#F59E0B'/>
               <AreaCard title='Total Vouchers' value={50} textInfo='Redeemed Vouchers: 40' color='#C11574'/>

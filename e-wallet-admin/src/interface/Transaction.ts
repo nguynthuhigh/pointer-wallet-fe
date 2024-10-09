@@ -21,6 +21,6 @@ export interface ITransaction{
       full_name:string;
       avatar:string;
     }
-    createdAt?: string;
+    createdAt: string;
     updatedAt?: string
 }

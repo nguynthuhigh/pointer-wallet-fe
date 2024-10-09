@@ -14,7 +14,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import PaginateComponents from "../paginateComponent/PaginateComponents";
-import { IUser } from '../../../interface/User';
+import { IUser } from '../../../interface/user';
 
 export interface PaginateProps extends IUser {
     currentPage: number,
@@ -51,9 +51,8 @@ export const PaginateUser = ({ currentPage, setCurrentPage, search, inactive, so
 
     console.log(data)
     const navigate = useNavigate();
-    const handleUserClick = (user: IUser, customID: string, nameID: string) => {
-        const { _id = '', avatar, full_name, email, createdAt, inactive } = user;
-        navigate(`/listUser/detailListUser/${_id}`, { state: { customID, nameID, avatar, full_name, email, createdAt, inactive } });
+    const handleUserClick = (id:string) => {
+        navigate(`/customer-list/detail/${id}`);
     };
 
     const handleClickPage = (e: { selected: number }) => {
@@ -125,7 +124,7 @@ export const PaginateUser = ({ currentPage, setCurrentPage, search, inactive, so
                                         {!users.inactive ? 'Active' : 'Inactive'}
                                     </div>
                                 </TableCell>
-                                <TableCell key={users._id} onClick={() => handleUserClick(users, getID(index), getNameID(users))} className="text-[#0094FF] font-bold hover:transition-all hover:-translate-y-2 duration-300 cursor-pointer">View Profile</TableCell>
+                                <TableCell key={users._id} onClick={() => handleUserClick(users._id)} className="text-[#0094FF] font-bold hover:transition-all hover:-translate-y-2 duration-300 cursor-pointer">View Profile</TableCell>
                             </TableRow>
                         ))}
                         {/* <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-3">
