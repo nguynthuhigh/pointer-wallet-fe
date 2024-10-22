@@ -21,7 +21,7 @@ const Dashboard = () => {
             <SideBar state="Dashboard"></SideBar>
             <div className='w-full p-4'>
                 <div className='space-y-2'>
-                    <h1 className='font-semi-4xl'>Welcome ,{isLoading ? '' :  <span className='text-color-default'>{data.name}</span>}</h1>
+                    <h1 className='font-semi-4xl'>Welcome ,{isLoading ? '' :  <span className='text-color-default'>{data?.name}</span>}</h1>
                     <h1 className=''>Access & manage your account and transactions efficiently.</h1>
                 </div>
                 <div className='border rounded-xl p-6 shadow-sm flex'>
