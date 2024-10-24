@@ -1,34 +1,8 @@
-import axiosConfig from "../configs/axios.config";
-const signinAPI = async (body) => {
-  return await axiosConfig.post(
-    process.env.REACT_APP_API + "/api/v1/partner/signin",
-    body,
-    {
-      withCredentials: true,
-    }
-  );
-};
-const signupAPI = async (body) => {
-  return await axiosConfig.post(
-    process.env.REACT_APP_API + "/api/v1/partner/signup",
-    body,
-    {
-      withCredentials: true,
-    }
-  );
-};
-const verifySignupAPI = async (body) => {
-  return await axiosConfig.post(
-    process.env.REACT_APP_API + "/api/v1/partner/verify",
-    body,
-    {
-      withCredentials: true,
-    }
-  );
-};
+import axiosInstance from "../configs/axios.config";
+import { setToken } from "../utils/cookie";
+
 const signInWithPointer = async (code) => {
-  console.log(code)
-  return await axiosConfig.post(
+  const res = await axiosInstance.post(
     process.env.REACT_APP_API + "/api/v1/partner/sign-in-with-pointer",
     {
       code,
@@ -37,11 +11,10 @@ const signInWithPointer = async (code) => {
       withCredentials: true,
     }
   );
+  setToken(res.data.data.token);
+  return res.data.data.token;
 };
 const exportObject = {
-  signinAPI,
-  signupAPI,
-  verifySignupAPI,
   signInWithPointer,
 };
 

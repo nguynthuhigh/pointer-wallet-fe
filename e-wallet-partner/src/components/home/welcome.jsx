@@ -15,7 +15,7 @@ export default function Home(){
                             Making Every Transaction Smooth, Safe, and Simply Pressable
                             </p>
                             <p className='my-4 lg:text-[17px] lg:w-[350px] font-medium'>Join us as a valued partner and let's create something extraordinary together</p>
-                            <Link className='ml-auto' to='/sign-up'>
+                            <Link className='ml-auto' to='/dashboard'>
                                 <div className='w-[100px] border-[1px] border-white  h-[30px] justify-center text-[12px]  rounded-full items-center flex   bg-white text-color-default font-semibold'>
                                     <h1>Start now</h1>
                                     
