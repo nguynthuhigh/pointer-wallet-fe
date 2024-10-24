@@ -12,10 +12,7 @@ import { AppDispatch, RootState } from "../redux/store";
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const profile = useSelector((state: RootState) => state.user.userState);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  const { userData, walletData } = profile;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,6 +26,14 @@ const Home = () => {
     };
     fetchData();
   }, [dispatch]);
+
+  const profile = useSelector((state: RootState) => state.user.userState);
+
+  const { userData, walletData } = profile || {
+    userData: undefined,
+    walletData: undefined,
+  };
+
   const userAvatar = useMemo(
     () =>
       isLoading
@@ -51,7 +56,7 @@ const Home = () => {
       <>
         <h1 className="text-gray-500 text-sm">Chào buổi sáng</h1>
         <h1 className="font-semibold text-lg">
-          {userData?.full_name || userData?.email}
+          {userData?.full_name || userData?.email || "Người dùng"}
         </h1>
       </>
     );
@@ -72,9 +77,9 @@ const Home = () => {
           <div>
             <div className="flex">
               <div className={userAvatar}>
-                {!isLoading && (
+                {!isLoading && userData?.avatar && (
                   <img
-                    src={userData?.avatar}
+                    src={userData.avatar}
                     className="rounded-full w-[50px] h-[50px] object-cover"
                   />
                 )}
