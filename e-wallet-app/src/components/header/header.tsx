@@ -4,7 +4,7 @@ import LogoPressPay from "../../assets/svg/logo_presspay.svg";
 import { Link } from "react-router-dom";
 export default function Header() {
   const user = useSelector(
-    (state: RootState) => state.user.userState.userData
+    (state: RootState) => state.user.userState?.userData
   );
   return (
     <div>
@@ -15,7 +15,10 @@ export default function Header() {
           <img class={`w-40`} src={LogoPressPay} />
         </Link>
         <div class={`ml-auto`}>
-          <img class={`w-14 h-14 object-cover rounded-full`} src={user.avatar}></img>
+          <img
+            class={`w-14 h-14 object-cover rounded-full`}
+            src={user?.avatar}
+          ></img>
         </div>
       </div>
       <div class={`h-20`}></div>
