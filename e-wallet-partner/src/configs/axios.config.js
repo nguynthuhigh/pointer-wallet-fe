@@ -1,13 +1,14 @@
 import axios from "axios";
-import { getToken } from "../utils/cookie";
+import Cookies from "universal-cookie";
+const cookie = new Cookies();
+
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
-    "Authorization": "Bearer " +  getToken("access_token")
+    Authorization: "Bearer " + cookie.get("access_token"),
   },
-
 });
 axiosInstance.defaults.withCredentials = true;
 axios.defaults.withCredentials = true;
@@ -31,7 +32,7 @@ axiosInstance.interceptors.response.use(
         }
       } catch (error) {
         window.location.href =
-          "https://sso-pointer.vercel.app/authorize?callbackUrl=https://pointer.io.vn/authorize";
+          "https://sso-pointer.vercel.app/authorize?callbackUrl=http://localhost:3000/authorize";
       }
     }
     return Promise.reject(error);
