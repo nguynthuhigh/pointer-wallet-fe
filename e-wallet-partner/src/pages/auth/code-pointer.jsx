@@ -1,5 +1,5 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React from "react";
 import API from "../../api/auth.api";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ const CodePointer = () => {
     queryFn: async () => {
       return await API.signInWithPointer(code);
     },
+    queryKey: ["access_token"],
   });
   if (isSuccess) {
     navigate("/dashboard");

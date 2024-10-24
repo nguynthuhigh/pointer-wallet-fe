@@ -1,5 +1,5 @@
 import axios from "axios";
-import axiosConfig from "../configs/axios.config";
+import axiosInstance from "../configs/axios.config";
 export const addVoucher = async(formData)=>{
     return await axios.post(`${process.env.REACT_APP_API}/api/v1/voucher/add-voucher`, formData, {
         withCredentials: true,
@@ -7,12 +7,12 @@ export const addVoucher = async(formData)=>{
     }); 
 }
 export const getVoucher = async(voucherID)=>{
-    return await axiosConfig.get(process.env.REACT_APP_API+`/api/v1/voucher/get-voucher-details?voucherID=`+voucherID,{
+    return await axiosInstance.get(process.env.REACT_APP_API+`/api/v1/voucher/get-voucher-details?voucherID=`+voucherID,{
         withCredentials:true
     })
 }
 export const editVoucher = async(body)=>{
-    return await axiosConfig.put(process.env.REACT_APP_API+`/api/v1/voucher/edit-voucher`,body,{
+    return await axiosInstance.put(process.env.REACT_APP_API+`/api/v1/voucher/edit-voucher`,body,{
         withCredentials:true,
         headers:{
             'Content-Type':'multipart/form-data'
@@ -20,7 +20,7 @@ export const editVoucher = async(body)=>{
     })
 }
 export const deleteVoucher = async (voucherID) => {
-    return await axiosConfig.delete(
+    return await axiosInstance.delete(
       `${process.env.REACT_APP_API}/api/v1/voucher/delete-voucher`,
       {
         withCredentials:true,

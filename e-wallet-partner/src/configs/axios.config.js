@@ -1,14 +1,17 @@
 import axios from "axios";
-const axiosConfig = axios.create({
+import { getToken } from "../utils/cookie";
+const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
+    "Authorization": "Bearer " +  getToken("access_token")
   },
+
 });
-axiosConfig.defaults.withCredentials = true;
+axiosInstance.defaults.withCredentials = true;
 axios.defaults.withCredentials = true;
-axiosConfig.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   function (response) {
     return response;
   },
@@ -24,16 +27,15 @@ axiosConfig.interceptors.response.use(
           }
         );
         if (response.status === 200) {
-          return axiosConfig(originalRequest, { withCredentials: true });
+          return axiosInstance(originalRequest, { withCredentials: true });
         }
       } catch (error) {
         window.location.href =
-          // "https://sso-pointer.vercel.app/authorize?callbackUrl=https://pointer.io.vn/authorize";
-          "https://sso-pointer.vercel.app/authorize?callbackUrl=http://localhost:3000/authorize";
+          "https://sso-pointer.vercel.app/authorize?callbackUrl=https://pointer.io.vn/authorize";
       }
     }
     return Promise.reject(error);
   }
 );
 
-export default axiosConfig;
+export default axiosInstance;
