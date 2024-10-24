@@ -1,5 +1,7 @@
 import axiosInstance from "../configs/axios.config";
-import { setToken } from "../utils/cookie";
+import Cookies from "universal-cookie";
+
+const cookie = new Cookies();
 
 const signInWithPointer = async (code) => {
   const res = await axiosInstance.post(
@@ -11,7 +13,9 @@ const signInWithPointer = async (code) => {
       withCredentials: true,
     }
   );
-  setToken(res.data.data.token);
+  cookie.set("access_token", res.data.data.token, {
+    maxAge: 1000 * 60 * 15,
+  });
   return res.data.data.token;
 };
 const exportObject = {
