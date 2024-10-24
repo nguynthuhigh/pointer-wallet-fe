@@ -1,11 +1,10 @@
 import SideBar from '../components/sidebar/sidebar'
-import TotalStatistic from '../components/dashboard/total_statistic'
 import TotalUser from '../assets/svg/total_user.svg'
 import TotalTx from '../assets/svg/total_tx.svg'
 import TotalPartner from '../assets/svg/total_partner.svg'
 import TotalVol from '../assets/svg/total_vol.svg'
 import { useQuery, useQueryErrorResetBoundary } from '@tanstack/react-query'
-import axiosInstance from '@/components/API/axiosInstance'
+import axiosInstance from '@/api/axiosInstance'
 import {
   Card,
   CardContent,
@@ -24,16 +23,16 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { BarChart, Bar,ResponsiveContainer, Tooltip, CartesianGrid, XAxis, Legend, YAxis,PieChart,Pie,Cell} from 'recharts';
-import PaginateComponents from '@/components/paginate/paginateComponent/PaginateComponents'
-import TransactionHistory, { formatDate } from '@/components/transaction/TransactionHistory'
-import { ITransaction } from '@/interface/Transaction'
+import PaginateComponents from '@/components/paginate/paginate-component/paginate-component'
+import TransactionHistory, { formatDate } from '@/components/transaction/transaction-history'
+import { ITransaction } from '@/interfaces/transaction'
 import { useContext, useState } from 'react'
 import moment from 'moment';
-import { DateFrom } from '@/components/Date/DateFrom/dateFrom'
-import { DateTo } from '@/components/Date/DateTo/dateTo'
-import { AreaCard } from '@/components/Chart/AreaCard'
-import { AreaChart } from '@/components/Chart/AreaChart'
-import { AreaProgressChart } from '@/components/Chart/AreaProgressChart'
+import { DateFrom } from '@/components/date/date-from'
+import { DateTo } from '@/components/date/date-to'
+import { AreaCard } from '@/components/chart/area-card'
+import { AreaChart } from '@/components/chart/area-chart'
+import { AreaProgressChart } from '@/components/chart/area-progress-chart'
 const DashBoard = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedFromDate,setSelectedFromDate] = useState<Date | null>(null)
@@ -123,7 +122,7 @@ const DashBoard = () => {
               </div>
             </div>
             </div>
-            <div className='flex gap-x-[25px] mt-2'>
+            <div className='flex gap-x-[30px] mt-2'>
               <AreaCard title='Total Users' value={totalUsers} textInfo='Users Growth Rate: +2,5%' color='#0094FF'/>
               <AreaCard title='Total Partners' value={totalPartners} textInfo='Partners Growth Rate: +1,2%' color='#F59E0B'/>
               <AreaCard title='Total Vouchers' value={50} textInfo='Redeemed Vouchers: 40' color='#C11574'/>

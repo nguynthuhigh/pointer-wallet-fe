@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import SideBarPart from './sidebar_part'
+import SideBarPart from './sidebar-part'
 import Logo from "../../assets/png/logo.png";
 import { RxDashboard } from "react-icons/rx";
 import { TbUsers } from "react-icons/tb";
@@ -13,6 +13,7 @@ import { PiMessengerLogoBold } from "react-icons/pi";
 import { IoMdSettings } from "react-icons/io";
 import Admin from '../../assets/png/Admin.jpg'
 import { MdContactSupport } from "react-icons/md";
+import { MdCurrencyExchange } from "react-icons/md";
 
 const SideBar = ({...props}) => {
     const [selected, setSelected] = useState<string>(props.state)
@@ -27,10 +28,12 @@ const SideBar = ({...props}) => {
             <div className='border-b-[3px] mx-4 rounded-[8px] mb-3'></div>
             <div className=' uppercase text-xs text-[#1A3E5F] mb-3 mx-4 font-bold'>Main menu</div>
             <div className='flex flex-col w-fit gap-y-[16px] text-md mx-[12px] text-[#ADB5BD]'>
-                <SideBarPart link='/dashboard' selected={selected} handleSelect={() => { handleSelect('Chart Dashboard') }} name='Chart Dashboard' icon={<FaChartBar size={20}  />} />
-                <SideBarPart link='/listUser' selected={selected} handleSelect={() => { handleSelect('Users') }} name='Users' icon={<TbUsers size={20}/>} />
-                <SideBarPart link='/listVoucher' selected={selected} handleSelect={() => { handleSelect('Vouchers') }} name='Vouchers' icon={<PiTicketBold size={20}/>} />
-                <SideBarPart link='/listPartner' selected={selected} handleSelect={() => { handleSelect('Partners') }} name='Partners' icon={<FaRegHandshake size={20} />} />   
+                <SideBarPart link='/dashboard' selected={selected} handleSelect={() => { handleSelect('Chart Dashboard') }} name='Chart Dashboard' icon={<FaChartBar size={20} />} />
+                <SideBarPart link='/customer-list' selected={selected} handleSelect={() => { handleSelect('Customers') }} name='Customers' icon={<TbUsers size={20}/>} />
+                <SideBarPart link='/voucher-list' selected={selected} handleSelect={() => { handleSelect('Vouchers') }} name='Vouchers' icon={<PiTicketBold size={20}/>} />
+                <SideBarPart link='/partner-list' selected={selected} handleSelect={() => { handleSelect('Partners') }} name='Partners' icon={<FaRegHandshake size={20} />} /> 
+                <SideBarPart link='/transaction-list' selected={selected} handleSelect={() => { handleSelect('Transactions') }} name='Transactions' icon={<MdCurrencyExchange size={20} />} /> 
+
             </div>
             <div className='border-b-[3px] mx-4 rounded-[8px] mt-[20px] mb-3'></div>
             <div className=' uppercase text-xs text-[#1A3E5F] mb-3 mx-4 font-bold'>Other</div>
@@ -38,7 +41,7 @@ const SideBar = ({...props}) => {
             <div className='flex flex-col w-fit gap-y-[16px] text-md mx-[12px] text-[#ADB5BD]'>
                 <SideBarPart link='/setting' selected={selected} handleSelect={() => { handleSelect('Setting') }} name='Setting' icon={<IoMdSettings size={20}  />} />
                 <SideBarPart link='/contactUs' selected={selected} handleSelect={() => { handleSelect('Administrator') }} name='Contact Us' icon={<PiMessengerLogoBold size={20}  />} />
-                <SideBarPart link='/LoginAdmin' selected ={selected} handleSelect ={() => handleSelect('LoginAdmin')} name = 'Logout' icon = {<TbLogout2 size = {20}/>}/>                     
+                <SideBarPart link='/login' selected ={selected} handleSelect ={() => handleSelect('login')} name = 'Logout' icon = {<TbLogout2 size = {20}/>}/>                     
             </div>
 
             <div className='mt-auto'>
