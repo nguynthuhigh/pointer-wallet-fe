@@ -31,8 +31,9 @@ axiosInstance.interceptors.response.use(
           return axiosInstance(originalRequest, { withCredentials: true });
         }
       } catch (error) {
-        window.location.href =
-          "https://sso-pointer.vercel.app/authorize?callbackUrl=http://localhost:3000/authorize";
+        window.location.href = !process.env.REACT_APP_LOCAL
+          ? `https://sso-pointer.vercel.app/authorize?callbackUrl=https://pointer.io.vn/authorize`
+          : `https://sso-pointer.vercel.app/authorize?callbackUrl=http://localhost:3000/authorize`;
       }
     }
     return Promise.reject(error);
