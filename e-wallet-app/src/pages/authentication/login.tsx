@@ -53,13 +53,13 @@ const Login = () => {
 
   return (
     <div className={`w-screen h-screen bg-gray-50`}>
-      <div class="container-auth">
-        <div class="w-full">
-          <img class="mx-auto mt-10 w-52" src={AuthImg}></img>
-          <h1 class="text-center font-semibold text-2xl mt-5">
+      <div className="container-auth">
+        <div className="w-full">
+          <img className="mx-auto mt-10 w-52" src={AuthImg}></img>
+          <h1 className="text-center font-semibold text-2xl mt-5">
             Thông tin đăng nhập
           </h1>
-          <h1 class="text-center font-inter font-semibold text-blue-default text-sm my-2">
+          <h1 className="text-center font-inter font-semibold text-blue-default text-sm my-2">
             Chào mừng bạn trở lại!
           </h1>
           <form onSubmit={handleLogin}>
@@ -83,9 +83,12 @@ const Login = () => {
             />
             <ButtonSubmit title="Đăng nhập" isLoading={isFetching} />
           </form>
-          <h1 class="text-center font-semibold">
+          <h1 className="text-center font-semibold">
             Bạn chưa có tài khoản?{" "}
-            <Link to="/auth/register" class="font-semibold text-blue-default">
+            <Link
+              to="/auth/register"
+              className="font-semibold text-blue-default"
+            >
               Đăng ký
             </Link>
           </h1>
