@@ -1,21 +1,21 @@
-import axiosInstance from "@/components/API/axiosInstance";
+import axiosInstance from "@/api/axiosInstance";
 import SideBar from "@/components/sidebar/sidebar";
 import { useQuery } from "@tanstack/react-query";
-import { useLocation, useParams } from "react-router-dom"
-import AvatarDefault from '../../assets/png/Avatar.png'
-import AlertDialog from "@/components/Box/DialogBox/dialogBox";
-import { DateFrom } from "@/components/Date/DateFrom/dateFrom";
-import { DateTo } from "@/components/Date/DateTo/dateTo";
-import { selectStatus, StatusBox } from "@/components/Box/StatusBox/statusBox";
-import { selectType, TypeBox } from "@/components/Box/TypeBox/typeBox";
+import { useParams } from "react-router-dom"
+import AvatarDefault from '../../assets/png/avatarDefault.png'
+import AlertDialog from '../../components/box/box-dialog'
+import { DateFrom } from "@/components/date/date-from";
+import { DateTo } from "@/components/date/date-to";
+import { selectStatus, StatusBox } from "@/components/box/box-status";
+import { selectType, TypeBox } from "@/components/box/box-type";
 import { Button } from "@mui/material";
-import { SortBox } from "@/components/Box/SortBox/sortBox";
+import { SortBox } from "@/components/box/box-sort";
 import { SiTicktick } from "react-icons/si";
 import { GiCancel } from "react-icons/gi";
 
 import React, { useEffect, useState } from "react";
-import PaginatePartnersDetail from "@/components/paginate/partners/paginatePartnersDetail";
-import { IPartnerData } from "@/components/paginate/partners/paginatePartners";
+import PaginatePartnersDetail from "@/components/paginate/partner/paginate-partner-detail";
+import { IPartnerData } from "@/components/paginate/partner/paginate-partner";
 const PartnersDetail = () => {
   const { id } = useParams();
   const [status, setStatus] = useState<'all' | 'completed' | 'fail' | 'pending' | 'refund'>('all');
@@ -90,7 +90,7 @@ const PartnersDetail = () => {
   }
   return (
     <>
-      <div className="flex w-full font-poppins h-screen">
+      <div className="flex w-full h-screen">
         <SideBar state={"Partners"} />
         <div className="flex flex-1 flex-col px-4 ml-[210px]">
           <div id="Title" className="text-[30px] mt-[10px] font-bold "></div>

@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import SideBar from "../../components/sidebar/sidebar";
 import { Button } from '@mui/material';
-import { SearchBox } from '../../components/Box/SearchBox/searchBox'
-import { SortBox } from '../../components/Box/SortBox/sortBox'
-import { FilterBox } from '../../components/Box/FilterBox/filterBox';
-import { DateFrom } from '../../components/Date/DateFrom/dateFrom';
-import { DateTo } from '../../components/Date/DateTo/dateTo';
-import { PaginateUser } from '@/components/paginate/users/paginateUser';
+import { SearchBox } from '../../components/box/box-search'
+import { SortBox } from '../../components/box/box-sort'
+import { FilterBox } from '../../components/box/box-filter';
+import { DateFrom } from '../../components/date/date-from';
+import { DateTo } from '../../components/date/date-to';
+import { PaginateUser } from '@/components/paginate/customer/paginate-customer';
 
 export default function ListUser() {
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -68,7 +68,7 @@ export default function ListUser() {
     };
     
     return (
-        <div className="flex w-full">
+        <div className="flex w-full h-screen">
             <div className='hidden sm:hidden lg:block'>   
                 <SideBar state={"Customers"}/>
             </div>
@@ -90,7 +90,9 @@ export default function ListUser() {
                                 <DateTo selectedToDate={selectedToDate} setSelectedToDate={setSelectedToDate}/>
                             </div>
                         </div>
-                        <Button variant='contained' onClick={clearFilters} sx={{height: '36', marginRight: '10px'}}>Delete</Button>
+                        <div>
+                            <Button variant='contained' onClick={clearFilters} sx={{height: '36', marginRight: '10px'}}>Delete</Button>
+                        </div>
                     </div>
                     <div id="SearchSort" className="flex gap-x-[10px] h-[36px]">
                         <SearchBox search={search} handleSearch={handleSearch} />

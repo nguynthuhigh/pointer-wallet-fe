@@ -1,6 +1,6 @@
-import { ITransaction } from "@/interface/transaction"
+import { ITransaction } from "@/interfaces/transaction"
 import { SiTicktick } from "react-icons/si"
-import { formatCurrency } from "../transaction/TransactionHistory"
+import { formatCurrency } from "../transaction/transaction-history"
 
 type TransactionPick = Pick<ITransaction, 'status' | '_id' | 'title' | 'message' | 'amount' | 'type'>
 

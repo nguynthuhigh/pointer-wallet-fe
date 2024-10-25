@@ -3,9 +3,9 @@ import { CardPartner } from "@/components/card/partner";
 import { CardUser } from "@/components/card/user";
 import { CardTransactionDetail } from "@/components/card/transaction-detail";
 import { useQuery } from "@tanstack/react-query";
-import axiosInstance from "@/components/API/axiosInstance";
+import axiosInstance from "@/api/axiosInstance";
 import { useParams } from "react-router-dom";
-import { ITransaction } from "@/interface/transaction";
+import { ITransaction } from "@/interfaces/transaction";
 
 export const TransactionDetail = () => {
   const {id} = useParams()
@@ -53,6 +53,7 @@ export const TransactionDetail = () => {
               date={data.createdAt}
             />
             }
+            {data.sender && 
             <CardUser
               profileName='Profile Customer'
               id={data.sender._id}
@@ -61,6 +62,7 @@ export const TransactionDetail = () => {
               email={data.sender.email}
               date={data.createdAt}
             />
+            } 
             {data.receiver && 
             <CardUser
               profileName='Profile Customer'

@@ -1,11 +1,11 @@
-import { DateFrom } from "@/components/Date/DateFrom/dateFrom"
+import { DateFrom } from "@/components/date/date-from"
 import SideBar from "../../components/sidebar/sidebar"
-import { FilterBox } from "@/components/Box/FilterBox/filterBox"
-import { DateTo } from "@/components/Date/DateTo/dateTo"
+import { FilterBox } from "@/components/box/box-filter"
+import { DateTo } from "@/components/date/date-to"
 import { useState } from "react"
-import { SearchBox } from "@/components/Box/SearchBox/searchBox"
-import { SortBox } from "@/components/Box/SortBox/sortBox"
-import AvatarDefault from '../../assets/png/Avatar.png'
+import { SearchBox } from "@/components/box/box-search"
+import { SortBox } from "@/components/box/box-sort"
+import AvatarDefault from '../../assets/png/avatarDefault.png'
 import { GoDotFill } from "react-icons/go";
 
 import {
@@ -17,7 +17,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { IVoucher } from "@/interface/voucher"
+import { IVoucher } from "@/interfaces/voucher"
 import { useNavigate } from "react-router-dom"
 import { Button } from "@mui/material"
 
@@ -207,14 +207,16 @@ export const VoucherList = () => {
     return (
         <>
             <div className="flex">
-                <SideBar state={"Vouchers"} />
+                <div>
+                    <SideBar state={"Vouchers"} />
+                </div>
                 <div className="w-full ml-[230px]">
                     <div id="Title">
                         <div className="text-[36px] font-bold">Vouchers Management</div>
                         <div className="text-[17px] text-[#0094FF]">Unique identify for each vouchers </div>
                     </div>
                     <div className="flex items-center justify-between pb-[10px]">
-                        <div className="flex text-base py-[10px] gap-x-[10px] cursor-pointer">
+                        <div className="flex text-base py-[10px] gap-x-[10px] cursor-pointer  relative justify-center">
                             <div id="Active">
                                 <FilterBox filter={filter} handleFilterChange={handleFilterChange}/>
                             </div>
@@ -224,7 +226,6 @@ export const VoucherList = () => {
                             <div id="ToDate" className='relative z-30'>
                                 <DateTo selectedToDate={selectedToDate} setSelectedToDate={setSelectedToDate} />
                             </div>
-
                             <div id="BtnDeleteFilter">
                                 <Button variant='contained' onClick={clearFilters} sx={{ height: '36', marginRight: '10px' }}>Delete</Button>
                             </div>

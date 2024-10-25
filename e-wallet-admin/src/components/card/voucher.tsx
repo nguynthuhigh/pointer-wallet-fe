@@ -1,4 +1,4 @@
-import { ICardVoucher } from '@/interface/card-voucher'
+import { ICardVoucher } from '@/interfaces/card-voucher'
 import logoPressPay from '../../assets/png/logo_presspay.png'
 export const CardVoucher = ({title,content,quantity,usedcount,code}: ICardVoucher) => {
     return (
