@@ -1,23 +1,23 @@
 import SideBar from "../../components/sidebar/sidebar";
 import { SiTicktick } from "react-icons/si";
 import { GiCancel } from "react-icons/gi";
-import Paginate from "../../components/paginate/users/paginateDetail";
-import AvatarDefault from '../../assets/png/Avatar.png'
+import Paginate from "../../components/paginate/customer/paginate-customer-detail";
+import AvatarDefault from '../../assets/png/avatarDefault.png'
 import React, { useState } from "react";
 import { Button } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import { useLocation, useParams } from "react-router-dom";
-import { DateFrom } from "../../components/Date/DateFrom/dateFrom";
-import { DateTo } from "../../components/Date/DateTo/dateTo";
-import { StatusBox } from "../../components/Box/StatusBox/statusBox";
-import { selectStatus } from "../../components/Box/StatusBox/statusBox";
-import { TypeBox } from "../../components/Box/TypeBox/typeBox";
-import { selectType } from "../../components/Box/TypeBox/typeBox";
-import { SortBox } from "../../components/Box/SortBox/sortBox";
-import AlertDialog from "../../components/Box/DialogBox/dialogBox";
-import axiosInstance from "../../components/API/axiosInstance";
+import { useParams } from "react-router-dom";
+import { DateFrom } from "../../components/date/date-from";
+import { DateTo } from "../../components/date/date-to";
+import { StatusBox } from "../../components/box/box-status";
+import { selectStatus } from "../../components/box/box-status";
+import { TypeBox } from "../../components/box/box-type";
+import { selectType } from "../../components/box/box-type";
+import { SortBox } from "../../components/box/box-sort";
+import AlertDialog from "../../components/box/box-dialog"
+import axiosInstance from "../../api/axiosInstance";
 import { useEffect } from "react";
-import { IUser } from "@/interface/user";
+import { IUser } from "@/interfaces/customer";
 
 const DetailListUser = () => {
     const {id} = useParams()
@@ -137,10 +137,10 @@ const DetailListUser = () => {
                                 <div id="Type" className="flex items-center gap-x-[10px] ">
                                     <TypeBox type={type} handleType={handleType} select={selectType} />
                                 </div>
-                                <div id="FromDate" className="relative z-20 ">
+                                <div id="FromDate" className="relative z-30 ">
                                     <DateFrom selectedFromDate={selectDateFrom} setSelectedFromDate={setSelectDateFrom} />
                                 </div>
-                                <div id="ToDate" className=" relative z-20">
+                                <div id="ToDate" className=" relative z-30">
                                     <DateTo selectedToDate={selectDateTo} setSelectedToDate={setSelectDateTo} />
                                 </div>
 

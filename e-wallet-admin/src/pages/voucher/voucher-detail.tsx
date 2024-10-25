@@ -1,7 +1,7 @@
 import SideBar from "@/components/sidebar/sidebar"
-import { IVoucher } from "@/interface/voucher"
-import AvatarDefault from '../../assets/png/Avatar.png'
+import AvatarDefault from '../../assets/png/avatarDefault.png'
 import { GoDotFill } from "react-icons/go";
+
 import {
     Table,
     TableBody,
@@ -15,11 +15,12 @@ import { SiTicktick } from "react-icons/si";
 import { GiCancel } from "react-icons/gi";
 import { CardPartner } from "@/components/card/partner";
 import { CardVoucher } from "@/components/card/voucher";
-import { DateFrom } from "@/components/Date/DateFrom/dateFrom";
-import { DateTo } from "@/components/Date/DateTo/dateTo";
+import { DateFrom } from "@/components/date/date-from";
+import { DateTo } from "@/components/date/date-to";
 import { Button } from "@mui/material";
 import { useState } from "react";
-import { SortBox } from "@/components/Box/SortBox/sortBox";
+import { SortBox } from "@/components/box/box-sort";
+import { IVoucher } from "@/interfaces/voucher"
 export const VoucherDetail = () => {
     const data: IVoucher[] = [
         {
@@ -230,6 +231,7 @@ export const VoucherDetail = () => {
                             code="pointer"
                         />
                         <CardPartner
+                            id = '123'
                             profileName='Profile Partner'
                             img={AvatarDefault}
                             name='SanqSanq'

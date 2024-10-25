@@ -10,6 +10,8 @@ import { VoucherDetail } from "./pages/voucher/voucher-detail"
 import { VoucherList } from "./pages/voucher/voucher-list"
 import { TransactionsList } from "./pages/transaction/transaction-list"
 import { TransactionDetail } from "./pages/transaction/transaction-detail"
+import { LandingPage } from "./pages/landing-page"
+import { SideBar1 } from "./components/sidebar/sidebar1"
 function App() {
   const queryClient = new QueryClient({
     defaultOptions:{
@@ -19,12 +21,16 @@ function App() {
     }
   });
   return (
-    <div className="font-inter container mx-auto">
-      <QueryClientProvider client={queryClient}>
+    <div className="">
+      <QueryClientProvider client={queryClient}> 
       <BrowserRouter>
+
+        {/* <SideBar1/> */}
+        
         <Routes>
-        <Route path="/dashboard" element={<DashBoard/>}/>
-          <Route path="/LoginAdmin/dashboard" element={<DashBoard/>}/>
+
+          <Route path="/dashboard" element={<DashBoard/>}/>
+          <Route path="/login/dashboard" element={<DashBoard/>}/>
           
           
           <Route path="/customer-list" element = {<ListUser/>}/>
@@ -42,7 +48,8 @@ function App() {
           <Route path="/transaction-list/detail/:id" element = {<TransactionDetail/>}/>
 
 
-          <Route path="/LoginAdmin" element ={<Login/>}/>
+          <Route path="/login" element ={<Login/>}/>
+          <Route path="/landing-page" element = {<LandingPage/>}/>
 
         </Routes>
       </BrowserRouter>

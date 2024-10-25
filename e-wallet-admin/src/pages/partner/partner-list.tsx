@@ -1,11 +1,11 @@
 import { useState } from "react"
-import { FilterBox } from "../../components/Box/FilterBox/filterBox"
+import { FilterBox } from "../../components/box/box-filter"
 import SideBar from "../../components/sidebar/sidebar"
-import { DateFrom } from "../../components/Date/DateFrom/dateFrom"
-import { DateTo } from "../../components/Date/DateTo/dateTo"
-import { SearchBox } from "../../components/Box/SearchBox/searchBox"
-import { SortBox } from "../../components/Box/SortBox/sortBox"
-import { PaginatePartners } from "@/components/paginate/partners/paginatePartners"
+import { DateFrom } from "../../components/date/date-from"
+import { DateTo } from "../../components/date/date-to"
+import { SearchBox } from "../../components/box/box-search"
+import { SortBox } from "../../components/box/box-sort"
+import { PaginatePartners } from "@/components/paginate/partner/paginate-partner"
 import { Button } from "@mui/material"
 
 const Partners = () => {
@@ -39,7 +39,7 @@ const Partners = () => {
             <div className='hidden sm:hidden lg:block'>   
                 <SideBar state={"Partners"}/>
             </div>
-            <div className="flex-1 flex flex-col ml-[230px] mr-[20px]">
+            <div className="flex-1 flex flex-col pl-[230px] mr-[20px] h-screen">
                 <div id="Title" className="text-[36px] font-bold ">Partners Management</div>
                 <div id="TitleDetail" className="text-[17px] flex text-[#0094FF] pb-[10px]">Manage your service partners and find all platform partners here!</div>
                 <div className="flex items-center justify-between">
@@ -65,7 +65,6 @@ const Partners = () => {
                         <SearchBox search={search} handleSearch={handleSearch}/>
                         <SortBox sortOrder={sortOrder} handleSortOrder={handleSort} />
                     </div>
-
                 </div>
                 <div>
                     <PaginatePartners

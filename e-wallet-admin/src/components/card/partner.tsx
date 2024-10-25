@@ -1,8 +1,8 @@
 import { SiTicktick } from "react-icons/si"
-import AvatarDefault from '../../assets/png/Avatar.png'
-import { ICardPartner } from "@/interface/card-partner"
+import AvatarDefault from '../../assets/png/avatarDefault.png'
+import { ICardPartner } from "@/interfaces/card-partner"
 import { HiArrowNarrowRight } from "react-icons/hi"
-import { formatDate } from "../transaction/TransactionHistory"
+import { formatDate } from "../transaction/transaction-history"
 import { Link } from "react-router-dom"
 
 export const CardPartner = ({id,profileName, img, name, email, date }: ICardPartner) => {

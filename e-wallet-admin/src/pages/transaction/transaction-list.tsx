@@ -1,29 +1,24 @@
 import SideBar from "@/components/sidebar/sidebar"
-import { IVoucher } from "@/interface/voucher"
-import { useNavigate, useParams } from "react-router-dom"
+import { IVoucher } from '@/interfaces/voucher'
 import React, { useState } from "react"
-import { PaginateTransactions } from "@/components/paginate/transactions/paginateTransactions"
-import { DateFrom } from "@/components/Date/DateFrom/dateFrom"
-import { DateTo } from "@/components/Date/DateTo/dateTo"
+import { PaginateTransactions } from "@/components/paginate/transaction/paginate-transaction"
+import { DateFrom } from "@/components/date/date-from"
+import { DateTo } from "@/components/date/date-to"
 import { Button } from "@mui/material"
-import { SortBox } from "@/components/Box/SortBox/sortBox"
-import { selectType, TypeBox } from "@/components/Box/TypeBox/typeBox"
-import { selectStatus, StatusBox } from "@/components/Box/StatusBox/statusBox"
+import { SortBox } from "@/components/box/box-sort"
+import { selectType, TypeBox } from "@/components/box/box-type"
+import { selectStatus, StatusBox } from "@/components/box/box-status"
 
 
 export const TransactionsList = () => {
-  
+  const [currentPage,setCurrentPage] = useState<number>(1)
   const [selectedFromDate, setSelectedFromDate] = useState<Date | null>(null)
   const [selectedToDate, setSelectedToDate] = useState<Date | null>(null)
-  const [search, setSearch] = useState<string>('')
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc')
   const [status, setStatus] = useState<'all' | 'completed' | 'fail' | 'pending' | 'refund'>('all')
   const [type, setType] = useState<'all' | 'transfer' | 'deposit' | 'payment' | 'withdraw'>('all');
 
   //Handle
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value)
-  }
   const handleSortOrder = () => {
     setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'))
   }
@@ -61,7 +56,6 @@ export const TransactionsList = () => {
               <div id="ToDate" className='relative z-30'>
                 <DateTo selectedToDate={selectedToDate} setSelectedToDate={setSelectedToDate} />
               </div>
-
               <div id="BtnDeleteFilter">
                 <Button variant='contained' onClick={clearFilters} sx={{ height: '36', marginRight: '10px' }}>Delete</Button>
               </div>
@@ -71,7 +65,15 @@ export const TransactionsList = () => {
             </div>
           </div>
           <div>
-            <PaginateTransactions />
+            <PaginateTransactions
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                filterStatus={status}
+                filterType={type}
+                sortOrder={sortOrder}
+                selectedFromDate={selectedFromDate}
+                selectedToDate={selectedToDate}
+             />
           </div>
         </div>
       </div>
