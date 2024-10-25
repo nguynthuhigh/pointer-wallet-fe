@@ -55,7 +55,7 @@ export const PaginateTransactions = ({currentPage,setCurrentPage,filterStatus,fi
     }
 
     const getID = (index: number) => {
-        const customID = (1 - 1) * 10 + index + 1
+        const customID = (currentPage - 1) * itemsPerPage + index + 1
         return `${customID.toString().padStart(2,'0')}`
     }
     const handleClickPage = (e: {selected: number}) => {
