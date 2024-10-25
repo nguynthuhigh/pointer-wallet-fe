@@ -63,6 +63,7 @@ const initialState = {
   isFetching: false,
   error: "",
 };
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -79,6 +80,7 @@ const userSlice = createSlice({
     builder.addCase(
       getProfile.fulfilled,
       (state, action: PayloadAction<UserProfileState>) => {
+        console.log("Profile Payload:", action.payload);
         state.isFetching = false;
         state.userState = action.payload;
       }

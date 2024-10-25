@@ -1,34 +1,10 @@
-import axiosConfig from "../configs/axios.config";
-const signinAPI = async (body) => {
-  return await axiosConfig.post(
-    process.env.REACT_APP_API + "/api/v1/partner/signin",
-    body,
-    {
-      withCredentials: true,
-    }
-  );
-};
-const signupAPI = async (body) => {
-  return await axiosConfig.post(
-    process.env.REACT_APP_API + "/api/v1/partner/signup",
-    body,
-    {
-      withCredentials: true,
-    }
-  );
-};
-const verifySignupAPI = async (body) => {
-  return await axiosConfig.post(
-    process.env.REACT_APP_API + "/api/v1/partner/verify",
-    body,
-    {
-      withCredentials: true,
-    }
-  );
-};
+import axiosInstance from "../configs/axios.config";
+import Cookies from "universal-cookie";
+
+const cookie = new Cookies();
+
 const signInWithPointer = async (code) => {
-  console.log(code)
-  return await axiosConfig.post(
+  const res = await axiosInstance.post(
     process.env.REACT_APP_API + "/api/v1/partner/sign-in-with-pointer",
     {
       code,
@@ -37,11 +13,12 @@ const signInWithPointer = async (code) => {
       withCredentials: true,
     }
   );
+  cookie.set("access_token", res.data.data.token, {
+    maxAge: 1000 * 60 * 15,
+  });
+  return res.data.data.token;
 };
 const exportObject = {
-  signinAPI,
-  signupAPI,
-  verifySignupAPI,
   signInWithPointer,
 };
 
