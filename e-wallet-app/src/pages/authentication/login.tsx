@@ -52,7 +52,7 @@ const Login = () => {
   };
 
   return (
-    <div className={`w-screen h-screen bg-gray-50`}>
+    <div className={` h-screen bg-gray-50`}>
       <div class="container-auth">
         <div class="w-full">
           <img class="mx-auto mt-10 w-52" src={AuthImg}></img>

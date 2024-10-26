@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getCookie, setCookie } from "../utils/cookie";
 
 let isRefreshing = false;
 let refreshSubscribers: (() => void)[] = [];
@@ -19,6 +20,7 @@ export const createAxios = () => {
     withCredentials: true,
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${getCookie("at")}`,
     },
   });
 
@@ -42,11 +44,11 @@ export const createAxios = () => {
             if (response.status === 200) {
               onRefreshed();
               isRefreshing = false;
+              setCookie("at", response.data.data);
               return newInstance(originalRequest);
             }
           } catch (error) {
             console.error("Failed to refresh token:", error);
-            localStorage.removeItem("logged");
             isRefreshing = false;
           }
         } else {

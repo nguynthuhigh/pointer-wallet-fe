@@ -5,7 +5,7 @@ import { ApplyVoucher } from "../../types/payment";
 
 export const paymentAPI = async (token: unknown) => {
   return await axios.get(
-    import.meta.env.VITE_API_URL + "/payment-gateway?token=" + token
+    import.meta.env.VITE_API_PAYMENT + "/api/payment/get-order/" + token
   );
 };
 
