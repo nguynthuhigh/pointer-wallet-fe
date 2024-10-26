@@ -31,8 +31,7 @@ export const TransactionDetail = () => {
   return (
     <>
       <div className="flex">
-        <SideBar state={'Transactions'} />
-        <div className="w-full ml-[230px] flex flex-col gap-y-[30px] mt-[20px]">
+        <div className="w-full ml-4 flex flex-col gap-y-[30px] mt-[20px]">
           <p className="font-bold text-3xl ">Transaction Detail</p>
           <CardTransactionDetail
             _id={data._id}

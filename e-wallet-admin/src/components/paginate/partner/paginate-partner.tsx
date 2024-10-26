@@ -112,7 +112,7 @@ export const PaginatePartners = ({ selectedFromDate, selectedToDate, sort, searc
                                         {!partners.inactive ? 'Active' : 'Inactive'}
                                     </div>
                                 </TableCell>
-                                <TableCell key={partners._id} onClick={() => handleClickDetail(partners._id)} className="text-[#0094FF] font-bold hover:transition-all hover:-translate-y-2 duration-300 cursor-pointer">View Profile</TableCell>
+                                <TableCell key={partners._id} onClick={() => handleClickDetail(partners._id)} className="text-[#0094FF] font-bold  hover:transition-all hover:-translate-y-2 duration-300 cursor-pointer">View Profile</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

@@ -91,8 +91,7 @@ const PartnersDetail = () => {
   return (
     <>
       <div className="flex w-full h-screen">
-        <SideBar state={"Partners"} />
-        <div className="flex flex-1 flex-col px-4 ml-[210px]">
+        <div className="flex flex-1 flex-col px-4">
           <div id="Title" className="text-[30px] mt-[10px] font-bold "></div>
           <div className=" px-4 py-4 border-[2px] rounded-[16px] flex justify-between shadow-[4px_4px_4px_rgba(0,0,0,0.10)]">
             <div id="ViewPartner">
