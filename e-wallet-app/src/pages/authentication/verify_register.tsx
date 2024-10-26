@@ -7,6 +7,7 @@ import LoadingIcon from "../../assets/svg/loading.svg";
 import { verifyRegisterAPI, resendOTP } from "../../services/api/auth.api";
 import AuthImg from "../../assets/png/auth_img.png";
 import { RootState } from "../../redux/store";
+import { setCookie } from "../../utils/cookie";
 
 interface ErrorResponse {
   response: {
@@ -16,14 +17,14 @@ interface ErrorResponse {
   };
 }
 
-const setWithExpiry = (key: string, value: string, ttl: number) => {
-  const now = new Date();
-  const item = {
-    value: value,
-    expiry: now.getTime() + ttl,
-  };
-  localStorage.setItem(key, JSON.stringify(item));
-};
+// const setWithExpiry = (key: string, value: string, ttl: number) => {
+//   const now = new Date();
+//   const item = {
+//     value: value,
+//     expiry: now.getTime() + ttl,
+//   };
+//   localStorage.setItem(key, JSON.stringify(item));
+// };
 
 export default function VerifyRegister() {
   const navigate = useNavigate();
@@ -52,7 +53,8 @@ export default function VerifyRegister() {
         });
         if (response.status === 200) {
           toast.success(response.data.message);
-          setWithExpiry("registered", "true", 900000);
+          // setWithExpiry("registered", "true", 900000);
+          setCookie("at", response.data.data);
           setTimeout(() => {
             navigate("/auth/register/security-code", {
               state: { message: response.data.message },
