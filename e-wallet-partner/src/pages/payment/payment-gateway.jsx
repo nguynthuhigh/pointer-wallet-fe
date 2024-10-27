@@ -28,7 +28,7 @@ export default function PaymentGateway(){
     }
     return(
         <section className={`bg-background-default bg-no-repeat  bg-cover bg-center font-inter '`}>
-                <div className="h-[92px]  fixed w-full z-20 bg-white">
+                <div className="h-[92px] fixed w-full z-20 bg-white">
                     <div className="flex px-2 py-3 max-w-[1200px] mx-auto items-center">
                         <div>
                             <img className='ml-10' alt='' src={logo}></img>
@@ -48,7 +48,7 @@ export default function PaymentGateway(){
 
                 <div className="max-w-[1200px] mx-auto h-[740px]  pt-10">
                     <div className="">
-                        <div className='flex justify-between  py-20 inset-0 px-[100px] top-0 left-0 z-10'>
+                        <div className='flex justify-between py-20 inset-0 px-[100px] top-0 left-0 z-10'>
                             <TabInfo currency={data.currency?.symbol} dataTransaction={data}></TabInfo>
                             {isTab ? <TabQrCode dataTransaction={data}></TabQrCode> : <TabCard dataTransaction={data}></TabCard>}
                         </div>

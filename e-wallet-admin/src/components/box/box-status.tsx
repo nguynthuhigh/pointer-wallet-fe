@@ -25,7 +25,7 @@ export const StatusBox = ({ status, select, handleStatus }: StatusBoxProps) => {
     return (
         <>
             <FormControl
-                sx={{ m: 1, minWidth: 120 }}
+                sx={{minWidth: 120 }}
                 size="small"
                 style={{ color: '#FFFFFF' }}
             >

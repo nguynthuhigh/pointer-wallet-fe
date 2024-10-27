@@ -87,13 +87,13 @@ export const PaginatePartners = ({ selectedFromDate, selectedToDate, sort, searc
                 <Table>
                     <TableHeader className="uppercase" >
                         <TableRow>
-                            <TableHead className="text-[#1A3E5F] font-bold">No.</TableHead>
-                            <TableHead className="text-[#1A3E5F] font-bold">Photo</TableHead>
-                            <TableHead className="text-[#1A3E5F] font-bold ">Name</TableHead>
-                            <TableHead className="text-[#1A3E5F] font-bold">Email</TableHead>
-                            <TableHead className="text-[#1A3E5F] font-bold">Join Date</TableHead>
-                            <TableHead className="text-[#1A3E5F] font-bold">Status</TableHead>
-                            <TableHead className="text-[#1A3E5F] font-bold">Action</TableHead>
+                            <TableHead className="text-gray-100 font-bold">No.</TableHead>
+                            <TableHead className="text-gray-100 font-bold">Photo</TableHead>
+                            <TableHead className="text-gray-100 font-bold ">Name</TableHead>
+                            <TableHead className="text-gray-100 font-bold">Email</TableHead>
+                            <TableHead className="text-gray-100 font-bold">Join Date</TableHead>
+                            <TableHead className="text-gray-100 font-bold">Status</TableHead>
+                            <TableHead className="text-gray-100 font-bold">Action</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>

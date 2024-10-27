@@ -8,7 +8,7 @@ import { DateFrom } from "@/components/date/date-from";
 import { DateTo } from "@/components/date/date-to";
 import { selectStatus, StatusBox } from "@/components/box/box-status";
 import { selectType, TypeBox } from "@/components/box/box-type";
-import { Button } from "@mui/material";
+import { Button, SelectChangeEvent } from "@mui/material";
 import { SortBox } from "@/components/box/box-sort";
 import { SiTicktick } from "react-icons/si";
 import { GiCancel } from "react-icons/gi";
@@ -65,10 +65,10 @@ const PartnersDetail = () => {
 
 
   //Handle
-  const handleStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleStatus = (e: SelectChangeEvent) => {
     setStatus(e.target.value as 'all' | 'completed' | 'fail' | 'pending' | 'refund')
   }
-  const handleType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleType = (e: SelectChangeEvent) => {
     setType(e.target.value as 'all' | 'transfer' | 'deposit' | 'payment' | 'withdraw')
   }
   const handleSort = () => {
@@ -131,9 +131,9 @@ const PartnersDetail = () => {
                 </div>
 
                 <div id="DeleteFilter">
-                  <Button variant="contained" className="h-[56px] bg-[#FF1717]" sx={{ height: 36 }} onClick={resetFilter}>Delete </Button>
+                  <Button variant="contained" className="h-[56px] bg-[#FF1717]" sx={{ height: 40 }} onClick={resetFilter}>Delete </Button>
                 </div>
-                <div id="SortBox" className="flex gap-x-[10px] h-[36px]">
+                <div id="SortBox" className="flex gap-x-[10px] h-[40px]">
                   <SortBox sortOrder={sort} handleSortOrder={handleSort} />
                 </div>
               </div>
