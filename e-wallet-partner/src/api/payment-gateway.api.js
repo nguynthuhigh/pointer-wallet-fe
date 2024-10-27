@@ -6,7 +6,7 @@ export const paymentSend =async (body)=>{
         }
     })
 }
-export const PaymentGateway =async (token)=>{
+export const PaymentGateway = async (token)=>{
     return await axios.get(process.env.REACT_APP_API+'/payment-gateway?token='+token)
 }
 export const paymentWithCard = async(body)=>{

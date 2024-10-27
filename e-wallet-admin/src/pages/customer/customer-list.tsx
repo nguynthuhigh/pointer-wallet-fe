@@ -77,7 +77,7 @@ export default function ListUser() {
                     transition={{duration:1}}  
                 >
                     <div className="flex items-center justify-between pb-[10px]">
-                        <div className="flex items-center text-base py-[10px] gap-x-[20px] cursor-pointer">
+                        <div className="flex items-center text-base py-[10px] gap-x-[10px] cursor-pointer">
                             <div id='FilterBox' className="relative flex justify-center text-black">
                                 <FilterBox filter={filter} handleFilterChange={handleFilterChange} />
                             </div>

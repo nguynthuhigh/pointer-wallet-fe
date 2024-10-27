@@ -24,7 +24,7 @@ export const TypeBox = ({ type, select, handleType }: TypeBoxProps) => {
     return (
         <>
             <FormControl
-                sx={{ m: 1, minWidth: 120 }}
+                sx={{minWidth: 120 }}
                 size="small"
                 style={{ color: '#FFFFFF' }}
             >
