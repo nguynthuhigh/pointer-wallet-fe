@@ -1,22 +1,51 @@
 import DatePicker from "react-datepicker";
+import TextField from '@mui/material/TextField';
 
 type DateFromProps = {
     selectedFromDate: Date | null
-    setSelectedFromDate: (date:Date | null) => void
+    setSelectedFromDate: (date: Date | null) => void
 }
 
 
-export const DateFrom = ({selectedFromDate,setSelectedFromDate}: DateFromProps) => {
+export const DateFrom = ({ selectedFromDate, setSelectedFromDate }: DateFromProps) => {
     return (
         <>
-        <DatePicker
-            selected={selectedFromDate}
-            onChange={(date) => setSelectedFromDate(date)}
-            dateFormat="yyyy-MM-dd"
-            placeholderText='yyyy/mm/dd'
-            className={`border-[1px] p-1 rounded-[4px] border-gray-300 w-full h-[36px] text-center text-sm`}
+            <DatePicker
+                selected={selectedFromDate}
+                onChange={(date) => setSelectedFromDate(date)}
+                dateFormat="yyyy-MM-dd"
+                placeholderText='yyyy/mm/dd'
+                customInput={
+                    <TextField
+                        label='From'
+                        size="small"
+                        variant="outlined"
+                        slotProps={{
+                            inputLabel: {
+                                shrink:true,
+                                style: {color: '#0094FF'}
+                            },
+                            input: {
+                               style: {color: '#9ca3af'}
+                            }
+                        }}
+                        
+                        
+                        sx={{
+                            width: '170px',
+                            '& .MuiOutlinedInput-root': {
+                                borderRadius: '4px',
+                                '& fieldset': {
+                                    borderColor: '#9ca3af'
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: '#0094FF'
+                                }
+                            }
+                        }}
+                    />
+                }
             />
-            <span className=' absolute top-[-0.7rem] left-[35px] bg-white text-[#0094FF] text-sm transform -translate-x-1/2'>From:</span>
         </>
     )
 }

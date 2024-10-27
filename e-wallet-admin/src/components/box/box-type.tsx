@@ -1,34 +1,64 @@
-import React from "react";
-
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 export const selectType = [
-    {value: 'all', name: 'All'},
-    {value: 'transfer', name: 'Transfer'},
-    {value: 'deposit', name: 'Deposit'},
-    {value: 'payment', name: 'Payment'},
-    {value: 'withdraw', name: 'Withdraw'},
+    { value: 'all', name: 'All' },
+    { value: 'transfer', name: 'Transfer' },
+    { value: 'deposit', name: 'Deposit' },
+    { value: 'payment', name: 'Payment' },
+    { value: 'withdraw', name: 'Withdraw' },
 ]
 
 type TypeBoxProps = {
-    type:string 
+    type: string
     select: {
-        value:string;
-        name:string;
+        value: string;
+        name: string;
     }[]
-    handleType: (e:React.ChangeEvent<HTMLSelectElement>) => void
-}   
+    handleType: (e:SelectChangeEvent<string>) => void
+}
 
-export const TypeBox = ({type,select,handleType} : TypeBoxProps) => {
+export const TypeBox = ({ type, select, handleType }: TypeBoxProps) => {
     return (
         <>
-            <div className="relative w-[150px] h-[36px]">
-                <select value={type} onChange={handleType} className="text-sm w-full h-full pl-[15px] border-[1px] border-gray-300 rounded-[3px] text-[#39325A] outline-none appearance-none">
+            <FormControl
+                sx={{ m: 1, minWidth: 120 }}
+                size="small"
+                style={{ color: '#FFFFFF' }}
+            >
+                <InputLabel id="demo-select-small-label" style={{ color: '#0094FF' }}>Type</InputLabel>
+                <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    value={type}
+                    label="Status"
+                    onChange={handleType}
+                    style={{ color: '#9ca3af' }}
+                    sx={{
+                        '& .MuiOutlinedInput-notchedOutline': {
+                            borderColor: '#9ca3af'
+                        },
+                        '&:hover .MuiOutlinedInput-notchedOutline': {
+                            borderColor: '#0094FF'
+                        },
+                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                            borderColor: '#0094FF'
+                        },
+                        '& .MuiSvgIcon-root': {
+                            color: '#9ca3af'
+                        },
+                        backgroundColor: 'transparent',
+                    }}
+                >
                     {select.map((items) => (
-                        <option key={items.value} value={items.value}>{items.name}</option> 
+                        <MenuItem key={items.value} value={items.value}>{items.name}</MenuItem>
                     ))}
-                </select>
-            <span className="absolute top-[-0.8rem] left-[30px] transform -translate-x-1/2 bg-white text-sm text-[#0094FF] px-1">Type</span>
-            </div>
+
+                </Select>
+            </FormControl>
+
         </>
     )
 }

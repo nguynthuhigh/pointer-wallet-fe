@@ -8,7 +8,7 @@ import { DateFrom } from '../../components/date/date-from';
 import { DateTo } from '../../components/date/date-to';
 import { PaginateUser } from '@/components/paginate/customer/paginate-customer';
 import { HeaderComponent } from '@/components/header/header';
-
+import {motion} from 'framer-motion'
 export default function ListUser() {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [search, setSearch] = useState<string>('');
@@ -70,32 +70,36 @@ export default function ListUser() {
         <div className='flex-1 mx-auto z-10 h-screen overflow-auto'>
             <HeaderComponent title='Customers Management' />
             <main className='max-w-7xl mx-auto py-6 px-4'>
-                <div className="flex items-center justify-between pb-[10px]">
-                    <div className="flex text-base py-[10px] gap-x-[20px] cursor-pointer">
-                        <div id='FilterBox' className="relative flex justify-center">
-                            <FilterBox filter={filter} handleFilterChange={handleFilterChange} />
-                        </div>
-
-                        <div className="relative z-30">
-                            <div id="FromDate">
-                                <DateFrom selectedFromDate={selectedFromDate} setSelectedFromDate={setSelectedFromDate} />
+                <motion.div 
+                    className='bg-gray-800 bg-opacity-70 backdrop-blur-md p-4 border border-gray-700'
+                    initial = {{opacity: 0, y: 20}}
+                    animate = {{opacity: 1, y: 0}}
+                    transition={{duration:1}}  
+                >
+                    <div className="flex items-center justify-between pb-[10px]">
+                        <div className="flex items-center text-base py-[10px] gap-x-[20px] cursor-pointer">
+                            <div id='FilterBox' className="relative flex justify-center text-black">
+                                <FilterBox filter={filter} handleFilterChange={handleFilterChange} />
+                            </div>
+                            <div className="relative z-30">
+                                <div id="FromDate">
+                                    <DateFrom selectedFromDate={selectedFromDate} setSelectedFromDate={setSelectedFromDate} />
+                                </div>
+                            </div>
+                            <div className='relative z-30'>
+                                <div id="ToDate" className=" relative">
+                                    <DateTo selectedToDate={selectedToDate} setSelectedToDate={setSelectedToDate} />
+                                </div>
+                            </div>
+                            <div>
+                                <Button variant='contained' onClick={clearFilters} sx={{ height: '40px', marginRight: '10px' }}>Delete</Button>
                             </div>
                         </div>
-                        <div className='relative z-30'>
-                            <div id="ToDate" className=" relative">
-                                <DateTo selectedToDate={selectedToDate} setSelectedToDate={setSelectedToDate} />
-                            </div>
-                        </div>
-                        <div>
-                            <Button variant='contained' onClick={clearFilters} sx={{ height: '36', marginRight: '10px' }}>Delete</Button>
+                        <div id="SearchSort" className="flex gap-x-[10px] h-[40px]">
+                            <SearchBox search={search} handleSearch={handleSearch} />
+                            <SortBox sortOrder={sortOrder} handleSortOrder={(handleSortOrder)} />
                         </div>
                     </div>
-                    <div id="SearchSort" className="flex gap-x-[10px] h-[36px]">
-                        <SearchBox search={search} handleSearch={handleSearch} />
-                        <SortBox sortOrder={sortOrder} handleSortOrder={(handleSortOrder)} />
-                    </div>
-                </div>
-                <div className='bg-gray-800 bg-opacity-70 backdrop-blur-md p-4 border border-gray-700'>
                     <PaginateUser
                         inactive={filter}
                         currentPage={currentPage}
@@ -105,8 +109,7 @@ export default function ListUser() {
                         search={search}
                         sortOrder={sortOrder}
                     />
-                </div>
-
+                </motion.div>
             </main>
         </div>
     );
