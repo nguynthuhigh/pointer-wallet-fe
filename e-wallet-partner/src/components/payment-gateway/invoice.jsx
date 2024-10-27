@@ -1,15 +1,18 @@
 import React from "react";
 import { formatCurrency } from "../../utils/format";
+import DefaultAvatar from "../../assets/images/default_avatar.png";
 const Invoice = ({ ...data }) => {
   return (
     <>
       <div>
         <div id="Payment" className="md:pt-[80px]">
           <div id="Pay" className="space-y-3">
-            <div id="Logo" className="flex items-center space-x-2">
+            <div id="Logo" className="flex items-center space-x-4">
               <img
-                className="size-[60px]"
-                src={data.partnerID.image}
+                className="size-[60px] rounded-md"
+                src={
+                  data.partnerID.image ? data.partnerID.image : DefaultAvatar
+                }
                 alt="logo"
               ></img>
               <h1 id="Name" className="text-xl font-semibold">
@@ -20,7 +23,7 @@ const Invoice = ({ ...data }) => {
               <div id="Title" className="text-gray-400 font-semibold text-lg">
                 {data.title}
               </div>
-              <p className="text-2xl">
+              <p className="text-4xl my-5 font-semibold">
                 {formatCurrency(data.amount, data.currency.symbol)}
               </p>
             </div>
@@ -69,7 +72,6 @@ const Invoice = ({ ...data }) => {
         </div>
       </div>
     </>
-
   );
 };
 
