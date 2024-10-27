@@ -18,3 +18,12 @@
         @apply font-semibold text-4xl
     }
   }
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Ẩn scrollbar trong trình duyệt WebKit (Chrome, Safari, v.v.) */
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none; /* Ẩn scrollbar cho Internet Explorer và Edge */
+    scrollbar-width: none; /* Ẩn scrollbar cho Firefox */
+}

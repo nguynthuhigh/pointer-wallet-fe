@@ -1,32 +1,64 @@
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import React from 'react';
 
 export const selectStatus = [
-    {value: 'all',name: "All"},
-    {value: 'completed',name: "Completed"},
-    {value: 'fail',name: "Fail"},
-    {value: 'pending',name: "Pending"},
-    {value: 'refund',name: "Refund"},
+    { value: 'all', name: "All" },
+    { value: 'completed', name: "Completed" },
+    { value: 'fail', name: "Fail" },
+    { value: 'pending', name: "Pending" },
+    { value: 'refund', name: "Refund" },
 ]
 
 type StatusBoxProps = {
-    status:string
+    status: string
     select: {
         value: string;
         name: string;
     }[]
-    handleStatus: (e:React.ChangeEvent<HTMLSelectElement>) => void
+    handleStatus: (e:SelectChangeEvent<string>) => void
 }
 
-export const StatusBox = ({status,select,handleStatus}:StatusBoxProps) => {
+export const StatusBox = ({ status, select, handleStatus }: StatusBoxProps) => {
     return (
         <>
-        <div className="relative w-[150px] h-[36px]">
-            <select value={status} onChange={handleStatus} className="text-sm w-full h-full pl-[15px] border-[1px] border-gray-300 rounded-[3px] text-[#39325A] outline-none appearance-none">
-                {select.map((items) => (
-                    <option key={items.value} value={items.value}> {items.name}</option>
-                ))}
-            </select>
-            <span className="absolute top-[-0.7rem] left-[35px] transform -translate-x-1/2 bg-white text-sm text-[#0094FF] px-1">Status</span>
-        </div>
+            <FormControl
+                sx={{ m: 1, minWidth: 120 }}
+                size="small"
+                style={{ color: '#FFFFFF' }}
+            >
+                <InputLabel id="demo-select-small-label" style={{ color: '#0094FF' }}>Status</InputLabel>
+                <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    value={status}
+                    label="Status"
+                    onChange={handleStatus}
+                    style={{ color: '#9ca3af' }}
+                    sx={{
+                        '& .MuiOutlinedInput-notchedOutline': {
+                            borderColor: '#9ca3af'
+                        },
+                        '&:hover .MuiOutlinedInput-notchedOutline': {
+                            borderColor: '#0094FF'
+                        },
+                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                            borderColor: '#0094FF'
+                        },
+                        '& .MuiSvgIcon-root': {
+                            color: '#9ca3af'
+                        },
+                        backgroundColor: 'transparent',
+                    }}
+                >
+                    {select.map((items) => (
+                        <MenuItem key={items.value} value={items.value}>{items.name}</MenuItem>
+                    ))}
+
+                </Select>
+            </FormControl>
         </>
     )
 }

@@ -24,6 +24,8 @@ export const SideBar1 = () => {
         }
     ]
 
+    const [isActive,setIsActive] = useState(false)
+
     const [isSideBarOpen, setIsSideBarOpen] = useState(true)
     return (
         <>
@@ -61,7 +63,6 @@ export const SideBar1 = () => {
                                     className={`flex items-center text-md px-2 py-4 font-medium rounded-lg hover:bg-gray-300 transition-colors duration-300 mb-2 ${!isSideBarOpen ? 'justify-center' : ''}`}
                                 >
                                     <items.icon style={{ color: items.color, minWidth: '20px' }} />
-
                                     <AnimatePresence>
                                         {isSideBarOpen && (
                                             <motion.span
@@ -76,7 +77,6 @@ export const SideBar1 = () => {
                                         )}
                                     </AnimatePresence>
                                 </motion.div>
-
                             </Link>
                         ))}
                     </nav>
