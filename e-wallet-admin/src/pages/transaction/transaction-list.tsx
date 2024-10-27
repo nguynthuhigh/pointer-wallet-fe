@@ -8,10 +8,11 @@ import { Button } from "@mui/material"
 import { SortBox } from "@/components/box/box-sort"
 import { selectType, TypeBox } from "@/components/box/box-type"
 import { selectStatus, StatusBox } from "@/components/box/box-status"
+import { HeaderComponent } from "@/components/header/header"
 
 
 export const TransactionsList = () => {
-  const [currentPage,setCurrentPage] = useState<number>(1)
+  const [currentPage, setCurrentPage] = useState<number>(1)
   const [selectedFromDate, setSelectedFromDate] = useState<Date | null>(null)
   const [selectedToDate, setSelectedToDate] = useState<Date | null>(null)
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc')
@@ -28,20 +29,16 @@ export const TransactionsList = () => {
   const handleStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setStatus(e.target.value as 'all' | 'completed' | 'fail' | 'pending' | 'refund')
   }
-  
+
   const clearFilters = () => {
     setSelectedFromDate(null)
     setSelectedToDate(null)
   }
   return (
     <>
-      <div className="flex">
-        <div id="SideBar">
-          <SideBar state={'Transactions'} />
-        </div>
-        <div className="flex-1 flex flex-col mr-[20px] ml-[230px] h-screen">
-          <div id="Title" className="text-[36px] font-bold ">Transactions Management</div>
-          <div id="TitleDetail" className="text-[17px] flex text-[#0094FF] pb-[10px]">All transactions become quick, efficient, seamless!</div>
+      <div className="flex-1 h-screen overflow-auto mx-auto">
+        <HeaderComponent title="Transactions Management" />
+        <main className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between pb-[10px]">
             <div className="flex text-base py-[10px] gap-x-[10px] cursor-pointer">
               <div id="Status">
@@ -66,16 +63,17 @@ export const TransactionsList = () => {
           </div>
           <div>
             <PaginateTransactions
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                filterStatus={status}
-                filterType={type}
-                sortOrder={sortOrder}
-                selectedFromDate={selectedFromDate}
-                selectedToDate={selectedToDate}
-             />
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              filterStatus={status}
+              filterType={type}
+              sortOrder={sortOrder}
+              selectedFromDate={selectedFromDate}
+              selectedToDate={selectedToDate}
+            />
           </div>
-        </div>
+        </main>
+
       </div>
     </>
   )

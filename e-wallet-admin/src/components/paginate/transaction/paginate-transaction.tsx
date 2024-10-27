@@ -72,7 +72,7 @@ export const PaginateTransactions = ({currentPage,setCurrentPage,filterStatus,fi
                             <TableHead className="text-[#1A3E5F] font-bold ">Amount</TableHead>
                             <TableHead className="text-[#1A3E5F] font-bold">Status</TableHead>
                             <TableHead className="text-[#1A3E5F] font-bold">Join Date</TableHead>
-                            <TableHead className="text-[#67727c] font-bold">Type</TableHead>
+                            <TableHead className="text-[#1A3E5F] font-bold">Type</TableHead>
                             <TableHead className="text-[#1A3E5F] font-bold">Action</TableHead>
                         </TableRow>
                     </TableHeader>

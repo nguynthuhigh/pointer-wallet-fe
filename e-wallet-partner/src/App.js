@@ -18,6 +18,7 @@ import AddVoucher from "./pages/voucher/add-voucher";
 import EditVoucher from "./pages/voucher/edit-voucher";
 import Settings from "./pages/settings";
 import CodePointer from "./pages/auth/code-pointer";
+import { Qrcode } from "./components/qr-code-payment/qrcode";
 function App() {
   return (
     <div className="font-sans">
@@ -41,6 +42,7 @@ function App() {
         <Route path="/download-app" element={<DownloadApp />} />
         <Route path="/authorize" element={<CodePointer />} />
         <Route path="*" element={<PageNotFound />} />
+        <Route path="/payment-code-qr" element = {<Qrcode/>}/>
       </Routes>
     </div>
   );

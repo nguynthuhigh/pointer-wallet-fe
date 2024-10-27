@@ -1,5 +1,6 @@
 export interface ISidebarItems  {
     name: string,
-    icon: JSX.Element
+    icon: React.FC<React.SVGProps<SVGSVGElement>>;
     color: string
+    path: string
 }

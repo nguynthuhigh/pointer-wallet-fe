@@ -63,15 +63,6 @@ export const PaginateUser = ({ currentPage, setCurrentPage, search, inactive, so
     if (isLoading) return 'Loading...'
     if (isError) return 'Error Fetching Data'
 
-
-    const Users = data.data
-        .filter((user: IUser) => {
-            const nameOrEmailMatch =
-                user.full_name?.toLowerCase().includes(search.toLowerCase()) ||
-                user.email.toLowerCase().includes(search.toLowerCase());
-
-            return nameOrEmailMatch;
-        })
     const getID = (index: number) => {
         const customID = (currentPage - 1) * itemsPerPage + index + 1;
         return `${customID.toString().padStart(2, '0')}`
@@ -88,17 +79,17 @@ export const PaginateUser = ({ currentPage, setCurrentPage, search, inactive, so
                 <Table>
                     <TableHeader className="uppercase" >
                         <TableRow>
-                            <TableHead className="text-[#1A3E5F] font-bold">No.</TableHead>
-                            <TableHead className="text-[#1A3E5F] font-bold">Photo</TableHead>
-                            <TableHead className="text-[#1A3E5F] font-bold ">Name</TableHead>
-                            <TableHead className="text-[#1A3E5F] font-bold">Email</TableHead>
-                            <TableHead className="text-[#1A3E5F] font-bold">Join Date</TableHead>
-                            <TableHead className="text-[#1A3E5F] font-bold">Status</TableHead>
-                            <TableHead className="text-[#1A3E5F] font-bold">Action</TableHead>
+                            <TableHead className="text-gray-100 font-bold">No</TableHead>
+                            <TableHead className="text-gray-100 font-bold">Photo</TableHead>
+                            <TableHead className="text-gray-100 font-bold ">Name</TableHead>
+                            <TableHead className="text-gray-100 font-bold">Email</TableHead>
+                            <TableHead className="text-gray-100 font-bold">Join Date</TableHead>
+                            <TableHead className="text-gray-100 font-bold">Status</TableHead>
+                            <TableHead className="text-gray-100 font-bold">Action</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {Users.map((users: IUser, index: number) => (
+                        {data.data.map((users: IUser, index: number) => (
                             <TableRow key={index} >
                                 <TableCell className="font-bold">{getID(index)}</TableCell>
                                 <TableCell className="font-medium">{users.avatar
@@ -116,11 +107,6 @@ export const PaginateUser = ({ currentPage, setCurrentPage, search, inactive, so
                                 <TableCell key={users._id} onClick={() => handleUserClick(users._id)} className="text-[#0094FF] font-bold hover:transition-all hover:-translate-y-2 duration-300 cursor-pointer">View Profile</TableCell>
                             </TableRow>
                         ))}
-                        {/* <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-3">
-                {Users.map((user: IDataItem) => (
-                    <UserCard key={user._id} {...user} />
-                ))}
-            </div> */}
                     </TableBody>
                 </Table>
             </div>

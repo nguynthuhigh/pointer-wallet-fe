@@ -104,8 +104,7 @@ const DetailListUser = () => {
     return (
         <>
             <div className="flex w-full h-screen">
-                <SideBar state={"Customers"} />
-                <div className="flex flex-1 flex-col px-4 ml-[210px] mt-[8px]">
+                <div className="flex flex-1 flex-col px-4 mt-[8px]">
                     <div className=" px-4 py-4 border-[2px] rounded-[16px] flex justify-between shadow-[4px_4px_4px_rgba(0,0,0,0.10)]">
                         <div id="ViewUser">
                             <div id="InforUser" className="flex items-center h-full">
