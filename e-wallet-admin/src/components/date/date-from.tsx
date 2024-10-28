@@ -29,8 +29,6 @@ export const DateFrom = ({ selectedFromDate, setSelectedFromDate }: DateFromProp
                                style: {color: '#9ca3af'}
                             }
                         }}
-                        
-                        
                         sx={{
                             width: '170px',
                             '& .MuiOutlinedInput-root': {

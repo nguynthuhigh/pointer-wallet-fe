@@ -11,7 +11,7 @@ import { VoucherList } from "./pages/voucher/voucher-list"
 import { TransactionsList } from "./pages/transaction/transaction-list"
 import { TransactionDetail } from "./pages/transaction/transaction-detail"
 import { LandingPage } from "./pages/landing-page"
-import { SideBar1 } from "./components/sidebar/sidebar1"
+import { SideBar } from "./components/sidebar/sidebar"
 function App() {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -29,7 +29,7 @@ function App() {
       <QueryClientProvider client={queryClient}> 
       <BrowserRouter>
 
-        <SideBar1/>
+        <SideBar/>
         
         <Routes>
 

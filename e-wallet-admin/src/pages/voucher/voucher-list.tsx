@@ -18,11 +18,11 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { IVoucher } from "@/interfaces/voucher"
-import { useNavigate } from "react-router-dom"
+import {  } from "react-router-dom"
 import { Button } from "@mui/material"
 import { PaginateVoucher } from "@/components/paginate/voucher/paginate-voucher"
 import { HeaderComponent } from "@/components/header/header"
-
+import {motion} from 'framer-motion'
 type voucherPick = Pick<IVoucher, 'image' | 'code' | 'quantity' | 'usedCount' | 'statusPublic'>
 
 export const VoucherList = () => {
@@ -55,40 +55,41 @@ export const VoucherList = () => {
         setSelectedFromDate(null);
         setSelectedToDate(null);
     }
-    const navigate = useNavigate();
-    const handleClick = (voucher: IVoucher) => {
-        const { _id } = voucher
-        navigate(`/voucher-list/detail/${_id}`, { state: { _id } })
-    }
     return (
         <>
             <div className="flex-1 h-screen mx-auto overflow-hidden">
-               <HeaderComponent title="Vouchers Management"/>
+                <HeaderComponent title="Vouchers Management" />
                 <main className="max-w-7xl mx-auto px-4 py-6">
-                <div className="flex items-center justify-between pb-[10px]">
-                        <div className="flex text-base py-[10px] gap-x-[10px] cursor-pointer  relative justify-center">
-                            <div id="Active">
-                                <FilterBox filter={filter} handleFilterChange={handleFilterChange}/>
+                    <motion.div 
+                        initial = {{opacity:0,y:20}}
+                        animate = {{opacity:1,y:0}}
+                        transition={{duration:1}}
+                        className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md p-4 ">
+                        <div className="flex items-center justify-between pb-[10px]">
+                            <div className="flex text-base py-[10px] gap-x-[10px] cursor-pointer  relative justify-center">
+                                <div id="Active">
+                                    <FilterBox filter={filter} handleFilterChange={handleFilterChange} />
+                                </div>
+                                <div id="FromDate" className="relative z-30">
+                                    <DateFrom selectedFromDate={selectedFromDate} setSelectedFromDate={setSelectedFromDate} />
+                                </div>
+                                <div id="ToDate" className='relative z-30'>
+                                    <DateTo selectedToDate={selectedToDate} setSelectedToDate={setSelectedToDate} />
+                                </div>
+                                <div id="BtnDeleteFilter">
+                                    <Button variant='contained' onClick={clearFilters} sx={{ height: '40px', marginRight: '10px' }}>Delete</Button>
+                                </div>
                             </div>
-                            <div id="FromDate" className="relative z-30">
-                                <DateFrom selectedFromDate={selectedFromDate} setSelectedFromDate={setSelectedFromDate} />
-                            </div>
-                            <div id="ToDate" className='relative z-30'>
-                                <DateTo selectedToDate={selectedToDate} setSelectedToDate={setSelectedToDate} />
-                            </div>
-                            <div id="BtnDeleteFilter">
-                                <Button variant='contained' onClick={clearFilters} sx={{ height: '36', marginRight: '10px' }}>Delete</Button>
+                            <div id="SearchSort" className="flex gap-x-[10px] h-[40px] mr-[10px]">
+                                <SearchBox search={search} handleSearch={handleSearch} />
+                                <SortBox sortOrder={sortOrder} handleSortOrder={(handleSortOrder)} />
                             </div>
                         </div>
-                        <div id="SearchSort" className="flex gap-x-[10px] h-[36px] mr-[10px]">
-                            <SearchBox search={search} handleSearch={handleSearch}/>
-                            <SortBox sortOrder={sortOrder} handleSortOrder={(handleSortOrder)} />
-                        </div>
-                    </div>
-                    <div id="Paginate">
-                        <PaginateVoucher/>
-                    </div>
-                </main> 
+                        <PaginateVoucher 
+                            sortOrder={sortOrder}
+                        />
+                    </motion.div>
+                </main>
             </div>
         </>
     )
