@@ -1,15 +1,16 @@
-import QRCode from "react-qr-code";
 
 import Invoice from "../../components/payment-gateway/invoice";
 import Countdown from "react-countdown";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-
+import PageNotFound from "../../components/pages/page-not-found";
+import {QRCode} from 'react-qrcode-logo'
+import logo from '../../assets/images/logo_vnd.png'
 const PaymentGateway = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const token = searchParams.get("token");
-  const { data, isLoading } = useQuery({
+  const { data, isLoading,isError } = useQuery({
     queryKey: ["get-token"],
     queryFn: async () => {
       const response = await axios.get(
@@ -19,15 +20,16 @@ const PaymentGateway = () => {
     },
   });
   if (isLoading) return "isLoading...";
+  if (isError) return <PageNotFound/>
   console.log(data);
   return (
     <>
-      <div className="max-w-[1000px] mx-auto grid grid-cols-1  lg:grid-cols-2 h-screen gap-x-[30px] p-4">
+      <div className="max-w-[1000px] mx-auto grid grid-cols-1 lg:grid-cols-2 h-screen gap-x-[30px] p-4 md:mt-[40px]">
         <Invoice key={data._id} {...data} />
 
         <div
           id="QR-code"
-          className="flex flex-col w-full items-center justify-center space-y-[20px] md:pt-[40px]"
+          className="flex flex-col w-full items-center space-y-[20px]"
         >
           <div id="CountDownTime" className="text-4xl font-semibold">
             <Countdown
@@ -42,6 +44,10 @@ const PaymentGateway = () => {
           <p className="text-2xl">Quét mã QR để thanh toán</p>
           <div className="flex justify-center">
             <QRCode
+              qrStyle = 'squares'
+              size = {300}
+              logoImage = {logo}
+              logoWidth = {100}
               value={`https://wallet.pointer.io.vn/payment?token=${token}`}
             />
           </div>

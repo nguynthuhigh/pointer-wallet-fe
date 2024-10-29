@@ -5,7 +5,7 @@ const Invoice = ({ ...data }) => {
   return (
     <>
       <div>
-        <div id="Payment" className="md:pt-[80px]">
+        <div id="Payment" className="">
           <div id="Pay" className="space-y-3">
             <div id="Logo" className="flex items-center space-x-4">
               <img

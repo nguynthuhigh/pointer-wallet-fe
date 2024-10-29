@@ -63,12 +63,12 @@ const PaginatePartnersDetail = ({ currentPage, setCurrentPage, selectedFromDate,
                 <Table>
                     <TableHeader className="uppercase sticky" >
                         <TableRow>
-                            <TableHead className="text-[#1A3E5F] font-bold">No.</TableHead>
-                            <TableHead className="text-[#1A3E5F] font-bold">Messenger</TableHead>
-                            <TableHead className="text-[#1A3E5F] font-bold ">Amount</TableHead>
-                            <TableHead className="text-[#1A3E5F] font-bold">Join Date</TableHead>
-                            <TableHead className="text-[#1A3E5F] font-bold">Status</TableHead>
-                            <TableHead className="text-[#1A3E5F] font-bold">Type</TableHead>
+                            <TableHead className="text-gray-100 font-bold">No.</TableHead>
+                            <TableHead className="text-gray-100 font-bold">Messenger</TableHead>
+                            <TableHead className="text-gray-100 font-bold ">Amount</TableHead>
+                            <TableHead className="text-gray-100 font-bold">Join Date</TableHead>
+                            <TableHead className="text-gray-100 font-bold">Status</TableHead>
+                            <TableHead className="text-gray-100 font-bold">Type</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>

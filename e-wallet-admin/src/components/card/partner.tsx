@@ -8,7 +8,7 @@ import { Link } from "react-router-dom"
 export const CardPartner = ({id,profileName, img, name, email, date }: ICardPartner) => {
     return (
         <>
-            <div className=" border-[1px] relative w-[400px] h-[200px] rounded-[16px] flex justify-between shadow-[4px_4px_4px_rgba(0,0,0,0.10)]">
+            <div className=" border-[1px] relative w-[400px] h-[210px] rounded-[16px] flex justify-between shadow-[4px_4px_4px_rgba(0,0,0,0.10)]">
                 <div id="ViewPartner">
                     <div className="flex items-center justify-between h-full">
                         <div className="flex w-[350px] h-full gap-x-[10px] ">
