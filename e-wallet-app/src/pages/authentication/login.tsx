@@ -53,11 +53,11 @@ const Login = () => {
   };
 
   return (
-    <div className={`w-screen h-screen bg-gray-50`}>
-      <div className="container-auth">
-        <div className="w-full">
-          <img className="mx-auto mt-10 w-52" src={AuthImg}></img>
-          <h1 className="text-center font-semibold text-2xl mt-5">
+    <div className={` h-screen bg-gray-50`}>
+      <div class="container-auth">
+        <div class="w-full">
+          <img class="mx-auto mt-10 w-52" src={AuthImg}></img>
+          <h1 class="text-center font-semibold text-2xl mt-5">
             Thông tin đăng nhập
           </h1>
           <h1 className="text-center font-inter font-semibold text-blue-default text-sm my-2">

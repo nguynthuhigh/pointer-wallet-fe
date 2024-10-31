@@ -9,6 +9,7 @@ import PageNotFound from "../page_not_found";
 import AuthImg from "../../assets/png/auth_img.png";
 import { RootState, AppDispatch } from "../../redux/store";
 import { clearMessage } from "../../redux/auth/authSlice";
+import { setCookie } from "../../utils/cookie";
 type ErrorResponse = {
   response: {
     data: {
@@ -49,7 +50,7 @@ const VerifyLogin = () => {
         console.log(response.data);
         if (response.status === 200) {
           toast.success("Đăng nhập thành công!");
-          localStorage.setItem("logged", "true");
+          setCookie("at", response.data.data);
           setTimeout(() => {
             navigate("/");
           }, 2000);

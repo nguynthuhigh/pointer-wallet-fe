@@ -1,21 +1,22 @@
-import axiosInstance from "@/components/API/axiosInstance";
+import axiosInstance from "@/api/axiosInstance";
 import SideBar from "@/components/sidebar/sidebar";
 import { useQuery } from "@tanstack/react-query";
-import { useLocation, useParams } from "react-router-dom"
-import AvatarDefault from '../../assets/png/Avatar.png'
-import AlertDialog from "@/components/Box/DialogBox/dialogBox";
-import { DateFrom } from "@/components/Date/DateFrom/dateFrom";
-import { DateTo } from "@/components/Date/DateTo/dateTo";
-import { selectStatus, StatusBox } from "@/components/Box/StatusBox/statusBox";
-import { selectType, TypeBox } from "@/components/Box/TypeBox/typeBox";
-import { Button } from "@mui/material";
-import { SortBox } from "@/components/Box/SortBox/sortBox";
+import { useParams } from "react-router-dom"
+import AvatarDefault from '../../assets/png/avatarDefault.png'
+import AlertDialog from '../../components/box/box-dialog'
+import { DateFrom } from "@/components/date/date-from";
+import { DateTo } from "@/components/date/date-to";
+import { selectStatus, StatusBox } from "@/components/box/box-status";
+import { selectType, TypeBox } from "@/components/box/box-type";
+import { Button, SelectChangeEvent } from "@mui/material";
+import { SortBox } from "@/components/box/box-sort";
 import { SiTicktick } from "react-icons/si";
 import { GiCancel } from "react-icons/gi";
-
-import React, { useEffect, useState } from "react";
-import PaginatePartnersDetail from "@/components/paginate/partners/paginatePartnersDetail";
-import { IPartnerData } from "@/components/paginate/partners/paginatePartners";
+import { motion } from 'framer-motion'
+import { useEffect, useState } from "react";
+import PaginatePartnersDetail from "@/components/paginate/partner/paginate-partner-detail";
+import { IPartnerData } from "@/components/paginate/partner/paginate-partner";
+import { HeaderComponent } from "@/components/header/header";
 const PartnersDetail = () => {
   const { id } = useParams();
   const [status, setStatus] = useState<'all' | 'completed' | 'fail' | 'pending' | 'refund'>('all');
@@ -65,10 +66,10 @@ const PartnersDetail = () => {
 
 
   //Handle
-  const handleStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleStatus = (e: SelectChangeEvent) => {
     setStatus(e.target.value as 'all' | 'completed' | 'fail' | 'pending' | 'refund')
   }
-  const handleType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleType = (e: SelectChangeEvent) => {
     setType(e.target.value as 'all' | 'transfer' | 'deposit' | 'payment' | 'withdraw')
   }
   const handleSort = () => {
@@ -90,38 +91,43 @@ const PartnersDetail = () => {
   }
   return (
     <>
-      <div className="flex w-full font-poppins h-screen">
-        <SideBar state={"Partners"} />
-        <div className="flex flex-1 flex-col px-4 ml-[210px]">
-          <div id="Title" className="text-[30px] mt-[10px] font-bold "></div>
-          <div className=" px-4 py-4 border-[2px] rounded-[16px] flex justify-between shadow-[4px_4px_4px_rgba(0,0,0,0.10)]">
-            <div id="ViewPartner">
-              <div id="InforPartner" className="flex items-center h-full">
-                <div id="avatarPartner" className=" shrink-0">
-                  <img src={data.avatar ? data.avatar : AvatarDefault} className="size-[60px] border rounded-full" />
-                </div>
-                <div className="flex flex-col h-full justify-between pl-5 ">
-                  <div className="w-fit flex justify-between items-center">
-                    <div id="name" className="text-xl font-bold text-[#1E3A5F] uppercase flex-grow ">{data.full_name || getNameID(data)}</div>
-                    <div className={`flex items-center gap-x-[5px] pl-2 ${!data?.inactive ? 'text-[#027A48]' : 'text-[#FF1717]'}`}>
-                      <div id="iconActive">{!data?.inactive ? <SiTicktick /> : <GiCancel />}</div>
-                      <div id="active" className="text-md"> {!data?.inactive ? 'Active' : "Inactive"}</div>
-                    </div>
+      <div className="flex-1 h-screen overflow-auto">
+        <HeaderComponent title="Partner Detail" />
+        <main className="max-w-7xl mx-auto px-4 py-6 ">
+          <motion.div 
+              initial = {{opacity:0, y:20}}
+              animate = {{opacity:1, y:0}}
+              transition={{duration:1}}
+              className="bg-gray-800 bg-opacity-70 border border-gray-700 backdrop-blur-md p-4">
+            <motion.div
+              whileHover={{ y: -5 }}
+              className="px-4 py-4 border-[2px] rounded-[16px] flex justify-between shadow-[0px_15px_40px_rgba(0,0,0,0.5)]">
+              <div id="ViewPartner">
+                <div id="InforPartner" className="flex items-center h-full">
+                  <div id="avatarPartner" className=" shrink-0">
+                    <img src={data.avatar ? data.avatar : AvatarDefault} className="size-[60px] border rounded-full" />
                   </div>
-                  <div id="email" className="w-fit text-lg flex items-center justify-center gap-x-[8px] text-[#0094FF]">{data?.email}</div>
+                  <div className="flex flex-col h-full justify-between pl-5 ">
+                    <div className="w-fit flex justify-between items-center">
+                      <div id="name" className="text-xl font-bold text-gray-100 uppercase flex-grow ">{data.full_name || getNameID(data)}</div>
+                      <div className={`flex items-center gap-x-[5px] pl-2 ${!data?.inactive ? 'text-[#027A48]' : 'text-[#FF1717]'}`}>
+                        <div id="iconActive">{!data?.inactive ? <SiTicktick /> : <GiCancel />}</div>
+                        <div id="active" className="text-md"> {!data?.inactive ? 'Active' : "Inactive"}</div>
+                      </div>
+                    </div>
+                    <div id="email" className="w-fit text-lg flex items-center justify-center gap-x-[8px] text-[#0094FF]">{data?.email}</div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <AlertDialog />
-          </div>
-          <div className="overflow-x-auto h-screen relative">
-            <div id="stick" className="flex justify-between items-center mt-[20px]">
-              <div id="Title" className="text-[20px] font-semibold">Transaction History</div>
-              <div className="flex items-center gap-x-[10px] mx-2">
-                <div id="Status" className="flex items-center gap-x-[10px] ">
+              <AlertDialog />
+            </motion.div>
+            <div className="flex justify-between items-center mt-[20px]">
+              <div id="Title" className="text-3xl font-semibold">Transaction History</div>
+              <div className="flex items-center gap-x-[10px] ">
+                <div id="Status">
                   <StatusBox status={status} handleStatus={handleStatus} select={selectStatus} />
                 </div>
-                <div id="Type" className="flex items-center gap-x-[10px] ">
+                <div id="Type">
                   <TypeBox type={type} handleType={handleType} select={selectType} />
                 </div>
                 <div id="FromDate" className="relative z-30 ">
@@ -132,9 +138,9 @@ const PartnersDetail = () => {
                 </div>
 
                 <div id="DeleteFilter">
-                  <Button variant="contained" className="h-[56px] bg-[#FF1717]" sx={{ height: 36 }} onClick={resetFilter}>Delete </Button>
+                  <Button variant="contained" className="bg-[#FF1717]" sx={{ height: 40 }} onClick={resetFilter}>Delete </Button>
                 </div>
-                <div id="SortBox" className="flex gap-x-[10px] h-[36px]">
+                <div id="SortBox" className="flex h-[40px]">
                   <SortBox sortOrder={sort} handleSortOrder={handleSort} />
                 </div>
               </div>
@@ -147,8 +153,9 @@ const PartnersDetail = () => {
               selectedFromDate={selectDateFrom}
               selectedToDate={selectDateTo}
               sortOrder={sort} />
-          </div>
-        </div>
+          </motion.div>
+
+        </main>
       </div>
     </>
   )

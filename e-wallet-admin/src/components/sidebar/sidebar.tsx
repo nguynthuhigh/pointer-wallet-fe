@@ -1,63 +1,89 @@
-import { useState } from 'react'
-import SideBarPart from './sidebar_part'
-import Logo from "../../assets/png/logo.png";
-import { RxDashboard } from "react-icons/rx";
-import { TbUsers } from "react-icons/tb";
-import { PiTicketBold } from "react-icons/pi";
-import { FaHandshake } from "react-icons/fa";
-import { TbLogout2 } from "react-icons/tb";
-import { FaChartBar } from "react-icons/fa";
-import { FaRegHandshake } from "react-icons/fa6";
-import { GrUserAdmin } from "react-icons/gr";
-import { PiMessengerLogoBold } from "react-icons/pi";
-import { IoMdSettings } from "react-icons/io";
-import Admin from '../../assets/png/Admin.jpg'
-import { MdContactSupport } from "react-icons/md";
-import { MdCurrencyExchange } from "react-icons/md";
-
-const SideBar = ({...props}) => {
-    const [selected, setSelected] = useState<string>(props.state)
-    const handleSelect = (state: string) => {
-        setSelected(state)
-    }
+import { useState } from "react"
+import { AnimatePresence, motion } from 'framer-motion'
+import { ISidebarItems } from "@/interfaces/sidebar-items"
+import { BarChart2, Users, Settings, MenuIcon, Handshake, TicketPercent, DollarSign } from 'lucide-react'
+import LogoPressPay from '../../assets/png/Logo.png'
+import LogoP from '../../assets/png/LogoP.png'
+import { Link, useLocation } from "react-router-dom"
+export const SideBar = () => {
+    const SideBarItems: ISidebarItems[] = [
+        {
+            name: 'Dashboard', icon: BarChart2, color: '#6366f1', path: '/dashboard'
+        },
+        {
+            name: 'Customers', icon: Users, color: '#ec4899', path: '/customer-list'
+        },
+        {
+            name: 'Partners', icon: Handshake, color: '#3b82f6', path: '/partner-list'
+        },
+        {
+            name: 'Vouchers', icon: TicketPercent, color: '#f59e0b', path: '/voucher-list'
+        },
+        {
+            name: 'Transactions', icon: DollarSign, color: '#10b981', path: '/transaction-list'
+        }
+    ]
+    const location = useLocation()
+    const [isSideBarOpen, setIsSideBarOpen] = useState(true)
     return (
-        <div className='max-w-[270px]  bg-[#FFFFFF] border-r-[1px] h-screen fixed flex flex-col'>
-            <div id="Logo" className='flex justify-center cursor-pointer mt-[20px] mb-[20px]'>
-                <img src={Logo} className='w-max h-[50px]'/>
-            </div>
-            <div className='border-b-[3px] mx-4 rounded-[8px] mb-3'></div>
-            <div className=' uppercase text-xs text-[#1A3E5F] mb-3 mx-4 font-bold'>Main menu</div>
-            <div className='flex flex-col w-fit gap-y-[16px] text-md mx-[12px] text-[#ADB5BD]'>
-                <SideBarPart link='/dashboard' selected={selected} handleSelect={() => { handleSelect('Chart Dashboard') }} name='Chart Dashboard' icon={<FaChartBar size={20}  />} />
-                <SideBarPart link='/customer-list' selected={selected} handleSelect={() => { handleSelect('Customers') }} name='Customers' icon={<TbUsers size={20}/>} />
-                <SideBarPart link='/voucher-list' selected={selected} handleSelect={() => { handleSelect('Vouchers') }} name='Vouchers' icon={<PiTicketBold size={20}/>} />
-                <SideBarPart link='/partner-list' selected={selected} handleSelect={() => { handleSelect('Partners') }} name='Partners' icon={<FaRegHandshake size={20} />} /> 
-                <SideBarPart link='/transaction-list' selected={selected} handleSelect={() => { handleSelect('Transactions') }} name='Transactions' icon={<MdCurrencyExchange size={20} />} /> 
+        <>
+            <motion.div
+                className={`relative z-10 transition-all duration-300 ease-in-out flex-shrink-0 ${isSideBarOpen ? 'w-60' : 'w-20'}`}
+                animate={{ width: isSideBarOpen ? 'w-60' : 'w-20' }}
+            >
+                <div className="h-full bg-gray-800 bg-opacity-70 backdrop-blur-md p-4 flex flex-col border-r border-gray-700 shadow-lg">
+                    <div id="Logo" className='flex justify-center items-center'>
+                        {isSideBarOpen
+                            ? (<img src={LogoPressPay} className="h-[50px]" />)
 
-            </div>
-            <div className='border-b-[3px] mx-4 rounded-[8px] mt-[20px] mb-3'></div>
-            <div className=' uppercase text-xs text-[#1A3E5F] mb-3 mx-4 font-bold'>Other</div>
-
-            <div className='flex flex-col w-fit gap-y-[16px] text-md mx-[12px] text-[#ADB5BD]'>
-                <SideBarPart link='/setting' selected={selected} handleSelect={() => { handleSelect('Setting') }} name='Setting' icon={<IoMdSettings size={20}  />} />
-                <SideBarPart link='/contactUs' selected={selected} handleSelect={() => { handleSelect('Administrator') }} name='Contact Us' icon={<PiMessengerLogoBold size={20}  />} />
-                <SideBarPart link='/LoginAdmin' selected ={selected} handleSelect ={() => handleSelect('LoginAdmin')} name = 'Logout' icon = {<TbLogout2 size = {20}/>}/>                     
-            </div>
-
-            <div className='mt-auto'>
-                <div className='flex items-center justify-center border-[1px] h-[50px] border-[#0094FF] text-black rounded-[8px] mb-3 mx-[12px] cursor-pointer'>
-                    <div id='Photo' className='mr-1'>
-                        <img src={Admin} className='rounded-full size-[35px] border-[1px] border-[#0094FF] object-cover'/>
+                            : (<div className="flex items-center ">
+                                <img src={LogoP} className=" size-[50px]" />
+                            </div>)
+                        }
                     </div>
-                    <div id="NameEmail" >
-                        <div className='text-sm text-[#1A3E5F]'>Super Admin</div>
-                        <div className='text-[11px] text-[#0094FF]'>namsang0902s@gmail.com</div>
+                    <div id="Menu" className="flex justify-center items-center my-3">
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => setIsSideBarOpen(!isSideBarOpen)}
+                            className="p-2 rounded-full hover:bg-gray-300 transition-colors duration-300 max-w-fit"
+                        >
+                            <MenuIcon />
+                        </motion.button>
                     </div>
+
+                    <nav>
+                        {SideBarItems.map(items => (
+                            <Link key={items.path} to={items.path}>
+                                <motion.div
+                                    whileHover={{ x: 10 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    className={`flex items-center text-md px-2 py-4 font-medium rounded-lg  transition-colors duration-300 mb-2 
+                                    ${location.pathname === items.path ? 'bg-gray-200' : 'hover:bg-gray-500'}
+                                    ${!isSideBarOpen ? 'justify-center' : ''}`
+                                    }
+                                >
+                                    <items.icon 
+                                        style={{ color: items.color, minWidth: '20px' }} />
+                                    <AnimatePresence>
+                                        {isSideBarOpen && (
+                                            <motion.span
+                                                className="ml-4 whitespace-nowrap text-gray-400"
+                                                initial={{ opacity: 0, width: 0 }}
+                                                animate={{ opacity: 1, width: 'auto' }}
+                                                exit={{ opacity: 0, width: 0 }}
+                                                transition={{ duration: 0.2, delay: 0.3 }}
+                                            >
+                                                {items.name}
+                                            </motion.span>
+                                        )}
+                                    </AnimatePresence>
+                                </motion.div>
+                            </Link>
+                        ))}
+                    </nav>
                 </div>
-                
-            </div>
-            </div>
+            </motion.div>
+        </>
     )
 }
-
-export default SideBar

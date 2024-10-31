@@ -7,7 +7,6 @@ import { Routes, Route } from "react-router-dom";
 import PageNotFound from "./components/pages/page-not-found";
 import TransactionHistory from "./pages/transaction-history";
 import Developer from "./pages/developer";
-import PaymentGateway from "./pages/payment/payment-gateway";
 import DemoPaymentGateway from "./pages/payment/demo";
 import Success from "./pages/payment/success";
 import WebHook from "./pages/webhook";
@@ -18,6 +17,7 @@ import AddVoucher from "./pages/voucher/add-voucher";
 import EditVoucher from "./pages/voucher/edit-voucher";
 import Settings from "./pages/settings";
 import CodePointer from "./pages/auth/code-pointer";
+import PaymentGateway from "./pages/payment/payment";
 function App() {
   return (
     <div className="font-sans">
@@ -30,7 +30,7 @@ function App() {
         <Route path="/transaction-history" element={<TransactionHistory />} />
         <Route path="/update-profile" element={<UpdateProfile />} />
         <Route path="/docs" element={<Developer />} />
-        <Route path="/payment-gateway" element={<PaymentGateway />} />
+        {/* <Route path="/payment-gateway" element={<PaymentGateway />} /> */}
         <Route path="/demo" element={<DemoPaymentGateway />} />
         <Route path="/success" element={<Success />} />
         <Route path="/webhook" element={<WebHook />} />
@@ -41,6 +41,7 @@ function App() {
         <Route path="/download-app" element={<DownloadApp />} />
         <Route path="/authorize" element={<CodePointer />} />
         <Route path="*" element={<PageNotFound />} />
+        <Route path="/payment-gateway" element={<PaymentGateway />} />
       </Routes>
     </div>
   );
