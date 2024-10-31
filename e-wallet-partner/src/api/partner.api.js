@@ -14,8 +14,8 @@ export const getProfilePartner = async () => {
   );
 };
 export const updateProfilePartner = async (body) => {
-  return await axiosInstance.put(
-    process.env.REACT_APP_API + "/api/v1/partner/update-profile",
+  return await axiosInstance.post(
+    process.env.REACT_APP_API + "/api/v1/partner/edit-profile",
     body,
     {
       withCredentials: true,

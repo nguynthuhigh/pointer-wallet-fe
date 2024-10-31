@@ -1,26 +1,17 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
+import axiosInstance from "../configs/axios.config";
 const cookie = new Cookies();
 export const addWebhook = async (body) => {
   console.log(body);
-  return await axios.post(
+  return await axiosInstance.post(
     process.env.REACT_APP_API + "/api/v1/webhook/add-endpoint",
-    body,
-    {
-      headers: {
-        Authorization: "Bearer " + cookie.get("token_auth"),
-      },
-    }
+    body
   );
 };
 export const deleteWebhook = async () => {
-  return await axios.delete(
-    process.env.REACT_APP_API + "/api/v1/webhook/delete-endpoint",
-    {
-      headers: {
-        Authorization: "Bearer " + cookie.get("token_auth"),
-      },
-    }
+  return await axiosInstance.delete(
+    process.env.REACT_APP_API + "/api/v1/webhook/delete-endpoint"
   );
 };
 const exportObject = {
