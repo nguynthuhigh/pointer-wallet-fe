@@ -11,13 +11,14 @@ import { AppDispatch, RootState } from "../../redux/store";
 import { clearError } from "../../redux/auth/authSlice";
 
 const Login = () => {
+  const [user, setUserData] = useState({ email: "", password: "" });
+  const [formErrors, setFormErrors] = useState("");
+
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { isFetching, error } = useSelector(
     (state: RootState) => state.auth.login
   );
-  const [user, setUserData] = useState({ email: "", password: "" });
-  const [formErrors, setFormErrors] = useState("");
   useEffect(() => {
     if (error) {
       toast.error(error);

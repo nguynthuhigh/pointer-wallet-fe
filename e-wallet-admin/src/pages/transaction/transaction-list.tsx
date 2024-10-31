@@ -2,15 +2,16 @@ import SideBar from "@/components/sidebar/sidebar";
 // import { IVoucher } from "@/interface/voucher";
 // import { useNavigate, useParams } from "react-router-dom";
 import React, { useState } from "react";
-import { PaginateTransactions } from "@/components/paginate/transactions/paginateTransactions";
 import { DateFrom } from "@/components/Date/DateFrom/dateFrom";
 import { DateTo } from "@/components/Date/DateTo/dateTo";
 import { Button } from "@mui/material";
 import { SortBox } from "@/components/Box/SortBox/sortBox";
 import { selectType, TypeBox } from "@/components/Box/TypeBox/typeBox";
 import { selectStatus, StatusBox } from "@/components/Box/StatusBox/statusBox";
+import { PaginateTransactions } from "@/components/paginate/transactions/paginateTransactions";
 
 export const TransactionsList = () => {
+  const [currentPage,setCurrentPage] = useState<number>(1)
   const [selectedFromDate, setSelectedFromDate] = useState<Date | null>(null);
   const [selectedToDate, setSelectedToDate] = useState<Date | null>(null);
   // const [search, setSearch] = useState<string>("");
@@ -107,7 +108,15 @@ export const TransactionsList = () => {
             </div>
           </div>
           <div>
-            <PaginateTransactions />
+            <PaginateTransactions
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              selectedFromDate={selectedFromDate}
+              selectedToDate={selectedToDate}
+              filterStatus={status}
+              filterType={type}
+              sortOrder={sortOrder}
+            />
           </div>
         </div>
       </div>

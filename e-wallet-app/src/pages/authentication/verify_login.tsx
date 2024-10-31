@@ -18,12 +18,13 @@ type ErrorResponse = {
 };
 
 const VerifyLogin = () => {
+  const [otp, setOtp] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { error, loginUser } = useSelector(
     (state: RootState) => state.auth.login
   );
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
   if (!loginUser.email) {
     return <PageNotFound />;
   }
@@ -35,8 +36,6 @@ const VerifyLogin = () => {
     }
   }, [loginUser.message]);
 
-  const [otp, setOtp] = useState("");
-
   const handleChangeOTP = async (value: string) => {
     setOtp(value);
     if (value.length === 6) {
@@ -47,6 +46,7 @@ const VerifyLogin = () => {
       setIsLoading(true);
       try {
         const response = await verifyLoginAPI(body);
+        console.log(response.data);
         if (response.status === 200) {
           toast.success("Đăng nhập thành công!");
           localStorage.setItem("logged", "true");

@@ -1,29 +1,63 @@
-import axiosInstance from "@/components/API/axiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import {
   Table,
   TableBody,
-  TableCell,
-  TableFooter,
+  //   TableCell,
+  //   TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ITransaction } from "@/interface/transaction";
-import TransactionHistory from "@/components/transaction/TransactionHistory";
 import { useNavigate } from "react-router-dom";
+import PaginateComponents from "@/components/paginate/paginateComponent/PaginateComponents";
+import TransactionHistory from "@/components/transaction/TransactionHistory";
+import { ITransaction } from "@/interface/transaction";
+import axiosInstance from "@/components/API/axiosInstance";
 
-export const PaginateTransactions = () => {
+interface ITransactionPage {
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+  filterType: "all" | "transfer" | "deposit" | "payment" | "withdraw";
+  filterStatus: "all" | "completed" | "fail" | "pending" | "refund";
+  selectedFromDate: Date | null;
+  selectedToDate: Date | null;
+  sortOrder: "asc" | "desc";
+}
+
+export const PaginateTransactions = ({
+  currentPage,
+  setCurrentPage,
+  filterStatus,
+  filterType,
+  selectedFromDate,
+  selectedToDate,
+  sortOrder,
+}: ITransactionPage) => {
   const navigate = useNavigate();
+  const itemsPerPage = 10;
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["transactions"],
+    queryKey: [
+      "transactions",
+      currentPage,
+      setCurrentPage,
+      filterStatus,
+      filterType,
+      selectedFromDate,
+      selectedToDate,
+      sortOrder,
+    ],
     queryFn: async () => {
       const response = await axiosInstance.get(
         `/api/v1/admin/get-transactions`,
         {
           params: {
-            page: 1,
-            page_limit: 20,
+            page: currentPage,
+            page_limit: itemsPerPage,
+            status: filterStatus,
+            type: filterType,
+            start: selectedFromDate,
+            end: selectedToDate,
+            sort: sortOrder,
           },
         }
       );
@@ -40,8 +74,11 @@ export const PaginateTransactions = () => {
   };
 
   const getID = (index: number) => {
-    const customID = (1 - 1) * 10 + index + 1;
+    const customID = (currentPage - 1) * itemsPerPage + index + 1;
     return `${customID.toString().padStart(2, "0")}`;
+  };
+  const handleClickPage = (e: { selected: number }) => {
+    setCurrentPage(e.selected + 1);
   };
   return (
     <>
@@ -60,30 +97,35 @@ export const PaginateTransactions = () => {
               <TableHead className="text-[#1A3E5F] font-bold">
                 Join Date
               </TableHead>
-              <TableHead className="text-[#1A3E5F] font-bold">Type</TableHead>
+              <TableHead className="text-[#67727c] font-bold">Type</TableHead>
               <TableHead className="text-[#1A3E5F] font-bold">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((transactions: ITransaction, index: number) => (
-              <TableRow key={index}>
-                <td className="pl-3">{getID(index)}</td>
-                <TransactionHistory {...transactions} />
-                <td
-                  key={transactions._id}
-                  onClick={() => handleClick(transactions)}
-                  className="pl-3 text-[#0094FF] font-bold hover:transition-all hover:-translate-y-2 duration-300 cursor-pointer"
-                >
-                  View Detail
-                </td>
-              </TableRow>
-            ))}
+            {data.transactions.map(
+              (transactions: ITransaction, index: number) => (
+                <TableRow key={index}>
+                  <td className="pl-3">{getID(index)}</td>
+                  <TransactionHistory {...transactions} />
+                  <td
+                    key={transactions._id}
+                    onClick={() => handleClick(transactions)}
+                    className="pl-3 text-[#0094FF] font-bold hover:transition-all hover:-translate-y-2 duration-300 cursor-pointer"
+                  >
+                    View Detail
+                  </td>
+                </TableRow>
+              )
+            )}
           </TableBody>
         </Table>
       </div>
-      {/* <div id='Paginate'>
-                <PaginateComponents pageCount={data.pageCount} handlePageClick={handleClickPage} />
-            </div> */}
+      <div id="Paginate">
+        <PaginateComponents
+          pageCount={data.pageCount}
+          handlePageClick={handleClickPage}
+        />
+      </div>
     </>
   );
 };
