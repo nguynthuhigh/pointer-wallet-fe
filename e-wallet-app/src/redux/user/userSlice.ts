@@ -11,6 +11,7 @@ interface UserData {
   email: string;
   inactive: boolean;
   full_name: string;
+  security_code: string;
 }
 
 interface WalletData {
@@ -42,6 +43,7 @@ const initialState = {
       email: "",
       inactive: false,
       full_name: "",
+      security_code: "",
     },
     walletData: {
       _id: "",
@@ -80,7 +82,6 @@ const userSlice = createSlice({
     builder.addCase(
       getProfile.fulfilled,
       (state, action: PayloadAction<UserProfileState>) => {
-        console.log("Profile Payload:", action.payload);
         state.isFetching = false;
         state.userState = action.payload;
       }

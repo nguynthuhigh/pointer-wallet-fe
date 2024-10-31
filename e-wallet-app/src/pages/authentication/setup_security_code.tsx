@@ -38,7 +38,6 @@ export default function SecurityCode() {
         if (response.status === 200) {
           setError(false);
           toast.success(response.data.message);
-          localStorage.setItem("logged", "true");
           setTimeout(() => {
             navigate("/");
           }, 1000);

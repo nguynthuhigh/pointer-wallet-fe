@@ -1,5 +1,6 @@
 import axios from "axios";
-import { getCookie, setCookie } from "../utils/cookie";
+import { getStore } from "../redux/hooks";
+import { addAccessToken } from "../redux/auth/authSlice";
 
 let isRefreshing = false;
 let refreshSubscribers: (() => void)[] = [];
@@ -14,24 +15,32 @@ const onRefreshed = () => {
 };
 
 export const createAxios = () => {
+  const store = getStore();
+  const accessToken = store.getState().auth.accessToken;
+  const dispatch = store.dispatch;
+
   const newInstance = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
     timeout: 10000,
     withCredentials: true,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${getCookie("at")}`,
-    },
   });
 
-  newInstance.interceptors.response.use(
-    function (response) {
-      return response;
+  newInstance.interceptors.request.use(
+    (config) => {
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      return config;
     },
-    async function (error) {
+    (error) => Promise.reject(error)
+  );
+
+  newInstance.interceptors.response.use(
+    (response) => response,
+    async (error) => {
       const originalRequest = error.config;
 
-      if (error.response.status === 401 && !originalRequest._retry) {
+      if (error.response?.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
 
         if (!isRefreshing) {
@@ -42,14 +51,18 @@ export const createAxios = () => {
             );
 
             if (response.status === 200) {
+              const newAccessToken = response.data.data;
+              await dispatch(addAccessToken(newAccessToken));
               onRefreshed();
               isRefreshing = false;
-              setCookie("at", response.data.data);
+
+              originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
               return newInstance(originalRequest);
             }
           } catch (error) {
             console.error("Failed to refresh token:", error);
             isRefreshing = false;
+            return Promise.reject(error);
           }
         } else {
           return new Promise((resolve) => {

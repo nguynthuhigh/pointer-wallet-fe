@@ -1,8 +1,9 @@
 import { Outlet, Navigate } from "react-router-dom";
+import { useTokenExpired } from "./expired-token";
 
 const ProtectRoutes = () => {
-  const logged = localStorage.getItem("logged");
-  return logged ? <Outlet /> : <Navigate to="/auth/login" />;
+  const expiredToken = useTokenExpired();
+  return expiredToken ? <Navigate to="/auth/login" /> : <Outlet />;
 };
 
 export default ProtectRoutes;

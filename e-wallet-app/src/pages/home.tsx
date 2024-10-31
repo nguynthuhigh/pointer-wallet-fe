@@ -11,8 +11,10 @@ import { getProfile } from "../redux/user/userThunk";
 import { AppDispatch, RootState } from "../redux/store";
 
 const Home = () => {
-  const dispatch = useDispatch<AppDispatch>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const dispatch = useDispatch<AppDispatch>();
+  const profile = useSelector((state: RootState) => state.user.userState);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,8 +28,6 @@ const Home = () => {
     };
     fetchData();
   }, [dispatch]);
-
-  const profile = useSelector((state: RootState) => state.user.userState);
 
   const { userData, walletData } = profile || {
     userData: undefined,
