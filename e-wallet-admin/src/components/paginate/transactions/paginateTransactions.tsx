@@ -9,10 +9,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useNavigate } from "react-router-dom";
-import PaginateComponents from "@/components/paginate/paginateComponent/PaginateComponents";
-import TransactionHistory from "@/components/transaction/TransactionHistory";
-import { ITransaction } from "@/interface/transaction";
-import axiosInstance from "@/components/API/axiosInstance";
+import PaginateComponents from "@/components/paginate/paginate-component/paginate-component";
+import TransactionHistory from "@/components/transaction/transaction-history";
+import { ITransaction } from "@/interfaces/transaction";
+import axiosInstance from "@/api/axiosInstance";
 
 interface ITransactionPage {
   currentPage: number;

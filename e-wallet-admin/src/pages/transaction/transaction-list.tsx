@@ -1,17 +1,17 @@
-import SideBar from "@/components/sidebar/sidebar";
+import { SideBar } from "../../components/sidebar/sidebar";
 // import { IVoucher } from "@/interface/voucher";
 // import { useNavigate, useParams } from "react-router-dom";
 import React, { useState } from "react";
-import { DateFrom } from "@/components/Date/DateFrom/dateFrom";
-import { DateTo } from "@/components/Date/DateTo/dateTo";
+import { DateFrom } from "../../components/date/date-from";
+import { DateTo } from "../../components/date/date-to";
 import { Button } from "@mui/material";
-import { SortBox } from "@/components/Box/SortBox/sortBox";
-import { selectType, TypeBox } from "@/components/Box/TypeBox/typeBox";
-import { selectStatus, StatusBox } from "@/components/Box/StatusBox/statusBox";
+import { SortBox } from "../../components/box/box-sort";
+import { selectType, TypeBox } from "../../components/box/box-type";
+import { selectStatus, StatusBox } from "../../components/box/box-status";
 import { PaginateTransactions } from "@/components/paginate/transactions/paginateTransactions";
 
 export const TransactionsList = () => {
-  const [currentPage,setCurrentPage] = useState<number>(1)
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedFromDate, setSelectedFromDate] = useState<Date | null>(null);
   const [selectedToDate, setSelectedToDate] = useState<Date | null>(null);
   // const [search, setSearch] = useState<string>("");
