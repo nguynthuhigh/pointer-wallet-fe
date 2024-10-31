@@ -2,14 +2,21 @@ import { useState, useEffect } from "react";
 import partnerAPI from "../../api/partner.api";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/header_login";
+import { useMutation } from "@tanstack/react-query";
 export default function UpdateProFile() {
   const navigate = useNavigate();
-  const [infoUser, setInfoUser] = useState({ name: "", description: "" });
+  const [isLoading, setIsLoading] = useState(false);
+  const [infoUser, setInfoUser] = useState({
+    name: "",
+    description: "",
+    image: "",
+  });
   const [errorResponse, setErrorResponse] = useState({
     email: null,
     password: null,
   });
   const [partner, setPartner] = useState("");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,16 +40,21 @@ export default function UpdateProFile() {
     setErrorResponse({ password: null, email: null });
   };
   const handleUpdateProfile = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     try {
-      console.log(infoUser);
+      const formData = new FormData();
+      formData.append("name", infoUser.name);
+      formData.append("description", infoUser.description);
+      formData.append("image", infoUser.image);
       const response = await partnerAPI.updateProfilePartner(infoUser);
-      console.log(response);
       if (response.status === 200) {
         navigate("/dashboard");
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -53,7 +65,7 @@ export default function UpdateProFile() {
           <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                Cập nhật thông tin
+                Overview Information
               </h1>
               <form
                 class="space-y-1 md:space-y-3"
@@ -90,7 +102,7 @@ export default function UpdateProFile() {
                     for="name"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Tên doanh nghiệp
+                    Company Name
                   </label>
                   <input
                     value={infoUser.password}
@@ -108,7 +120,7 @@ export default function UpdateProFile() {
                     for="confirm_password"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Mô tả ngắn về doanh nghiệp của bạn
+                    Short description about company
                   </label>
                   <input
                     value={infoUser.confirm_password}
@@ -130,9 +142,9 @@ export default function UpdateProFile() {
                   <div class="flex items-center justify-center w-full">
                     <label
                       for="dropzone-file"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      class="block mb-2 mx-4 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      Logo của doanh nghiệp
+                      Logo
                     </label>
                     <label
                       for="dropzone-file"
@@ -162,15 +174,21 @@ export default function UpdateProFile() {
                           PNG or JPG (MAX. 800x400px)
                         </p>
                       </div>
-                      <input id="dropzone-file" type="file" class="hidden" />
+                      <input
+                        name="image"
+                        id="image"
+                        type="file"
+                        class="hidden"
+                      />
                     </label>
                   </div>
                 </div>
                 <button
+                  disabled={isLoading}
                   type="submit"
                   class="w-full text-white bg-color-default hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
-                  Cập nhật
+                  {isLoading ? "...Loading" : "Update"}
                 </button>
                 <p class="text-sm font-light text-gray-500 dark:text-gray-400"></p>
               </form>
