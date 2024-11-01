@@ -22,8 +22,8 @@ export default function WebHook(){
                 navigate('/update-profile')
             }
           } catch (error) {
-            console.log(error)
-            navigate('/sign-in')
+            // console.log(error)
+            // navigate('/sign-in')
           }
           finally{
             setIsLoading(false)
@@ -41,7 +41,6 @@ export default function WebHook(){
           
           </div>
         <div className='w-[35%]'>
-        
         </div>
     </div>
 }
