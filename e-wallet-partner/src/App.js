@@ -24,7 +24,6 @@ function App() {
         <Route path="/transaction-history" element={<TransactionHistory />} />
         <Route path="/update-profile" element={<UpdateProfile />} />
         <Route path="/docs" element={<Developer />} />
-        {/* <Route path="/payment-gateway" element={<PaymentGateway />} /> */}
         <Route path="/demo" element={<DemoPaymentGateway />} />
         <Route path="/success" element={<Success />} />
         <Route path="/webhook" element={<WebHook />} />
