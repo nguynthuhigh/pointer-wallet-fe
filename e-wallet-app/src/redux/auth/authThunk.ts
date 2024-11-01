@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { loginAPI, registerAPI } from "../../services/api/auth.api";
+import axios from "axios";
 
 interface User {
   email: string;
@@ -21,7 +21,10 @@ export const loginUsers = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const res = await loginAPI(user);
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/v1/user/signin`,
+        user
+      );
       if (res.status === 200) {
         navigate("/auth/login/verify-login");
         const { email } = user;
@@ -45,7 +48,10 @@ export const registerUsers = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const res = await registerAPI(user);
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/v1/user/signup`,
+        user
+      );
       if (res.status === 200) {
         navigate("/auth/register/verify-register");
         return { ...res.data, ...user };

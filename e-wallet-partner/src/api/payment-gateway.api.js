@@ -13,8 +13,8 @@ export const paymentWithCard = async(body)=>{
     return await axios.post(process.env.REACT_APP_API+'/api/v1/payment-with-card',body)
 }
 const exportObject = {
-    paymentSend,
-    PaymentGateway,
-    paymentWithCard
-}
+  paymentSend,
+  PaymentGateway,
+  paymentWithCard,
+};
 export default exportObject;

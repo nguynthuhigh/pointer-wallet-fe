@@ -13,6 +13,7 @@ import storage from "redux-persist/lib/storage";
 import authReducer from "./auth/authSlice";
 import userReducer from "./user/userSlice";
 import cardReducer from "./credit-card/cardSlice";
+
 const persistConfig = {
   key: "root",
   version: 1,
@@ -37,7 +38,8 @@ export const store = configureStore({
     }),
 });
 
-export let persistor = persistStore(store);
+export const persistor = persistStore(store);
 
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
+

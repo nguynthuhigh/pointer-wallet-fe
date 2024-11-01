@@ -59,11 +59,11 @@ export default function AddCreditCard() {
   };
 
   const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    e: ChangeEvent<HTMLInputElement>,
     setState: React.Dispatch<React.SetStateAction<string>>,
     formatFn?: (value: string) => string
   ) => {
-    const value = e.target?.value || "";
+    const { value } = e.currentTarget;
     const formattedValue = formatFn ? formatFn(value) : value;
     setState(formattedValue);
   };
@@ -71,11 +71,11 @@ export default function AddCreditCard() {
   const handleInputFocus = (
     e: FocusEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setFocus(e.target.name as Focused);
+    setFocus(e.currentTarget.name as Focused);
   };
 
   const handleNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = formatCreditCardNumber(e.target?.value);
+    const value = formatCreditCardNumber(e.currentTarget.value);
     setNumber(value);
 
     const cardType = Payment.fns.cardType(value);

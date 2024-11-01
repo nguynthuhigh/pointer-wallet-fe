@@ -2,14 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "preact/hooks";
 import OTPInput from "react-otp-input";
 import toast, { Toaster } from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { verifyLoginAPI } from "../../services/api/auth.api";
 import LoadingIcon from "../../assets/svg/loading.svg";
 import PageNotFound from "../page_not_found";
 import AuthImg from "../../assets/png/auth_img.png";
-import { RootState, AppDispatch } from "../../redux/store";
-import { clearMessage } from "../../redux/auth/authSlice";
-import { setCookie } from "../../utils/cookie";
+import { clearMessage, addAccessToken } from "../../redux/auth/authSlice";
 type ErrorResponse = {
   response: {
     data: {
@@ -19,12 +17,11 @@ type ErrorResponse = {
 };
 
 const VerifyLogin = () => {
-  const { error, loginUser } = useSelector(
-    (state: RootState) => state.auth.login
-  );
-  const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
+  const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { error, loginUser } = useAppSelector((state) => state.auth.login);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   if (!loginUser.email) {
     return <PageNotFound />;
   }
@@ -35,8 +32,6 @@ const VerifyLogin = () => {
       dispatch(clearMessage("login"));
     }
   }, [loginUser.message]);
-
-  const [otp, setOtp] = useState("");
 
   const handleChangeOTP = async (value: string) => {
     setOtp(value);
@@ -50,7 +45,7 @@ const VerifyLogin = () => {
         const response = await verifyLoginAPI(body);
         if (response.status === 200) {
           toast.success("Đăng nhập thành công!");
-          setCookie("at", response.data.data);
+          dispatch(addAccessToken(response.data.data));
           setTimeout(() => {
             navigate("/");
           }, 2000);
