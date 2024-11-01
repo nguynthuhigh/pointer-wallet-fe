@@ -1,7 +1,4 @@
 import Home from "./components/home/home";
-import SignIn from "./pages/auth/sign-in";
-import SignUp from "./pages/auth/sign-up";
-import VerifyForm from "./pages/auth/verify-form";
 import UpdateProfile from "./pages/auth/update-profile";
 import { Routes, Route } from "react-router-dom";
 import PageNotFound from "./components/pages/page-not-found";
@@ -23,9 +20,6 @@ function App() {
     <div className="font-sans">
       <Routes>
         <Route path="/" element={<Home></Home>} />
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/verify" element={<VerifyForm />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/transaction-history" element={<TransactionHistory />} />
         <Route path="/update-profile" element={<UpdateProfile />} />

@@ -1,8 +1,9 @@
 import { Outlet, Navigate } from "react-router-dom";
-
-const ProtectRoutes = () => {
-  const logged = localStorage.getItem("logged");
-  return logged ? <Outlet /> : <Navigate to="/auth/login" />;
+import Cookie from "universal-cookie";
+const cookie = new Cookie();
+const ProtectRoutes: React.FC = () => {
+  const token = cookie.get("at");
+  return !token ? <Navigate to="/auth/login" /> : <Outlet />;
 };
 
 export default ProtectRoutes;
