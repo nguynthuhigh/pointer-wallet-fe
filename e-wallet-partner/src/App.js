@@ -13,8 +13,9 @@ import Voucher from "./pages/voucher/voucher";
 import AddVoucher from "./pages/voucher/add-voucher";
 import EditVoucher from "./pages/voucher/edit-voucher";
 import Settings from "./pages/settings";
-import CodePointer from "./pages/auth/code-pointer";
+import Authorize from "./pages/auth/authorize";
 import PaymentGateway from "./pages/payment/payment";
+import SignIn from "./pages/auth/sign-in";
 function App() {
   return (
     <div className="font-sans">
@@ -33,7 +34,9 @@ function App() {
         <Route path="/edit-voucher" element={<EditVoucher />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/download-app" element={<DownloadApp />} />
-        <Route path="/authorize" element={<CodePointer />} />
+        <Route path="/authorize" element={<Authorize />} />
+        <Route path="/sign-in" element={<SignIn />} />
+
         <Route path="*" element={<PageNotFound />} />
         <Route path="/payment-gateway" element={<PaymentGateway />} />
       </Routes>

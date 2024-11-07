@@ -3,7 +3,7 @@ import React from "react";
 import API from "../../api/auth.api";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-const CodePointer = () => {
+const Authorize = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
@@ -21,7 +21,7 @@ const CodePointer = () => {
     return <h1>Oops!, something went wrong</h1>;
   }
   if (isLoading) return <h1>In progress...</h1>;
-  return <div>CodePointer</div>;
+  return <div>Authorize</div>;
 };
 
-export default CodePointer;
+export default Authorize;
