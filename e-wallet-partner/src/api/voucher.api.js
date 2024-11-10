@@ -1,11 +1,21 @@
 import axios from "axios";
 import axiosInstance from "../configs/axios.config";
-export const addVoucher = async(formData)=>{
-    return await axios.post(`${process.env.REACT_APP_API}/api/v1/voucher/add-voucher`, formData, {
-        withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" }
-    }); 
-}
+import Cookies from "universal-cookie";
+const cookie = new Cookies();
+export const addVoucher = async (formData) => {
+  const accessToken = cookie.get("access_token");
+  return await axios.post(
+    `${process.env.REACT_APP_API}/api/v1/voucher/add-voucher`,
+    formData,
+    {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + accessToken,
+      },
+    }
+  );
+};
 export const getVoucher = async(voucherID)=>{
     return await axiosInstance.get(process.env.REACT_APP_API+`/api/v1/voucher/get-voucher-details?voucherID=`+voucherID,{
         withCredentials:true
