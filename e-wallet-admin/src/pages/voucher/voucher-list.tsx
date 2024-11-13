@@ -1,36 +1,19 @@
 import { DateFrom } from "@/components/date/date-from"
-import SideBar from "../../components/sidebar/sidebar"
 import { FilterBox } from "@/components/box/box-filter"
 import { DateTo } from "@/components/date/date-to"
 import { useState } from "react"
 import { SearchBox } from "@/components/box/box-search"
-import { SortBox } from "@/components/box/box-sort"
-import AvatarDefault from '../../assets/png/avatarDefault.png'
-import { GoDotFill } from "react-icons/go";
-
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableFooter,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
-import { IVoucher } from "@/interfaces/voucher"
-import {  } from "react-router-dom"
+import { SortBox } from "@/components/box/box-sort" 
 import { Button } from "@mui/material"
 import { PaginateVoucher } from "@/components/paginate/voucher/paginate-voucher"
 import { HeaderComponent } from "@/components/header/header"
 import {motion} from 'framer-motion'
-type voucherPick = Pick<IVoucher, 'image' | 'code' | 'quantity' | 'usedCount' | 'statusPublic'>
 
 export const VoucherList = () => {
     // const [currentPage,setCurrentPage] = useState<number>(1)
     // const getNumber = (index:number) => { 
     //     return (currentPage - 1) * itemsPerPage + index + 1
     // }
-    const [currentPage, setCurrentPage] = useState<number>(1);
     const [search, setSearch] = useState<string>('');
     const [filter, setFilter] = useState<'all' | 'false' | 'true'>('all');
     const [selectedFromDate, setSelectedFromDate] = useState<Date | null>(null);

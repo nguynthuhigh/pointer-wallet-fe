@@ -1,12 +1,11 @@
 import axiosInstance from "@/api/axiosInstance";
-import SideBar from "@/components/sidebar/sidebar";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom"
 import AvatarDefault from '../../assets/png/avatarDefault.png'
 import AlertDialog from '../../components/box/box-dialog'
 import { DateFrom } from "@/components/date/date-from";
 import { DateTo } from "@/components/date/date-to";
-import { selectStatus, StatusBox } from "@/components/box/box-status";
+import { StatusBox } from "@/components/box/box-status";
 import { selectType, TypeBox } from "@/components/box/box-type";
 import { Button, SelectChangeEvent } from "@mui/material";
 import { SortBox } from "@/components/box/box-sort";
@@ -17,6 +16,7 @@ import { useEffect, useState } from "react";
 import PaginatePartnersDetail from "@/components/paginate/partner/paginate-partner-detail";
 import { IPartnerData } from "@/components/paginate/partner/paginate-partner";
 import { HeaderComponent } from "@/components/header/header";
+import { selectStatus } from "@/interfaces/status-box-item";
 const PartnersDetail = () => {
   const { id } = useParams();
   const [status, setStatus] = useState<'all' | 'completed' | 'fail' | 'pending' | 'refund'>('all');
@@ -66,7 +66,7 @@ const PartnersDetail = () => {
 
 
   //Handle
-  const handleStatus = (e: SelectChangeEvent) => {
+  const handleStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setStatus(e.target.value as 'all' | 'completed' | 'fail' | 'pending' | 'refund')
   }
   const handleType = (e: SelectChangeEvent) => {
