@@ -6,7 +6,6 @@ import {
     Table,
     TableBody,
     TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
@@ -118,7 +117,7 @@ export const PaginatePartners = ({ selectedFromDate, selectedToDate, sort, searc
                     </TableBody>
                 </Table>
             </div>
-            <div>
+            <div id="Paginate" className="border-t pt-4">
                 <PaginateComponents pageCount={data.pageCount} handlePageClick={handlePageClick} />
             </div>
         </>

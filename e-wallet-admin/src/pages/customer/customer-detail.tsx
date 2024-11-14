@@ -2,23 +2,22 @@ import { SiTicktick } from "react-icons/si";
 import { GiCancel } from "react-icons/gi";
 import Paginate from "../../components/paginate/customer/paginate-customer-detail";
 import AvatarDefault from '../../assets/png/avatarDefault.png'
-import  React, { useState } from "react";
-import { Button, SelectChangeEvent } from "@mui/material";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { DateFrom } from "../../components/date/date-from";
 import { DateTo } from "../../components/date/date-to";
 import { StatusBox } from "../../components/box/box-status";
 import { TypeBox } from "../../components/box/box-type";
-import { selectType } from "../../components/box/box-type";
 import { SortBox } from "../../components/box/box-sort";
 import AlertDialog from "../../components/box/box-dialog"
 import axiosInstance from "../../api/axiosInstance";
 import { useEffect } from "react";
 import { IUser } from "@/interfaces/customer";
 import { HeaderComponent } from "@/components/header/header";
-import {motion} from 'framer-motion'
+import { motion } from 'framer-motion'
 import { selectStatus } from "@/interfaces/status-box-item";
+import { selectType } from "@/interfaces/type-box-items";
 
 const DetailListUser = () => {
     const { id } = useParams()
@@ -82,7 +81,7 @@ const DetailListUser = () => {
     }
 
     //Type
-    const handleType = (e: SelectChangeEvent<string>) => {
+    const handleType = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setType(e.target.value as 'all' | 'transfer' | 'deposit' | 'payment' | 'withdraw');
     }
 
@@ -106,15 +105,15 @@ const DetailListUser = () => {
         <>
             <div className="flex-1 h-screen overflow-auto">
                 <HeaderComponent title="Customers Detail" />
-                <main className="max-w-7xl mx-auto py-6 px-4">
-                    <motion.div 
-                        className="bg-gray-800 bg-opacity-70 backdrop-blur-md p-4 border border-gray-700"
-                        initial = {{opacity: 0, y: 20}}
-                        animate = {{opacity: 1, y: 0}}
-                        transition={{duration:1}}
+                <main className="max-w-7xl mx-auto py-6 px-5 space-y-6">
+                    <motion.div
+                        className="bg-gray-800 backdrop-blur-md px-5 py-4 border border-gray-700 rounded-[6px] relative z-20"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
                     >
-                        <motion.div 
-                            whileHover={{y:-5}}
+                        <motion.div
+                            whileHover={{ y: -5 }}
                             className=" px-4 py-4 border-[2px] rounded-[16px] flex justify-between shadow-[0px_15px_40px_rgba(0,0,0,0.5)]">
                             <div id="ViewUser">
                                 <div id="InforUser" className="flex items-center h-full">
@@ -135,30 +134,42 @@ const DetailListUser = () => {
                             </div>
                             <AlertDialog />
                         </motion.div>
-                        <div className="flex justify-between items-center mt-[20px]">
-                            <div id="Title" className="text-3xl font-semibold">Transaction History</div>
-                            <div className="flex items-center space-x-[10px]">
-                                <div id="Status">
-                                    <StatusBox status={status} handleStatus={handleStatus} select={selectStatus} />
-                                </div>
-                                <div id="Type">
-                                    <TypeBox type={type} handleType={handleType} select={selectType} />
-                                </div>
-                                <div id="FromDate" className="relative z-30 ">
-                                    <DateFrom selectedFromDate={selectDateFrom} setSelectedFromDate={setSelectDateFrom} />
-                                </div>
-                                <div id="ToDate" className=" relative z-30">
-                                    <DateTo selectedToDate={selectDateTo} setSelectedToDate={setSelectDateTo} />
-                                </div>
-
-                                <div id="DeleteFilter">
-                                    <Button variant="contained" className=" bg-[#FF1717]" sx={{ height: 40 }} onClick={resetFilter}>Delete </Button>
-                                </div>
-                                <div id="SortBox" className="flex h-[40px]">
-                                    <SortBox sortOrder={sort} handleSortOrder={handleSort} />
+                        <div>
+                            <div className="flex justify-between items-center mt-[20px]">
+                                <div className="flex items-end text-base gap-x-[20px] cursor-pointer justify-center w-full">
+                                    <div id="Status">
+                                        <StatusBox status={status} handleStatus={handleStatus} select={selectStatus} />
+                                    </div>
+                                    <div id="Type">
+                                        <TypeBox type={type} handleType={handleType} select={selectType} />
+                                    </div>
+                                    <div id="FromDate">
+                                        <DateFrom selectedFromDate={selectDateFrom} setSelectedFromDate={setSelectDateFrom} />
+                                    </div>
+                                    <div id="ToDate" >
+                                        <DateTo selectedToDate={selectDateTo} setSelectedToDate={setSelectDateTo} />
+                                    </div>
+                                    <div id="BtnDeleteFilter">
+                                        <button
+                                            className="bg-blue-500 h-[42px] w-[100px] rounded-[6px] font-semibold uppercase text-center"
+                                            onClick={resetFilter}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                    <div id="SortBox" className="flex h-[42px] ml-auto">
+                                        <SortBox sortOrder={sort} handleSortOrder={handleSort} />
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.7 }}
+                        className="bg-gray-800 backdrop-blur-md p-4 border border-gray-700 px-5 py-4 rounded-[6px] relative z-10">
+                        <div id="Title" className="text-3xl font-semibold mb-3 text-blue-500">Transaction History</div>
                         <Paginate
                             currentPage={currentPage}
                             setCurrentPage={setCurrentPage}
@@ -170,7 +181,6 @@ const DetailListUser = () => {
                         />
                     </motion.div>
                 </main>
-
             </div>
         </>
     )

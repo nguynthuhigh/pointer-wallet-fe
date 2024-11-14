@@ -1,11 +1,9 @@
 import axiosInstance from "@/api/axiosInstance"
 import { useQuery } from "@tanstack/react-query"
-import { Search, useParams } from "react-router-dom"
+import {  useParams } from "react-router-dom"
 import {
     Table,
     TableBody,
-    TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
@@ -81,8 +79,7 @@ const PaginatePartnersDetail = ({ currentPage, setCurrentPage, selectedFromDate,
                     </TableBody>
                 </Table>
             </div>
-
-            <div>
+            <div id="Paginate" className="border-t pt-4">
                 <PaginateComponents pageCount={data.pageCount} handlePageClick={handlePageClick} />
             </div>
         </>
