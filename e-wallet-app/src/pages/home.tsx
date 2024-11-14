@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "preact/compat";
+import { Link } from "react-router-dom";
 import CashInIcon from "../assets/svg/cashin.svg";
 import { useDispatch, useSelector } from "react-redux";
 import ButtonFeature from "../components/home/button_feat";
@@ -85,11 +86,13 @@ const Home = () => {
                 )}
               </div>
               <div className="mx-3 h-full my-auto">{renderUserGreeting()}</div>
-              <img
-                className="ml-auto hover:rotate-90 w-6 h-6 cursor-pointer"
-                src={Settings_Icon}
-                alt="Settings"
-              />
+              <Link to={"/setting"} className={"ml-auto block"}>
+                <img
+                  className=" hover:rotate-90 w-6 h-6 cursor-pointer"
+                  src={Settings_Icon}
+                  alt="Settings"
+                />
+              </Link>
             </div>
             <div>
               {isLoading ? (

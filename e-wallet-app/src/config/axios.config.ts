@@ -52,7 +52,7 @@ export const createAxios = () => {
 
             if (response.status === 200) {
               const newAccessToken = response.data.data;
-              await dispatch(addAccessToken(newAccessToken));
+              dispatch(addAccessToken(newAccessToken));
               onRefreshed();
               isRefreshing = false;
 

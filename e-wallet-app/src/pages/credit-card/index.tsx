@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Cards from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
+import { FiTrash2 } from "react-icons/fi";
+import toast, { Toaster } from "react-hot-toast";
 import HeaderDefault from "../../components/header/header_default";
 import {
   getCardList,
@@ -9,10 +11,8 @@ import {
 } from "../../redux/credit-card/cardThunk";
 import { clearMessage } from "../../redux/credit-card/cardSlice";
 import { AppDispatch, RootState } from "../../redux/store";
-import Modal from "./modal";
-import AddCreditCard from "./add-credit-card";
-import { FiTrash2 } from "react-icons/fi";
-import toast, { Toaster } from "react-hot-toast";
+import Modal from "./components/modal";
+import AddCreditCard from "./pages/add-credit-card";
 
 export default function CreditCard() {
   const [isModalOpen, setIsModalOpen] = useState(false);

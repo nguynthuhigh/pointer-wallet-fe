@@ -35,7 +35,7 @@ export const addCreditCard = createAsyncThunk(
     try {
       const res = await addCard(Card);
       if (res.status === 200) {
-        return { card: Card, message: res.data.message };
+        return { card: Card, addCardSuccess: res.data.message };
       } else {
         return rejectWithValue(res.data.message);
       }
@@ -53,7 +53,7 @@ export const deleteCreditCard = createAsyncThunk(
       const res = await deleteCard(_id);
       if (res.status === 200) {
         const message = res.data.message;
-        return { _id, message };
+        return { _id, removeCardSuccess: message };
       } else {
         return rejectWithValue(res.data.message);
       }

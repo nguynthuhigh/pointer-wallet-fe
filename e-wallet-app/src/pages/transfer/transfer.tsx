@@ -6,33 +6,39 @@ import { useEffect, useState } from "react";
 import { Currency, User } from "../../types/transfer";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+
 const Transfer = () => {
   const [step, setStep] = useState("select_currency");
   const [selectCurrency, setSelectCurrency] = useState<Currency>();
   const [userData, setUserData] = useState<User>();
-  const [currency, setCurrency] = useState<Currency>();
+  const [currency, setCurrency] = useState<Currency[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  const wallet = useSelector(
+
+  const wallet: any = useSelector(
     (state: RootState) => state.user.userState.walletData.currencies
   );
-  console.log(wallet)
+
   useEffect(() => {
     setCurrency(wallet);
     setIsLoading(false);
   }, [wallet]);
+
   const handleStepTransfer = (step_change: string) => {
     if (step_change === "home") {
       navigate("/");
     }
     setStep(step_change);
   };
-  const handleUserData = (data: any) => {
+
+  const handleUserData = (data: User) => {
     setUserData(data);
   };
-  const handleCurrencyData = (data: any) => {
+
+  const handleCurrencyData = (data: Currency) => {
     setSelectCurrency(data);
   };
+
   switch (step) {
     case "select_currency":
       return (

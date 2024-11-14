@@ -24,12 +24,22 @@ export default function Deposit({ cardId, currency, balance }: DepositProps) {
     (state: RootState) => state.user.userState.walletData.address
   );
 
-  const MIN_DEPOSIT = 10000;
-  const MAX_DEPOSIT = 10000000;
+  const MIN_DEPOSIT = currency === "USD" ? 10 : 10000;
+  const MAX_DEPOSIT = currency === "USD" ? 1000 : 10000000;
 
   const handleAmountChange = (value: string | undefined) => {
+    if (currency === "VND") {
+      const numericValue = value
+        ? parseFloat(value.replace(/[^0-9.-]+/g, ""))
+        : 0;
+      if (numericValue % 1 !== 0) {
+        toast.error("Số tiền nạp bằng VND phải là số chẵn!");
+        return;
+      }
+    }
     setAmount(value || "");
   };
+
   const selectedCard = cardData.find((card) => card._id === cardId);
 
   const handleCopyAddress = () => {
@@ -46,7 +56,12 @@ export default function Deposit({ cardId, currency, balance }: DepositProps) {
     }
 
     if (numericAmount > MAX_DEPOSIT) {
-      toast.error(`Số tiền nạp tối đa là ${MAX_DEPOSIT.toLocaleString()} !`);
+      toast.error(`Số tiền nạp tối đa là ${MAX_DEPOSIT.toLocaleString()}!`);
+      return;
+    }
+
+    if (currency === "VND" && numericAmount % 100 !== 0) {
+      toast.error("Số tiền nạp phải là số chẵn!");
       return;
     }
 
@@ -68,7 +83,7 @@ export default function Deposit({ cardId, currency, balance }: DepositProps) {
                 type="text"
                 value={walletAddress}
                 readOnly
-                className="border p-2 rounded w-full text-center bg-gray-100 cursor-pointer "
+                className="border p-2 rounded w-full text-center bg-gray-100 cursor-pointer"
                 onClick={handleCopyAddress}
               />
               <button
@@ -119,6 +134,7 @@ export default function Deposit({ cardId, currency, balance }: DepositProps) {
             onValueChange={handleAmountChange}
             className="border p-2 rounded w-full focus:border-blue-500"
             intlConfig={{ locale: "vi-VN", currency: currency || "VND" }}
+            maxLength={10}
           />
         </div>
       )}

@@ -8,7 +8,7 @@ import HeaderDefault from "../../components/header/header_default";
 import { Wallet, wallet } from "../../components/button/wallet";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import Modal from "../credit-card/modal";
+import Modal from "../credit-card/components/modal";
 import Deposit from "./deposit";
 import Withdraw from "./withdraw";
 

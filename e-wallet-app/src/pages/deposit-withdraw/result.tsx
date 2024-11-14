@@ -13,7 +13,11 @@ const Result = () => {
     <div className="p-6 w-full bg-white m-4 rounded-lg border max-w-[600px] shadow-xl mx-auto">
       <div className="flex justify-end">
         <Link to="/">
-          <img className="w-8 h-8" src={ic_home} alt="Home" />
+          <img
+            className="w-8 h-8 transition-transform transform hover:scale-110"
+            src={ic_home}
+            alt="Home"
+          />
         </Link>
       </div>
 
@@ -35,13 +39,13 @@ const Result = () => {
       <div className="mt-6 space-y-4">
         <div className="flex justify-between">
           <Link
-            className="border border-blue-600 text-blue-600 hover:bg-blue-100 transition-all p-2 rounded-lg w-[48%] text-center font-semibold"
+            className="border border-blue-600 text-blue-600 hover:bg-blue-100 transition-all p-2 rounded-lg w-[48%] text-center font-semibold shadow-sm hover:shadow-md"
             to="/"
           >
             Quay về
           </Link>
           <button
-            className="bg-blue-600 text-white hover:bg-blue-700 transition-all p-2 rounded-lg w-[48%] text-center font-semibold"
+            className="bg-blue-600 text-white hover:bg-blue-700 transition-all p-2 rounded-lg w-[48%] text-center font-semibold shadow-sm hover:shadow-md"
             onClick={() => navigate(-1)}
           >
             {type} tiếp
