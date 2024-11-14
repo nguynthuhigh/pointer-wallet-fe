@@ -30,7 +30,7 @@ const Invoice = ({ ...data }) => {
           </div>
           <div className="space-y-[20px] mt-2 relative ">
             <div className="space-y-[20px] max-h-[500px] overflow-auto pb-10 scrollbar-hide ">
-              {data.orders.map((items) => {
+              {data?.orders?.map((items) => {
                 return (
                   <div className="flex border-black pb-3">
                     <img

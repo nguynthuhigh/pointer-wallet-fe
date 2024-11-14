@@ -1,16 +1,15 @@
-
 import Invoice from "../../components/payment-gateway/invoice";
 import Countdown from "react-countdown";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import PageNotFound from "../../components/pages/page-not-found";
-import {QRCode} from 'react-qrcode-logo'
-import logo from '../../assets/images/logo_vnd.png'
+import { QRCode } from "react-qrcode-logo";
+import logo from "../../assets/images/logo_vnd.png";
 const PaymentGateway = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const token = searchParams.get("token");
-  const { data, isLoading,isError } = useQuery({
+  const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["get-token"],
     queryFn: async () => {
       const response = await axios.get(
@@ -19,8 +18,13 @@ const PaymentGateway = () => {
       return response.data;
     },
   });
+  if (isSuccess) {
+    if (data.status === 202) {
+      window.location.replace(data.url);
+    }
+  }
   if (isLoading) return "isLoading...";
-  if (isError) return <PageNotFound/>
+  if (isError) return <PageNotFound />;
   console.log(data);
   return (
     <>
@@ -44,10 +48,10 @@ const PaymentGateway = () => {
           <p className="text-2xl">Quét mã QR để thanh toán</p>
           <div className="flex justify-center">
             <QRCode
-              qrStyle = 'squares'
-              size = {300}
-              logoImage = {logo}
-              logoWidth = {100}
+              qrStyle="squares"
+              size={300}
+              logoImage={logo}
+              logoWidth={100}
               value={`https://wallet.pointer.io.vn/payment?token=${token}`}
             />
           </div>
