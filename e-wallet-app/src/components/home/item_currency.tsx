@@ -8,14 +8,12 @@ export const ItemCurrency = ({ ...props }) => {
         <img src={props.image} className={`w-12 h-12`}></img>
         <div className={`ml-2`}>
           <h1 className={`font-semibold text-xl`}>{props.name}</h1>
-          <h1>đ23,000</h1>
         </div>
       </div>
       <div>
         <h1 className={`w-full font-semibold text-xl text-end`}>
           {formatCurrency(data?.balance, props.symbol)}
         </h1>
-        <h1 class={`text-end`}>đ2,300,000</h1>
       </div>
     </div>
   );

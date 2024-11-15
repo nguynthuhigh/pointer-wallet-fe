@@ -8,7 +8,7 @@ import HeaderDefault from "../../components/header/header_default";
 import { Wallet, wallet } from "../../components/button/wallet";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import Modal from "../credit-card/modal";
+import Modal from "../credit-card/components/modal";
 import Deposit from "./deposit";
 import Withdraw from "./withdraw";
 
@@ -72,7 +72,9 @@ export default function DepositWithdraw() {
   };
 
   const showActionButtons = isSelectedCard && isSelectedCurrency;
-
+  const filterCards = cardData?.cardState?.cards.filter(
+    (card) => card.type === "visa" || card.type === "mastercard"
+  );
   return (
     <div className="p-4 border bg-white sm:m-2 rounded-xl shadow-lg h-fit w-full">
       <HeaderDefault title="Nạp/Rút" />
@@ -135,7 +137,7 @@ export default function DepositWithdraw() {
                   Chọn thẻ tín dụng
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 self-center justify-items-center align-items-center">
-                  {cardData?.cardState?.cards.map((card) => (
+                  {filterCards.map((card) => (
                     <div
                       key={card._id}
                       onClick={() => handleCardSelect(card._id ?? "")}
