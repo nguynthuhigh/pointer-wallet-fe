@@ -1,11 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useState } from "react";
 import {
     Table,
     TableBody,
-    TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
@@ -91,7 +88,7 @@ export const PaginateVoucher = ({sortOrder}:PaginateVoucherProps) => {
                     </TableBody>
                 </Table>
             </div>
-            <div id='Paginate'>
+            <div id='Paginate' className="border-t pt-4">
                 <PaginateComponents pageCount={voucher.pageCount} handlePageClick={handleClickPage} />
             </div>
         </>

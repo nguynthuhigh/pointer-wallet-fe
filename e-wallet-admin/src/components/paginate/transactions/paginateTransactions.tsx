@@ -86,19 +86,19 @@ export const PaginateTransactions = ({
         <Table>
           <TableHeader className="uppercase">
             <TableRow>
-              <TableHead className="text-[#1A3E5F] font-bold">No.</TableHead>
-              <TableHead className="text-[#1A3E5F] font-bold">
+              <TableHead className="text-gray-100 font-bold">No.</TableHead>
+              <TableHead className="text-gray-100 font-bold">
                 Message
               </TableHead>
-              <TableHead className="text-[#1A3E5F] font-bold ">
+              <TableHead className="text-gray-100 font-bold ">
                 Amount
               </TableHead>
-              <TableHead className="text-[#1A3E5F] font-bold">Status</TableHead>
-              <TableHead className="text-[#1A3E5F] font-bold">
+              <TableHead className="text-gray-100 font-bold">Status</TableHead>
+              <TableHead className="text-gray-100 font-bold">
                 Join Date
               </TableHead>
-              <TableHead className="text-[#67727c] font-bold">Type</TableHead>
-              <TableHead className="text-[#1A3E5F] font-bold">Action</TableHead>
+              <TableHead className="text-gray-100 font-bold">Type</TableHead>
+              <TableHead className="text-gray-100 font-bold">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -120,7 +120,7 @@ export const PaginateTransactions = ({
           </TableBody>
         </Table>
       </div>
-      <div id="Paginate">
+      <div id="Paginate" className="border-t pt-4">
         <PaginateComponents
           pageCount={data.pageCount}
           handlePageClick={handleClickPage}

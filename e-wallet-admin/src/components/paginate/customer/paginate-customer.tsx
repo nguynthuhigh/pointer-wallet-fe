@@ -8,7 +8,6 @@ import {
     Table,
     TableBody,
     TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
@@ -81,7 +80,7 @@ export const PaginateUser = ({ currentPage, setCurrentPage, search, inactive, so
                         <TableRow>
                             <TableHead className="text-gray-100 font-bold">No</TableHead>
                             <TableHead className="text-gray-100 font-bold">Photo</TableHead>
-                            <TableHead className="text-gray-100 font-bold ">Name</TableHead>
+                            <TableHead className="text-gray-100 font-bold">Name</TableHead>
                             <TableHead className="text-gray-100 font-bold">Email</TableHead>
                             <TableHead className="text-gray-100 font-bold">Join Date</TableHead>
                             <TableHead className="text-gray-100 font-bold">Status</TableHead>
@@ -110,7 +109,7 @@ export const PaginateUser = ({ currentPage, setCurrentPage, search, inactive, so
                     </TableBody>
                 </Table>
             </div>
-            <div id='Paginate'>
+            <div id='Paginate' className="border-t pt-4">
                 <PaginateComponents pageCount={data.pageCount} handlePageClick={handleClickPage} />
             </div>
         </>
