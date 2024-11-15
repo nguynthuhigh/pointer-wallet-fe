@@ -50,10 +50,6 @@ export default function Withdraw({ cardId, currency, balance }: WithdrawProps) {
       toast.error(`Số tiền rút tối đa là ${MAX_WITHDRAW.toLocaleString()}!`);
       return;
     }
-    if (currency === "VND" && numericAmount % 100 !== 0) {
-      toast.error("Số tiền rút phải là số chẵn!");
-      return;
-    }
 
     if (selectedCard) {
       setDrawerOpen(true);
@@ -98,10 +94,13 @@ export default function Withdraw({ cardId, currency, balance }: WithdrawProps) {
           name="amount"
           placeholder="Nhập số tiền"
           value={amount}
-          decimalsLimit={2}
+          defaultValue={0}
+          decimalsLimit={0}
           onValueChange={handleAmountChange}
           className="border p-2 rounded w-full focus:border-blue-500"
           intlConfig={{ locale: "vi-VN", currency: currency || "VND" }}
+          allowDecimals={false}
+          maxlength={12}
         />
       </div>
 

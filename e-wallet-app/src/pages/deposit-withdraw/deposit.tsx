@@ -60,11 +60,6 @@ export default function Deposit({ cardId, currency, balance }: DepositProps) {
       return;
     }
 
-    if (currency === "VND" && numericAmount % 100 !== 0) {
-      toast.error("Số tiền nạp phải là số chẵn!");
-      return;
-    }
-
     if (currency !== "ETH" && selectedCard) {
       setDrawerOpen(true);
     }
@@ -130,11 +125,13 @@ export default function Deposit({ cardId, currency, balance }: DepositProps) {
             name="amount"
             placeholder="Nhập số tiền"
             value={amount}
-            decimalsLimit={2}
+            defaultValue={0}
+            decimalsLimit={0}
+            allowDecimals={false}
             onValueChange={handleAmountChange}
             className="border p-2 rounded w-full focus:border-blue-500"
             intlConfig={{ locale: "vi-VN", currency: currency || "VND" }}
-            maxLength={10}
+            maxlength={12}
           />
         </div>
       )}
