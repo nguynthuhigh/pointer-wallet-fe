@@ -53,9 +53,7 @@ const InputAmount = ({ ...props }) => {
         )}`
       );
     }
-    if (amount % 100 !== 0) {
-      return setError("Vui lòng nhập số tiền chẵn");
-    } else if (amount > 100000000) {
+    if (amount > 100000000) {
       return setError(
         `Số tiền chuyển tối đa là ${formatCurrency(100000000, "VND")}`
       );
@@ -75,11 +73,13 @@ const InputAmount = ({ ...props }) => {
         <h1 className="font-semibold text-center text-red-500">{error}</h1>
         <CurrencyInput
           prefix={symbolCurrency(props.currencyData.currency)}
+          allowDecimals={false}
           id="input-example"
           name="input-name"
           placeholder={`0 ${props.currencyData.currency}`}
           defaultValue={0}
           decimalsLimit={0}
+          maxlength={12}
           className={`border-0 mt-5 focus:outline-none text-center text-6xl w-full font-semibold bg-white ${
             error && "text-red-500"
           }`}
