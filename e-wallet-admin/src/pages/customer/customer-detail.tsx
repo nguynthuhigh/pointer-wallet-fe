@@ -1,16 +1,14 @@
-import SideBar from "../../components/sidebar/sidebar";
 import { SiTicktick } from "react-icons/si";
 import { GiCancel } from "react-icons/gi";
 import Paginate from "../../components/paginate/customer/paginate-customer-detail";
 import AvatarDefault from '../../assets/png/avatarDefault.png'
-import React, { useState } from "react";
+import  React, { useState } from "react";
 import { Button, SelectChangeEvent } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { DateFrom } from "../../components/date/date-from";
 import { DateTo } from "../../components/date/date-to";
 import { StatusBox } from "../../components/box/box-status";
-import { selectStatus } from "../../components/box/box-status";
 import { TypeBox } from "../../components/box/box-type";
 import { selectType } from "../../components/box/box-type";
 import { SortBox } from "../../components/box/box-sort";
@@ -20,6 +18,8 @@ import { useEffect } from "react";
 import { IUser } from "@/interfaces/customer";
 import { HeaderComponent } from "@/components/header/header";
 import {motion} from 'framer-motion'
+import { selectStatus } from "@/interfaces/status-box-item";
+
 const DetailListUser = () => {
     const { id } = useParams()
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -77,7 +77,7 @@ const DetailListUser = () => {
         setSort(sort === 'asc' ? 'desc' : 'asc')
     }
     //Status
-    const handleStatus = (e: SelectChangeEvent<string>) => {
+    const handleStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setStatus(e.target.value as 'all' | 'completed' | 'fail' | 'pending' | 'refund');
     }
 

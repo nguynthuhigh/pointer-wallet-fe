@@ -8,6 +8,7 @@ import {
   Handshake,
   TicketPercent,
   DollarSign,
+  Settings,
 } from "lucide-react";
 import LogoPressPay from "../../assets/png/Logo.png";
 import LogoP from "../../assets/png/LogoP.png";
@@ -44,6 +45,12 @@ export const SideBar = () => {
       color: "#10b981",
       path: "/transaction-list",
     },
+    {
+      name: 'Setting',
+      icon: Settings,
+      color: '#000000',
+      path:'/setting'
+    }
   ];
   const location = useLocation();
   const [isSideBarOpen, setIsSideBarOpen] = useState(true);
