@@ -45,7 +45,7 @@ export const PaginatePartners = ({ selectedFromDate, selectedToDate, sort, searc
 
     const itemsPerPage = 10;
     const { data, isLoading, isError } = useQuery({
-        queryKey: ['Partners', currentPage, sort, inactive, selectedFromDate, selectedToDate],
+        queryKey: ['Partners', currentPage, sort, inactive, selectedFromDate, selectedToDate,search],
         queryFn: async () => {
             const response = await axiosInstance.get(`/api/v1/partner-management/get-partners`, {
                 params: {
@@ -55,9 +55,7 @@ export const PaginatePartners = ({ selectedFromDate, selectedToDate, sort, searc
                     start: selectedFromDate?.toISOString(),
                     end: selectedToDate?.toISOString(),
                     sort: sort,
-                    search:search
-
-                    
+                    search:search 
                 }
             })
             return response.data.data;

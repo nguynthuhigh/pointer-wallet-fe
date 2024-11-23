@@ -9,26 +9,28 @@ import { useQuery } from "@tanstack/react-query";
 export default function WebHook() {
   const navigate = useNavigate();
   const [webhook, setWebhook] = useState(null);
-  const { data, isLoading } = useQuery({
-    queryKey: ["dashboard"],
-    queryFn: async () => {
-      const response = await partnerAPI.getProfilePartner();
-      setWebhook(response.data.data.partner.webhook);
-      if (response.data.data.partner?.name === undefined) {
-        navigate("/update-profile");
-      }
-      return response.data.data;
-    },
-  });
+  const data = 1;
+  const isLoading = false
+  // const { data, isLoading } = useQuery({
+  //   queryKey: ["dashboard"],
+  //   queryFn: async () => {
+  //     const response = await partnerAPI.getProfilePartner();
+  //     setWebhook(response.data.data.partner.webhook);
+  //     if (response.data.data.partner?.name === undefined) {
+  //       navigate("/update-profile");
+  //     }
+  //     return response.data.data;
+  //   },
+  // });
+  
   return (
     <div className="flex ">
       <div className="w-[30%]">
         <SideBar state="Developer"></SideBar>
       </div>
-      <div className="w-full p-4">
-        <HeaderDashboard title="Webhook"></HeaderDashboard>
-        <h1>secret key: {data?.partner?.privateKey}</h1>
-
+      <div className="w-full p-4 space-y-2">
+        <HeaderDashboard title="Webhook"/>
+        <p className="text-black text-lg font-medium ">Secret key: {data?.partner?.privateKey}</p>
         {isLoading ? (
           "..loading"
         ) : webhook ? (
@@ -36,6 +38,7 @@ export default function WebHook() {
         ) : (
           <AddWebHook></AddWebHook>
         )}
+        
       </div>
       <div className="w-[35%]"></div>
     </div>

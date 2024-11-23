@@ -6,28 +6,42 @@ export const TransactionChart = () => {
 
     const data = [
         {
-            name: "Mon", transaction: 30
+            name: "6d ago", transaction: 30
         },
         {
-            name: "Tues", transaction: 40
+            name: "5d ago", transaction: 40
         },
         {
-            name: "Wed", transaction: 10
+            name: "4d ago", transaction: 10
         },
         {
-            name: "Thur", transaction: 12
+            name: "3d ago", transaction: 12
         },
         {
-            name: "Fri", transaction: 19
+            name: "2d ago", transaction: 19
         },
         {
-            name: "Sat", transaction: 26
+            name: "1d ago", transaction: 26
         },
         {
-            name: "Sun", transaction: 7
+            name: "today", transaction: 7
         }
     ];
-
+    const data1 = [
+        {
+            name: "3 weeks ago", transaction: 30
+        },
+        {
+            name: "2 weeks ago", transaction: 40
+        },
+        {
+            name: "1 week ago", transaction: 10
+        },
+        {
+            name: "this month", transaction: 10
+        },
+       
+    ];
     return (
         <>
             <motion.div
@@ -36,13 +50,13 @@ export const TransactionChart = () => {
                 transition={{ delay: 0.2 }}
                 className='bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-[6px] p-6 border border-gray-700 '
             >
-                <div className='flex justify-between items-center'>
+                <div className='flex flex-col mb-3'>
                     <p  
                         className='text-2xl font-medium mb-4 text-gray-100'
                     >
                         Transaction Overview
                     </p>
-                    <div className='flex justify-center items-center space-x-[8px] px-2 rounded-[6px]'>
+                    <div className=' space-x-[8px] px-2 rounded-[6px]'>
                         <button
                             onClick={() => setIsClick('week')}
                             className={`px-4 py-2 rounded-[6px] font-medium ${isClick === 'week' ? 'bg-blue-500 text-white' : ''}`}
@@ -59,7 +73,7 @@ export const TransactionChart = () => {
                 </div>
                 <div className='h-80'>
                     <ResponsiveContainer width={"100%"} height={"100%"}>
-                        <LineChart data={data}>
+                        <LineChart data={isClick === 'week' ? data : data1}>
                             <CartesianGrid strokeDasharray='3 3' stroke='#4B5563' />
                             <XAxis dataKey={"name"} stroke='#9CA3AF' />
                             <YAxis stroke='#9CA3AF' />
@@ -82,7 +96,6 @@ export const TransactionChart = () => {
                         </LineChart>
                     </ResponsiveContainer>
                 </div>
-
             </motion.div>
         </>
     )

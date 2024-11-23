@@ -4,7 +4,7 @@ export const AreaCard = ({name,icon:Icon,value,color} : {name:string,icon:any,va
   return (
     <>
         <motion.div
-          className='bg-gray-800 bg-opacity-70 backdrop-filter backdrop-blur-md overflow-hidden shadow-lg rounded-xl border border-gray-700'
+          className='bg-gray-800 bg-opacity-70 backdrop-filter backdrop-blur-md overflow-hidden shadow-lg rounded-[6px] border border-gray-700'
           whileHover={{y: -5, boxShadow: '0 15px 50px -12px rgba(0,0,0,0.5)'}}
         >
             <div className='px-4 py-5 sm:p-6'>

@@ -1,4 +1,4 @@
-export const HeaderComponent = ({title} : {title:string}) => {
+export const HeaderComponent = ({ title }: { title: string }) => {
     return (
         <>
             <header className="bg-gray-800 bg-opacity-70 backdrop-blur-md  border-b shadow-sm border-gray-700">
@@ -6,7 +6,7 @@ export const HeaderComponent = ({title} : {title:string}) => {
                     <p className="text-3xl font-semibold text-gray-100">{title}</p>
                 </div>
             </header>
-        
+
         </>
     )
 }

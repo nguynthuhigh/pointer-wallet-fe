@@ -13,6 +13,7 @@ import { TransactionDetail } from "./pages/transaction/transaction-detail"
 import { LandingPage } from "./pages/landing-page"
 import { SideBar } from "./components/sidebar/sidebar"
 import { Setting } from "./pages/setting"
+import {Toaster} from 'react-hot-toast'
 function App() {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -62,6 +63,7 @@ function App() {
 
             <Route path="/setting" element= {<Setting/>}/>
           </Routes>
+          <Toaster />
         </BrowserRouter>
       </QueryClientProvider>
     </div>

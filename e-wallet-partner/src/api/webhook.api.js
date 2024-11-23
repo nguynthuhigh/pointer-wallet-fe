@@ -14,6 +14,7 @@ export const deleteWebhook = async () => {
     process.env.REACT_APP_API + "/api/v1/webhook/delete-endpoint"
   );
 };
+
 const exportObject = {
   addWebhook,
   deleteWebhook,

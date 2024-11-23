@@ -87,16 +87,10 @@ export const PaginateTransactions = ({
           <TableHeader className="uppercase">
             <TableRow>
               <TableHead className="text-gray-100 font-bold">No.</TableHead>
-              <TableHead className="text-gray-100 font-bold">
-                Message
-              </TableHead>
-              <TableHead className="text-gray-100 font-bold ">
-                Amount
-              </TableHead>
+              <TableHead className="text-gray-100 font-bold">Message</TableHead>
+              <TableHead className="text-gray-100 font-bold ">Amount</TableHead>
               <TableHead className="text-gray-100 font-bold">Status</TableHead>
-              <TableHead className="text-gray-100 font-bold">
-                Join Date
-              </TableHead>
+              <TableHead className="text-gray-100 font-bold">Join Date</TableHead>
               <TableHead className="text-gray-100 font-bold">Type</TableHead>
               <TableHead className="text-gray-100 font-bold">Action</TableHead>
             </TableRow>

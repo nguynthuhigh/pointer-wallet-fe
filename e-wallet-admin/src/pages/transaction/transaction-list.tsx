@@ -11,6 +11,8 @@ import { HeaderComponent } from "@/components/header/header";
 import { selectStatus } from "@/interfaces/status-box-item";
 import { selectType } from "@/interfaces/type-box-items";
 import { motion } from 'framer-motion'
+import { AreaCard } from "@/components/chart/area-card";
+import { Activity, DollarSign, TrendingUp } from "lucide-react";
 export const TransactionsList = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedFromDate, setSelectedFromDate] = useState<Date | null>(null);
@@ -52,10 +54,41 @@ export const TransactionsList = () => {
         <HeaderComponent title="Transactions Management" />
         <main className="max-w-7xl mx-auto px-4 py-6 space-y-6">
           <motion.div
+            className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4'
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md px-5 py-1 rounded-[6px]"
+            transition={{ duration: 0.5,delay:0.2 }}
+          >
+            <AreaCard
+              name='Total Transactions'
+              icon={DollarSign}
+              value='300'
+              color='#3b82f6'
+            />
+            <AreaCard
+              name='New Transactions Today'
+              icon={DollarSign}
+              value='3'
+              color='#10b981'
+            />
+            <AreaCard
+              name='Total Revenues'
+              icon={TrendingUp}
+              value='38'
+              color='#f59e0b'
+            />
+            <AreaCard
+              name='Transaction Success Rate'
+              icon={Activity}
+              value='90%'
+              color='#ec4899'
+            />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.5 }}
+            className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md px-5 py-1 rounded-[6px] relative z-20"
           >
             <div className="flex items-center justify-between pb-[10px]">
               <div className="flex items-end text-base py-[10px] gap-x-[20px] cursor-pointer w-full">
@@ -69,7 +102,7 @@ export const TransactionsList = () => {
                 <div id="Type">
                   <TypeBox
                     type={type}
-                    handleType={() => handleType}
+                    handleType={handleType}
                     select={selectType}
                   />
                 </div>
@@ -104,8 +137,8 @@ export const TransactionsList = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.5 }}
-            className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md px-5 py-4 rounded-[6px]"
+            transition={{ delay: 1.2, duration: 0.5 }}
+            className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md px-5 py-4 rounded-[6px] relative z-10"
           >
             <PaginateTransactions
               currentPage={currentPage}
