@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { LoadingButtonWebhook } from "../auth/loading";
 import { addWebhook, deleteWebhook, getWebHook } from "../../api/webhook.api";
-import { Check, CircleAlert, OctagonX, Trash2 } from 'lucide-react'
+import { Check, CircleAlert, OctagonX, Trash2,LoaderCircle } from 'lucide-react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Modal } from 'antd';
-import toast, {Toaster} from "react-hot-toast";
+import toast from "react-hot-toast";
 export default function AddWebHook() {
   const [isEvent, setIsEvent] = useState('payment.succeeded')
   const [open, setOpen] = useState(false);
@@ -12,8 +11,7 @@ export default function AddWebHook() {
   const [modalText, setModalText] = useState('Confirm delete ?');
   const [isInput, setIsInput] = useState('')
   const queryClient = useQueryClient();
-
-
+  const [loadingBtn,setLoadingBtn] = useState(false);
   const showModal = () => {
     setOpen(true);
   };
@@ -26,6 +24,7 @@ export default function AddWebHook() {
       setConfirmLoading(false);
     }, 2000);
     mutationDelete.mutate(id)
+    toast.success('Delete successful')
   };
 
   const handleCancel = () => {
@@ -40,16 +39,20 @@ export default function AddWebHook() {
     setIsEvent(e.target.value);
   }
 
-  const notifySuccess = () => toast('Add endpoint successful')
-  const notifyFail = () => toast('Add endpoint fail')
-  const notify = () => toast('Invalid endpoint')
+  const notifySuccess = () => toast.success('Add endpoint successful')
+  const notifyFail = () => toast.error('Add endpoint fail')
+  const notify = () => toast.error('Invalid endpoint')
 
   const handleSubmit = () => {
     if (!isInput) {
       notify();
     }
     else {
-      mutationAdd.mutate();
+      setLoadingBtn(true);
+      setTimeout(() => {
+        mutationAdd.mutate();
+        setLoadingBtn(false);
+      },2000)
     }
   }
 
@@ -69,7 +72,7 @@ export default function AddWebHook() {
     }
   })
 
-  const { data, Loading, isError } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ['get-endpoint'],
     queryFn: () => getWebHook()
   })
@@ -83,7 +86,7 @@ export default function AddWebHook() {
   })
 
   console.log(data)
-  if (Loading) return 'Loading...'
+  if (isLoading) return 'Loading...'
   if (isError) return 'Fetching data error'
   return (
     <>
@@ -123,16 +126,23 @@ export default function AddWebHook() {
                 >
                   Refund
                 </option>
+                <option
+                  value='wallet.connect'
+                >
+                  Wallet Connect
+                </option>
               </select>
             </div>
             <div 
               onClick={handleSubmit}
-              className="mx-auto w-fit bg-blue-500 text-white px-5 py-2 rounded-[6px] cursor-pointer hover:bg-blue-400 active:opacity-70 ">
-              Register
+              className="mx-auto w-[100px] bg-blue-500 text-white px-5 py-2 rounded-[6px] cursor-pointer hover:bg-blue-400 active:opacity-70 ">
+               {
+                loadingBtn ? <LoaderCircle className='size-6 mx-auto animate-spin w-full '/> : 'Register'
+               }
             </div>
           </div>
         </div>
-        <div className='border-[1px] rounded-[6px] py-3 px-6 bg-gray-50 shadow-sm border-gray-300'>
+        <div className='border-[1px] rounded-[6px] py-4 px-6 bg-gray-50 shadow-sm border-gray-300'>
           <p className='font-medium text-blue-500 text-xl py-3 '>Table List</p>
           <table className='table-auto w-full'>
             <thead>
