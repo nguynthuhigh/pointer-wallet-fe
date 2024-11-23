@@ -9,19 +9,19 @@ import { useQuery } from "@tanstack/react-query";
 export default function WebHook() {
   const navigate = useNavigate();
   const [webhook, setWebhook] = useState(null);
-  const data = 1;
-  const isLoading = false
-  // const { data, isLoading } = useQuery({
-  //   queryKey: ["dashboard"],
-  //   queryFn: async () => {
-  //     const response = await partnerAPI.getProfilePartner();
-  //     setWebhook(response.data.data.partner.webhook);
-  //     if (response.data.data.partner?.name === undefined) {
-  //       navigate("/update-profile");
-  //     }
-  //     return response.data.data;
-  //   },
-  // });
+ 
+  
+  const { data, isLoading } = useQuery({
+    queryKey: ["dashboard"],
+    queryFn: async () => {
+      const response = await partnerAPI.getProfilePartner();
+      setWebhook(response.data.data.partner.webhook);
+      if (response.data.data.partner?.name === undefined) {
+        navigate("/update-profile");
+      }
+      return response.data.data;
+    },
+  });
   
   return (
     <div className="flex ">

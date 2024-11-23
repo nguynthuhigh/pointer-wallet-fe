@@ -16,6 +16,8 @@ import Settings from "./pages/settings";
 import Authorize from "./pages/auth/authorize";
 import PaymentGateway from "./pages/payment/payment";
 import SignIn from "./pages/auth/sign-in";
+import { Toaster } from 'react-hot-toast'
+
 function App() {
   return (
     <div className="font-sans">
@@ -38,8 +40,11 @@ function App() {
 
         <Route path="*" element={<PageNotFound />} />
         <Route path="/payment-gateway" element={<PaymentGateway />} />
+        
       </Routes>
+      <Toaster/>
     </div>
+
   );
 }
 
