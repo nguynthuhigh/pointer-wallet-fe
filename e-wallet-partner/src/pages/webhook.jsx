@@ -9,8 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 export default function WebHook() {
   const navigate = useNavigate();
   const [webhook, setWebhook] = useState(null);
- 
-  
+
   const { data, isLoading } = useQuery({
     queryKey: ["dashboard"],
     queryFn: async () => {
@@ -34,7 +33,7 @@ export default function WebHook() {
         {isLoading ? (
           "..loading"
         ) : webhook ? (
-          <ViewWebHook webhook={webhook}></ViewWebHook>
+          <AddWebHook></AddWebHook>
         ) : (
           <AddWebHook></AddWebHook>
         )}
