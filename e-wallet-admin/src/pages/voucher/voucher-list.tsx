@@ -80,6 +80,7 @@ export const VoucherList = () => {
                     >
                         <PaginateVoucher
                             sortOrder={sortOrder}
+                            search= {search}
                         />
                     </motion.div>
 

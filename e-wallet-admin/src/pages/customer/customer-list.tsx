@@ -7,6 +7,9 @@ import { PaginateUser } from '@/components/paginate/customer/paginate-customer';
 import { HeaderComponent } from '@/components/header/header';
 import { motion } from 'framer-motion'
 import { DateTo } from '@/components/date/date-to';
+import { AreaCard } from '@/components/chart/area-card';
+import { User, UserPlus, UserRoundCheck, UserRoundX } from 'lucide-react';
+import { CustomerChartGrow } from '@/components/chart/customer-chart';
 export default function ListUser() {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [search, setSearch] = useState<string>('');
@@ -22,11 +25,10 @@ export default function ListUser() {
     const handleSortOrder = () => {
         setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
     };
-
-    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearch(e.target.value);
-    };
-
+    
+    const handleSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(e.target.value)
+    }
     useEffect(() => {
         const storedSearch = localStorage.getItem('search') || '';
         const storedFilter = localStorage.getItem('filter') || 'all';
@@ -69,10 +71,41 @@ export default function ListUser() {
             <HeaderComponent title='Customers Management' />
             <main className='max-w-7xl mx-auto py-6 px-4 space-y-6'>
                 <motion.div
+                    className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4'
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.5 }}
-                    className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md px-5 py-1 rounded-[6px] relative z-20"
+                    transition={{ duration: 0.5,delay:0.2 }}
+                >
+                    <AreaCard
+                        name='Total Customers'
+                        icon={User}
+                        value='300'
+                        color='#3b82f6'
+                    />
+                    <AreaCard
+                        name='New Customers today'
+                        icon={UserPlus}
+                        value='10'
+                        color='#10b981'
+                    />
+                    <AreaCard
+                        name='Active Customers'
+                        icon={UserRoundCheck}
+                        value='295'
+                        color='#f59e0b'
+                    />
+                    <AreaCard
+                        name='Inactive Customers'
+                        icon={UserRoundX}
+                        value='5'
+                        color='#ec4899'
+                    />
+                </motion.div>
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.7, duration: 0.5 }}
+                    className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md border border-gray-700 px-5 py-1 rounded-[6px] relative z-20"
                 >
                     <div>
                         <div className="flex items-center justify-between pb-[10px] ">
@@ -104,8 +137,8 @@ export default function ListUser() {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.7, duration: 0.5 }}
-                    className='bg-gray-800 px-5 py-4 rounded-[6px] relative z-10'>
+                    transition={{ delay: 1.2, duration: 0.5 }}
+                    className='bg-gray-800 px-5 py-4 rounded-[6px] border border-gray-700 relative z-10'>
                     <PaginateUser
                         inactive={filter}
                         currentPage={currentPage}
@@ -116,6 +149,9 @@ export default function ListUser() {
                         sortOrder={sortOrder}
                     />
                 </motion.div>
+                <div>
+                    <CustomerChartGrow/>
+                </div>
             </main>
         </div>
     );

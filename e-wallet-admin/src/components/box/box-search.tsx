@@ -1,9 +1,8 @@
-import React from "react";
 import { FaSearch } from "react-icons/fa";
 
 type SearchProps = {
     search: string;
-    handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void
+    handleSearch: (e:React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export const SearchBox = ({search,handleSearch}:SearchProps) => {    

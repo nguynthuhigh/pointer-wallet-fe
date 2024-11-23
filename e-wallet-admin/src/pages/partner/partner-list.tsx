@@ -7,6 +7,8 @@ import { SortBox } from "../../components/box/box-sort"
 import { PaginatePartners } from "@/components/paginate/partner/paginate-partner"
 import { HeaderComponent } from "@/components/header/header"
 import { motion } from 'framer-motion'
+import { AreaCard } from "@/components/chart/area-card"
+import { User, UserPlus, UserRoundCheck, UserRoundX } from "lucide-react"
 const Partners = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [filter, setFilter] = useState<'all' | 'false' | 'true'>('all')
@@ -38,10 +40,41 @@ const Partners = () => {
                 <HeaderComponent title="Partners Management" />
                 <main className="max-w-7xl mx-auto px-4 py-6 space-y-6">
                     <motion.div
+                        className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4'
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5,delay:0.2 }}
+                    >
+                        <AreaCard
+                            name='Total Partners'
+                            icon={User}
+                            value='38'
+                            color='#3b82f6'
+                        />
+                        <AreaCard
+                            name='New Partners today'
+                            icon={UserPlus}
+                            value='3'
+                            color='#10b981'
+                        />
+                        <AreaCard
+                            name='Active Partners'
+                            icon={UserRoundCheck}
+                            value='38'
+                            color='#f59e0b'
+                        />
+                        <AreaCard
+                            name='Inactive Partners'
+                            icon={UserRoundX}
+                            value='0'
+                            color='#ec4899'
+                        />
+                    </motion.div>
+                    <motion.div
                         className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md border border-gray-700 px-5 py-1 rounded-[6px] relative z-20"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
+                        transition={{ duration: 0.5, delay: 0.7 }}
                     >
                         <div className="flex items-center justify-between pb-[10px]">
                             <div className="flex items-end text-base gap-x-[20px] py-[10px] cursor-pointer w-full">
@@ -73,7 +106,7 @@ const Partners = () => {
                         className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md border border-gray-700 px-5 py-4 rounded-[6px] relative z-10"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.7 }}
+                        transition={{ duration: 0.5, delay: 1.2 }}
 
                     >
                         <PaginatePartners

@@ -36,7 +36,7 @@ export const PaginateUser = ({ currentPage, setCurrentPage, search, inactive, so
                     page: currentPage,
                     page_limit: itemsPerPage,
                     inactive: inactive,
-                    search,
+                    search: search,
                     sort: sortOrder,
                     start: selectedFromDate?.toISOString(),
                     end: selectedToDate?.toISOString(),
@@ -45,8 +45,6 @@ export const PaginateUser = ({ currentPage, setCurrentPage, search, inactive, so
             )
             return response.data.data
         },
-
-
     });
 
     console.log(data)
