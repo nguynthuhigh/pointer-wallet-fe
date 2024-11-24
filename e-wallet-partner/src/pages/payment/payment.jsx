@@ -13,7 +13,10 @@ const PaymentGateway = () => {
     queryKey: ["get-token"],
     queryFn: async () => {
       const response = await axios.get(
-        `https://api.pointer.io.vn/api/payment/get-order/${token}`
+        `https://api.pointer.io.vn/api/payment/get-order/${token}`,
+        {
+          withCredentials: false,
+        }
       );
       return response.data;
     },
@@ -25,7 +28,6 @@ const PaymentGateway = () => {
   }
   if (isLoading) return "isLoading...";
   if (isError) return <PageNotFound />;
-  console.log(data);
   return (
     <>
       <div className="max-w-[1000px] mx-auto grid grid-cols-1 lg:grid-cols-2 h-screen gap-x-[30px] p-4 md:mt-[40px]">
