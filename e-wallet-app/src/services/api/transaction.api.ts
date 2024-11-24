@@ -1,6 +1,6 @@
 import { createAxios } from "../../config/axios.config";
-const axiosInstance = createAxios();
 export const getTransactionPaginate = async (page: number, limit: number) => {
+  const axiosInstance = createAxios();
   return await axiosInstance.get(
     `/api/v1/transaction/get/transactions?page=${page}&page_limit=${limit}`,
     {
@@ -9,7 +9,8 @@ export const getTransactionPaginate = async (page: number, limit: number) => {
   );
 };
 
-export const getTransactionDetails = async (id:string) => {
+export const getTransactionDetails = async (id: string) => {
+  const axiosInstance = createAxios();
   return await axiosInstance.get(
     `/api/v1/transaction/get/transaction/details/${id}`,
     {
@@ -17,4 +18,3 @@ export const getTransactionDetails = async (id:string) => {
     }
   );
 };
-

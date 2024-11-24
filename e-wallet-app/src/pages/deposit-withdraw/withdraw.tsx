@@ -22,13 +22,23 @@ export default function Withdraw({ cardId, currency, balance }: WithdrawProps) {
   );
 
   const handleAmountChange = (value: string | undefined) => {
+    if (currency === "VND") {
+      const numericValue = value
+        ? parseFloat(value.replace(/[^0-9.-]+/g, ""))
+        : 0;
+      if (numericValue % 1 !== 0) {
+        toast.error("Số tiền rút bằng VND phải là số chẵn!");
+        return;
+      }
+    }
     setAmount(value || "");
   };
-  const selectedCard = cardData.find((card) => card._id === cardId);
 
-  const MIN_WITHDRAW = 10000;
-  const MAX_WITHDRAW = 10000000;
-  const handleConfirmDeposit = () => {
+  const selectedCard = cardData.find((card) => card._id === cardId);
+  const MIN_WITHDRAW = currency === "USD" ? 10 : 10000;
+  const MAX_WITHDRAW = currency === "USD" ? 1000 : 10000000;
+
+  const handleConfirmWithdraw = () => {
     const numericAmount = parseFloat(amount.replace(/[^0-9.-]+/g, ""));
 
     if (numericAmount < MIN_WITHDRAW) {
@@ -37,11 +47,14 @@ export default function Withdraw({ cardId, currency, balance }: WithdrawProps) {
     }
 
     if (numericAmount > MAX_WITHDRAW) {
-      toast.error(`Số tiền rút tối đa là ${MAX_WITHDRAW.toLocaleString()} !`);
+      toast.error(`Số tiền rút tối đa là ${MAX_WITHDRAW.toLocaleString()}!`);
       return;
     }
+
     if (selectedCard) {
       setDrawerOpen(true);
+    } else {
+      toast.error("Không tìm thấy thẻ!");
     }
   };
 
@@ -60,7 +73,7 @@ export default function Withdraw({ cardId, currency, balance }: WithdrawProps) {
             />
           </div>
         ) : (
-          toast.error("Không tìm thấy thẻ!")
+          <div className="text-red-500 text-center">Không tìm thấy thẻ!</div>
         )}
 
         <div className="mb-4">
@@ -81,10 +94,13 @@ export default function Withdraw({ cardId, currency, balance }: WithdrawProps) {
           name="amount"
           placeholder="Nhập số tiền"
           value={amount}
-          decimalsLimit={2}
+          defaultValue={0}
+          decimalsLimit={0}
           onValueChange={handleAmountChange}
           className="border p-2 rounded w-full focus:border-blue-500"
           intlConfig={{ locale: "vi-VN", currency: currency || "VND" }}
+          allowDecimals={false}
+          maxlength={12}
         />
       </div>
 
@@ -92,7 +108,7 @@ export default function Withdraw({ cardId, currency, balance }: WithdrawProps) {
         <button
           className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg disabled:opacity-50"
           disabled={!amount}
-          onClick={handleConfirmDeposit}
+          onClick={handleConfirmWithdraw}
         >
           Xác nhận rút tiền
         </button>

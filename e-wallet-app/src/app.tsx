@@ -22,7 +22,7 @@ import TransferResults from "./pages/transfer/transfer_results";
 import ProtectRoutes from "./utils/protect_routes";
 import DepositWithdraw from "./pages/deposit-withdraw";
 import PaymentResults from "./pages/payment/payment_results";
-import AddCreditCard from "./pages/credit-card/add-credit-card";
+import AddCreditCard from "./pages/credit-card/pages/add-credit-card";
 import CreditCard from "./pages/credit-card";
 import Setting from "./pages/setting";
 import SideBar from "./components/sidebar/sidebar";

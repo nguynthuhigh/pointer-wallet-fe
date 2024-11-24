@@ -1,6 +1,5 @@
 import axios from "axios";
 import { createAxios } from "../../config/axios.config";
-const axiosInstance = createAxios();
 import { ApplyVoucher } from "../../types/payment";
 
 export const paymentAPI = async (token: unknown) => {
@@ -11,6 +10,7 @@ export const paymentAPI = async (token: unknown) => {
 };
 
 export const confirmPaymentAPI = async (body: unknown) => {
+  const axiosInstance = createAxios();
   return await axiosInstance.post(`/api/v1/confirm-payment`, body, {
     withCredentials: true,
   });
@@ -24,6 +24,7 @@ export const getVouchersPartner = async (id: string) => {
 };
 
 export const applyVoucher = async (body: ApplyVoucher) => {
+  const axiosInstance = createAxios();
   return await axiosInstance.post(`/api/v1/apply-voucher`, body, {
     withCredentials: true,
   });

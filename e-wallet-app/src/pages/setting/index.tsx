@@ -2,7 +2,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import Profile from "../../components/setting/profile_tab";
 import Security from "../../components/setting/security_tab";
 import { useQuery } from "@tanstack/react-query";
-import { getProfileAPI } from "../../services/api/user.api";
+import { getProfileAPI } from "../../services/api/auth.api";
 export default function Setting() {
   const { data, isLoading } = useQuery({
     queryKey: ["userProfile"],

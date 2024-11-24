@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
-import 'react-datepicker/dist/react-datepicker.css';
-import { Button } from '@mui/material';
 import { SearchBox } from '../../components/box/box-search'
 import { SortBox } from '../../components/box/box-sort'
 import { FilterBox } from '../../components/box/box-filter';
 import { DateFrom } from '../../components/date/date-from';
-import { DateTo } from '../../components/date/date-to';
 import { PaginateUser } from '@/components/paginate/customer/paginate-customer';
 import { HeaderComponent } from '@/components/header/header';
-import {motion} from 'framer-motion'
+import { motion } from 'framer-motion'
+import { DateTo } from '@/components/date/date-to';
+import { AreaCard } from '@/components/chart/area-card';
+import { User, UserPlus, UserRoundCheck, UserRoundX } from 'lucide-react';
+import { CustomerChartGrow } from '@/components/chart/customer-chart';
 export default function ListUser() {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [search, setSearch] = useState<string>('');
@@ -24,11 +25,10 @@ export default function ListUser() {
     const handleSortOrder = () => {
         setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
     };
-
-    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearch(e.target.value);
-    };
-
+    
+    const handleSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(e.target.value)
+    }
     useEffect(() => {
         const storedSearch = localStorage.getItem('search') || '';
         const storedFilter = localStorage.getItem('filter') || 'all';
@@ -67,39 +67,78 @@ export default function ListUser() {
     };
 
     return (
-        <div className='flex-1 mx-auto z-10 h-screen overflow-auto'>
+        <div className='flex-1 mx-auto h-screen overflow-auto'>
             <HeaderComponent title='Customers Management' />
-            <main className='max-w-7xl mx-auto py-6 px-4'>
-                <motion.div 
-                    className='bg-gray-800 bg-opacity-70 backdrop-blur-md p-4 border border-gray-700'
-                    initial = {{opacity: 0, y: 20}}
-                    animate = {{opacity: 1, y: 0}}
-                    transition={{duration:1}}  
+            <main className='max-w-7xl mx-auto py-6 px-4 space-y-6'>
+                <motion.div
+                    className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4'
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5,delay:0.2 }}
                 >
-                    <div className="flex items-center justify-between pb-[10px]">
-                        <div className="flex items-center text-base py-[10px] gap-x-[10px] cursor-pointer">
-                            <div id='FilterBox' className="relative flex justify-center text-black">
-                                <FilterBox filter={filter} handleFilterChange={handleFilterChange} />
-                            </div>
-                            <div className="relative z-30">
+                    <AreaCard
+                        name='Total Customers'
+                        icon={User}
+                        value='300'
+                        color='#3b82f6'
+                    />
+                    <AreaCard
+                        name='New Customers today'
+                        icon={UserPlus}
+                        value='10'
+                        color='#10b981'
+                    />
+                    <AreaCard
+                        name='Active Customers'
+                        icon={UserRoundCheck}
+                        value='295'
+                        color='#f59e0b'
+                    />
+                    <AreaCard
+                        name='Inactive Customers'
+                        icon={UserRoundX}
+                        value='5'
+                        color='#ec4899'
+                    />
+                </motion.div>
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.7, duration: 0.5 }}
+                    className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md border border-gray-700 px-5 py-1 rounded-[6px] relative z-20"
+                >
+                    <div>
+                        <div className="flex items-center justify-between pb-[10px] ">
+                            <div className="flex items-end text-base py-[10px] gap-x-[20px] cursor-pointer w-full ">
+                                <div id='FilterBox' className=" flex justify-center text-black">
+                                    <FilterBox filter={filter} handleFilterChange={handleFilterChange} />
+                                </div>
                                 <div id="FromDate">
                                     <DateFrom selectedFromDate={selectedFromDate} setSelectedFromDate={setSelectedFromDate} />
                                 </div>
-                            </div>
-                            <div className='relative z-30'>
-                                <div id="ToDate" className=" relative">
+                                <div id="ToDate">
                                     <DateTo selectedToDate={selectedToDate} setSelectedToDate={setSelectedToDate} />
                                 </div>
+                                <div id="BtnDeleteFilter">
+                                    <button
+                                        className="bg-blue-500 h-[42px] w-[100px] rounded-[6px] font-semibold uppercase text-center"
+                                        onClick={clearFilters}>
+                                        Delete
+                                    </button>
+                                </div>
+                                <div id="SearchSort" className="flex gap-x-[20px] h-[42px] ml-auto">
+                                    <SearchBox search={search} handleSearch={handleSearch} />
+                                    <SortBox sortOrder={sortOrder} handleSortOrder={(handleSortOrder)} />
+                                </div>
                             </div>
-                            <div>
-                                <Button variant='contained' onClick={clearFilters} sx={{ height: '40px', marginRight: '10px' }}>Delete</Button>
-                            </div>
-                        </div>
-                        <div id="SearchSort" className="flex gap-x-[10px] h-[40px]">
-                            <SearchBox search={search} handleSearch={handleSearch} />
-                            <SortBox sortOrder={sortOrder} handleSortOrder={(handleSortOrder)} />
                         </div>
                     </div>
+                </motion.div>
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.2, duration: 0.5 }}
+                    className='bg-gray-800 px-5 py-4 rounded-[6px] border border-gray-700 relative z-10'>
                     <PaginateUser
                         inactive={filter}
                         currentPage={currentPage}
@@ -110,6 +149,9 @@ export default function ListUser() {
                         sortOrder={sortOrder}
                     />
                 </motion.div>
+                <div>
+                    <CustomerChartGrow/>
+                </div>
             </main>
         </div>
     );

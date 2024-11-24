@@ -1,85 +1,157 @@
-import SideBar from "@/components/sidebar/sidebar"
-import { IVoucher } from '@/interfaces/voucher'
-import React, { useState } from "react"
-import { PaginateTransactions } from "@/components/paginate/transaction/paginate-transaction"
-import { DateFrom } from "@/components/date/date-from"
-import { DateTo } from "@/components/date/date-to"
-import { Button, SelectChangeEvent } from "@mui/material"
-import { SortBox } from "@/components/box/box-sort"
-import { selectType, TypeBox } from "@/components/box/box-type"
-import { selectStatus, StatusBox } from "@/components/box/box-status"
-import { HeaderComponent } from "@/components/header/header"
-import {motion} from 'framer-motion'
-
+// import { IVoucher } from "@/interface/voucher";
+// import { useNavigate, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { DateFrom } from "../../components/date/date-from";
+import { DateTo } from "../../components/date/date-to";
+import { SortBox } from "../../components/box/box-sort";
+import { TypeBox } from "../../components/box/box-type";
+import { StatusBox } from "../../components/box/box-status";
+import { PaginateTransactions } from "@/components/paginate/transactions/paginateTransactions";
+import { HeaderComponent } from "@/components/header/header";
+import { selectStatus } from "@/interfaces/status-box-item";
+import { selectType } from "@/interfaces/type-box-items";
+import { motion } from 'framer-motion'
+import { AreaCard } from "@/components/chart/area-card";
+import { Activity, DollarSign, TrendingUp } from "lucide-react";
 export const TransactionsList = () => {
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [selectedFromDate, setSelectedFromDate] = useState<Date | null>(null)
-  const [selectedToDate, setSelectedToDate] = useState<Date | null>(null)
-  const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc')
-  const [status, setStatus] = useState<'all' | 'completed' | 'fail' | 'pending' | 'refund'>('all')
-  const [type, setType] = useState<'all' | 'transfer' | 'deposit' | 'payment' | 'withdraw'>('all');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [selectedFromDate, setSelectedFromDate] = useState<Date | null>(null);
+  const [selectedToDate, setSelectedToDate] = useState<Date | null>(null);
+  // const [search, setSearch] = useState<string>("");
+  const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
+  const [status, setStatus] = useState<
+    "all" | "completed" | "fail" | "pending" | "refund"
+  >("all");
+  const [type, setType] = useState<
+    "all" | "transfer" | "deposit" | "payment" | "withdraw"
+  >("all");
 
   //Handle
+  // const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSearch(e.target.value);
+  // };
   const handleSortOrder = () => {
-    setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'))
-  }
-  const handleType = (e: SelectChangeEvent) => {
-    setType(e.target.value as 'all' | 'transfer' | 'deposit' | 'payment' | 'withdraw')
-  }
-  const handleStatus = (e: SelectChangeEvent) => {
-    setStatus(e.target.value as 'all' | 'completed' | 'fail' | 'pending' | 'refund')
-  }
+    setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
+  };
+  const handleType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setType(
+      e.target.value as "all" | "transfer" | "deposit" | "payment" | "withdraw"
+    );
+  };
+  const handleStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setStatus(
+      e.target.value as "all" | "completed" | "fail" | "pending" | "refund"
+    );
+  };
 
   const clearFilters = () => {
-    setSelectedFromDate(null)
-    setSelectedToDate(null)
-  }
+    setSelectedFromDate(null);
+    setSelectedToDate(null);
+  };
   return (
     <>
-      <div className="flex-1 h-screen overflow-auto mx-auto">
+      <div className="flex-1 mx-auto h-screen overflow-auto">
         <HeaderComponent title="Transactions Management" />
-        <main className="max-w-7xl mx-auto px-4 py-6">
-          <motion.div 
-              initial ={{opacity: 0, y:20}}
-              animate = {{opacity:1, y:0}}
-              transition={{duration:1}}
-              className="bg-gray-800 bg-opacity-70 border border-gray-700 backdrop-blur-md p-4">
+        <main className="max-w-7xl mx-auto px-4 py-6 space-y-6">
+          <motion.div
+            className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4'
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5,delay:0.2 }}
+          >
+            <AreaCard
+              name='Total Transactions'
+              icon={DollarSign}
+              value='300'
+              color='#3b82f6'
+            />
+            <AreaCard
+              name='New Transactions Today'
+              icon={DollarSign}
+              value='3'
+              color='#10b981'
+            />
+            <AreaCard
+              name='Total Revenues'
+              icon={TrendingUp}
+              value='38'
+              color='#f59e0b'
+            />
+            <AreaCard
+              name='Transaction Success Rate'
+              icon={Activity}
+              value='90%'
+              color='#ec4899'
+            />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.5 }}
+            className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md px-5 py-1 rounded-[6px] relative z-20"
+          >
             <div className="flex items-center justify-between pb-[10px]">
-              <div className="flex text-base py-[10px] gap-x-[10px] cursor-pointer">
+              <div className="flex items-end text-base py-[10px] gap-x-[20px] cursor-pointer w-full">
                 <div id="Status">
-                  <StatusBox status={status} select={selectStatus} handleStatus={handleStatus} />
+                  <StatusBox
+                    status={status}
+                    select={selectStatus}
+                    handleStatus={handleStatus}
+                  />
                 </div>
                 <div id="Type">
-                  <TypeBox type={type} handleType={handleType} select={selectType} />
+                  <TypeBox
+                    type={type}
+                    handleType={handleType}
+                    select={selectType}
+                  />
                 </div>
-                <div id="FromDate" className="relative z-30">
-                  <DateFrom selectedFromDate={selectedFromDate} setSelectedFromDate={setSelectedFromDate} />
+                <div id="FromDate" className="relative z-50">
+                  <DateFrom
+                    selectedFromDate={selectedFromDate}
+                    setSelectedFromDate={setSelectedFromDate}
+                  />
                 </div>
-                <div id="ToDate" className='relative z-30'>
-                  <DateTo selectedToDate={selectedToDate} setSelectedToDate={setSelectedToDate} />
+                <div id="ToDate">
+                  <DateTo
+                    selectedToDate={selectedToDate}
+                    setSelectedToDate={setSelectedToDate}
+                  />
                 </div>
                 <div id="BtnDeleteFilter">
-                  <Button variant='contained' onClick={clearFilters} sx={{ height: '40px', marginRight: '10px' }}>Delete</Button>
+                  <button
+                    className="bg-blue-500 h-[42px] w-[100px] rounded-[6px] font-semibold uppercase text-center"
+                    onClick={clearFilters}>
+                    Delete
+                  </button>
+                </div>
+                <div id="SearchSort" className="flex gap-x-[10px] h-[42px] ml-auto">
+                  <SortBox
+                    sortOrder={sortOrder}
+                    handleSortOrder={handleSortOrder}
+                  />
                 </div>
               </div>
-              <div id="SearchSort" className="flex gap-x-[10px] h-[36px]">
-                <SortBox sortOrder={sortOrder} handleSortOrder={(handleSortOrder)} />
-              </div>
             </div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 0.5 }}
+            className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md px-5 py-4 rounded-[6px] relative z-10"
+          >
             <PaginateTransactions
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
+              selectedFromDate={selectedFromDate}
+              selectedToDate={selectedToDate}
               filterStatus={status}
               filterType={type}
               sortOrder={sortOrder}
-              selectedFromDate={selectedFromDate}
-              selectedToDate={selectedToDate}
             />
           </motion.div>
         </main>
-
       </div>
     </>
-  )
-}
-
+  );
+};

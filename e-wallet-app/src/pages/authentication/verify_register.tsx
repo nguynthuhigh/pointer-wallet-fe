@@ -6,8 +6,8 @@ import toast, { Toaster } from "react-hot-toast";
 import LoadingIcon from "../../assets/svg/loading.svg";
 import { verifyRegisterAPI, resendOTP } from "../../services/api/auth.api";
 import AuthImg from "../../assets/png/auth_img.png";
-import { RootState } from "../../redux/store";
-import { setCookie } from "../../utils/cookie";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { addAccessToken } from "../../redux/auth/authSlice";
 
 interface ErrorResponse {
   response: {
@@ -17,24 +17,15 @@ interface ErrorResponse {
   };
 }
 
-// const setWithExpiry = (key: string, value: string, ttl: number) => {
-//   const now = new Date();
-//   const item = {
-//     value: value,
-//     expiry: now.getTime() + ttl,
-//   };
-//   localStorage.setItem(key, JSON.stringify(item));
-// };
-
 export default function VerifyRegister() {
-  const navigate = useNavigate();
   const [otp, setOtp] = useState("");
   const [count, setCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");
-  const { registerUser } = useSelector(
-    (state: RootState) => state.auth.register
-  );
+  
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { registerUser } = useAppSelector((state) => state.auth.register);
 
   useEffect(() => {
     if (registerUser.message) {
@@ -53,8 +44,7 @@ export default function VerifyRegister() {
         });
         if (response.status === 200) {
           toast.success(response.data.message);
-          // setWithExpiry("registered", "true", 900000);
-          setCookie("at", response.data.data);
+          await dispatch(addAccessToken(response.data.data));
           setTimeout(() => {
             navigate("/auth/register/security-code", {
               state: { message: response.data.message },

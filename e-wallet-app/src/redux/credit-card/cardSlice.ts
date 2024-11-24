@@ -4,11 +4,11 @@ import { getCardList, addCreditCard, deleteCreditCard } from "./cardThunk";
 
 type CardType = {
   card: Card;
-  message: string;
+  addCardSuccess: string;
 };
 type RemoveCardType = {
   _id: string;
-  message: string;
+  removeCardSuccess: string;
 };
 const initialState = {
   cardState: {
@@ -60,7 +60,7 @@ const cardSlice = createSlice({
         (state, action: PayloadAction<CardType>) => {
           state.isFetching = false;
           state.cardState.cards.push(action.payload.card);
-          state.message = action.payload.message;
+          state.message = action.payload.addCardSuccess;
           state.error = "";
         }
       ),
@@ -80,7 +80,7 @@ const cardSlice = createSlice({
           state.cardState.cards = state.cardState.cards.filter(
             (card) => card._id !== action.payload._id
           );
-          state.message = action.payload.message;
+          state.message = action.payload.removeCardSuccess;
           state.error = "";
         }
       ),

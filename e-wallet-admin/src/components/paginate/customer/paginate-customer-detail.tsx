@@ -1,16 +1,12 @@
-import TransactionHistory, { formatDate } from "../../transaction/transaction-history"
-import ReactPaginate from 'react-paginate';
+import TransactionHistory from "../../transaction/transaction-history"
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from '../../../api/axiosInstance';
 import { PaginateProps } from "./paginate-customer";
 import { useNavigate, useParams } from "react-router-dom";
-import { IoChevronBackOutline } from "react-icons/io5";
-import { IoChevronForwardOutline } from "react-icons/io5";
+
 import {
     Table,
     TableBody,
-    TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
@@ -96,7 +92,7 @@ const Paginate = ({ currentPage, setCurrentPage, selectedFromDate, selectedToDat
                         ))}
                     </TableBody>
                 </Table>
-                <div>
+                <div id="Paginate" className="border-t pt-4">
                     <PaginateComponents pageCount={data.pageCount} handlePageClick={handlePageClick} />
                 </div>
             </div>

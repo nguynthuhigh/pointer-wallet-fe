@@ -1,36 +1,18 @@
 import { DateFrom } from "@/components/date/date-from"
-import SideBar from "../../components/sidebar/sidebar"
 import { FilterBox } from "@/components/box/box-filter"
 import { DateTo } from "@/components/date/date-to"
 import { useState } from "react"
 import { SearchBox } from "@/components/box/box-search"
 import { SortBox } from "@/components/box/box-sort"
-import AvatarDefault from '../../assets/png/avatarDefault.png'
-import { GoDotFill } from "react-icons/go";
-
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableFooter,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
-import { IVoucher } from "@/interfaces/voucher"
-import {  } from "react-router-dom"
-import { Button } from "@mui/material"
 import { PaginateVoucher } from "@/components/paginate/voucher/paginate-voucher"
 import { HeaderComponent } from "@/components/header/header"
-import {motion} from 'framer-motion'
-type voucherPick = Pick<IVoucher, 'image' | 'code' | 'quantity' | 'usedCount' | 'statusPublic'>
+import { motion } from 'framer-motion'
 
 export const VoucherList = () => {
     // const [currentPage,setCurrentPage] = useState<number>(1)
     // const getNumber = (index:number) => { 
     //     return (currentPage - 1) * itemsPerPage + index + 1
     // }
-    const [currentPage, setCurrentPage] = useState<number>(1);
     const [search, setSearch] = useState<string>('');
     const [filter, setFilter] = useState<'all' | 'false' | 'true'>('all');
     const [selectedFromDate, setSelectedFromDate] = useState<Date | null>(null);
@@ -59,36 +41,49 @@ export const VoucherList = () => {
         <>
             <div className="flex-1 h-screen mx-auto overflow-hidden">
                 <HeaderComponent title="Vouchers Management" />
-                <main className="max-w-7xl mx-auto px-4 py-6">
-                    <motion.div 
-                        initial = {{opacity:0,y:20}}
-                        animate = {{opacity:1,y:0}}
-                        transition={{duration:1}}
-                        className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md p-4 ">
+                <main className="max-w-7xl mx-auto px-4 py-6 space-y-6">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                        className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md px-5 py-1 rounded-[6px] relative z-20 ">
                         <div className="flex items-center justify-between pb-[10px]">
-                            <div className="flex text-base py-[10px] gap-x-[10px] cursor-pointer  relative justify-center">
+                            <div className="flex items-end text-base py-[10px] gap-x-[20px] cursor-pointer relative justify-center w-full">
                                 <div id="Active">
                                     <FilterBox filter={filter} handleFilterChange={handleFilterChange} />
                                 </div>
-                                <div id="FromDate" className="relative z-30">
+                                <div id="FromDate" className="relative z-50">
                                     <DateFrom selectedFromDate={selectedFromDate} setSelectedFromDate={setSelectedFromDate} />
                                 </div>
-                                <div id="ToDate" className='relative z-30'>
+                                <div id="ToDate" className='relative z-50'>
                                     <DateTo selectedToDate={selectedToDate} setSelectedToDate={setSelectedToDate} />
                                 </div>
                                 <div id="BtnDeleteFilter">
-                                    <Button variant='contained' onClick={clearFilters} sx={{ height: '40px', marginRight: '10px' }}>Delete</Button>
+                                    <button
+                                        className="bg-blue-500 h-[42px] w-[100px] rounded-[6px] font-semibold uppercase text-center"
+                                        onClick={clearFilters}>
+                                        Delete
+                                    </button>
+                                </div>
+                                <div id="SearchSort" className="flex gap-x-[20px] h-[42px] ml-auto">
+                                    <SearchBox search={search} handleSearch={handleSearch} />
+                                    <SortBox sortOrder={sortOrder} handleSortOrder={(handleSortOrder)} />
                                 </div>
                             </div>
-                            <div id="SearchSort" className="flex gap-x-[10px] h-[40px] mr-[10px]">
-                                <SearchBox search={search} handleSearch={handleSearch} />
-                                <SortBox sortOrder={sortOrder} handleSortOrder={(handleSortOrder)} />
-                            </div>
                         </div>
-                        <PaginateVoucher 
+                    </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.7 }}
+                        className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md px-5 py-4 rounded-[6px] relative z-10"
+                    >
+                        <PaginateVoucher
                             sortOrder={sortOrder}
+                            search= {search}
                         />
                     </motion.div>
+
                 </main>
             </div>
         </>

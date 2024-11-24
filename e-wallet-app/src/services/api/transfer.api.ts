@@ -1,6 +1,5 @@
 import axios from "axios";
 import { createAxios } from "../../config/axios.config";
-const axiosInstance = createAxios();
 import { DataSend } from "../../types/transfer";
 export const getUserByEmail = async (email: string) => {
   return await axios.get(
@@ -8,11 +7,13 @@ export const getUserByEmail = async (email: string) => {
   );
 };
 export const sendMoneyAPI = async (body: DataSend) => {
+  const axiosInstance = createAxios();
   return await axiosInstance.post(`/api/v1/wallet/send-money`, body, {
     withCredentials: true,
   });
 };
 export const getTransactionAPI = async (id: string) => {
+  const axiosInstance = createAxios();
   return await axiosInstance.get(
     `/api/v1/transaction/get/transaction/details/${id}`,
     {
@@ -27,11 +28,13 @@ interface DepositProps {
   amount: string;
 }
 export const depositMoney = async (body: DepositProps) => {
+  const axiosInstance = createAxios();
   return await axiosInstance.post(`/api/v1/wallet/deposit-money`, body, {
     withCredentials: true,
   });
 };
 export const withdrawMoney = async (body: DepositProps) => {
+  const axiosInstance = createAxios();
   return await axiosInstance.post(`/api/v1/wallet/withdraw-money`, body, {
     withCredentials: true,
   });

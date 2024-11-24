@@ -6,7 +6,6 @@ import {
     Table,
     TableBody,
     TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
@@ -46,7 +45,7 @@ export const PaginatePartners = ({ selectedFromDate, selectedToDate, sort, searc
 
     const itemsPerPage = 10;
     const { data, isLoading, isError } = useQuery({
-        queryKey: ['Partners', currentPage, sort, inactive, selectedFromDate, selectedToDate],
+        queryKey: ['Partners', currentPage, sort, inactive, selectedFromDate, selectedToDate,search],
         queryFn: async () => {
             const response = await axiosInstance.get(`/api/v1/partner-management/get-partners`, {
                 params: {
@@ -56,9 +55,7 @@ export const PaginatePartners = ({ selectedFromDate, selectedToDate, sort, searc
                     start: selectedFromDate?.toISOString(),
                     end: selectedToDate?.toISOString(),
                     sort: sort,
-                    search:search
-
-                    
+                    search:search 
                 }
             })
             return response.data.data;
@@ -118,7 +115,7 @@ export const PaginatePartners = ({ selectedFromDate, selectedToDate, sort, searc
                     </TableBody>
                 </Table>
             </div>
-            <div>
+            <div id="Paginate" className="border-t pt-4">
                 <PaginateComponents pageCount={data.pageCount} handlePageClick={handlePageClick} />
             </div>
         </>

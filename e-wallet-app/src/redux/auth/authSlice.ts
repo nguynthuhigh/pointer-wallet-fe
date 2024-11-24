@@ -20,6 +20,7 @@ export interface AuthState {
     isFetching: boolean;
     error: string;
   };
+  accessToken: string;
 }
 
 const initialState: AuthState = {
@@ -40,6 +41,7 @@ const initialState: AuthState = {
     isFetching: false,
     error: "",
   },
+  accessToken: "",
 };
 
 const authSlice = createSlice({
@@ -59,6 +61,12 @@ const authSlice = createSlice({
       } else if (action.payload === "register") {
         state.register.error = "";
       }
+    },
+    addAccessToken: (state, action: PayloadAction<string>) => {
+      state.accessToken = action.payload;
+    },
+    removeAddAccessToken: (state) => {
+      state.accessToken = "";
     },
   },
   extraReducers: (builder) => {
@@ -105,5 +113,10 @@ const authSlice = createSlice({
   },
 });
 
-export const { clearMessage, clearError } = authSlice.actions;
+export const {
+  clearMessage,
+  clearError,
+  addAccessToken,
+  removeAddAccessToken,
+} = authSlice.actions;
 export default authSlice.reducer;

@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 export default function WebHook() {
   const navigate = useNavigate();
   const [webhook, setWebhook] = useState(null);
+
   const { data, isLoading } = useQuery({
     queryKey: ["dashboard"],
     queryFn: async () => {
@@ -20,22 +21,23 @@ export default function WebHook() {
       return response.data.data;
     },
   });
+  
   return (
     <div className="flex ">
       <div className="w-[30%]">
         <SideBar state="Developer"></SideBar>
       </div>
-      <div className="w-full p-4">
-        <HeaderDashboard title="Webhook"></HeaderDashboard>
-        <h1>secret key: {data?.partner?.privateKey}</h1>
-
+      <div className="w-full p-4 space-y-2">
+        <HeaderDashboard title="Webhook"/>
+        <p className="text-black text-lg font-medium ">Secret key: {data?.partner?.privateKey}</p>
         {isLoading ? (
           "..loading"
         ) : webhook ? (
-          <ViewWebHook webhook={webhook}></ViewWebHook>
+          <AddWebHook></AddWebHook>
         ) : (
           <AddWebHook></AddWebHook>
         )}
+        
       </div>
       <div className="w-[35%]"></div>
     </div>

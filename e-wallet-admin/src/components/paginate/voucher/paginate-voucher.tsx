@@ -1,11 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useState } from "react";
 import {
     Table,
     TableBody,
-    TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
@@ -17,25 +14,27 @@ import axiosInstance from "@/api/axiosInstance";
 import { GoDotFill } from "react-icons/go";
 
 interface PaginateVoucherProps {
-    sortOrder: 'asc' | 'desc'
+    sortOrder: 'asc' | 'desc',
+    search:string
 }
 
 
 
-export const PaginateVoucher = ({sortOrder}:PaginateVoucherProps) => {
+export const PaginateVoucher = ({sortOrder,search}:PaginateVoucherProps) => {
     const navigate = useNavigate()
 
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     const itemsPerPage = 10
     const { data: voucher, isLoading, isError } = useQuery({
-        queryKey: ['voucher-list',sortOrder],
+        queryKey: ['voucher-list',sortOrder,search],
         queryFn: async () => {
             const response = await axiosInstance.get('/api/v1/admin/get-vouchers', {
                 params: {
                     page: currentPage,
                     page_limit: itemsPerPage,
-                    sort:sortOrder
+                    sort:sortOrder,
+                    search: search
                 }
             })
             return response.data.data
@@ -91,7 +90,7 @@ export const PaginateVoucher = ({sortOrder}:PaginateVoucherProps) => {
                     </TableBody>
                 </Table>
             </div>
-            <div id='Paginate'>
+            <div id='Paginate' className="border-t pt-4">
                 <PaginateComponents pageCount={voucher.pageCount} handlePageClick={handleClickPage} />
             </div>
         </>

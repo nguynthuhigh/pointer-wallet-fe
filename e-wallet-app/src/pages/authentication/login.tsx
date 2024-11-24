@@ -11,13 +11,14 @@ import { AppDispatch, RootState } from "../../redux/store";
 import { clearError } from "../../redux/auth/authSlice";
 
 const Login = () => {
+  const [user, setUserData] = useState({ email: "", password: "" });
+  const [formErrors, setFormErrors] = useState("");
+
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { isFetching, error } = useSelector(
     (state: RootState) => state.auth.login
   );
-  const [user, setUserData] = useState({ email: "", password: "" });
-  const [formErrors, setFormErrors] = useState("");
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -59,7 +60,7 @@ const Login = () => {
           <h1 class="text-center font-semibold text-2xl mt-5">
             Thông tin đăng nhập
           </h1>
-          <h1 class="text-center font-inter font-semibold text-blue-default text-sm my-2">
+          <h1 className="text-center font-inter font-semibold text-blue-default text-sm my-2">
             Chào mừng bạn trở lại!
           </h1>
           <form onSubmit={handleLogin}>
@@ -83,9 +84,12 @@ const Login = () => {
             />
             <ButtonSubmit title="Đăng nhập" isLoading={isFetching} />
           </form>
-          <h1 class="text-center font-semibold">
+          <h1 className="text-center font-semibold">
             Bạn chưa có tài khoản?{" "}
-            <Link to="/auth/register" class="font-semibold text-blue-default">
+            <Link
+              to="/auth/register"
+              className="font-semibold text-blue-default"
+            >
               Đăng ký
             </Link>
           </h1>
