@@ -58,7 +58,7 @@ const Invoice = ({ ...data }) => {
               })}
               <div
                 id="total"
-                className="flex justify-between absolute w-full bottom-0 left-0 bg-white"
+                className="flex justify-between absolute w-full bottom-0 left-0 "
               >
                 <div id="name" className="text-2xl font-semibold">
                   Total

@@ -18,7 +18,7 @@ export const TransactionChart = () => {
         queryFn: () => getThisMonth(),
     })
 
-    const isLoading = isLoadingWeek || isLoadingMonth
+    const isLoading = isLoadingWeek || isLoadingMonth 
     const isError = isErrorWeek || isErrorMonth
     
     if (isLoading) return 'Loading...'

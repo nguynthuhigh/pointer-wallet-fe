@@ -7,7 +7,7 @@ import PageNotFound from "../../components/pages/page-not-found";
 import { QRCode } from "react-qrcode-logo";
 import logo from "../../assets/images/logo_vnd.png";
 const PaymentGateway = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["get-token"],
@@ -66,6 +66,8 @@ const PaymentGateway = () => {
           </div>
           <a
             href={`https://wallet.pointer.io.vn/payment?token=${token}`}
+            target="_blank"
+            rel ="noreferrer"
             className="border-[1px] rounded-[4px] bg-[#0094FF] text-center text-white w-[320px] py-3 px-6 active:opacity-70 transition-opacity duration-300"
           >
             Pay With Pointer Wallet
