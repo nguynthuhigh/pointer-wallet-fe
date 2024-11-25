@@ -116,19 +116,13 @@ export default function AddWebHook() {
                 value={isEvent}
                 onChange={handleOption}
               >
-                <option
-                  value='payment.succeeded'
-                >
+                <option value='payment.succeeded'>
                   Payment
                 </option>
-                <option
-                  value='payment.refund'
-                >
+                <option value='payment.refund'>
                   Refund
                 </option>
-                <option
-                  value='wallet.connect'
-                >
+                <option value='wallet.connect'>
                   Wallet Connect
                 </option>
               </select>
