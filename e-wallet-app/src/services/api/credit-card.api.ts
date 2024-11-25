@@ -3,7 +3,7 @@ import { createAxios } from "../../config/axios.config";
 export interface Card {
   name: string;
   number: string;
-  cvv: string;
+  cvc: string;
   expiryMonth: string;
   expiryYear: string;
   type: string;

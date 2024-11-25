@@ -6,6 +6,8 @@ import { depositMoney, withdrawMoney } from "../../services/api/transfer.api";
 import { useNavigate } from "react-router-dom";
 import ic_close from "../../assets/svg/close.svg";
 import ic_loading from "../../assets/svg/loading.svg";
+import { useAppDispatch } from "../../redux/hooks";
+import { setWalletUpdated } from "../../redux/features/walletSlice";
 
 type DrawerFunction = () => void;
 interface ErrorResponse {
@@ -34,6 +36,7 @@ const DrawerBottom: React.FC<BottomDrawerProps> = ({
   state,
   data,
 }) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [otp, setOtp] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -53,6 +56,7 @@ const DrawerBottom: React.FC<BottomDrawerProps> = ({
           const res = await depositMoney(body);
           if (res.status === 200) {
             toast.success("Nạp tiền thành công!");
+            dispatch(setWalletUpdated(true));
             setTimeout(() => {
               navigate("/deposit-withdraw/result", {
                 state: {
@@ -62,7 +66,7 @@ const DrawerBottom: React.FC<BottomDrawerProps> = ({
                   createdAt: res.data.data.updatedAt,
                 },
               });
-            }, 2000);
+            }, 1000);
           } else {
             toast.error(res.data.message);
           }
@@ -70,6 +74,7 @@ const DrawerBottom: React.FC<BottomDrawerProps> = ({
           const res = await withdrawMoney(body);
           if (res.status === 200) {
             toast.success("Rút tiền thành công!");
+            dispatch(setWalletUpdated(true));
             setTimeout(() => {
               navigate("/deposit-withdraw/result", {
                 state: {

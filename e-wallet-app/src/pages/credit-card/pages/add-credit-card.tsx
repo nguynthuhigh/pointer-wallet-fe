@@ -1,28 +1,39 @@
-import React, { useState, useMemo, ChangeEvent, FocusEvent } from "react";
+import React, {
+  useState,
+  useMemo,
+  ChangeEvent,
+  FocusEvent,
+  useEffect,
+} from "react";
 import Cards from "react-credit-cards-2";
 import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import {
   formatCreditCardNumber,
   formatCVC,
 } from "../../../utils/format-credit-card";
 import Payment from "payment";
-import { addCreditCard } from "../../../redux/credit-card/cardThunk";
-import { Item as CardType } from "../../../services/api/credit-card.api";
-import { AppDispatch, RootState } from "../../../redux/store";
 import { Focused } from "../type";
 
 import InputField from "../components/input-field";
 import SelectField from "../components/select-field";
 
+import { useAddCreditCardMutation } from "../../../redux/features/credit-card/creditCardApi";
+
+interface ErrorType {
+  data: {
+    message: string;
+  };
+}
+
 export default function AddCreditCard() {
+  const [addCreditCard, { isLoading, error }] = useAddCreditCardMutation();
   const [formData, setFormData] = useState({
     number: "",
     name: "",
     expiryMonth: "",
     expiryYear: "",
-    cvv: "",
+    cvc: "",
     cardType: "credit",
   });
   const [focus, setFocus] = useState<Focused>(undefined);
@@ -31,11 +42,14 @@ export default function AddCreditCard() {
     number: true,
     expiryMonth: true,
     expiryYear: true,
-    cvv: true,
+    cvc: true,
   });
 
-  const dispatch = useDispatch<AppDispatch>();
-  const { isFetching } = useSelector((state: RootState) => state.cards);
+  useEffect(() => {
+    if (error) {
+      toast.error((error as ErrorType).data.message);
+    }
+  }, []);
 
   const months = useMemo(
     () =>
@@ -56,7 +70,7 @@ export default function AddCreditCard() {
       name: "",
       expiryMonth: "",
       expiryYear: "",
-      cvv: "",
+      cvc: "",
       cardType: "credit",
     });
     setFocus(undefined);
@@ -91,7 +105,7 @@ export default function AddCreditCard() {
   };
 
   const validateCardData = () => {
-    const { number, expiryMonth, expiryYear, cvv } = formData;
+    const { number, expiryMonth, expiryYear, cvc } = formData;
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth() + 1;
 
@@ -107,7 +121,7 @@ export default function AddCreditCard() {
       number: hasValidCardType,
       expiryMonth: Boolean(expiryMonth) && isValidExpiry,
       expiryYear: Boolean(expiryYear) && isValidExpiry,
-      cvv: cvv.length === cvvLength,
+      cvc: cvc.length === cvvLength,
     };
 
     setValidity(newValidity);
@@ -116,8 +130,8 @@ export default function AddCreditCard() {
       toast.error("Số thẻ không hợp lệ.");
     } else if (!newValidity.expiryMonth || !newValidity.expiryYear) {
       toast.error("Ngày hết hạn không hợp lệ.");
-    } else if (!newValidity.cvv) {
-      toast.error("CVV không hợp lệ.");
+    } else if (!newValidity.cvc) {
+      toast.error("CVC không hợp lệ.");
     }
 
     return Object.values(newValidity).every(Boolean);
@@ -128,16 +142,19 @@ export default function AddCreditCard() {
 
     if (!validateCardData()) return;
 
-    const cardData: CardType = {
+    const cardData = {
       ...formData,
       type: formData.cardType,
     };
 
     try {
-      await dispatch(addCreditCard(cardData));
+      const response = await addCreditCard(cardData).unwrap();
+      if (response.message) {
+        toast.success(response.message);
+      }
       resetForm();
-    } catch {
-      toast.error("Có lỗi khi thêm thẻ.");
+    } catch (error) {
+      toast.error((error as ErrorType).data.message);
     }
   };
 
@@ -169,7 +186,7 @@ export default function AddCreditCard() {
       <Cards
         number={formData.number}
         expiry={`${formData.expiryMonth}/${formData.expiryYear}`}
-        cvc={formData.cvv}
+        cvc={formData.cvc}
         name={formData.name}
         focused={focus}
       />
@@ -211,23 +228,23 @@ export default function AddCreditCard() {
           />
         </div>
         <InputField
-          label="CVV"
-          name="cvv"
-          value={formData.cvv}
+          label="CVC"
+          name="cvc"
+          value={formData.cvc}
           onChange={handleChange}
           onFocus={handleInputFocus}
-          isValid={validity.cvv}
+          isValid={validity.cvc}
           maxLength={cvvLength}
           placeholder="123"
         />
         <button
           type="submit"
           className={`w-full p-3 text-white font-semibold rounded-md shadow-md flex items-center justify-center ${
-            isFetching ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
+            isLoading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
           }`}
-          disabled={isFetching}
+          disabled={isLoading}
         >
-          {isFetching ? <LoadingIcon /> : "Thêm thẻ"}
+          {isLoading ? <LoadingIcon /> : "Thêm thẻ"}
         </button>
       </form>
     </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import ic_success from "../../assets/png/ic_success.png";
 import ic_home from "../../assets/svg/home.svg";
@@ -7,18 +7,17 @@ import { useLocation } from "react-router-dom";
 import { getTransactionAPI } from "../../services/api/transfer.api";
 import Loading from "../loading";
 import { formatCurrency } from "../../utils/format_currency";
-import { TransactionPayment } from "../../types/payment";
 import { useQuery } from "@tanstack/react-query";
 const PaymentResults: React.FC = () => {
   const location = useLocation();
-  console.log(location.state.id)
-  const {data,isLoading,isError} = useQuery({
-    queryKey:['payment',location.state.id],
-    queryFn: async()=>{
+  console.log(location.state.id);
+  const { data, isLoading } = useQuery({
+    queryKey: ["payment", location.state.id],
+    queryFn: async () => {
       const response = await getTransactionAPI(location.state.id);
-      return response.data.data
-    }
-  })
+      return response.data.data;
+    },
+  });
   if (isLoading) {
     return <Loading></Loading>;
   }
@@ -32,10 +31,7 @@ const PaymentResults: React.FC = () => {
         <div class={`space-y-4 text-center py-4 font-semibold`}>
           <h1 class={`text-lg`}>Thanh toán thành công</h1>
           <h1 class={`text-5xl font-bold text-blue-600`}>
-            {formatCurrency(
-              data?.amount,
-              data?.currency.symbol
-            )}
+            {formatCurrency(data?.amount, data?.currency.symbol)}
           </h1>
           <h1 class={`text-sm text-gray-500`}>
             {formatDate(data?.createdAt ?? new Date())}
@@ -47,9 +43,7 @@ const PaymentResults: React.FC = () => {
             <div class={`space-y-2 w-full mt-2 mb-0.5`}>
               <div class={`flex`}>
                 <h1 class={`text-sm text-gray-400`}>Tên sản phẩm</h1>
-                <h1 class={`text-sm text-black ml-auto`}>
-                  {data?.message}
-                </h1>
+                <h1 class={`text-sm text-black ml-auto`}>{data?.message}</h1>
               </div>
               <div class={`flex`}>
                 <h1 class={`text-sm text-gray-400`}>Nhà cung cấp</h1>
