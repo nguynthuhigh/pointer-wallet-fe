@@ -31,6 +31,9 @@ import TransferByQrCode from "./pages/receive/transfer";
 import Result from "./pages/deposit-withdraw/result";
 import SelectOptions from "./pages/payment/select_options";
 import RegisteredRoute from "./utils/registered-route";
+import { ConnectApp } from "./pages/connect-app/connect-app";
+import { ConnectAppList } from "./pages/connect-app/connect-app-list";
+import { Toaster } from "react-hot-toast";
 
 const AuthenticatedLayout: React.FC = () => {
   return (
@@ -60,6 +63,8 @@ export default function App() {
           <Route element={<AuthenticatedLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/setting" element={<Setting />} />
+            <Route path="/connect-app" element = {<ConnectApp/>}/>
+            <Route path="/connect-app-list" element = {<ConnectAppList/>}/>
             <Route path="/scan-qrcode" element={<ScanQR />} />
             <Route path="/payment" element={<PaymentGateway />} />
             <Route path="/payment/results" element={<PaymentResults />} />
@@ -68,16 +73,13 @@ export default function App() {
             <Route path="/transfer/result" element={<TransferResults />} />
             <Route path="/transfer/info" element={<TransferByQrCode />} />
             <Route path="/transaction/history" element={<History />} />
-            <Route
-              path="/transaction/details"
-              element={<TransactionDetails />}
-            />
+            <Route path="/transaction/details" element={<TransactionDetails />}/>
             <Route path="/deposit-withdraw" element={<DepositWithdraw />} />
             <Route path="/deposit-withdraw/result" element={<Result />} />
             <Route path="/credit-card" element={<CreditCard />}>
-              <Route path="add-card" element={<AddCreditCard />} />
-            </Route>
+            <Route path="add-card" element={<AddCreditCard />} />
 
+          </Route>
             <Route path="/receive-page" element={<ReceivePage />} />
           </Route>
           <Route path="*" element={<PageNotFound />} />
@@ -102,5 +104,6 @@ export default function App() {
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Router>
+   
   );
 }

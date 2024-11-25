@@ -9,6 +9,9 @@ import { HeaderComponent } from "@/components/header/header"
 import { motion } from 'framer-motion'
 import { AreaCard } from "@/components/chart/area-card"
 import { User, UserPlus, UserRoundCheck, UserRoundX } from "lucide-react"
+import { useQuery } from "@tanstack/react-query"
+import { IGetPartnerAnalyst } from "@/interfaces/analyst"
+import { getPartnerAnalyst } from "@/api/analyst.api"
 const Partners = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [filter, setFilter] = useState<'all' | 'false' | 'true'>('all')
@@ -17,7 +20,12 @@ const Partners = () => {
     const [search, setSearch] = useState<string>('')
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
 
-
+    const {data:Partner,isLoading,isError} = useQuery<IGetPartnerAnalyst>({
+        queryKey: ['get-partner-analyst'],
+        queryFn: () => getPartnerAnalyst()
+    })
+    if (isLoading) return 'Loading...'
+    if (isError) return 'Fetching data error'
     //handle
     const handleFilterChange = (newFilter: 'all' | 'false' | 'true') => {
         setFilter(newFilter)
@@ -34,6 +42,8 @@ const Partners = () => {
         setSelectedFromDate(null);
         setSelectedToDate(null);
     }
+
+    
     return (
         <>
             <div className="flex-1 mx-auto z-10 h-screen overflow-auto">
@@ -48,25 +58,25 @@ const Partners = () => {
                         <AreaCard
                             name='Total Partners'
                             icon={User}
-                            value='38'
+                            value={Partner?.totalPartner || 0}
                             color='#3b82f6'
                         />
                         <AreaCard
                             name='New Partners today'
                             icon={UserPlus}
-                            value='3'
+                            value={Partner?.totalPartnerToday.total || 0}
                             color='#10b981'
                         />
                         <AreaCard
                             name='Active Partners'
                             icon={UserRoundCheck}
-                            value='38'
+                            value={Partner?.totalPartnerActive || 0}
                             color='#f59e0b'
                         />
                         <AreaCard
                             name='Inactive Partners'
                             icon={UserRoundX}
-                            value='0'
+                            value={Partner?.totalPartnerInactive || 0}
                             color='#ec4899'
                         />
                     </motion.div>

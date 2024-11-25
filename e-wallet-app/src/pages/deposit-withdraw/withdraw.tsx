@@ -3,10 +3,9 @@ import toast from "react-hot-toast";
 import Cards from "react-credit-cards-2";
 import CurrencyInput from "react-currency-input-field";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
-import { useSelector } from "react-redux";
 import { formatCurrency } from "../../utils/format_currency";
-import { RootState } from "../../redux/store";
 import DrawerBottom from "./drawer_security";
+import { useGetCreditCardsQuery } from "../../redux/features/credit-card/creditCardApi";
 
 interface WithdrawProps {
   cardId: string | null;
@@ -15,11 +14,10 @@ interface WithdrawProps {
 }
 
 export default function Withdraw({ cardId, currency, balance }: WithdrawProps) {
+  const { data: cards } = useGetCreditCardsQuery();
   const [amount, setAmount] = useState<string>("");
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
-  const cardData = useSelector(
-    (state: RootState) => state.cards.cardState.cards
-  );
+  const cardData = cards?.data || [];
 
   const handleAmountChange = (value: string | undefined) => {
     if (currency === "VND") {
@@ -68,7 +66,7 @@ export default function Withdraw({ cardId, currency, balance }: WithdrawProps) {
             <Cards
               number={selectedCard.number}
               expiry={`${selectedCard.expiryMonth}/${selectedCard.expiryYear}`}
-              cvc={selectedCard.cvv}
+              cvc={selectedCard.cvc?.toString() || ""}
               name={selectedCard.name}
             />
           </div>

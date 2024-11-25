@@ -3,30 +3,33 @@ import VNDIcon from "../../assets/png/vnd_icon.png";
 import QRCode from "react-qr-code";
 import { useState } from "preact/hooks";
 import { formatCurrency } from "../../utils/format_currency";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { useGetProfileQuery } from "../../redux/features/profile/profileApi";
+import Loading from "../loading";
 type DataReceive = {
-  userID: string;
+  userID: string | undefined;
   currency: string;
 };
 
 const ReceivePage: React.FC = () => {
-  const wallet = useSelector(
-    (state: RootState) => state.user.userState.walletData.currencies
-  );
-  const user = useSelector(
-    (state: RootState) => state.user.userState.userData
-  );
+  const { data: receive, isLoading, error } = useGetProfileQuery();
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (error || !receive?.data) return <div>Không thể tải dữ liệu...</div>;
+
+  const user = receive.data.userData;
+  const wallet = receive.data.walletData.currencies;
   const [selected, setSelected] = useState<string>("VND");
   const [data, setData] = useState<DataReceive>({
-    userID: user.email,
+    userID: user.email || " ",
     currency: "VND",
   });
   const [url, setUrl] = useState<string>(
     `${import.meta.env.VITE_WALLET_URL}/transfer/info?email=${
-        data.userID
-      }&currency=${'VND'}`
+      data.userID
+    }&currency=${"VND"}`
   );
+
   const handleSelect = (select: string) => {
     setSelected(select);
     setData({

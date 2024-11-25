@@ -10,6 +10,9 @@ import { DateTo } from '@/components/date/date-to';
 import { AreaCard } from '@/components/chart/area-card';
 import { User, UserPlus, UserRoundCheck, UserRoundX } from 'lucide-react';
 import { CustomerChartGrow } from '@/components/chart/customer-chart';
+import { useQuery } from '@tanstack/react-query';
+import { IGetCustomerAnalyst } from '@/interfaces/analyst';
+import { getCustomerAnalyst } from '@/api/analyst.api';
 export default function ListUser() {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [search, setSearch] = useState<string>('');
@@ -66,6 +69,13 @@ export default function ListUser() {
         localStorage.removeItem('selectedToDate');
     };
 
+    const {data:Customer,isLoading,isError} = useQuery<IGetCustomerAnalyst>({
+        queryKey: ['get-customer-analyst'],
+        queryFn: () => getCustomerAnalyst()
+    })
+    if (isLoading) return 'Loading...'
+    if (isError) return 'Fetching data error'
+
     return (
         <div className='flex-1 mx-auto h-screen overflow-auto'>
             <HeaderComponent title='Customers Management' />
@@ -79,25 +89,25 @@ export default function ListUser() {
                     <AreaCard
                         name='Total Customers'
                         icon={User}
-                        value='300'
+                        value={Customer?.totalCustomer || 0}
                         color='#3b82f6'
                     />
                     <AreaCard
                         name='New Customers today'
                         icon={UserPlus}
-                        value='10'
+                        value= {Customer?.totalCustomerToday || 0}
                         color='#10b981'
                     />
                     <AreaCard
                         name='Active Customers'
                         icon={UserRoundCheck}
-                        value='295'
+                        value= {Customer?.totalCustomerActive || 0}
                         color='#f59e0b'
                     />
                     <AreaCard
                         name='Inactive Customers'
                         icon={UserRoundX}
-                        value='5'
+                        value= {Customer?.totalCustomerInactive || 0}
                         color='#ec4899'
                     />
                 </motion.div>

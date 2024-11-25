@@ -1,5 +1,3 @@
-import React from "react";
-
 const SelectOptions = () => {
   return (
     <div class={`container-center font-semibold space-y-4`}>

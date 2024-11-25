@@ -23,7 +23,8 @@ export const loginUsers = createAsyncThunk(
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/v1/user/signin`,
-        user
+        user,
+        { withCredentials: true }
       );
       if (res.status === 200) {
         navigate("/auth/login/verify-login");

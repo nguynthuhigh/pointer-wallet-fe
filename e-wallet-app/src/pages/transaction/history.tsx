@@ -2,33 +2,30 @@ import HeaderDefault from "../../components/header/header_default";
 import ItemTransaction from "../../components/transaction/item_transaction";
 import USDTIcon from "../../assets/svg/usdt.svg";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useIntersection } from "@mantine/hooks";
 import { getTransactionPaginate } from "../../services/api/transaction.api";
 import Filter from "../../components/transaction/filter";
+import Loading from "../loading";
 
 const HistoryTransactions = () => {
-  const [userID, setUserID] = useState<string>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const fetchTransaction = async (page: number) => {
-    const response = await getTransactionPaginate(page, 12);
+    const response = await getTransactionPaginate(page, 4);
     if (response.status === 200) {
-      setUserID(response.data.data.id);
-      setIsLoading(false);
       return response.data.data.transactions.transactions;
     }
+    throw new Error("Failed to fetch transactions");
   };
-  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
+
+  const { data, fetchNextPage, isLoading, isFetchingNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["query"],
-      queryFn: async ({ pageParam = 1 }) => {
-        return await fetchTransaction(pageParam);
-      },
-      getNextPageParam: (lastPage, pages) => {
-        return lastPage.length > 0 ? pages.length + 1 : undefined;
-      },
+      queryKey: ["transactions"],
+      queryFn: async ({ pageParam = 1 }) => fetchTransaction(pageParam),
+      getNextPageParam: (lastPage, pages) =>
+        lastPage.length > 0 ? pages.length + 1 : undefined,
       initialPageParam: 1,
     });
+
   const lastTransactionRef = useRef<HTMLElement>(null);
   const { ref, entry } = useIntersection({
     root: lastTransactionRef.current,
@@ -36,43 +33,28 @@ const HistoryTransactions = () => {
   });
 
   useEffect(() => {
-    if (entry?.isIntersecting) {
-      if (hasNextPage) {
-        fetchNextPage();
-      }
+    if (entry?.isIntersecting && hasNextPage) {
+      fetchNextPage();
     }
-  }, [entry]);
+  }, [entry, hasNextPage, fetchNextPage]);
+
+  if (isLoading) return <Loading />;
+
   return (
-    <div class={`container-full `}>
-      <div class={` p-4 `}>
-        <HeaderDefault title="Lịch sử giao dịch"></HeaderDefault>
+    <div className="container-full">
+      <div className="p-4">
+        <HeaderDefault title="Lịch sử giao dịch" />
       </div>
-      <Filter></Filter>
-      {!isLoading
-        ? data?.pages.flat().map((item, key) => {
-            if (data?.pages.flat().length - 1 === key) {
-              return (
-                <div ref={ref}>
-                  <ItemTransaction
-                    item={item}
-                    userID={userID}
-                    key={key}
-                    icon={USDTIcon}
-                  />
-                </div>
-              );
-            }
-            return (
-              <ItemTransaction
-                item={item}
-                userID={userID}
-                key={key}
-                icon={USDTIcon}
-              />
-            );
-          })
-        : "loading"}
-      {isFetchingNextPage && <h1 class={`text-center`}>Đang tải..</h1>}
+      <Filter />
+      {data?.pages.flat().map((item, index) => {
+        const isLastItem = data.pages.flat().length - 1 === index;
+        return (
+          <div ref={isLastItem ? ref : undefined} key={index}>
+            <ItemTransaction item={item} userID={item.userID} icon={USDTIcon} />
+          </div>
+        );
+      })}
+      {isFetchingNextPage && <h1 className="text-center">Đang tải..</h1>}
     </div>
   );
 };

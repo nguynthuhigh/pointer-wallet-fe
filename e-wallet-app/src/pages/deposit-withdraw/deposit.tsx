@@ -1,12 +1,13 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import Cards from "react-credit-cards-2";
-import { useSelector } from "react-redux";
 import CurrencyInput from "react-currency-input-field";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import { formatCurrency } from "../../utils/format_currency";
-import { RootState } from "../../redux/store";
 import DrawerBottom from "./drawer_security";
+
+import { useGetProfileQuery } from "../../redux/features/profile/profileApi";
+import { useGetCreditCardsQuery } from "../../redux/features/credit-card/creditCardApi";
 
 interface DepositProps {
   cardId: string | null;
@@ -15,14 +16,12 @@ interface DepositProps {
 }
 
 export default function Deposit({ cardId, currency, balance }: DepositProps) {
+  const { data: wallet } = useGetProfileQuery();
+  const { data: cards } = useGetCreditCardsQuery();
   const [amount, setAmount] = useState<string>("");
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
-  const cardData = useSelector(
-    (state: RootState) => state.cards.cardState.cards
-  );
-  const walletAddress = useSelector(
-    (state: RootState) => state.user.userState.walletData.address
-  );
+  const cardData = cards?.data;
+  const walletAddress = wallet?.data.walletData.address;
 
   const MIN_DEPOSIT = currency === "USD" ? 10 : 10000;
   const MAX_DEPOSIT = currency === "USD" ? 1000 : 10000000;
@@ -40,10 +39,10 @@ export default function Deposit({ cardId, currency, balance }: DepositProps) {
     setAmount(value || "");
   };
 
-  const selectedCard = cardData.find((card) => card._id === cardId);
+  const selectedCard = cardData && cardData.find((card) => card._id === cardId);
 
   const handleCopyAddress = () => {
-    navigator.clipboard.writeText(walletAddress);
+    navigator.clipboard.writeText(walletAddress || "");
     toast.success("Đã sao chép địa chỉ ví!");
   };
 
@@ -94,7 +93,7 @@ export default function Deposit({ cardId, currency, balance }: DepositProps) {
             <Cards
               number={selectedCard.number}
               expiry={`${selectedCard.expiryMonth}/${selectedCard.expiryYear}`}
-              cvc={selectedCard.cvv}
+              cvc={selectedCard.cvc?.toString() || ""}
               name={selectedCard.name}
             />
           </div>

@@ -92,7 +92,7 @@ const InputAmount = ({ ...props }) => {
           onChange={handleChange}
           name="message"
           maxLength={100}
-          className="border mt-10 rounded-xl w-full h-24 p-1"
+          className="border mt-10 rounded-xl w-full h-24 p-4"
           placeholder="Nhập nội dung đính kèm"
         ></textarea>
       </div>
