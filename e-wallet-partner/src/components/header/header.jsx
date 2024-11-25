@@ -32,7 +32,7 @@ export default function Home({ ...props }) {
           <Link to="/download-app">Download App</Link>
           <Link to="/demo">Payment Gateway</Link>
         </div>
-        <Button name={"Dashboard"} link={"/dashboard"}></Button>
+        <Button name={"Sign-in"} link={"/sign-in"}></Button>
       </div>
     </div>
   );

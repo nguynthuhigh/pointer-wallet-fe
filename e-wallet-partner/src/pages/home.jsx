@@ -1,7 +1,7 @@
-import Welcome from "./welcome";
-import Header from "../header/header";
-import Footer from "../footer/footer";
-import CountDownPage from "./countdown";
+import Welcome from "../components/home/welcome";
+import Header from "../components/header/header";
+import Footer from "../components/footer/footer";
+import CountDownPage from "../components/home/countdown";
 import { useEffect } from "react";
 export default function Home() {
   useEffect(() => {

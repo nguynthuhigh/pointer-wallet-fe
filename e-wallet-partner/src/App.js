@@ -1,4 +1,4 @@
-import Home from "./components/home/home";
+import Home from "./pages/home";
 import UpdateProfile from "./pages/auth/update-profile";
 import { Routes, Route } from "react-router-dom";
 import PageNotFound from "./components/pages/page-not-found";
@@ -16,7 +16,7 @@ import Settings from "./pages/settings";
 import Authorize from "./pages/auth/authorize";
 import PaymentGateway from "./pages/payment/payment";
 import SignIn from "./pages/auth/sign-in";
-import { Toaster } from 'react-hot-toast'
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -40,11 +40,9 @@ function App() {
 
         <Route path="*" element={<PageNotFound />} />
         <Route path="/payment-gateway" element={<PaymentGateway />} />
-        
       </Routes>
-      <Toaster/>
+      <Toaster />
     </div>
-
   );
 }
 
