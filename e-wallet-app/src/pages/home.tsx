@@ -1,47 +1,31 @@
-import { useEffect, useState, useMemo } from "preact/compat";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import CashInIcon from "../assets/svg/cashin.svg";
-import { useDispatch, useSelector } from "react-redux";
 import ButtonFeature from "../components/home/button_feat";
 import Settings_Icon from "../assets/svg/settings.svg";
-import HistoryIcon from "../assets/svg/history_trans.svg";
-import { formatCurrency } from "../utils/format_currency";
 import RecentTransaction from "../components/home/recent_transaction";
 import Assets from "../components/home/assets";
-import { getProfile } from "../redux/user/userThunk";
-import { AppDispatch, RootState } from "../redux/store";
+import { buttonFeatures } from "../constants";
+import { formatCurrency } from "../utils/format_currency";
+
+import { useGetProfileQuery } from "../redux/features/profile/profileApi";
+import { useAppSelector } from "../redux/hooks";
 
 const Home = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { data: users, isLoading, refetch } = useGetProfileQuery();
+  const { isUpdated } = useAppSelector((state) => state.wallet);
 
-  const dispatch = useDispatch<AppDispatch>();
-  const profile = useSelector((state: RootState) => state.user.userState);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await dispatch(getProfile());
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
-  }, [dispatch]);
-
-  const { userData, walletData } = profile || {
+  const { userData, walletData } = users?.data || {
     userData: undefined,
     walletData: undefined,
   };
-
-  const userAvatar = useMemo(
-    () =>
-      isLoading
-        ? "rounded-full w-[50px] h-[50px] bg-gray-200 animate-pulse"
-        : "rounded-full w-[50px] h-[50px] object-cover",
-    [isLoading]
-  );
+  useEffect(() => {
+    if (isUpdated) {
+      refetch();
+    }
+  }, []);
+  const userAvatar = isLoading
+    ? "rounded-full w-[50px] h-[50px] bg-gray-200 animate-pulse"
+    : "rounded-full w-[50px] h-[50px] object-cover";
 
   const renderUserGreeting = () => {
     if (isLoading) {
@@ -62,14 +46,6 @@ const Home = () => {
       </>
     );
   };
-
-  const buttonFeatures = [
-    { link: "/transfer", image: CashInIcon, title: "Gửi" },
-    { link: "/receive-page", image: HistoryIcon, title: "Nhận" },
-    { link: "/scan-qrcode", image: CashInIcon, title: "Quét mã" },
-    { link: "/deposit-withdraw", image: CashInIcon, title: "Nạp/Rút" },
-    { link: "/transaction/history", image: HistoryIcon, title: "Lịch sử" },
-  ];
 
   return (
     <>

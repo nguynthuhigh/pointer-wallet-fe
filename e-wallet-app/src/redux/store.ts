@@ -10,9 +10,9 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { apiSlice } from "./features/api/apiSlice";
 import authReducer from "./auth/authSlice";
-import userReducer from "./user/userSlice";
-import cardReducer from "./credit-card/cardSlice";
+import walletSlice from "./features/walletSlice";
 
 const persistConfig = {
   key: "root",
@@ -21,9 +21,9 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
+  [apiSlice.reducerPath]: apiSlice.reducer,
   auth: authReducer,
-  user: userReducer,
-  cards: cardReducer,
+  wallet: walletSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -35,11 +35,10 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(apiSlice.middleware),
 });
 
 export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
-

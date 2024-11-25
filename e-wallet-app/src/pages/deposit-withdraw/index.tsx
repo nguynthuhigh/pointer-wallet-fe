@@ -6,18 +6,20 @@ import "react-credit-cards-2/dist/es/styles-compiled.css";
 import CreditCard from "../../assets/svg/cCard.svg";
 import HeaderDefault from "../../components/header/header_default";
 import { Wallet, wallet } from "../../components/button/wallet";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import Modal from "../credit-card/components/modal";
 import Deposit from "./deposit";
 import Withdraw from "./withdraw";
+import { useGetProfileQuery } from "../../redux/features/profile/profileApi";
+import { useGetCreditCardsQuery } from "../../redux/features/credit-card/creditCardApi";
 
 export default function DepositWithdraw() {
   const navigate = useNavigate();
-  const walletData = useSelector((state: RootState) => state.user);
-  const cardData = useSelector((state: RootState) => state.cards);
+  const { data: user, isLoading } = useGetProfileQuery();
+  const { data: cards, isLoading: isLoadingCards } = useGetCreditCardsQuery();
+  const walletData = user?.data.walletData;
+  const cardData = cards?.data;
   useEffect(() => {
-    if (cardData?.cardState?.cards.length === 0) {
+    if (cardData && cardData.length === 0) {
       toast.custom((t) => (
         <div
           className={`${
@@ -42,13 +44,13 @@ export default function DepositWithdraw() {
         </div>
       ));
     }
-  }, [cardData?.cardState?.cards]);
+  }, [cards?.data]);
   const [isSelectedCard, setIsSelectedCard] = useState<string | null>(null);
   const [isSelectedCurrency, setIsSelectedCurrency] = useState<string | null>(
     "VND"
   );
   const [selectedBalance, setSelectedBalance] = useState<number>(
-    walletData?.userState?.walletData?.currencies?.[0]?.balance
+    walletData?.currencies?.[0]?.balance || 0
   );
   const [isDepositModalOpen, setIsDepositModalOpen] = useState<boolean>(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] =
@@ -72,13 +74,13 @@ export default function DepositWithdraw() {
   };
 
   const showActionButtons = isSelectedCard && isSelectedCurrency;
-  const filterCards = cardData?.cardState?.cards.filter(
+  const filterCards = cardData && cardData.filter(
     (card) => card.type === "visa" || card.type === "mastercard"
   );
   return (
     <div className="p-4 border bg-white sm:m-2 rounded-xl shadow-lg h-fit w-full">
       <HeaderDefault title="Nạp/Rút" />
-      {cardData?.cardState?.cards.length === 0 ? (
+      {cardData?.length === 0 ? (
         <div
           className={`flex items-center justify-center text-lg text-gray-500`}
         >
@@ -94,7 +96,7 @@ export default function DepositWithdraw() {
         </div>
       ) : (
         <>
-          {cardData?.isFetching ? (
+          {isLoadingCards ? (
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[1, 2, 3, 4].map((index) => (
                 <div
@@ -115,17 +117,13 @@ export default function DepositWithdraw() {
                       key={index}
                       icon={value.img}
                       currency={value.currency}
-                      balance={
-                        walletData?.userState?.walletData?.currencies?.[index]
-                          ?.balance
-                      }
+                      balance={walletData?.currencies?.[index]?.balance || 0}
                       isSelected={isSelectedCurrency === value.currency}
-                      isLoading={walletData.isFetching}
+                      isLoading={isLoading}
                       onClick={() =>
                         handleCurrencySelect(
                           value.currency,
-                          walletData?.userState?.walletData?.currencies?.[index]
-                            ?.balance
+                          walletData?.currencies?.[index]?.balance || 0
                         )
                       }
                     />
@@ -137,7 +135,7 @@ export default function DepositWithdraw() {
                   Chọn thẻ tín dụng
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 self-center justify-items-center align-items-center">
-                  {filterCards.map((card) => (
+                  { filterCards && filterCards.map((card) => (
                     <div
                       key={card._id}
                       onClick={() => handleCardSelect(card._id ?? "")}
@@ -151,7 +149,7 @@ export default function DepositWithdraw() {
                         <Cards
                           number={card.number}
                           expiry={`${card.expiryMonth}/${card.expiryYear}`}
-                          cvc={card.cvv}
+                          cvc={card.cvc || 0}
                           name={card.name}
                         />
                       </div>
