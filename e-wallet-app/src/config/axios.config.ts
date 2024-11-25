@@ -17,7 +17,6 @@ const onRefreshed = () => {
 export const createAxios = () => {
   const store = getStore();
   const accessToken = store.getState().auth.accessToken;
-  const dispatch = store.dispatch;
 
   const newInstance = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
@@ -47,12 +46,12 @@ export const createAxios = () => {
           isRefreshing = true;
           try {
             const response = await newInstance.post(
-              `/api/v1/user/refresh-token`
+              `/api/v1/user/refresh-token`,
+              { withCredentials: true }
             );
-
             if (response.status === 200) {
               const newAccessToken = response.data.data;
-              dispatch(addAccessToken(newAccessToken));
+              store.dispatch(addAccessToken(newAccessToken));
               onRefreshed();
               isRefreshing = false;
 

@@ -8,9 +8,11 @@ import { buttonFeatures } from "../constants";
 import { formatCurrency } from "../utils/format_currency";
 
 import { useGetProfileQuery } from "../redux/features/profile/profileApi";
-import { useAppSelector } from "../redux/hooks";
+import { useAppSelector, useAppDispatch } from "../redux/hooks";
+import { setWalletUpdated } from "../redux/features/walletSlice";
 
 const Home = () => {
+  const dispatch = useAppDispatch();
   const { data: users, isLoading, refetch } = useGetProfileQuery();
   const { isUpdated } = useAppSelector((state) => state.wallet);
 
@@ -21,6 +23,7 @@ const Home = () => {
   useEffect(() => {
     if (isUpdated) {
       refetch();
+      dispatch(setWalletUpdated(false));
     }
   }, []);
   const userAvatar = isLoading
