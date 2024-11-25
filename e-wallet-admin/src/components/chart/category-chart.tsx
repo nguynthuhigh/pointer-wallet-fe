@@ -1,20 +1,18 @@
+import { getTypeTransactions } from '@/api/analyst.api'
+import { IGetTypeTransactions } from '@/interfaces/analyst'
+import { useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
+
 export const CategoryChart = () => {
-    const data = [
-        {
-            name: 'Transfer', value: 239
-        },
-        {
-            name: 'Deposit', value: 113
-        },
-        {
-            name: 'Pending', value: 112
-        },
-        {
-            name: 'Refund', value: 33
-        },
-    ]
+
+    const {data:getTypeTransaction,isLoading,isError} = useQuery<IGetTypeTransactions[]>({
+        queryKey: ['get-type-transaction-analyst'],
+        queryFn: () => getTypeTransactions()
+    })
+    console.log(getTypeTransaction)
+    if (isLoading) return 'Loading...'
+    if (isError || !getTypeTransaction || getTypeTransaction.length === 0) return 'Fetching data error'
 
     const colors = ['#EC4899','#8B5CF6','#10B981','#F59E0B']
     return (
@@ -28,13 +26,13 @@ export const CategoryChart = () => {
                 <p
                     className='text-2xl font-medium mb-4 text-gray-100 '
                 >
-                    Category Transactions
+                    Type Transactions
                 </p>
                 <div className='h-80'>
                     <ResponsiveContainer width={"100%"} height={"100%"}>
                         <PieChart>
                             <Pie
-                                data={data}
+                                data={getTypeTransaction}
                                 dataKey='value'
                                 cx={"50%"}
                                 cy={"50%"}
@@ -43,8 +41,11 @@ export const CategoryChart = () => {
                                 fill='#8884d8'
                                 label = {({name,percent}) => `${name} ${(percent * 100).toFixed(0)}%`}
                             >
-                            {data.map((item,index) => (
-                                <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                            {getTypeTransaction.map((_,index:number) => (
+                                <Cell   
+                                    key={`cell-${index}`} 
+                                    fill={colors[index % colors.length]} 
+                                />
                             ))}    
                             </Pie>
                             <Tooltip

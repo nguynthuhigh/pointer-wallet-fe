@@ -1,48 +1,31 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import { motion } from 'framer-motion'
+import { useQuery } from '@tanstack/react-query';
+import { getThisMonth, getThisWeek } from '@/api/analyst.api';
+import { IGetThisMonth, IGetThisWeek } from '@/interfaces/analyst';
 import { useState } from 'react';
+import { formatDateApi } from '@/utils/format-date';
 export const TransactionChart = () => {
     const [isClick, setIsClick] = useState<'week' | 'month'>('week')
 
-    const data = [
-        {
-            name: "6d ago", transaction: 30
-        },
-        {
-            name: "5d ago", transaction: 40
-        },
-        {
-            name: "4d ago", transaction: 10
-        },
-        {
-            name: "3d ago", transaction: 12
-        },
-        {
-            name: "2d ago", transaction: 19
-        },
-        {
-            name: "1d ago", transaction: 26
-        },
-        {
-            name: "today", transaction: 7
-        }
-    ];
-    const data1 = [
-        {
-            name: "3 weeks ago", transaction: 30
-        },
-        {
-            name: "2 weeks ago", transaction: 40
-        },
-        {
-            name: "1 week ago", transaction: 10
-        },
-        {
-            name: "this month", transaction: 10
-        },
-       
-    ];
-    return (
+    const {data:thisWeek,isLoading: isLoadingWeek,isError:isErrorWeek} = useQuery<IGetThisWeek>({
+        queryKey: ['get-this-week-analyst'],
+        queryFn: () => getThisWeek(),
+    })
+
+    const {data:thisMonth,isLoading: isLoadingMonth,isError:isErrorMonth} = useQuery<IGetThisMonth>({
+        queryKey: ['get-this-month-analyst'],
+        queryFn: () => getThisMonth(),
+    })
+
+    const isLoading = isLoadingWeek || isLoadingMonth
+    const isError = isErrorWeek || isErrorMonth
+    
+    if (isLoading) return 'Loading...'
+    if (isError) return 'Fetching data error'
+    console.log(thisMonth)
+    console.log(thisWeek)
+    return (    
         <>
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -73,9 +56,9 @@ export const TransactionChart = () => {
                 </div>
                 <div className='h-80'>
                     <ResponsiveContainer width={"100%"} height={"100%"}>
-                        <LineChart data={isClick === 'week' ? data : data1}>
+                        <LineChart data={formatDateApi(thisWeek)}>
                             <CartesianGrid strokeDasharray='3 3' stroke='#4B5563' />
-                            <XAxis dataKey={"name"} stroke='#9CA3AF' />
+                            <XAxis dataKey={"date"} stroke='#9CA3AF' />
                             <YAxis stroke='#9CA3AF' />
                             <Tooltip
                                 contentStyle={{
@@ -86,7 +69,7 @@ export const TransactionChart = () => {
                             />
                             <Line
                                 type='monotone'
-                                dataKey='transaction'
+                                dataKey="transaction"
                                 stroke='#6366F1'
                                 strokeWidth={3}
                                 dot={{ fill: '#6366F1', strokeWidth: 2, r: 5 }}
