@@ -9,7 +9,8 @@ import DepositWithdraw from "../../assets/svg/depo-with.svg";
 import CreditCard from "../../assets/svg/credit-card.svg";
 import Settings from "../../assets/svg/set.svg";
 import History from "../../assets/svg/transaction-history.svg";
-
+import ConnectAppIcon from '../../assets/svg/connect_app.svg';
+import ConnectAppListIcon from '../../assets/svg/connect-app-list.svg'
 interface SideBarProps {
   state: string;
 }
@@ -68,7 +69,9 @@ const SideBar: React.FC<SideBarProps> = ({ state }) => {
         link: "/transaction/history",
         icon: History,
       },
+      {name: "App đã liên kết", link: "/connect-app-list",icon: ConnectAppIcon},
       { name: "Cài đặt", link: "/setting", icon: Settings },
+      
     ],
     []
   );
