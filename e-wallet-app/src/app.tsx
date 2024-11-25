@@ -31,8 +31,9 @@ import TransferByQrCode from "./pages/receive/transfer";
 import Result from "./pages/deposit-withdraw/result";
 import SelectOptions from "./pages/payment/select_options";
 import RegisteredRoute from "./utils/registered-route";
-import ConnectApp from "./pages/connect-app/connect-app";
-import ConnectAppList from "./pages/connect-app/connect-app-list";
+import { ConnectApp } from "./pages/connect-app/connect-app";
+import { ConnectAppList } from "./pages/connect-app/connect-app-list";
+import { Toaster } from "react-hot-toast";
 
 const AuthenticatedLayout: React.FC = () => {
   return (
@@ -103,5 +104,6 @@ export default function App() {
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Router>
+   
   );
 }

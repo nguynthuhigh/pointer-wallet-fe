@@ -5,10 +5,10 @@ interface BodyType {
   security_code: string;
 }
 
-export async function getPartnerWallet({ partnerId }: { partnerId: string }) {
+export const getPartnerWallet = async ({partnerId} : {partnerId: string}) => {
   const axiosInstance = createAxios();
-  const response = await axiosInstance.get(`/api/v1/partner/${partnerId}`);
-  return response.data;
+  const response =  await axiosInstance.get(`/api/v1/partner/${partnerId}`)
+  return response.data.data;
 }
 
 export const connectWallet = async (body: BodyType) => {
@@ -19,3 +19,15 @@ export const connectWallet = async (body: BodyType) => {
     userID: body.userId,
   })
 };
+
+export async function getConnectedAppWallet() {
+  const axiosInstance = createAxios();
+  const response = await axiosInstance.get(`/api/v1/connected-app`);
+  return response.data.data
+}
+
+export const disconnectWallet = async ({partnerId} : {partnerId:string}) => {
+    const axiosInstance = createAxios();
+    const response = await axiosInstance.delete(`/api/v1/disconnect-wallet/${partnerId}`)
+    return response.data
+}

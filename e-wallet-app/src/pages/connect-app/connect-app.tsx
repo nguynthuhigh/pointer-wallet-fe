@@ -1,12 +1,11 @@
 import HeaderDefault from "../../components/header/header_default";
 import AvatarDefault from '../../assets/png/default_avatar.png'
-import { useMutation, useQuery } from '@tanstack/react-query';
-import axios from "axios";
+import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from "react-router-dom";
 import { getPartnerWallet } from "../../services/api/connect-app.api";
 import DrawerBottom from "./drawer_security"
 import { useState } from "react";
-export default function ConnectApp() {
+export const  ConnectApp:React.FC  = () => {
     const [isOpen,SetIsOpen] = useState(false)
     const [searchParams] = useSearchParams();
     const partnerId = searchParams.get('partnerId')
@@ -20,8 +19,9 @@ export default function ConnectApp() {
         }),
     })
     console.log(data)
-    if (isLoading) return 'Loading...'
-    if (isError) return 'Fetching data error'
+    console.log(returnUrl)
+    if (isLoading) return <p>Loading...</p>
+    if (isError) return <p>Fetching data error</p>
     
     const handleOpen = () => {
         SetIsOpen(true)
@@ -36,17 +36,10 @@ export default function ConnectApp() {
                 <div className={'space-y-[20px]'}>
                     <p className={'text-xl font-bold'}>Yêu cầu từ app </p>
                     <div className='grid grid-cols-[90px_1fr]'>
-                        {
-                            data?.data.image ? (
-                                <img src= {data.data.image} className='size-[60px] rounded-full'/>
-                            )
-                            : (
-                                <img src= {AvatarDefault} className='size-[60px] rounded-full'/>
-                            )
-                        }
+                            <img src= {data.image || AvatarDefault} className='size-[60px] rounded-full'/>
                         <div>
-                            <p className={'font-bold'}>{data.data.name}</p>
-                            <p className={'text-gray-500'}>{data.data.email}</p>
+                            <p className={'font-bold'}>{data.name}</p>
+                            <p className={'text-gray-500'}>{data.email}</p>
                         </div>
                     </div>
                     <div className={'w-full'}>

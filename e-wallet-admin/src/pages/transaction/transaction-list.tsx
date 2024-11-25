@@ -13,23 +13,19 @@ import { selectType } from "@/interfaces/type-box-items";
 import { motion } from 'framer-motion'
 import { AreaCard } from "@/components/chart/area-card";
 import { Activity, DollarSign, TrendingUp } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { getTransactionAnalyst } from "@/api/analyst.api";
+import { IGetTransactionAnalyst } from "@/interfaces/analyst";
+import { TransactionAnalystChart } from "@/components/chart/transaction-analyst-chart";
 export const TransactionsList = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedFromDate, setSelectedFromDate] = useState<Date | null>(null);
   const [selectedToDate, setSelectedToDate] = useState<Date | null>(null);
   // const [search, setSearch] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
-  const [status, setStatus] = useState<
-    "all" | "completed" | "fail" | "pending" | "refund"
-  >("all");
-  const [type, setType] = useState<
-    "all" | "transfer" | "deposit" | "payment" | "withdraw"
-  >("all");
+  const [status, setStatus] = useState<"all" | "completed" | "fail" | "pending" | "refund">("all");
+  const [type, setType] = useState<"all" | "transfer" | "deposit" | "payment" | "withdraw">("all");
 
-  //Handle
-  // const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setSearch(e.target.value);
-  // };
   const handleSortOrder = () => {
     setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
   };
@@ -48,6 +44,13 @@ export const TransactionsList = () => {
     setSelectedFromDate(null);
     setSelectedToDate(null);
   };
+
+  const { data: Transactions, isLoading, isError } = useQuery<IGetTransactionAnalyst>({
+    queryKey: ['get-transaction-analyst'],
+    queryFn: () => getTransactionAnalyst()
+  })
+  if (isLoading) return 'Loading...'
+  if (isError) return 'Fetching data error'
   return (
     <>
       <div className="flex-1 mx-auto h-screen overflow-auto">
@@ -57,30 +60,30 @@ export const TransactionsList = () => {
             className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4'
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5,delay:0.2 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
           >
             <AreaCard
               name='Total Transactions'
               icon={DollarSign}
-              value='300'
+              value={Transactions?.totalTransaction || 0}
               color='#3b82f6'
             />
             <AreaCard
               name='New Transactions Today'
               icon={DollarSign}
-              value='3'
+              value={Transactions?.totalTransactionToday || 0}
               color='#10b981'
             />
             <AreaCard
-              name='Total Revenues'
+              name='Transaction Completed'
               icon={TrendingUp}
-              value='38'
+              value={Transactions?.transactionCompleted || 0}
               color='#f59e0b'
             />
             <AreaCard
               name='Transaction Success Rate'
               icon={Activity}
-              value='90%'
+              value={`${Transactions?.transactionRate}%`}
               color='#ec4899'
             />
           </motion.div>
@@ -134,6 +137,9 @@ export const TransactionsList = () => {
               </div>
             </div>
           </motion.div>
+          <div>
+            <TransactionAnalystChart />
+          </div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -150,7 +156,9 @@ export const TransactionsList = () => {
               sortOrder={sortOrder}
             />
           </motion.div>
+
         </main>
+
       </div>
     </>
   );

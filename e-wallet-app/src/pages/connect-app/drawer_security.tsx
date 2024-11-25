@@ -40,7 +40,6 @@ const DrawerBottom: React.FC<BottomDrawerProps> = ({
   state,
   data,
 }) => {
-  const navigate = useNavigate();
   const [otp, setOtp] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -53,7 +52,7 @@ const DrawerBottom: React.FC<BottomDrawerProps> = ({
     },
     onSuccess: (body:bodyType) => {
       toast.success('Kết nối ví thành công!')
-      navigate(`${body.returnUrl}`)
+      console.log(body.returnUrl)
     }
   })
   const handleChangeOTP = async (value: string) => {
@@ -68,8 +67,7 @@ const DrawerBottom: React.FC<BottomDrawerProps> = ({
       setIsLoading(true);
       try {
         await mutation.mutateAsync(body)
-       
-        
+        window.location.href = body.returnUrl
         setIsLoading(false);
         onClose();
       } catch (error: unknown) {
