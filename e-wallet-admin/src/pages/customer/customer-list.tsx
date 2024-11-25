@@ -73,10 +73,8 @@ export default function ListUser() {
         queryKey: ['get-customer-analyst'],
         queryFn: () => getCustomerAnalyst()
     })
-
     if (isLoading) return 'Loading...'
     if (isError) return 'Fetching data error'
-
 
     return (
         <div className='flex-1 mx-auto h-screen overflow-auto'>
@@ -91,25 +89,25 @@ export default function ListUser() {
                     <AreaCard
                         name='Total Customers'
                         icon={User}
-                        value={Customer?.totalCustomer}
+                        value={Customer?.totalCustomer || 0}
                         color='#3b82f6'
                     />
                     <AreaCard
                         name='New Customers today'
                         icon={UserPlus}
-                        value= {Customer?.totalCustomerToday}
+                        value= {Customer?.totalCustomerToday || 0}
                         color='#10b981'
                     />
                     <AreaCard
                         name='Active Customers'
                         icon={UserRoundCheck}
-                        value= {Customer?.totalCustomerActive}
+                        value= {Customer?.totalCustomerActive || 0}
                         color='#f59e0b'
                     />
                     <AreaCard
                         name='Inactive Customers'
                         icon={UserRoundX}
-                        value= {Customer?.totalCustomerInactive}
+                        value= {Customer?.totalCustomerInactive || 0}
                         color='#ec4899'
                     />
                 </motion.div>

@@ -1,6 +1,6 @@
 import {motion} from 'framer-motion'
 
-export const AreaCard = ({name,icon:Icon,value,color} : {name:string,icon:React.ElementType,value:number,color:string}) => {
+export const AreaCard = ({name,icon:Icon,value,color} : {name:string,icon:React.ElementType,value:number | string,color:string}) => {
   return (
     <>
         <motion.div

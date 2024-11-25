@@ -89,13 +89,13 @@ export const SideBar = () => {
                 <motion.div
                   whileHover={{ x: 10 }}
                   whileTap={{ scale: 0.9 }}
-                  className={`flex items-center text-md px-2 py-4 font-medium rounded-lg  transition-colors duration-300 mb-2 
-                                    ${
-                                      location.pathname === items.path
-                                        ? "bg-gray-200"
-                                        : "hover:bg-gray-500"
-                                    }
-                                    ${!isSideBarOpen ? "justify-center" : ""}`}
+                  className={`flex items-center text-md px-2 py-4 font-medium rounded-lg transition-colors duration-300 mb-2 
+                  ${
+                    location.pathname === items.path
+                      ? "bg-gray-200 text-gray-900 "
+                      : "hover:bg-gray-500"
+                  }
+                  ${!isSideBarOpen ? "justify-center" : ""}`}
                 >
                   <items.icon
                     style={{ color: items.color, minWidth: "20px" }}
@@ -103,7 +103,7 @@ export const SideBar = () => {
                   <AnimatePresence>
                     {isSideBarOpen && (
                       <motion.span
-                        className="ml-4 whitespace-nowrap text-gray-400"
+                        className="ml-4 whitespace-nowrap"
                         initial={{ opacity: 0, width: 0 }}
                         animate={{ opacity: 1, width: "auto" }}
                         exit={{ opacity: 0, width: 0 }}
