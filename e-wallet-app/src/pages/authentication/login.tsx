@@ -53,9 +53,9 @@ const Login = () => {
   };
 
   return (
-    <div className={` h-screen bg-gray-50`}>
-      <div class="container-auth">
-        <div class="w-full">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-10 max-w-lg w-full rounded-2xl shadow-xl transition-shadow duration-300 ease-in-out hover:shadow-xl border">
+        <div className="w-full">
           <img class="mx-auto mt-10 w-52" src={AuthImg}></img>
           <h1 class="text-center font-semibold text-2xl mt-5">
             Thông tin đăng nhập

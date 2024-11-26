@@ -3,6 +3,7 @@ import Profile from "../../components/setting/profile_tab";
 import Security from "../../components/setting/security_tab";
 import { useQuery } from "@tanstack/react-query";
 import { getProfileAPI } from "../../services/api/auth.api";
+import Loading from "../loading";
 export default function Setting() {
   const { data, isLoading } = useQuery({
     queryKey: ["userProfile"],
@@ -14,7 +15,7 @@ export default function Setting() {
   return (
     <div class={`container-center`}>
       {isLoading ? (
-        "...loading"
+        <Loading />
       ) : (
         <Tabs
           selectedTabClassName={`bg-blue-500 text-white rounded-lg focus:outline-none `}
