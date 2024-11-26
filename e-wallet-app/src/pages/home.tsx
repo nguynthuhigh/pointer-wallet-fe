@@ -18,8 +18,7 @@ const Home = () => {
     isLoading,
     refetch,
   } = useGetProfileQuery(undefined, {
-    pollingInterval: 20000,
-    skipPollingIfUnfocused: true,
+    pollingInterval: 10000,
   });
   const { isUpdated } = useAppSelector((state) => state.wallet);
 
@@ -31,10 +30,9 @@ const Home = () => {
     if (isUpdated) {
       refetch();
       dispatch(setWalletUpdated(false));
-    } else {
-      refetch();
     }
   }, [dispatch, isUpdated, refetch]);
+
   const userAvatar = isLoading
     ? "rounded-full w-[50px] h-[50px] bg-gray-200 animate-pulse"
     : "rounded-full w-[50px] h-[50px] object-cover";

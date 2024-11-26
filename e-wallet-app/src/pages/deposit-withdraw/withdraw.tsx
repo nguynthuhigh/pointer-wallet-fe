@@ -58,8 +58,6 @@ export default function Withdraw({ cardId, currency, balance }: WithdrawProps) {
 
   return (
     <div className="p-4 w-full max-w-md mx-auto">
-      <h2 className="text-lg font-bold w-full text-center">Rút tiền</h2>
-
       <div className="mt-4">
         {selectedCard ? (
           <div className="flex justify-center mb-4">

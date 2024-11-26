@@ -21,7 +21,7 @@ export default function Deposit({ cardId, currency, balance }: DepositProps) {
   const [amount, setAmount] = useState<string>("");
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const cardData = cards?.data;
-  const walletAddress = wallet?.data.walletData.address;
+  const walletAddress = wallet?.data?.walletData?.address;
 
   const MIN_DEPOSIT = currency === "USD" ? 10 : 10000;
   const MAX_DEPOSIT = currency === "USD" ? 1000 : 10000000;
@@ -66,8 +66,6 @@ export default function Deposit({ cardId, currency, balance }: DepositProps) {
 
   return (
     <div className="p-4 w-full max-w-md mx-auto">
-      <h2 className="text-lg font-bold w-full text-center">Nạp tiền</h2>
-
       <div className="mt-4">
         {currency === "ETH" ? (
           <div className="mb-4 text-center flex items-center space-x-5">
