@@ -1,32 +1,31 @@
-import SideBar from "@/components/sidebar/sidebar"
 import AvatarDefault from '../../assets/png/avatarDefault.png'
-import { GoDotFill } from "react-icons/go";
 
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableFooter,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
-import { SiTicktick } from "react-icons/si";
-import { GiCancel } from "react-icons/gi";
-import { CardPartner } from "@/components/card/partner";
-import { CardVoucher } from "@/components/card/voucher";
-import { DateFrom } from "@/components/date/date-from";
-import { DateTo } from "@/components/date/date-to";
-import { Button } from "@mui/material";
-import { useState } from "react";
-import { SortBox } from "@/components/box/box-sort";
-import { IVoucher } from "@/interfaces/voucher"
+// import {
+//     Table,
+//     TableBody,
+//     TableCell,
+//     TableFooter,
+//     TableHead,
+//     TableHeader,
+//     TableRow,
+// } from "@/components/ui/table"
+// import { SiTicktick } from "react-icons/si";
+// import { GiCancel } from "react-icons/gi";
+// import { CardPartner } from "@/components/card/partner";
+// import { CardVoucher } from "@/components/card/voucher";
+// import { DateFrom } from "@/components/date/date-from";
+// import { DateTo } from "@/components/date/date-to";
+// import { Button } from "@mui/material";
+// import { useState } from "react";
+// import { SortBox } from "@/components/box/box-sort";
+// import { IVoucher } from "@/interfaces/voucher"
 import { HeaderComponent } from "@/components/header/header";
 import { motion } from 'framer-motion'
 import { useQuery } from "@tanstack/react-query";
-import { FaAws } from "react-icons/fa";
 import axiosInstance from "@/api/axiosInstance";
 import { useParams } from "react-router-dom";
+import { CardVoucher } from '@/components/card/voucher';
+import { CardPartner } from '@/components/card/partner';
 export const VoucherDetail = () => {
     const {id} = useParams()
     const {data:voucherDetail,isLoading,isError} = useQuery({
