@@ -1,4 +1,3 @@
-
 const VoucherItem = ({ ...props }) => {
   const data = props.data;
   return (
@@ -20,7 +19,7 @@ const VoucherItem = ({ ...props }) => {
       <div class={`p-2 flex`}>
         <div class={`flex font-semibold text-blue-default`}>
           <h1>Còn lại:</h1>
-          <h1 class={`ml-2`}>{data.quantity - data.usedCount}</h1>
+          <h1 class={`ml-2`}>{data.quantity}</h1>
         </div>
         {props.amount > data.min_condition ? (
           <button
