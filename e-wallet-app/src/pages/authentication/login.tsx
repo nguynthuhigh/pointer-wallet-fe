@@ -88,7 +88,8 @@ const Login = () => {
             Bạn chưa có tài khoản?{" "}
             <Link
               to="/auth/register"
-              className="font-semibold text-blue-default"
+              className="font-semibold transition-colors duration-300 ease-in-out text-blue-default hover:text-blue-400"
+              disabled={isFetching}
             >
               Đăng ký
             </Link>

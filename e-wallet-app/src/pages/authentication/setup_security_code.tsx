@@ -90,6 +90,7 @@ export default function SecurityCode() {
           title="Xác nhận"
           onClick={handleSubmit}
           isLoading={isLoading}
+          disabled={isLoading}
         />
       </div>
       <Toaster position="top-right" />

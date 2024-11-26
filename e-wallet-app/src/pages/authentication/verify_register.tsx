@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { useState, useEffect } from "preact/hooks";
 import OTPInput from "react-otp-input";
 import toast, { Toaster } from "react-hot-toast";
@@ -22,7 +21,7 @@ export default function VerifyRegister() {
   const [count, setCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");
-  
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { registerUser } = useAppSelector((state) => state.auth.register);
@@ -44,7 +43,7 @@ export default function VerifyRegister() {
         });
         if (response.status === 200) {
           toast.success(response.data.message);
-          await dispatch(addAccessToken(response.data.data));
+          dispatch(addAccessToken(response.data.data));
           setTimeout(() => {
             navigate("/auth/register/security-code", {
               state: { message: response.data.message },
@@ -119,7 +118,7 @@ export default function VerifyRegister() {
           inputType="tel"
           renderInput={({ style, ...props }) => (
             <input
-              class={`text-center font-semibold text-3xl border w-14 h-14 mx-2 focus:outline-blue-default bg-gray-50 rounded-xl ${
+              class={`text-center transition-colors duration-300 ease-in-out font-semibold text-3xl border outline-gray-500 w-14 h-14 mx-2 focus:border-blue-default focus:outline-blue-default bg-gray-50 rounded-xl ${
                 error && "border-red-500"
               } ${isLoading ? "cursor-not-allowed bg-gray-200" : ""}`}
               disabled={isLoading}

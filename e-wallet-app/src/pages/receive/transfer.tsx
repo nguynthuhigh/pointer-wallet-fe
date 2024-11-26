@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import DrawerBottom from "../../components/transfer/drawer_security";
 import { DataSend } from "../../types/transfer";
 import { formatCurrency } from "../../utils/format_currency";
@@ -6,34 +6,35 @@ import { convertCurrency } from "../../utils/convert_currency";
 import CurrencyInput from "react-currency-input-field";
 import { symbolCurrency } from "../../utils/symbol_currency";
 import avatar from "../../assets/png/default_avatar.png";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import { useSearchParams } from "react-router-dom";
 import { getUserByEmail } from "../../services/api/transfer.api";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../loading";
 import ItemCurrency from "../../components/receive/item_currency";
-const TransferByQrCode:React.FC = () => {
-  const [searchParams] = useSearchParams()
-  const email = searchParams.get('email') ?? ''
-  const currency = searchParams.get('currency') ?? ''
-  const wallets = useSelector(
-    (state: RootState) => state.user.userState.walletData.currencies
-  ) 
-  const wallet = wallets.find(item => item.currency.symbol === currency)
-  const {isLoading,data,isError} = useQuery({
-    queryKey:['receive-user'],
-    queryFn: async ()=>{
-      const response = await getUserByEmail(email)
-      return response.data.data
+import { useGetProfileQuery } from "../../redux/features/profile/profileApi";
+const TransferByQrCode: React.FC = () => {
+  const { data: wallets } = useGetProfileQuery(undefined, {
+    pollingInterval: 20000,
+  });
+  const [searchParams] = useSearchParams();
+  const email = searchParams.get("email") ?? "";
+  const currency = searchParams.get("currency") ?? "";
+  const currencies = wallets?.data.walletData.currencies;
+  const wallet =
+    currencies && currencies.find((item) => item.currency.symbol === currency);
+  const { isLoading, data, isError } = useQuery({
+    queryKey: ["receive-user"],
+    queryFn: async () => {
+      const response = await getUserByEmail(email);
+      return response.data.data;
     },
-    refetchOnWindowFocus:false
-  })
-  if(isLoading){
-    return <Loading></Loading>
+    refetchOnWindowFocus: false,
+  });
+  if (isLoading) {
+    return <Loading></Loading>;
   }
-  if(isError){
-    console.log(isError)
+  if (isError) {
+    console.log(isError);
   }
   const [dataSend, setDataSend] = useState<DataSend>({
     amount: 0,
@@ -53,15 +54,9 @@ const TransferByQrCode:React.FC = () => {
     });
   };
   const handleSubmit = () => {
-    const amount = convertCurrency(
-      dataSend.amount,
-      dataSend.currency
-    );
+    const amount = convertCurrency(dataSend.amount, dataSend.currency);
     const balance =
-      convertCurrency(
-        wallet?.balance ?? 0,
-        dataSend.currency
-      ) || 0;
+      convertCurrency(wallet?.balance ?? 0, dataSend.currency) || 0;
     if (!amount) {
       return setError(`Vui lòng nhập số tiền`);
     }
@@ -109,7 +104,10 @@ const TransferByQrCode:React.FC = () => {
           placeholder={`Nhập nội dung đính kèm`}
         ></textarea>
       </div>
-     <ItemCurrency balance={wallet?.balance} currency={dataSend.currency}></ItemCurrency>
+      <ItemCurrency
+        balance={wallet?.balance}
+        currency={dataSend.currency}
+      ></ItemCurrency>
       <div class={`rounded-xl bg-gray-100 mt-2 p-4 flex`}>
         <img
           class={`w-10 h-10 rounded-full object-cover`}

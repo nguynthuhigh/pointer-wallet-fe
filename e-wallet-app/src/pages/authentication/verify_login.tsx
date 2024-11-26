@@ -81,7 +81,7 @@ const VerifyLogin = () => {
           inputType="tel"
           renderInput={({ style, ...props }) => (
             <input
-              class={`text-center font-semibold text-3xl border w-14 h-14 mx-2 focus:outline-blue-default bg-gray-50 rounded-xl ${
+              class={`text-center transition-colors duration-300 ease-in-out font-semibold text-3xl border outline-gray-500 w-14 h-14 mx-2 focus:border-blue-default focus:outline-blue-default bg-gray-50 rounded-xl ${
                 error && "border-red-500"
               } ${isLoading ? "cursor-not-allowed bg-gray-200" : ""}`}
               disabled={isLoading}

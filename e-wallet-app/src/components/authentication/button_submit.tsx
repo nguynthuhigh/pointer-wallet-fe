@@ -5,7 +5,7 @@ export const ButtonSubmit = ({ ...props }) => {
     <>
       {!props.isLoading ? (
         <button
-          class={`w-full bg-blue-default my-4 font-semibold text-white p-3 rounded-xl`}
+          className={`w-full bg-blue-default my-4 font-semibold text-white p-3 rounded-xl transition-all duration-300 ease-in-out hover:bg-blue-600 active:scale-95`}
           onClick={props.onClick}
         >
           {props.title}
@@ -13,9 +13,9 @@ export const ButtonSubmit = ({ ...props }) => {
       ) : (
         <button
           disabled
-          class={` w-full bg-gray-100 my-4 font-semibold text-white p-3 rounded-xl`}
+          className={`w-full bg-gray-100 my-4 font-semibold text-gray-400 p-3 rounded-xl cursor-not-allowed transition-all duration-300 ease-in-out`}
         >
-          <img class={`animate-spin mx-auto`} src={LoadingIcon}></img>
+          <img className={`animate-spin mx-auto w-6 h-6`} src={LoadingIcon} />
         </button>
       )}
     </>

@@ -17,7 +17,10 @@ interface ErrorType {
 }
 
 export default function CreditCard() {
-  const { data, isLoading } = useGetCreditCardsQuery();
+  const { data, isLoading } = useGetCreditCardsQuery(undefined, {
+    pollingInterval: 20000,
+    skipPollingIfUnfocused: true,
+  });
   const [deleteCreditCard, { isLoading: isDeleting, error: deleteError }] =
     useDeleteCreditCardMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);

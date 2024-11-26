@@ -90,9 +90,9 @@ export default function Register() {
   };
 
   return (
-    <div className={`h-screen bg-gray-50`}>
-      <div className="container-auth">
-        <img className="mx-auto mt-10 w-52" src={AuthImg} alt="auth image" />
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-10 max-w-lg w-full rounded-2xl shadow-xl transition-shadow duration-300 ease-in-out hover:shadow-xl border">
+        <img className="mx-auto mt-3 w-52" src={AuthImg} alt="auth image" />
         <h1 className="text-center font-semibold text-2xl mt-5">
           Đăng ký tài khoản
         </h1>
@@ -101,6 +101,7 @@ export default function Register() {
             error={errors.email?.message}
             register={register}
             name="email"
+            onChange={(e: any) => console.log(e.target.value)}
             type="email"
             title="Email"
             placeholder="Nhập địa chỉ Email"
@@ -112,6 +113,7 @@ export default function Register() {
             register={register}
             name="password"
             type="password"
+            onChange={(e: any) => console.log(e.target.value)}
             title="Mật khẩu"
             placeholder="Nhập mật khẩu"
             isFetching={isFetching}
@@ -123,6 +125,7 @@ export default function Register() {
             name="confirmPassword"
             type="password"
             title="Nhập lại mật khẩu"
+            onChange={(e: any) => console.log(e.target.value)}
             placeholder="Nhập lại mật khẩu"
             isFetching={isFetching}
           />
@@ -131,7 +134,11 @@ export default function Register() {
         </form>
         <h1 className="text-center font-semibold">
           Bạn đã có tài khoản?{" "}
-          <Link to="/auth/login" className="font-semibold text-blue-default">
+          <Link
+            to="/auth/login"
+            className="font-semibold transition-colors duration-300 ease-in-out text-blue-default hover:text-blue-600"
+            disabled={isFetching}
+          >
             Đăng nhập
           </Link>
         </h1>
