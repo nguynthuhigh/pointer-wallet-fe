@@ -5,8 +5,7 @@ export interface IGetThisWeek {
 }
 
 export interface IGetThisMonth {
-    start: string,
-    end: string,
+    data: string,
     transaction: number
 } 
 

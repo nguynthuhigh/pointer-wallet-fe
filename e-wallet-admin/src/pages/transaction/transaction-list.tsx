@@ -21,7 +21,6 @@ export const TransactionsList = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedFromDate, setSelectedFromDate] = useState<Date | null>(null);
   const [selectedToDate, setSelectedToDate] = useState<Date | null>(null);
-  // const [search, setSearch] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
   const [status, setStatus] = useState<"all" | "completed" | "fail" | "pending" | "refund">("all");
   const [type, setType] = useState<"all" | "transfer" | "deposit" | "payment" | "withdraw">("all");

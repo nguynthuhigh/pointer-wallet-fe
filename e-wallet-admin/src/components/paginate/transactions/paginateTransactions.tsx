@@ -17,11 +17,11 @@ import axiosInstance from "@/api/axiosInstance";
 interface ITransactionPage {
   currentPage: number;
   setCurrentPage: (page: number) => void;
-  filterType: "all" | "transfer" | "deposit" | "payment" | "withdraw";
-  filterStatus: "all" | "completed" | "fail" | "pending" | "refund";
-  selectedFromDate: Date | null;
-  selectedToDate: Date | null;
-  sortOrder: "asc" | "desc";
+  filterType?: "all" | "transfer" | "deposit" | "payment" | "withdraw";
+  filterStatus?: "all" | "completed" | "fail" | "pending" | "refund";
+  selectedFromDate?: Date | null;
+  selectedToDate?: Date | null;
+  sortOrder?: "asc" | "desc";
 }
 
 export const PaginateTransactions = ({
