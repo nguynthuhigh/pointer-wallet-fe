@@ -23,14 +23,14 @@ export const TransactionsList = () => {
   const [selectedToDate, setSelectedToDate] = useState<Date | null>(null);
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
   const [status, setStatus] = useState<"all" | "completed" | "fail" | "pending" | "refund">("all");
-  const [type, setType] = useState<"all" | "transfer" | "deposit" | "payment" | "withdraw">("all");
+  const [type, setType] = useState<"all" | "transfer" | "deposit" | "payment" | "withdraw" | "refund">("all");
 
   const handleSortOrder = () => {
     setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
   };
   const handleType = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setType(
-      e.target.value as "all" | "transfer" | "deposit" | "payment" | "withdraw"
+      e.target.value as "all" | "transfer" | "deposit" | "payment" | "withdraw" | "refund"
     );
   };
   const handleStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -86,11 +86,14 @@ export const TransactionsList = () => {
               color='#ec4899'
             />
           </motion.div>
+          <div>
+            <TransactionAnalystChart />
+          </div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.5 }}
-            className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md px-5 py-1 rounded-[6px] relative z-20"
+            className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md px-5 py-1 rounded-[6px] border border-gray-700 relative z-20"
           >
             <div className="flex items-center justify-between pb-[10px]">
               <div className="flex items-end text-base py-[10px] gap-x-[20px] cursor-pointer w-full">
@@ -136,14 +139,11 @@ export const TransactionsList = () => {
               </div>
             </div>
           </motion.div>
-          <div>
-            <TransactionAnalystChart />
-          </div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.5 }}
-            className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md px-5 py-4 rounded-[6px] relative z-10"
+            className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md px-5 py-4 rounded-[6px] border border-gray-700 relative z-10"
           >
             <PaginateTransactions
               currentPage={currentPage}
@@ -155,9 +155,7 @@ export const TransactionsList = () => {
               sortOrder={sortOrder}
             />
           </motion.div>
-
         </main>
-
       </div>
     </>
   );

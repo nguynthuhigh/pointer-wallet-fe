@@ -30,17 +30,17 @@ export const getTransactionAnalyst = async () => {
     return response.data.data
 }
 
-export const getTransaction1DAnalyst = async () => {
-    const response = await axiosInstance.get('/api/v1/admin-analyst/get-transactions-1d')
+export const getTransaction1DAnalyst = async ({date}: {date:Date | '' | null}) => {
+    const response = await axiosInstance.get(`/api/v1/admin-analyst/get-transactions-1d?date=${date}`)
     return response.data.data
 }
 
-export const getTransaction1WAnalyst = async () => {
-    const response = await axiosInstance.get('/api/v1/admin-analyst/get-transactions-1w')
+export const getTransaction1WAnalyst = async ({start,end} : {start:Date | '' | null, end:Date | '' | null }) => {
+    const response = await axiosInstance.get(`/api/v1/admin-analyst/get-transactions-1w?start=${start}&end=${end}`)
     return response.data.data
 }
 
-export const getTransaction1MAnalyst = async () => {
-    const response = await axiosInstance.get('/api/v1/admin-analyst/get-transactions-1m')
+export const getTransaction1MAnalyst = async ({start,end} : {start:Date | '' | null, end:Date | '' | null }) => {
+    const response = await axiosInstance.get(`/api/v1/admin-analyst/get-transactions-1m?start=${start}&end=${end}`)
     return response.data.data
 }

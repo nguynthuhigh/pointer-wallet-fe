@@ -36,11 +36,11 @@ export const TransactionChart = () => {
             >
                 <div className='flex flex-col mb-3'>
                     <p  
-                        className='text-2xl font-medium mb-4 text-gray-100'
+                        className='text-2xl font-medium mb-4 text-gray-100 '
                     >
                         Transaction Overview
                     </p>
-                    <div className=' space-x-[8px] px-2 rounded-[6px]'>
+                    <div className='space-x-[8px] rounded-[6px]'>
                         <button
                             onClick={() => setIsClick('week')}
                             className={`px-4 py-2 rounded-[6px] font-medium ${isClick === 'week' ? 'bg-blue-500 text-white' : ''}`}
@@ -75,7 +75,7 @@ export const TransactionChart = () => {
                                 type='monotone'
                                 dataKey="transaction"
                                 stroke='#3b82f6'
-                                strokeWidth={1}
+                                strokeWidth={2}
                                 fill='#3b82f6'
                             />
                             <Legend/>

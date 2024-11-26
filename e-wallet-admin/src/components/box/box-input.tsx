@@ -1,19 +1,26 @@
-import { InputProps } from "@/interfaces/input-item"
+import { ChangeEvent } from "react"
 
-export const BoxInput = ({ type, icon:ICon, name, value, onChange }: InputProps) => {
+interface InputBox {
+    icon: React.ElementType
+    name: string,
+    value: string,
+    type: string,
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void
+}
+
+export const InputBox = ({icon:Icon,name,value,type,onChange}: InputBox) => {
     return (
         <>
-            <div className="relative mb-6">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <ICon className='size-5 text-blue-500' />
+            <div className=" relative mb-6">   
+                <div className=" absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none ">
+                    <Icon className='size-5 text-blue-500'/>
                 </div>
                 <input
                     type={type}
                     placeholder={name}
                     value={value}
                     onChange={onChange}
-                    className="w-full pl-10 pr-3 py-2 bg-gray-600 bg-opacity-50 rounded-lg border border-slate-400
-                           focus:border-blue-500 focus:ring-2 focus:ring-blue-500 text-white placeholder-gray-400 transition-all duration-200 outline-none"
+                    className="w-full pl-10 py-2 bg-gray-800 bg-opacity-50 rounded-[6px] border border-gray-400 placeholder-gray-400 transition-all duration-300 outline-none focus:ring-2 focus:border-blue-500 "
                 />
             </div>
         </>

@@ -10,11 +10,10 @@ export default {
   		poppins: ['Poppins', 'sans-serif'],
   		merryweather: ['Merryweather','serif']
   	},
-  	screen: {
-  		xs: '480px',
-  		sm: '640px'
-  	},
   	extend: {
+		screens:{
+			xs: '400px'
+		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',

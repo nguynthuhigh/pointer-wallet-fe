@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom"
 import DashBoard from "./pages/dashboard"
 import ListUser from "./pages/customer/customer-list"
 import Partners from "./pages/partner/partner-list"
@@ -13,7 +13,7 @@ import { TransactionDetail } from "./pages/transaction/transaction-detail"
 import { LandingPage } from "./pages/landing-page"
 import { SideBar } from "./components/sidebar/sidebar"
 import { Setting } from "./pages/setting"
-import {Toaster} from 'react-hot-toast'
+import { Toaster } from 'react-hot-toast'
 function App() {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -30,44 +30,45 @@ function App() {
       </div>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-
-          <SideBar />
-
-          <Routes>
-
-            <Route path="/dashboard" element={<DashBoard />} />
-            <Route path="/login/dashboard" element={<DashBoard />} />
-
-
-            <Route path="/customer-list" element={<ListUser />} />
-            <Route path="/customer-list/detail/:id" element={<DetailListUser />} />
-
-
-
-            <Route path="/voucher-list" element={<VoucherList />} />
-            <Route path="/voucher-list/detail/:id" element={<VoucherDetail />}
-            />
-
-            <Route path="/partner-list" element={<Partners />} />
-            <Route
-              path="/partner-list/detail/:id"
-              element={<PartnersDetail />}
-            />
-
-            <Route path="/transaction-list" element={<TransactionsList />} />
-            <Route path="/transaction-list/detail/:id" element={<TransactionDetail />} />
-
-
-            <Route path="/login" element={<Login />} />
-            <Route path="/landing-page" element={<LandingPage />} />
-
-            <Route path="/setting" element= {<Setting/>}/>
-          </Routes>
+            <MainContent/>
           <Toaster />
         </BrowserRouter>
       </QueryClientProvider>
     </div>
   );
+}
+
+
+function MainContent() {
+  const location = useLocation();
+  const isLogin = location.pathname === '/login'
+  return (
+    <>
+      {!isLogin && <SideBar />}
+      <Routes>
+        <Route path="/dashboard" element={<DashBoard />} />
+        <Route path="/login/dashboard" element={<DashBoard />} />
+
+        <Route path="/customer-list" element={<ListUser />} />
+        <Route path="/customer-list/detail/:id" element={<DetailListUser />} />
+
+        <Route path="/voucher-list" element={<VoucherList />} />
+        <Route path="/voucher-list/detail/:id" element={<VoucherDetail />} />
+
+        <Route path="/partner-list" element={<Partners />} />
+        <Route path="/partner-list/detail/:id" element={<PartnersDetail />} />
+
+        <Route path="/transaction-list" element={<TransactionsList />} />
+        <Route path="/transaction-list/detail/:id" element={<TransactionDetail />} />
+
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/landing-page" element={<LandingPage />} />
+
+        <Route path="/setting" element={<Setting />} />
+      </Routes>
+    </>
+  )
 }
 
 export default App;

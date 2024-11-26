@@ -2,8 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import {
   Table,
   TableBody,
-  //   TableCell,
-  //   TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -17,7 +15,7 @@ import axiosInstance from "@/api/axiosInstance";
 interface ITransactionPage {
   currentPage: number;
   setCurrentPage: (page: number) => void;
-  filterType?: "all" | "transfer" | "deposit" | "payment" | "withdraw";
+  filterType?: "all" | "transfer" | "deposit" | "payment" | "withdraw" | "refund"
   filterStatus?: "all" | "completed" | "fail" | "pending" | "refund";
   selectedFromDate?: Date | null;
   selectedToDate?: Date | null;

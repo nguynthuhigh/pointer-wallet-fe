@@ -1,5 +1,5 @@
 import { ITransaction } from "@/interfaces/transaction"
-import { SiTicktick } from "react-icons/si"
+import {CircleCheckBig,OctagonX,Clock8} from 'lucide-react'
 import { formatCurrency } from "../transaction/transaction-history"
 
 type TransactionPick = Pick<ITransaction, 'status' | '_id' | 'title' | 'message' | 'amount' | 'type'>
@@ -13,17 +13,33 @@ export const CardTransactionDetail = ({ status, _id, title, message, type, amoun
                         Transactions Detail
                     </div>
                     <div id="Status" className="flex items-center gap-x-[5px]">
-                        <div id="Name" className="text-lg font-semibold text-[#44A55B]" >
-                            {status.toLowerCase() === 'completed' && 'Completed'}
+                        <div id="Name" className={`text-lg font-semibold 
+                            ${status.toLowerCase() === 'completed' ? 'text-[#44A55B]' : ''}
+                            ${status.toLowerCase() === 'fail' ? 'text-[#FF1717]' : ''}
+                            ${status.toLowerCase() === 'pending' ? 'text-[#F59E0B]' : ''}
+                        `}
+                        >
+                            {status.toLowerCase() === 'completed' && 'Completed' }
                             {status.toLowerCase() === 'fail' && 'Fail'}
                             {status.toLowerCase() === 'pending' && 'Pending'}
-                            {status.toLowerCase() === 'refund' && 'Refund'}
                         </div>
                         <div id="Value" className={`${status.toLowerCase() === 'completed' ? 'text-[#44A55B]'
                             : status.toLowerCase() === 'fail' ? 'text-[#FF1717]'
                                 : status.toLowerCase() === 'pending' ? 'text-[#F59E0B]'
                                     : 'text-[#C11574]'}`}
-                        ><SiTicktick className="size-[15px]" /></div>
+                        >
+                        {
+                            status.toLowerCase() === 'completed' ? (
+                                <CircleCheckBig size={15}/>
+                            ) : status.toLowerCase() === 'fail' ? (
+                                <OctagonX size={15}/>
+                            ) : status.toLowerCase() === 'pending' ? (
+                                <Clock8 size={15}/>
+                            ) : (
+                                <CircleCheckBig size={15}/>
+                            )
+                        }
+                        </div>
                     </div>
                 </div>
                 <div className="grid grid-cols-3">

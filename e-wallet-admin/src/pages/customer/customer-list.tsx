@@ -9,10 +9,11 @@ import { motion } from 'framer-motion'
 import { DateTo } from '@/components/date/date-to';
 import { AreaCard } from '@/components/chart/area-card';
 import { User, UserPlus, UserRoundCheck, UserRoundX } from 'lucide-react';
-import { CustomerChartGrow } from '@/components/chart/customer-chart';
+// import { CustomerChartGrow } from '@/components/chart/customer-chart';
 import { useQuery } from '@tanstack/react-query';
 import { IGetCustomerAnalyst } from '@/interfaces/analyst';
 import { getCustomerAnalyst } from '@/api/analyst.api';
+import { DeleteBox } from '@/components/box/box-delete';
 export default function ListUser() {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [search, setSearch] = useState<string>('');
@@ -28,8 +29,8 @@ export default function ListUser() {
     const handleSortOrder = () => {
         setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
     };
-    
-    const handleSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
+
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(e.target.value)
     }
     useEffect(() => {
@@ -69,7 +70,7 @@ export default function ListUser() {
         localStorage.removeItem('selectedToDate');
     };
 
-    const {data:Customer,isLoading,isError} = useQuery<IGetCustomerAnalyst>({
+    const { data: Customer, isLoading, isError } = useQuery<IGetCustomerAnalyst>({
         queryKey: ['get-customer-analyst'],
         queryFn: () => getCustomerAnalyst()
     })
@@ -84,7 +85,7 @@ export default function ListUser() {
                     className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4'
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5,delay:0.2 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
                 >
                     <AreaCard
                         name='Total Customers'
@@ -95,19 +96,19 @@ export default function ListUser() {
                     <AreaCard
                         name='New Customers today'
                         icon={UserPlus}
-                        value= {Customer?.totalCustomerToday || 0}
+                        value={Customer?.totalCustomerToday || 0}
                         color='#10b981'
                     />
                     <AreaCard
                         name='Active Customers'
                         icon={UserRoundCheck}
-                        value= {Customer?.totalCustomerActive || 0}
+                        value={Customer?.totalCustomerActive || 0}
                         color='#f59e0b'
                     />
                     <AreaCard
                         name='Inactive Customers'
                         icon={UserRoundX}
-                        value= {Customer?.totalCustomerInactive || 0}
+                        value={Customer?.totalCustomerInactive || 0}
                         color='#ec4899'
                     />
                 </motion.div>
@@ -117,32 +118,36 @@ export default function ListUser() {
                     transition={{ delay: 0.7, duration: 0.5 }}
                     className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md border border-gray-700 px-5 py-1 rounded-[6px] relative z-20"
                 >
-                    <div>
-                        <div className="flex items-center justify-between pb-[10px] ">
-                            <div className="flex items-end text-base py-[10px] gap-x-[20px] cursor-pointer w-full ">
-                                <div id='FilterBox' className=" flex justify-center text-black">
-                                    <FilterBox filter={filter} handleFilterChange={handleFilterChange} />
-                                </div>
-                                <div id="FromDate">
-                                    <DateFrom selectedFromDate={selectedFromDate} setSelectedFromDate={setSelectedFromDate} />
-                                </div>
-                                <div id="ToDate">
-                                    <DateTo selectedToDate={selectedToDate} setSelectedToDate={setSelectedToDate} />
-                                </div>
-                                <div id="BtnDeleteFilter">
-                                    <button
-                                        className="bg-blue-500 h-[42px] w-[100px] rounded-[6px] font-semibold uppercase text-center"
-                                        onClick={clearFilters}>
-                                        Delete
-                                    </button>
-                                </div>
-                                <div id="SearchSort" className="flex gap-x-[20px] h-[42px] ml-auto">
-                                    <SearchBox search={search} handleSearch={handleSearch} />
-                                    <SortBox sortOrder={sortOrder} handleSortOrder={(handleSortOrder)} />
-                                </div>
-                            </div>
+                    <div className='flex flex-col space-y-[10px]'>
+                        <FilterBox
+                            filter={filter}
+                            handleFilterChange={handleFilterChange}
+                        />
+                        <div className='flex space-x-[10px]'>
+                            <DateFrom
+                                selectedFromDate={selectedFromDate}
+                                setSelectedFromDate={setSelectedFromDate}
+                            />
+                            <DateTo
+                                selectedToDate={selectedToDate}
+                                setSelectedToDate={setSelectedToDate}
+                            />
+                        </div>
+                        <div className='flex space-x-[10px] py-[10px]'>
+                            <SearchBox
+                                search={search}
+                                handleSearch={handleSearch}
+                            />
+                            <SortBox
+                                sortOrder={sortOrder}
+                                handleSortOrder={(handleSortOrder)}
+                            />
+                            <DeleteBox
+                                clearFilters={clearFilters}
+                            />
                         </div>
                     </div>
+
                 </motion.div>
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -159,10 +164,10 @@ export default function ListUser() {
                         sortOrder={sortOrder}
                     />
                 </motion.div>
-                <div>
+                {/* <div>
                     <CustomerChartGrow/>
-                </div>
+                </div> */}
             </main>
-        </div>
+        </div >
     );
 }

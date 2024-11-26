@@ -22,3 +22,5 @@ export const processMonth = (data:IDataItem[]) => {
         label: index === 0 ? 'This week' : `${index} week ago`
     }))
  }
+
+ 

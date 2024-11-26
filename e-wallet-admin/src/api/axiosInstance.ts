@@ -1,11 +1,13 @@
 import axios from 'axios';
-// https://api-presspay.azurewebsites.net
+import Cookies from 'js-cookie'
+const token = Cookies.get('token')
 const axiosInstance = axios.create({
-  baseURL: ' http://localhost:8888', 
+  baseURL: import.meta.env.VITE_API_URL, 
   timeout: 5000, 
   headers: {
-    'Content-Type': 'application/json',
-  },
+    Authorization: "Bearer " + token,
+    "Content-Type": 'application/json'
+  }
 });
 
 export default axiosInstance;
