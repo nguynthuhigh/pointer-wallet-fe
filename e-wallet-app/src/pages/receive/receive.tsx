@@ -25,7 +25,7 @@ const ReceivePage: React.FC = () => {
     currency: "VND",
   });
   const [url, setUrl] = useState<string>(
-    `${import.meta.env.VITE_WALLET_URL}/transfer/info?email=${
+    `https://wallet.pointer.io.vn/transfer/info?email=${
       data.userID
     }&currency=${"VND"}`
   );
@@ -37,9 +37,7 @@ const ReceivePage: React.FC = () => {
       currency: select,
     });
     setUrl(
-      `${import.meta.env.VITE_WALLET_URL}/transfer/info?email=${
-        data.userID
-      }&currency=${select}`
+      `https://wallet.pointer.io.vn/transfer/info?email=${data.userID}&currency=${select}`
     );
   };
   return (

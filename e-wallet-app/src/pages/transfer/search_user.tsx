@@ -4,7 +4,12 @@ import { getUserByEmail } from "../../services/api/transfer.api";
 import { User } from "../../types/transfer";
 import avatar from "../../assets/png/default_avatar.png";
 import HeaderTransfer from "../../components/header/header_transfer";
+import { useGetProfileQuery } from "../../redux/features/profile/profileApi";
+import toast from "react-hot-toast";
 const SearchUser = ({ ...props }) => {
+  const { data: user } = useGetProfileQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
   const [data, setData] = useState<User | null>();
   const [isLoading, setIsLoading] = useState<boolean | null>(null);
   const handleSelectUser = () => {
@@ -14,20 +19,30 @@ const SearchUser = ({ ...props }) => {
     setIsLoading(true);
     props.handleUserData(data);
   };
-  const debounced = useDebouncedCallback(async (string: string) => {
+  const debounced = useDebouncedCallback(async (value: string) => {
+    if (
+      value.trim() &&
+      user?.data?.userData?.email &&
+      value === user.data.userData.email
+    ) {
+      toast.error("Không thể chuyển tiền cho chính mình!");
+      setIsLoading(false);
+      return;
+    }
     try {
       setIsLoading(true);
-      const response = await getUserByEmail(string);
+      const response = await getUserByEmail(value);
       if (response.status === 200) {
         setData(response.data.data);
         setIsLoading(false);
       }
-    } catch (error) {
+    } catch (error: any) {
       setData(null);
       setIsLoading(null);
-      console.log(error);
+      toast.error(error.message || "Đã xảy ra lỗi khi tìm kiếm.");
     }
   }, 1000);
+
   return (
     <div class={`container-center`}>
       <HeaderTransfer
@@ -40,9 +55,11 @@ const SearchUser = ({ ...props }) => {
         name="search"
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           const { value } = e.target as HTMLInputElement;
+
           debounced(value.toLowerCase());
         }}
-        class={`pl-4 text-sm p-1.5 w-full border rounded-full`}
+        class={`pl-4 text-sm p-1.5 w-full border rounded-full transition-colors duration-300 ease-in-out outline-gray-500 focus:outline-blue-default focus:border-blue-default mt-4`}
+        maxlength={100}
         placeholder={`Nhập email hoặc username`}
       ></input>
       <InfoUser

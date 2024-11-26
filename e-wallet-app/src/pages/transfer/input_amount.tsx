@@ -125,7 +125,7 @@ const InputAmount = ({ ...props }) => {
       </div>
       <button
         onClick={handleSubmit}
-        className="w-full mt-10 p-3 bg-blue-600 font-semibold text-white rounded-full"
+        className="w-full mt-10 p-3 bg-blue-600 transition-colors duration-500 ease-in-out hover:bg-blue-500 font-semibold text-white rounded-full"
       >
         Gửi
       </button>

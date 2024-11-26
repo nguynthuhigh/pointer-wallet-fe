@@ -14,8 +14,17 @@ import { useGetCreditCardsQuery } from "../../redux/features/credit-card/creditC
 
 export default function DepositWithdraw() {
   const navigate = useNavigate();
-  const { data: user, isLoading } = useGetProfileQuery();
-  const { data: cards, isLoading: isLoadingCards } = useGetCreditCardsQuery();
+  const { data: user, isLoading } = useGetProfileQuery(undefined, {
+    pollingInterval: 20000,
+    skipPollingIfUnfocused: true,
+  });
+  const { data: cards, isLoading: isLoadingCards } = useGetCreditCardsQuery(
+    undefined,
+    {
+      pollingInterval: 20000,
+      skipPollingIfUnfocused: true,
+    }
+  );
   const walletData = user?.data.walletData;
   const cardData = cards?.data;
   useEffect(() => {
@@ -74,9 +83,11 @@ export default function DepositWithdraw() {
   };
 
   const showActionButtons = isSelectedCard && isSelectedCurrency;
-  const filterCards = cardData && cardData.filter(
-    (card) => card.type === "visa" || card.type === "mastercard"
-  );
+  const filterCards =
+    cardData &&
+    cardData.filter(
+      (card) => card.type === "visa" || card.type === "mastercard"
+    );
   return (
     <div className="p-4 border bg-white sm:m-2 rounded-xl shadow-lg h-fit w-full">
       <HeaderDefault title="Nạp/Rút" />
@@ -135,37 +146,38 @@ export default function DepositWithdraw() {
                   Chọn thẻ tín dụng
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 self-center justify-items-center align-items-center">
-                  { filterCards && filterCards.map((card) => (
-                    <div
-                      key={card._id}
-                      onClick={() => handleCardSelect(card._id ?? "")}
-                      className={` rounded-[18px] shadow-lg cursor-pointer w-fit transition-all flex items-center justify-center ${
-                        isSelectedCard === card._id
-                          ? "border-4 border-blue-500"
-                          : "border-2 border-gray-200"
-                      } hover:bg-gray-200`}
-                    >
-                      <div class={`max-md:hidden mx-auto w-fit`}>
-                        <Cards
-                          number={card.number}
-                          expiry={`${card.expiryMonth}/${card.expiryYear}`}
-                          cvc={card.cvc || 0}
-                          name={card.name}
-                        />
-                      </div>
+                  {filterCards &&
+                    filterCards.map((card) => (
+                      <div
+                        key={card._id}
+                        onClick={() => handleCardSelect(card._id ?? "")}
+                        className={` rounded-[18px] shadow-lg cursor-pointer w-fit transition-all flex items-center justify-center ${
+                          isSelectedCard === card._id
+                            ? "border-4 border-blue-500"
+                            : "border-2 border-gray-200"
+                        } hover:bg-gray-200`}
+                      >
+                        <div class={`max-md:hidden mx-auto w-fit`}>
+                          <Cards
+                            number={card.number}
+                            expiry={`${card.expiryMonth}/${card.expiryYear}`}
+                            cvc={card.cvc || 0}
+                            name={card.name}
+                          />
+                        </div>
 
-                      <div class={`md:hidden w-full flex items-center p-2`}>
-                        <img
-                          class={`w-10 h-fit`}
-                          src={`https://static-00.iconduck.com/assets.00/visa-icon-2048x628-6yzgq2vq.png`}
-                        ></img>
-                        <div class={`font-semibold ml-4`}>
-                          <h1>{card.number}</h1>
-                          <h1 class={`text-sm`}>{card.type}</h1>
+                        <div class={`md:hidden w-full flex items-center p-2`}>
+                          <img
+                            class={`w-10 h-fit`}
+                            src={`https://static-00.iconduck.com/assets.00/visa-icon-2048x628-6yzgq2vq.png`}
+                          ></img>
+                          <div class={`font-semibold ml-4`}>
+                            <h1>{card.number}</h1>
+                            <h1 class={`text-sm`}>{card.type}</h1>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </div>
 

@@ -13,7 +13,14 @@ import { setWalletUpdated } from "../redux/features/walletSlice";
 
 const Home = () => {
   const dispatch = useAppDispatch();
-  const { data: users, isLoading, refetch } = useGetProfileQuery();
+  const {
+    data: users,
+    isLoading,
+    refetch,
+  } = useGetProfileQuery(undefined, {
+    pollingInterval: 20000,
+    skipPollingIfUnfocused: true,
+  });
   const { isUpdated } = useAppSelector((state) => state.wallet);
 
   const { userData, walletData } = users?.data || {
