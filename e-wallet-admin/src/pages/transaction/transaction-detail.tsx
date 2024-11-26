@@ -1,4 +1,3 @@
-import SideBar from "@/components/sidebar/sidebar"
 import { CardPartner } from "@/components/card/partner";
 import { CardUser } from "@/components/card/user";
 import { CardTransactionDetail } from "@/components/card/transaction-detail";

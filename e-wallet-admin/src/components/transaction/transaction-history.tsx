@@ -9,14 +9,6 @@ export function formatCurrency(money: number): string {
     currency: 'VND'
   }).format(money);
 } 
-// export function formatMoney(money: number): string {
-//   return money.toLocaleString('vi-VN',{
-//     style: 'currency',
-//     currency: 'vnd'
-//   })
-// }
-// console.log(formatMoney(1301203123))
-
 export function formatDate(dateString:string):string{
   const date = new Date(dateString);
  
@@ -38,7 +30,14 @@ function TransactionHistory({message,amount,status,createdAt,type}:ITransaction)
             <td> 
               <div className="pl-3">{message}</div>
             </td>
-            <td className={` pl-3 ${amount < 0 ? 'text-[#FF1717]' : 'text-[#027A48]'}`}>{formatCurrency(amount)}</td>
+            <td 
+              className={` pl-3 min-w-[95px] ${(type.toLowerCase() === 'deposit' || type.toLowerCase() === 'refund') ? 'text-[#027A48]' : 'text-[#FF1717]'}`}
+            >
+              { (type.toLowerCase() === 'deposit' && 'Deposit' || type.toLowerCase() === 'refund' && 'Refund')
+                ? `+${formatCurrency(amount)}`
+                : `-${formatCurrency(amount)}` 
+              }
+            </td>
             <td>
               <div className={`pl-3 w-fit ${status.toLowerCase() ==='completed' ? 'text-[#027A48] bg-[#ECFDF3]' 
                 : status.toLowerCase() === 'refund' ? 'bg-[#F2F4F7] text-[#344054]' 
@@ -61,15 +60,19 @@ function TransactionHistory({message,amount,status,createdAt,type}:ITransaction)
             <td className="py-4">
               <div className={`w-fit border-[2.5px] ${type.toLowerCase() ==='transfer' ? 'text-[#175CD3] border-[#175CD3]' 
                 : type.toLowerCase() === 'deposit' ? 'border-[#039855] text-[#039855]' 
-                : type.toLowerCase() === 'withdraw' ? 'border-[#F59E0B] text-[#F59E0B]' 
-                : 'border-[#C11574] text-[#C11574]'} h-[30px] px-[8px] rounded-[16px] flex items-center`}>
+                : type.toLowerCase() === 'withdraw' ? 'border-[#F59E0B] text-[#F59E0B]'
+                : type.toLowerCase() === 'withdraw-partner' ? 'border-[#F59E0B] text-[#F59E0B]'
+                : type.toLowerCase() === 'refund' ? 'border-[#F2F4F7] text-[#c2cbda]' 
+                : 'border-[#C11574] text-[#C11574]'} h-[30px] px-[8px] rounded-[16px] flex items-center justify-center`}>
                 <GoDotFill className="ml-[6px] mr-[4px] "/>
-                <div className=" mr-[8px] text-sm font-semibold">
+                <div className=" mr-[8px] text-center text-sm font-semibold">
                     {type.toLowerCase() === 'transfer' && 'Transfer'}
                     {type.toLowerCase() === 'deposit' && 'Deposit'}
                     {type.toLowerCase() === 'payment'&& 'Payment'}
                     {type.toLowerCase() === 'pay-with-card'&& 'Payment'}
+                    {type.toLowerCase() === 'refund' && 'Refund'}
                     {type.toLowerCase() === 'withdraw'&& 'Withdraw'}
+                    {type.toLowerCase() === 'withdraw-partner'&& 'WithdrawPartner'}
                 </div>
               </div>
             </td>

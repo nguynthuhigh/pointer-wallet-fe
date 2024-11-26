@@ -39,7 +39,7 @@ export const VoucherList = () => {
     }
     return (
         <>
-            <div className="flex-1 h-screen mx-auto overflow-hidden">
+            <div className="flex-1 h-screen mx-auto overflow-auto">
                 <HeaderComponent title="Vouchers Management" />
                 <main className="max-w-7xl mx-auto px-4 py-6 space-y-6">
                     <motion.div

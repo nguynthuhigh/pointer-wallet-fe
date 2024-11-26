@@ -18,13 +18,13 @@ export const StatusBox = ({ status, select, handleStatus }: StatusBoxProps) => {
         <>
             <div className='text-black'>
                 <p className='text-blue-500 text-md mb-1 font-medium'>Status</p>
-                <div className='relative flex items-center border-[1px] border-gray-400 rounded-[6px] text-gray-100 hover:border-blue-500 transition-colors duration-300'>
+                <div className='relative flex items-center border-[1px] border-gray-400 rounded-[6px] text-gray-100 hover:border-blue-500 transition-colors duration-300 '>
                     <select
                         value={status}
                         onChange={(e) => {handleStatus(e); setIsFocus(false)}}
                         onFocus={() => setIsFocus(true)}
                         onBlur={() => setIsFocus(false)}
-                        className='pl-3 h-[40px] w-[180px] appearance-none bg-transparent outline-none focus:border-blue-500 '>
+                        className='pl-3 h-[40px] appearance-none bg-transparent outline-none focus:border-blue-500 '>
                         {select.map((items) => (
                             <option className='text-black' key={items.value} value={items.value}>{items.name}</option>
                         ))}

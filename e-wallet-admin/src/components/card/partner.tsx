@@ -4,6 +4,7 @@ import { ICardPartner } from "@/interfaces/card-partner"
 import { HiArrowNarrowRight } from "react-icons/hi"
 import { formatDate } from "../transaction/transaction-history"
 import { Link } from "react-router-dom"
+import { isValidUrl } from "@/utils/valid-img"
 
 export const CardPartner = ({id,profileName, img, name, email, date }: ICardPartner) => {
     return (
@@ -21,9 +22,9 @@ export const CardPartner = ({id,profileName, img, name, email, date }: ICardPart
                                         {profileName}
                                     </div>
                                     <div>
-                                        {img 
-                                        ? <img src={img} className ='size-[70px] rounded-full object-cover'/> 
-                                        : <img src={AvatarDefault} className="size-[70px] rounded-full object-cover" />}
+                                        {img && isValidUrl(img)
+                                        ? (<img src={img} className ='size-[70px] rounded-full object-cover'/>)
+                                        : (<img src={AvatarDefault} className="size-[70px] rounded-full object-cover" />)}
                                     </div>
                                 </div>
                             </div>

@@ -1,4 +1,4 @@
-import { SiTicktick } from "react-icons/si"
+import { SiTicktick} from "react-icons/si"
 import AvatarDefault from '../../assets/png/avatarDefault.png'
 import { ICardUser } from "@/interfaces/card-customer"
 import { HiArrowNarrowRight } from "react-icons/hi"
@@ -8,7 +8,7 @@ import { Link } from "react-router-dom"
 export const CardUser = ({ id, profileName, img, name, email, date }: ICardUser) => {
     return (
         <>
-            <div className=" border-[1px] relative w-[400px] h-[200px] rounded-[16px] flex justify-between shadow-[4px_4px_4px_rgba(0,0,0,0.10)]">
+            <div className=" border-[1px] relative w-[400px] rounded-[16px] flex justify-between shadow-[4px_4px_4px_rgba(0,0,0,0.10)]">
                 <div id="ViewPartner">
                     <div className="flex items-center justify-between h-full">
                         <div className="flex w-[350px] h-full gap-x-[10px] ">
