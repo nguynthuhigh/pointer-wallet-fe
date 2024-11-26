@@ -8,7 +8,6 @@ const SelectOptions = () => {
           class={`border p-2 rounded-lg focus:outline-blue-500`}
           placeholder={`Nhập mã thanh toán`}
         ></input>
-        <div>kq</div>
       </div>
       <div class={`space-y-2`}>
         <h1 class={``}>Thanh toán với mã thanh toán</h1>

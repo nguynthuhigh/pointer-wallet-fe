@@ -82,6 +82,14 @@ const Login = () => {
               placeholder="Nhập mật khẩu"
               isFetching={isFetching}
             />
+            <Link
+              to="/auth/login/forgot-password"
+              className={
+                "flex justify-end transition-colors duration-300 ease-in-out text-gray-500 hover:text-blue-400"
+              }
+            >
+              Quên mật khẩu?
+            </Link>
             <ButtonSubmit title="Đăng nhập" isLoading={isFetching} />
           </form>
           <h1 className="text-center font-semibold">

@@ -70,3 +70,30 @@ export const logout = async () => {
   const axiosInstance = createAxios();
   return await axiosInstance.post("/api/v1/user/log-out");
 };
+
+export const forgotPassword = async (email: string) => {
+  return await axios.post(
+    `${import.meta.env.VITE_API_URL}/api/v1/user/forgot-password`,
+    { email: email }
+  );
+};
+
+export const resetPassword = async ({
+  email,
+  password,
+  otp,
+}: {
+  email: string;
+  password: string;
+  otp: string;
+}) => {
+  const response = await axios.post(
+    `${import.meta.env.VITE_API_URL}/api/v1/user/reset-password`,
+    {
+      email,
+      password,
+      otp,
+    }
+  );
+  return response;
+};
