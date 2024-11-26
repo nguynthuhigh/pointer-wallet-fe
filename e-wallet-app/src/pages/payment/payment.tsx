@@ -54,7 +54,7 @@ export const PaymentGateway: React.FC = () => {
             <h1 class={`text-6xl max-sm:text-3xl`}>
               {formatCurrency(data?.amount, data?.currency.symbol)}
             </h1>
-            <h1 class={`text-gray-400 font-`}>
+            <h1 class={`text-gray-400`}>
               {formatDate(data?.createdAt ? data?.createdAt : new Date())}
             </h1>
           </div>

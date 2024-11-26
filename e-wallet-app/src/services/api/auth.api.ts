@@ -65,3 +65,8 @@ export const getProfileAPI = async () => {
   const axiosInstance = createAxios();
   return await axiosInstance.get("/api/v1/user/profile");
 };
+
+export const logout = async () => {
+  const axiosInstance = createAxios();
+  return await axiosInstance.post("/api/v1/user/log-out");
+};

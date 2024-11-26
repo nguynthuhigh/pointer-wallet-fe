@@ -5,7 +5,7 @@ import type {
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query";
 import { RootState } from "../../store";
-import { addAccessToken, removeAddAccessToken } from "../../auth/authSlice";
+import { addAccessToken, removeAccessToken } from "../../auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_API_URL,
@@ -41,7 +41,7 @@ const baseQueryWithReauth: BaseQueryFn<
 
       result = await baseQuery(args, api, extraOptions);
     } else {
-      api.dispatch(removeAddAccessToken());
+      api.dispatch(removeAccessToken());
     }
   }
   return result;
