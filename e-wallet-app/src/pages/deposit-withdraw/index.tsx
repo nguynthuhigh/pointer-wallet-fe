@@ -10,6 +10,7 @@ import Deposit from "./deposit";
 import Withdraw from "./withdraw";
 import { useGetProfileQuery } from "../../redux/features/profile/profileApi";
 import { useGetCreditCardsQuery } from "../../redux/features/credit-card/creditCardApi";
+import Loading from "../loading";
 
 export default function DepositWithdraw() {
   const { data: user, isLoading } = useGetProfileQuery(undefined, {
@@ -34,6 +35,10 @@ export default function DepositWithdraw() {
   const [isDepositModalOpen, setIsDepositModalOpen] = useState<boolean>(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] =
     useState<boolean>(false);
+
+  if (isLoading || isLoadingCards) {
+    return <Loading />;
+  }
 
   useEffect(() => {
     if (cardData && cardData.length === 0) {

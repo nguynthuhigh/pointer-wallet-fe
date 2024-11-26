@@ -6,6 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 import HeaderDefault from "../../components/header/header_default";
 import Modal from "./components/modal";
 import AddCreditCard from "./pages/add-credit-card";
+import Loading from "../loading";
 
 import {
   useGetCreditCardsQuery,
@@ -28,6 +29,7 @@ export default function CreditCard() {
   const [deleteCardId, setDeleteCardId] = useState<string | null>(null);
 
   const cards = data?.data;
+  if (isLoading) return <Loading />;
 
   useEffect(() => {
     if (deleteError) {
