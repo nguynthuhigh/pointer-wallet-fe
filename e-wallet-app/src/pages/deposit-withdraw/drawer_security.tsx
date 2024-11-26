@@ -46,13 +46,11 @@ const DrawerBottom: React.FC<BottomDrawerProps> = ({
     setOtp(value);
     setError(null);
     if (value.length === 6) {
-      const body = {
-        ...data,
-        security_code: value,
-      };
+      const { isDeposit, ...body } = data;
+      body.security_code = value;
       setIsLoading(true);
       try {
-        if (data.isDeposit) {
+        if (isDeposit) {
           const res = await depositMoney(body);
           if (res.status === 200) {
             toast.success("Nạp tiền thành công!");
@@ -64,6 +62,8 @@ const DrawerBottom: React.FC<BottomDrawerProps> = ({
                   amount: res.data.data.amount,
                   currency: data.currency,
                   createdAt: res.data.data.updatedAt,
+                  title: res.data.data.title,
+                  _id: res.data.data._id,
                 },
               });
             }, 1000);
@@ -82,6 +82,8 @@ const DrawerBottom: React.FC<BottomDrawerProps> = ({
                   amount: res.data.data.amount,
                   currency: data.currency,
                   createdAt: res.data.data.updatedAt,
+                  title: res.data.data.title,
+                  _id: res.data.data._id,
                 },
               });
             }, 2000);

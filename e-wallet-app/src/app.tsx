@@ -33,6 +33,8 @@ import SelectOptions from "./pages/payment/select_options";
 import RegisteredRoute from "./utils/registered-route";
 import { ConnectApp } from "./pages/connect-app/connect-app";
 import { ConnectAppList } from "./pages/connect-app/connect-app-list";
+import ForgotPasswordForm from "./pages/authentication/forgot-password";
+import ResetPasswordForm from "./pages/authentication/reset-password";
 
 const AuthenticatedLayout: React.FC = () => {
   return (
@@ -98,6 +100,14 @@ export default function App() {
             <Route
               path="/auth/register/security-code"
               element={<SecurityCode />}
+            />
+            <Route
+              path="/auth/login/forgot-password"
+              element={<ForgotPasswordForm />}
+            />
+            <Route
+              path="/auth/login/reset-password"
+              element={<ResetPasswordForm />}
             />
           </Route>
         </Route>

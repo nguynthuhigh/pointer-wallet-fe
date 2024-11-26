@@ -30,6 +30,7 @@ const baseQueryWithReauth: BaseQueryFn<
       {
         url: "/api/v1/user/refresh-token",
         method: "POST",
+        credentials: "include",
       },
       api,
       extraOptions
