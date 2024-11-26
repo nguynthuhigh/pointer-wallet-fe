@@ -1,19 +1,18 @@
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend } from 'recharts';
+import { XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend, BarChart, Bar } from 'recharts';
 import { motion } from 'framer-motion'
 import { useQuery } from '@tanstack/react-query';
 import { getThisMonth, getThisWeek } from '@/api/analyst.api';
-import { IGetThisMonth, IGetThisWeek } from '@/interfaces/analyst';
 import { useState } from 'react';
-import { formatDateApi } from '@/utils/format-date';
+import { processMonth, processWeek } from '../../utils/format-date';
 export const TransactionChart = () => {
     const [isClick, setIsClick] = useState<'week' | 'month'>('week')
 
-    const {data:thisWeek,isLoading: isLoadingWeek,isError:isErrorWeek} = useQuery<IGetThisWeek>({
+    const {data:thisWeek,isLoading: isLoadingWeek,isError:isErrorWeek} = useQuery({
         queryKey: ['get-this-week-analyst'],
         queryFn: () => getThisWeek(),
     })
 
-    const {data:thisMonth,isLoading: isLoadingMonth,isError:isErrorMonth} = useQuery<IGetThisMonth>({
+    const {data:thisMonth,isLoading: isLoadingMonth,isError:isErrorMonth} = useQuery({
         queryKey: ['get-this-month-analyst'],
         queryFn: () => getThisMonth(),
     })
@@ -23,8 +22,10 @@ export const TransactionChart = () => {
     
     if (isLoading) return 'Loading...'
     if (isError) return 'Fetching data error'
-    console.log(thisMonth)
-    console.log(thisWeek)
+    
+    const formatMonth = processMonth(thisMonth)
+    const formatWeek = processWeek(thisWeek)
+
     return (    
         <>
             <motion.div
@@ -56,9 +57,12 @@ export const TransactionChart = () => {
                 </div>
                 <div className='h-80'>
                     <ResponsiveContainer width={"100%"} height={"100%"}>
-                        <LineChart data={formatDateApi(thisWeek)}>
+                        <BarChart 
+                            data={isClick === 'week' ? formatWeek : formatMonth }
+                            width={100}
+                        >
                             <CartesianGrid strokeDasharray='3 3' stroke='#4B5563' />
-                            <XAxis dataKey={"date"} stroke='#9CA3AF' />
+                            <XAxis dataKey={isClick === 'week' ? 'date' : 'label'} stroke='#9CA3AF' />
                             <YAxis stroke='#9CA3AF' />
                             <Tooltip
                                 contentStyle={{
@@ -67,16 +71,15 @@ export const TransactionChart = () => {
                                 }}
                                 itemStyle={{ color: '#E5E7EB' }}
                             />
-                            <Line
+                            <Bar
                                 type='monotone'
                                 dataKey="transaction"
-                                stroke='#6366F1'
-                                strokeWidth={3}
-                                dot={{ fill: '#6366F1', strokeWidth: 2, r: 5 }}
-                                activeDot={{ r: 8, strokeWidth: 2 }}
+                                stroke='#3b82f6'
+                                strokeWidth={1}
+                                fill='#3b82f6'
                             />
                             <Legend/>
-                        </LineChart>
+                        </BarChart>
                     </ResponsiveContainer>
                 </div>
             </motion.div>
