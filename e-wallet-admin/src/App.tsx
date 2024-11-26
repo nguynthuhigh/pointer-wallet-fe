@@ -38,7 +38,6 @@ function App() {
   );
 }
 
-
 function MainContent() {
   const location = useLocation();
   const isLogin = location.pathname === '/login'

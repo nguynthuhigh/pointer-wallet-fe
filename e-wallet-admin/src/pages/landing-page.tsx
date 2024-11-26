@@ -1,8 +1,6 @@
-import LogoPointer from '../assets/png/Logo.png'
 import IconPointer from '../assets/png/LogoP.png'
 import ImgDashBoard from '../assets/png/dashboard.png'
 import BgLandingPage from '../assets/png/BgLogin.png'
-import { HiArrowNarrowRight } from "react-icons/hi";
 import Wallet from '../assets/png/wallet.png'
 import LogoVoucher4U from '../assets/logo-partner/voucher4u.jpg'
 export const LandingPage = () => {
@@ -17,7 +15,7 @@ export const LandingPage = () => {
                     <div id="Nav" className='text-[18px] '>
                         <ul className="flex space-x-[70px] uppercase">
                             <li>Documents</li>
-                            <li>Commmunity</li>
+                            <li>Community</li>
                             <li>Download App</li>
                             <li>Payment Gateway</li>
                         </ul>
@@ -28,7 +26,7 @@ export const LandingPage = () => {
                 </div>
                 <div id="Content" className='mx-[80px] space-y-[60px]'>
                     <div id='Introduce' className='flex items-center justify-center'>
-                        <div id="Sideleft" className='flex items-center]'>
+                        <div id="sideLeft" className='flex items-center]'>
                             <div className='space-y-[20px]'>
                                 <p className='text-[56px] text-white font-bold text-left'>Making Every Transaction Smooth <br /> Safe And Simple</p>
                                 <p className='text-[22px] text-gray-400'>Your business payment fast and secure <br/>with <span className='text-[#0094FF]'>pointer wallet</span> app </p>

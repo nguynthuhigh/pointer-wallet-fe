@@ -42,7 +42,6 @@ const Partners = () => {
         setSelectedFromDate(null);
         setSelectedToDate(null);
     }
-
     
     return (
         <>
@@ -64,7 +63,7 @@ const Partners = () => {
                         <AreaCard
                             name='New Partners today'
                             icon={UserPlus}
-                            value={Partner?.totalPartnerToday.total || 0}
+                            value={Partner?.totalPartnerToday || 0}
                             color='#10b981'
                         />
                         <AreaCard
