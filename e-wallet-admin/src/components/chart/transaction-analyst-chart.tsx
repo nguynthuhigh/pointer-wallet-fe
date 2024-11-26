@@ -8,8 +8,8 @@ import { DeleteBox } from "../box/box-delete"
 export const TransactionAnalystChart = () => {
     const today = new Date();
     const [isOpen, setIsOpen] = useState<'1d' | '1w' | '1m'>('1d')
-    const [selectedFromDate, setSelectedFromDate] = useState<Date | null | ''>(null);
-    const [selectedToDate, setSelectedToDate] = useState<Date | null | ''>(null);
+    const [selectedFromDate, setSelectedFromDate] = useState<Date | null>(null);
+    const [selectedToDate, setSelectedToDate] = useState<Date | null >(null);
 
     const { data: Transaction1d, isLoading: Loading1d, isError: Error1d } = useQuery({
         queryKey: ['get-transactions-1d', selectedFromDate],
@@ -36,8 +36,8 @@ export const TransactionAnalystChart = () => {
     if (Error1d || Error1w || Error1m) return 'Fetching data error'
 
     const clearFilters = () => {
-        setSelectedFromDate('');
-        setSelectedToDate('')
+        setSelectedFromDate(null);
+        setSelectedToDate(null)
     }
     return (
         <>
@@ -53,28 +53,28 @@ export const TransactionAnalystChart = () => {
                             <button
                                 onClick={() => {
                                     setIsOpen('1d')
-                                    setSelectedFromDate('')
-                                    setSelectedToDate('')
+                                    setSelectedFromDate(null)
+                                    setSelectedToDate(null)
                                 }}
-                                className={`px-4 py-2 rounded-[6px] font-medium ${isOpen === '1d' ? 'bg-blue-500 text-white' : ''}`}
+                                className={`px-4 py-2 rounded-[6px] font-medium ${isOpen === '1d' ? 'bg-blue-500 text-white' : null}`}
                             >
                                 1d
                             </button>
                             <button
                                 onClick={() => {
                                     setIsOpen('1w')
-                                    setSelectedFromDate('')
-                                    setSelectedToDate('')
+                                    setSelectedFromDate(null)
+                                    setSelectedToDate(null)
                                 }} 
-                                className={`px-4 py-2 rounded-[6px] font-medium ${isOpen === '1w' ? 'bg-blue-500 text-white' : ''}`}
+                                className={`px-4 py-2 rounded-[6px] font-medium ${isOpen === '1w' ? 'bg-blue-500 text-white' : null}`}
                             >
                                 1w
                             </button>
                             <button
                                 onClick={() => {
                                     setIsOpen('1m')
-                                    setSelectedFromDate('')
-                                    setSelectedToDate('')
+                                    setSelectedFromDate(null)
+                                    setSelectedToDate(null)
                                 }} 
                                 className={`px-4 py-2 rounded-[6px] font-medium ${isOpen === '1m' ? 'bg-blue-500 text-white' : ''}`}
                             >
