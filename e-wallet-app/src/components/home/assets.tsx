@@ -4,6 +4,7 @@ import USDIcon from "../../assets/png//usd_icon.png";
 import ETHIcon from "../../assets/png//eth_icon.png";
 const Assets = ({ ...props }) => {
   const walletData = props.walletData;
+  console.log(walletData);
   return (
     <div class={``}>
       <h1 className="mt-2 font-semibold text-sm">Tài sản</h1>

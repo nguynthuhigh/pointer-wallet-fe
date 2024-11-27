@@ -6,6 +6,7 @@ import "react-credit-cards-2/dist/es/styles-compiled.css";
 import { formatCurrency } from "../../utils/format_currency";
 import DrawerBottom from "./drawer_security";
 import { useGetCreditCardsQuery } from "../../redux/features/credit-card/creditCardApi";
+import { message } from "antd";
 
 interface WithdrawProps {
   cardId: string | null;
@@ -40,19 +41,21 @@ export default function Withdraw({ cardId, currency, balance }: WithdrawProps) {
     const numericAmount = parseFloat(amount.replace(/[^0-9.-]+/g, ""));
 
     if (numericAmount < MIN_WITHDRAW) {
-      toast.error(`Số tiền rút tối thiểu là ${MIN_WITHDRAW.toLocaleString()}!`);
+      message.error(
+        `Số tiền rút tối thiểu là ${MIN_WITHDRAW.toLocaleString()}!`
+      );
       return;
     }
 
     if (numericAmount > MAX_WITHDRAW) {
-      toast.error(`Số tiền rút tối đa là ${MAX_WITHDRAW.toLocaleString()}!`);
+      message.error(`Số tiền rút tối đa là ${MAX_WITHDRAW.toLocaleString()}!`);
       return;
     }
 
     if (selectedCard) {
       setDrawerOpen(true);
     } else {
-      toast.error("Không tìm thấy thẻ!");
+      message.error("Không tìm thấy thẻ!");
     }
   };
 
