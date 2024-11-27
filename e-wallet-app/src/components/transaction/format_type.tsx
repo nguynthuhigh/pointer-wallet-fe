@@ -49,8 +49,8 @@ const FormatTypeCurrency = ({ ...props }) => {
 
   if (data.type === "withdraw-partner") {
     return (
-      <h1 className="w-full font-semibold text-base text-end text-red-500">
-        -{amount}
+      <h1 className="w-full font-semibold text-base text-end text-green-500">
+        +{amount}
       </h1>
     );
   }

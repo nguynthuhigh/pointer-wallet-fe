@@ -8,6 +8,7 @@ import DrawerBottom from "./drawer_security";
 
 import { useGetProfileQuery } from "../../redux/features/profile/profileApi";
 import { useGetCreditCardsQuery } from "../../redux/features/credit-card/creditCardApi";
+import { message } from "antd";
 
 interface DepositProps {
   cardId: string | null;
@@ -43,19 +44,21 @@ export default function Deposit({ cardId, currency, balance }: DepositProps) {
 
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(walletAddress || "");
-    toast.success("Đã sao chép địa chỉ ví!");
+    message.success("Đã sao chép địa chỉ ví!");
   };
 
   const handleConfirmDeposit = () => {
     const numericAmount = parseFloat(amount.replace(/[^0-9.-]+/g, ""));
 
     if (numericAmount < MIN_DEPOSIT) {
-      toast.error(`Số tiền nạp tối thiểu là ${MIN_DEPOSIT.toLocaleString()}!`);
+      message.error(
+        `Số tiền nạp tối thiểu là ${MIN_DEPOSIT.toLocaleString()}!`
+      );
       return;
     }
 
     if (numericAmount > MAX_DEPOSIT) {
-      toast.error(`Số tiền nạp tối đa là ${MAX_DEPOSIT.toLocaleString()}!`);
+      message.error(`Số tiền nạp tối đa là ${MAX_DEPOSIT.toLocaleString()}!`);
       return;
     }
 
