@@ -13,7 +13,6 @@ import { User, UserPlus, UserRoundCheck, UserRoundX } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { IGetCustomerAnalyst } from '@/interfaces/analyst';
 import { getCustomerAnalyst } from '@/api/analyst.api';
-import { DeleteBox } from '@/components/box/box-delete';
 export default function ListUser() {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [search, setSearch] = useState<string>('');
@@ -118,33 +117,43 @@ export default function ListUser() {
                     transition={{ delay: 0.7, duration: 0.5 }}
                     className="bg-gray-800 backdrop-opacity-70 backdrop-blur-md border border-gray-700 px-5 py-1 rounded-[6px] relative z-20"
                 >
-                    <div className='flex flex-col space-y-[10px]'>
-                        <FilterBox
-                            filter={filter}
-                            handleFilterChange={handleFilterChange}
-                        />
-                        <div className='flex space-x-[10px]'>
-                            <DateFrom
-                                selectedFromDate={selectedFromDate}
-                                setSelectedFromDate={setSelectedFromDate}
-                            />
-                            <DateTo
-                                selectedToDate={selectedToDate}
-                                setSelectedToDate={setSelectedToDate}
-                            />
-                        </div>
-                        <div className='flex space-x-[10px] py-[10px]'>
-                            <SearchBox
-                                search={search}
-                                handleSearch={handleSearch}
-                            />
-                            <SortBox
-                                sortOrder={sortOrder}
-                                handleSortOrder={(handleSortOrder)}
-                            />
-                            <DeleteBox
-                                clearFilters={clearFilters}
-                            />
+                    <div className="flex items-center justify-between pb-[10px]">
+                        <div className="flex items-end text-base py-[10px] gap-x-[20px] cursor-pointer w-full">
+                            <div id="Status">
+                                <FilterBox
+                                    filter={filter}
+                                    handleFilterChange={handleFilterChange}
+                                />
+                            </div>
+                            <div id="FromDate" className="relative z-50">
+                                <DateFrom
+                                    selectedFromDate={selectedFromDate}
+                                    setSelectedFromDate={setSelectedFromDate}
+                                />
+                            </div>
+                            <div id="ToDate">
+                                <DateTo
+                                    selectedToDate={selectedToDate}
+                                    setSelectedToDate={setSelectedToDate}
+                                />
+                            </div>
+                            <div id="BtnDeleteFilter">
+                                <button
+                                    className="bg-blue-500 h-[42px] w-[100px] rounded-[6px] font-semibold uppercase text-center"
+                                    onClick={clearFilters}>
+                                    Delete
+                                </button>
+                            </div>
+                            <div id="SearchSort" className="flex gap-x-[10px] h-[42px] ml-auto">
+                                <SearchBox 
+                                    search={search}
+                                    handleSearch = {handleSearch}
+                                />
+                                <SortBox
+                                    sortOrder={sortOrder}
+                                    handleSortOrder={handleSortOrder}
+                                />
+                            </div>
                         </div>
                     </div>
 

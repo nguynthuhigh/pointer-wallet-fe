@@ -7,3 +7,9 @@ export async function loginAdmin({email,password}: {email:string,password:string
     })
     return response.data
 }
+
+
+export async function getAdmin() {
+    const response = await axiosInstance.get('/api/v1/admin/auth/get-admin')
+    return response.data
+}

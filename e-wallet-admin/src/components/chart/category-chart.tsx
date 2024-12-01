@@ -14,7 +14,7 @@ export const CategoryChart = () => {
     if (isLoading) return 'Loading...'
     if (isError || !getTypeTransaction || getTypeTransaction.length === 0) return 'Fetching data error'
 
-    const colors = ['#EC4899','#8B5CF6','#10B981','#F59E0B']
+    const colors = ['#EC4899','#8B5CF6','#10B981','#F59E0B','#FF1813']
     return (
         <>
             <motion.div
