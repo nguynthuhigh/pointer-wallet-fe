@@ -6,7 +6,7 @@ interface JwtPayLoad {
 }
 
 export const useTokenExpired = () => {
-  const accessToken = cookies.get("accessToken");
+  const accessToken = cookies.get("token");
   if (!accessToken) {
     return false;
   }
