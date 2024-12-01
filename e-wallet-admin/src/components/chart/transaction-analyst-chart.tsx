@@ -4,12 +4,11 @@ import { useState } from "react"
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { DateFrom } from "../date/date-from"
 import { DateTo } from "../date/date-to"
-import { DeleteBox } from "../box/box-delete"
 export const TransactionAnalystChart = () => {
     const today = new Date();
     const [isOpen, setIsOpen] = useState<'1d' | '1w' | '1m'>('1d')
     const [selectedFromDate, setSelectedFromDate] = useState<Date | null>(null);
-    const [selectedToDate, setSelectedToDate] = useState<Date | null >(null);
+    const [selectedToDate, setSelectedToDate] = useState<Date | null>(null);
 
     const { data: Transaction1d, isLoading: Loading1d, isError: Error1d } = useQuery({
         queryKey: ['get-transactions-1d', selectedFromDate],
@@ -21,7 +20,7 @@ export const TransactionAnalystChart = () => {
         queryKey: ['get-transactions-1w', selectedFromDate, selectedToDate],
         queryFn: () => getTransaction1WAnalyst({
             start: selectedFromDate,
-            end: selectedToDate 
+            end: selectedToDate
         })
     })
     const { data: Transaction1m, isLoading: Loading1m, isError: Error1m } = useQuery({
@@ -65,7 +64,7 @@ export const TransactionAnalystChart = () => {
                                     setIsOpen('1w')
                                     setSelectedFromDate(null)
                                     setSelectedToDate(null)
-                                }} 
+                                }}
                                 className={`px-4 py-2 rounded-[6px] font-medium ${isOpen === '1w' ? 'bg-blue-500 text-white' : null}`}
                             >
                                 1w
@@ -75,7 +74,7 @@ export const TransactionAnalystChart = () => {
                                     setIsOpen('1m')
                                     setSelectedFromDate(null)
                                     setSelectedToDate(null)
-                                }} 
+                                }}
                                 className={`px-4 py-2 rounded-[6px] font-medium ${isOpen === '1m' ? 'bg-blue-500 text-white' : ''}`}
                             >
                                 1m
@@ -91,9 +90,11 @@ export const TransactionAnalystChart = () => {
                             selectedToDate={selectedToDate}
                             setSelectedToDate={setSelectedToDate}
                         />
-                        <DeleteBox
-                            clearFilters={clearFilters}
-                        />
+                        <button
+                            className="bg-blue-500 h-[42px] w-[100px] rounded-[6px] font-semibold uppercase text-center"
+                            onClick={clearFilters}>
+                            Delete
+                        </button>
                     </div>
                 </div>
                 <div className="h-80">

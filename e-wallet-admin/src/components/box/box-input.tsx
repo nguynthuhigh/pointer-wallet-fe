@@ -20,7 +20,7 @@ export const InputBox = ({icon:Icon,name,value,type,onChange}: InputBox) => {
                     placeholder={name}
                     value={value}
                     onChange={onChange}
-                    className="w-full pl-10 py-2 bg-gray-800 bg-opacity-50 rounded-[6px] border border-gray-400 placeholder-gray-400 transition-all duration-300 outline-none focus:ring-2 focus:border-blue-500 "
+                    className="w-full pl-10 py-2 bg-gray-600 bg-opacity-60 rounded-[6px] border border-gray-400 placeholder-gray-400 transition-all duration-300 outline-none focus:ring-2 focus:border-blue-500 "
                 />
             </div>
         </>

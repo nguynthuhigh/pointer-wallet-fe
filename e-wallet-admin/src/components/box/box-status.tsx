@@ -24,12 +24,12 @@ export const StatusBox = ({ status, select, handleStatus }: StatusBoxProps) => {
                         onChange={(e) => {handleStatus(e); setIsFocus(false)}}
                         onFocus={() => setIsFocus(true)}
                         onBlur={() => setIsFocus(false)}
-                        className='pl-3 h-[40px] appearance-none bg-transparent outline-none focus:border-blue-500 '>
+                        className='pl-3 h-[40px]  w-[180px] appearance-none bg-transparent outline-none focus:border-blue-500 '>
                         {select.map((items) => (
                             <option className='text-black' key={items.value} value={items.value}>{items.name}</option>
                         ))}
                     </select>
-                    <span className={`absolute inset-y-0 right-3 flex items-center pointer-events-none transition-transform duration-300 ${isFocus ? 'rotate-180' : 'rotate-0'}`}>
+                    <span className={`absolute inset-y-0  right-3 flex items-center pointer-events-none transition-transform duration-300 ${isFocus ? 'rotate-180' : 'rotate-0'}`}>
                          <ChevronDown/> 
                     </span>
                 </div>

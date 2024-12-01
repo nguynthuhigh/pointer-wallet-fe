@@ -21,7 +21,7 @@ export const DateTo = ({
             onChange={(date) => setSelectedToDate(date)}
             dateFormat="yyyy-MM-dd"
             placeholderText="yyyy-mm-dd"
-            className="text-center h-[42px] w-[120px] bg-transparent outline-none border-[1px] border-gray-400 rounded-[6px] focus:border-blue-500 hover:border-blue-500"
+            className="text-center h-[42px] w-[180px] bg-transparent outline-none border-[1px] border-gray-400 rounded-[6px] focus:border-blue-500 hover:border-blue-500"
           />
         </div>
       </div>
