@@ -18,7 +18,7 @@ const Home = () => {
     isLoading,
     refetch,
   } = useGetProfileQuery(undefined, {
-    pollingInterval: 10000,
+    refetchOnMountOrArgChange: true,
   });
   const { isUpdated } = useAppSelector((state) => state.wallet);
 

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Spin, Card, Tabs, Button, Modal } from "antd";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import Cards from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 
@@ -244,6 +244,7 @@ export default function DepositWithdraw() {
           balance={selectedBalance}
         />
       </Modal>
+      <Toaster position="top-center" />
     </Card>
   );
 }
