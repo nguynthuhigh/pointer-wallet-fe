@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { ReactComponent as TransactionIcon } from "../../assets/svg/transaction.svg";
-import { ReactComponent as HomeIcon } from "../../assets/svg/home.svg";
-
 import Logo from "../../assets/svg/logo_blue.svg";
 import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
+import { LayoutGrid, Activity, Settings, TicketPercent, CodeXml, LogOut } from 'lucide-react';
+
 const SideBar = ({ ...props }) => {
   const [selected, setSelected] = useState(props.state);
   const handleSelect = (name) => {
@@ -18,59 +17,100 @@ const SideBar = ({ ...props }) => {
     navigate("/");
   };
   return (
-    <div className="p-2 max-w-[250px] w-full border-r-2 h-full min-h-screen">
+    <div className="px-3 max-w-[220px] w-full border-r-2 h-screen overflow-hidden flex flex-col ">
       <div className="p-4">
         <img alt="" src={Logo} />
       </div>
-      <ItemSidebar
-        icon={
-          <HomeIcon
-            className={
-              selected === "Dashboard" ? "stroke-white" : "stroke-gray-700"
-            }
-          />
-        }
-        name="Dashboard"
-        isSelected={selected === "Dashboard"}
-        onClick={() => handleSelect("Dashboard")}
-        path="/dashboard"
-      />
-      <ItemSidebar
-        icon={
-          <TransactionIcon
-            className={
-              selected === "Transaction History"
-                ? "stroke-white"
-                : "stroke-gray-700"
-            }
-          />
-        }
-        name="Transaction History"
-        isSelected={selected === "Transaction History"}
-        onClick={() => handleSelect("Transaction History")}
-        path="/transaction-history"
-      />
-
-      <ItemSidebar
-        name="Developer"
-        isSelected={selected === "Developer"}
-        onClick={() => handleSelect("Developer")}
-        path="/webhook"
-      />
-      <ItemSidebar
-        name="Settings"
-        isSelected={selected === "Settings"}
-        onClick={() => handleSelect("Settings")}
-        path="/settings"
-      />
-      <ItemSidebar
-        name="Vouchers"
-        isSelected={selected === "Vouchers"}
-        onClick={() => handleSelect("Vouchers")}
-        path="/vouchers"
-      />
-      <div onClick={handleLogout} className="bottom-0 fixed">
-        Logout
+      <div className='flex-1'>
+        <ItemSidebar
+          icon={
+            <LayoutGrid
+              className={
+                selected === "Dashboard" ? "stroke-white" : "stroke-gray-700 "
+              }
+            />
+          }
+          name="Dashboard"
+          isSelected={selected === "Dashboard"}
+          onClick={() => handleSelect("Dashboard")}
+          path="/dashboard"
+        />
+        <ItemSidebar
+          icon={
+            <Activity
+              className={
+                selected === "Transactions"
+                  ? "stroke-white"
+                  : "stroke-gray-700"
+              }
+            />
+          }
+          name="Transactions"
+          isSelected={selected === "Transactions"}
+          onClick={() => handleSelect("Transactions")}
+          path="/transaction-history"
+        />
+        <ItemSidebar
+          icon={
+            <CodeXml
+              className={
+                selected === "Developer"
+                  ? "stroke-white"
+                  : "stroke-gray-700"
+              }
+            />
+          }
+          name="Developer"
+          isSelected={selected === "Developer"}
+          onClick={() => handleSelect("Developer")}
+          path="/webhook"
+        />
+        <ItemSidebar
+          icon={
+            <TicketPercent
+              className={
+                selected === "Vouchers"
+                  ? "stroke-white"
+                  : "stroke-gray-700"
+              }
+            />
+          }
+          name="Vouchers"
+          isSelected={selected === "Vouchers"}
+          onClick={() => handleSelect("Vouchers")}
+          path="/vouchers"
+        />
+        <ItemSidebar
+          icon={
+            <Settings
+              className={
+                selected === "Settings"
+                  ? "stroke-white"
+                  : "stroke-gray-700"
+              }
+            />
+          }
+          name="Settings"
+          isSelected={selected === "Settings"}
+          onClick={() => handleSelect("Settings")}
+          path="/settings"
+        />
+      </div>
+      <div className='mt-auto'>
+        <ItemSidebar
+          icon={
+            <LogOut
+              className={
+                selected === "Logout"
+                  ? "stroke-white"
+                  : "stroke-gray-700"
+              }
+            />
+          }
+          name="Logout"
+          onClick={() => handleLogout("Logout")}
+          path="/logout"
+        />
       </div>
     </div>
   );
@@ -80,15 +120,13 @@ const ItemSidebar = ({ icon, path, name, isSelected, onClick }) => {
   return (
     <Link to={path} onClick={onClick}>
       <div
-        className={`flex my-2 rounded-lg hover:bg-gray-100 p-4 cursor-pointer ${
-          isSelected ? "bg-blue-500" : ""
-        }`}
+        className={`flex my-2 items-center rounded-[6px] hover:bg-gray-400 p-4 cursor-pointer ${isSelected ? "bg-blue-500" : ""
+          }`}
       >
         {icon}
         <h1
-          className={`ml-2 text-gray-700 font-semibold text-lg ${
-            isSelected ? "text-white" : ""
-          }`}
+          className={`ml-2 text-gray-700 font-semibold text-md ${isSelected ? "text-white" : ""
+            }`}
         >
           {name}
         </h1>

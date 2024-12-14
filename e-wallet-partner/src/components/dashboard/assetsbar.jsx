@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ItemAsset } from "./item_asset";
 import LogoVND from "../../assets/svg/logo_vnd.svg";
 import LogoUSD from "../../assets/svg/logoUSD.svg";

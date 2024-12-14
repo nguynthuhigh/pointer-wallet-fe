@@ -1,12 +1,10 @@
-import Header from '../components/header/header_dashboard'
 import ItemTransaction from '../components/dashboard/item_transaction'
 import partnerAPI from '../api/partner.api'
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import ReactPaginate from 'react-paginate';
 import SideBar from '../components/dashboard/sidebar';
 import { useQuery } from '@tanstack/react-query';
 export default function TransactionHistory({ itemsPerPage }) {
-    const [pageCount,setPageCount] = useState(null)
     const [page,setPage] = useState(1)
     const {data,isLoading} = useQuery({
         queryFn: async() => {
@@ -22,10 +20,10 @@ export default function TransactionHistory({ itemsPerPage }) {
     return (
         <div className='flex'>
             <SideBar state="Transaction History"></SideBar>
-            <div className='w-full p-4'>
-            <div className='space-y-2 my-4'>
+            <div className='w-full px-6 space-y-4'>
+            <div className='space-y-2'>
                     <h1 className='font-semi-4xl'>Transaction History</h1>
-                    <h1 className=''>Access & manage your account and transactions efficiently.</h1>
+                    <h1 className='font-medium text-gray-700'>Access & manage your account and transactions efficiently.</h1>
                 </div>
             <table className='min-w-full bg-white rounded-lg font-semibold shadow-md overflow-hidden'>
                 <thead>
@@ -64,7 +62,6 @@ export default function TransactionHistory({ itemsPerPage }) {
                 containerClassName="flex justify-center py-4"
                 activeClassName="font-bold text-white "
             />
-
             </div>
             </div>
                     
