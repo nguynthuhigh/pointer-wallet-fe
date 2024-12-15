@@ -21,7 +21,7 @@ export default function TransactionHistory({ itemsPerPage }) {
     };
     return (
         <div className='flex'>
-            <SideBar state="Transaction History"></SideBar>
+            <SideBar state="Transactions"></SideBar>
             <div className='w-full p-4'>
             <div className='space-y-2 my-4'>
                     <h1 className='font-semi-4xl'>Transaction History</h1>
