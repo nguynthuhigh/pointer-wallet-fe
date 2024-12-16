@@ -11,11 +11,11 @@ export function Loading(){
 }
 export function LoadingButton(){
     return(
-        <button disabled   class="w-full text-white flex items-center bg-gray-200  font-medium rounded-lg text-sm px-5 py-2.5"><Loading/></button>
+        <button disabled class="w-full text-white flex items-center bg-gray-200  font-medium rounded-lg text-sm px-5 py-2.5"><Loading/></button>
     )
 }
 export function LoadingButtonWebhook(){
     return(
-        <button disabled   class="w-fit mx-auto mt-5 text-white flex items-center bg-gray-200  font-medium rounded-lg text-sm px-5 py-2.5"><Loading/></button>
+        <button disabled class="w-fit mx-auto mt-5 text-white flex items-center bg-gray-200  font-medium rounded-lg text-sm px-5 py-2.5"><Loading/></button>
     )
 }

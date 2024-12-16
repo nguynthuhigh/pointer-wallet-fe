@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import tailwindScrollbarHide from 'tailwind-scrollbar-hide'
+import tailwindcssAnimate from 'tailwindcss-animate'
 export default {
     darkMode: ["class"],
     content: [
@@ -8,7 +10,6 @@ export default {
   theme: {
   	fontFamily: {
   		poppins: ['Poppins', 'sans-serif'],
-  		merryweather: ['Merryweather','serif']
   	},
   	extend: {
 		screens:{
@@ -64,8 +65,8 @@ export default {
   	}
   },
   plugins: [
-    require('tailwind-scrollbar-hide'),
-      require("tailwindcss-animate")
+    tailwindScrollbarHide,
+	tailwindcssAnimate,
 ],
 }
 

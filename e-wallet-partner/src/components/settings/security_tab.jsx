@@ -10,11 +10,11 @@ const SecurityTab = () => {
     })
   }
   return (
-    <form className='space-y-4 p-4 w-full max-w-[200px]'>
+    <form className='space-y-[20px] lg:w-[300px] mt-3'>
       <InputField title='Old password'></InputField>
       <InputField title='New password'></InputField>
       <InputField title='Confirm new password'></InputField>
-      <button type='submit' className=' mt-2 font-semibold text-sm bg-gray-50 hover:bg-gray-100 border p-1.5 rounded-lg'>Update password</button>
+      <button type='submit' className='font-semibold text-md hover:bg-blue-400 hover:text-white border border-gray-300 px-5 py-2 rounded-[6px]'>Update profile</button>
     </form>
   )
 }

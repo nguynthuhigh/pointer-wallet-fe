@@ -20,11 +20,11 @@ const Settings = () => {
   return (
     <div className='flex'>
         <SideBar state="Settings"></SideBar>
-        <div className='p-4 w-full'>
+        <div className='px-5 w-full'>
           <HeaderDashboard title="Settings" description="Change your information or security"></HeaderDashboard>
-          <div className='flex ml-4  font-semibold'>
+          <div className='flex font-semibold'>
             <button className={`px-2 ${isSelect === 'profile' && 'border-b-2 border-blue-700 text-blue-700 '}`} onClick={()=>{handleSelect('profile')}}>Edit Profile</button>
-            <button className={`px-2 ${isSelect === 'security' && 'border-b-2 border-blue-700 text-blue-700 '}`} onClick={()=>{handleSelect('security')}} >Security</button>
+            <button className={`px-2 ${isSelect === 'security' && 'border-b-2 border-blue-700 text-blue-700 '}`} onClick={()=>{handleSelect('security')}}>Security</button>
           </div>
             {contentTab()}
         </div>

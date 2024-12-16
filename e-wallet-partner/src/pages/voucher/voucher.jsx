@@ -16,10 +16,10 @@ const Voucher = () => {
   return (
     <div className='flex'>
         <SideBar state="Vouchers"></SideBar>
-        <div className='w-full p-4'>
+        <div className='w-full px-6'>
             <div className='flex items-center'>
                 <HeaderDashboard title='Vouchers' description='Access & manage your account and transactions efficiently.'></HeaderDashboard>
-                <Link to='/add-voucher' className='ml-auto border-2 font-bold text-gray-400 p-2 rounded-lg px-3 border-gray-400 hover:border-white hover:bg-blue-700 hover:text-white'>Add new voucher</Link>
+                <Link to='/add-voucher' className='ml-auto border border-gray-500 text-gray-500 font-medium p-2 rounded-[6px] px-3  hover:border-white hover:bg-blue-700 hover:text-white'>Add new voucher</Link>
             </div>
             <div className='grid gap-4 grid-cols-5 grid-flow-row'>
                 {isLoading ? <ItemVoucherLoading></ItemVoucherLoading> : data.map((item,key)=>(
@@ -30,5 +30,4 @@ const Voucher = () => {
     </div>
   )
 }
-
 export default Voucher

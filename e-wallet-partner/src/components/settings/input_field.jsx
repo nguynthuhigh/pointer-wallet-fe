@@ -3,10 +3,10 @@ import React from 'react'
 const InputField = ({...props}) => {
     return (
     <div>
-        <label className="block text-sm font-semibold mb-2">{props.title}</label>
+        <label className="block text-md font-semibold mb-1">{props.title}</label>
         <input
         name={props.name}
-        className="w-full h-8 border bg-gray-50 focus:bg-white border-gray-300 rounded-lg p-2 "
+        className="w-full border focus:bg-white border-gray-300 rounded-[6px] px-3 py-2 "
         value={props.value}
         onChange={props.onChange}
         placeholder={props.placeholder}
