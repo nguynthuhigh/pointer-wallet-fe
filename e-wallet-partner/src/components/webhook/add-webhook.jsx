@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { addWebhook, deleteWebhook, getWebHook } from "../../api/webhook.api";
-import { Check, CircleAlert, OctagonX, Trash2,LoaderCircle } from 'lucide-react'
+import { Trash2,LoaderCircle } from 'lucide-react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Modal } from 'antd';
 import toast from "react-hot-toast";
@@ -15,7 +15,6 @@ export default function AddWebHook() {
   const showModal = () => {
     setOpen(true);
   };
-
   const handleOk = (id) => {
     setModalText('The endpoint will delete after two seconds');
     setConfirmLoading(true);
@@ -26,23 +25,18 @@ export default function AddWebHook() {
     mutationDelete.mutate(id)
     toast.success('Delete successful')
   };
-
   const handleCancel = () => {
     setOpen(false);
   };
-
   const handleInput = (e) => {
     setIsInput(e.target.value)
   }
-
   const handleOption = (e) => {
     setIsEvent(e.target.value);
   }
-
   const notifySuccess = () => toast.success('Add endpoint successful')
   const notifyFail = () => toast.error('Add endpoint fail')
   const notify = () => toast.error('Invalid endpoint')
-
   const handleSubmit = () => {
     if (!isInput) {
       notify();
@@ -55,7 +49,6 @@ export default function AddWebHook() {
       },2000)
     }
   }
-
   const mutationAdd = useMutation({
     mutationKey: ['mutation-add-endpoint'],
     mutationFn: () => addWebhook({
@@ -71,12 +64,10 @@ export default function AddWebHook() {
       notifyFail();
     }
   })
-
   const { data, isLoading, isError } = useQuery({
     queryKey: ['get-endpoint'],
     queryFn: () => getWebHook()
   })
-
   const mutationDelete = useMutation({
     mutationKey: ['mutation-delete-endpoint'],
     mutationFn: (id) => deleteWebhook(id),
@@ -84,7 +75,6 @@ export default function AddWebHook() {
       queryClient.invalidateQueries(['mutation-delete-endpoint']);
     }
   })
-
   console.log(data)
   if (isLoading) return 'Loading...'
   if (isError) return 'Fetching data error'
@@ -129,7 +119,7 @@ export default function AddWebHook() {
             </div>
             <div 
               onClick={handleSubmit}
-              className="mx-auto w-[100px] bg-blue-500 text-white px-5 py-2 rounded-[6px] cursor-pointer hover:bg-blue-400 active:opacity-70 ">
+              className="mx-auto w-[100px] bg-blue-500 font-medium text-white px-5 py-2 rounded-[6px] cursor-pointer hover:bg-blue-400 active:opacity-70 ">
                {
                 loadingBtn ? <LoaderCircle className='size-6 mx-auto animate-spin w-full '/> : 'Register'
                }
@@ -157,7 +147,7 @@ export default function AddWebHook() {
                     <Trash2
                       onClick={showModal}
                       size={20}
-                      className='text-[#FF1717]'
+                      className='text-[#FF1717] cursor-pointer'
                     />
                     <Modal
                       title='Delete endpoint'

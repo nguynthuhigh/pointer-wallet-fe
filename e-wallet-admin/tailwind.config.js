@@ -8,7 +8,6 @@ export default {
   theme: {
   	fontFamily: {
   		poppins: ['Poppins', 'sans-serif'],
-  		merryweather: ['Merryweather','serif']
   	},
   	extend: {
 		screens:{

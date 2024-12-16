@@ -5,24 +5,26 @@ import LogoUSD from "../../assets/svg/logoUSD.svg";
 import LogoETH from "../../assets/svg/logo_eth.svg";
 export const AssetBar = ({ ...props }) => {
   return (
-    <div className="pl-2">
-      <div className="relative h-[200px]">
-        <div className=" bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-blue-500 to-90% w-full h-[150px]"></div>
-        <img
-          alt=""
-          className="ml-4 absolute bottom-0 rounded-full w-[100px] h-[100px] object-cover shadow-sm border-[5px] border-white"
-          src={props.partner.image}
-        ></img>
-      </div>
-      <div>
-        <div className="p-4 pt-1">
+    <div className="border-l-2 h-screen">
+      <p className='font-semi-xl ml-4 pt-3 text-blue-500'>My Accounts</p>
+      <div className='flex items-center py-3'>
+        <div>
+          <img
+            alt="Logo"
+            className="ml-4 rounded-full w-[100px] h-[100px] object-cover shadow-sm border-[1px] border-gray-300 "
+            src={props.partner.image}
+          ></img>
+        </div>
+        <div className="p-4">
           <h1 className="font-semibold font-inter text-3xl">
             {props.partner.name}
           </h1>
           <h1 className="text-gray-600 text-sm">{props.partner.email}</h1>
         </div>
-        <div className="border-t-2 p-4">
-          <h1 className="font-semi-lg my-2">My Assets</h1>
+      </div>
+      <div>
+        <div className="border-t-2 px-4">
+          <h1 className="font-semi-xl py-3 text-blue-500">My Assets</h1>
           <ItemAsset
             color={"blue"}
             logo={LogoVND}

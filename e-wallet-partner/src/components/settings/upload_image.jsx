@@ -18,7 +18,7 @@ const UploadImage = ({...props}) => {
     };
   
   return (
-    <div className='ml-auto'>
+    <div>
       <input
         type="file"
         ref={inputFileRef}
@@ -28,7 +28,7 @@ const UploadImage = ({...props}) => {
       <button type='button' className='relative ml-auto' onClick={handleClick}>
         <img
           alt=""
-          className="object-cover cursor-pointer rounded-full h-48 w-48"
+          className="object-cover cursor-pointer rounded-full size-[90px] border border-gray-300 "
           src={image}
         />
       </button>
