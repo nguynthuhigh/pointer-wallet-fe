@@ -28,6 +28,7 @@ const PaymentGateway = () => {
   }
   if (isLoading) return "isLoading...";
   if (isError) return <PageNotFound />;
+  console.log(data)
   return (
     <>
       <div className="max-w-[1000px] mx-auto grid grid-cols-1 lg:grid-cols-2 h-screen gap-x-[30px] p-4 md:mt-[40px]">
@@ -68,7 +69,7 @@ const PaymentGateway = () => {
             href={`https://wallet.pointer.io.vn/payment?token=${token}`}
             target="_blank"
             rel ="noreferrer"
-            className="border-[1px] rounded-[4px] bg-[#0094FF] text-center text-white w-[320px] py-3 px-6 active:opacity-70 transition-opacity duration-300"
+            className="border-[1px] border-gray-300 rounded-[4px] bg-[#0094FF] text-center text-white w-[320px] py-3 px-6 active:opacity-70 transition-opacity duration-300"
           >
             Pay With Pointer Wallet
           </a>

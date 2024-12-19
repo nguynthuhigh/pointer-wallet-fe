@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 import partnerAPI from "../../api/partner.api";
 import ItemTransaction from "./item_transaction";
 import { useQuery } from "@tanstack/react-query";
@@ -25,7 +24,7 @@ const RecentTransaction = () => {
       </div>
       <table className="min-w-full bg-white rounded-lg font-semibold shadow-md overflow-hidden">
         <thead>
-          <tr className=" text-gray-700  border-b-[1px] bg-gray-50 ">
+          <tr className=" text-gray-700  border-b-[1px]bg-gray-50 ">
             <td className="p-4">Amount</td>
             <td className="p-4">Status</td>
             <td className="p-4">Descriptions</td>

@@ -20,14 +20,14 @@ const StatusStyle = ({ data }) => {
   if (data.status === "completed" || data.status === "refunded") {
     return (
       <span className="ml-2 rounded-full bg-green-100 pb-1 text-sm font-semibold px-2 text-center text-green-600">
-        • Success
+        Success
       </span>
     );
   }
   if (data.status === "pending") {
     return (
       <span className="ml-2 rounded-full bg-yellow-100 pb-1 text-sm font-semibold px-2 text-center text-yellow-600">
-        • Pending
+        Pending
       </span>
     );
   }
@@ -36,14 +36,14 @@ const TypeStyle = ({ data }) => {
   if (data.type === "payment") {
     return (
       <span className="rounded-full border-blue-600 border-[2px] bg-blue-100 pb-1 text-sm font-semibold px-2 text-center text-blue-600">
-        • Payment
+        Payment
       </span>
     );
   }
   if (data.type === "refund") {
     return (
       <span className="rounded-full border-red-600 border-[2px] bg-red-100 pb-1 text-sm font-semibold px-2 text-center text-red-600">
-        • Refund
+        Refund
       </span>
     );
   }

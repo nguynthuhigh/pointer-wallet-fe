@@ -1,6 +1,7 @@
 import React from "react";
 import { formatCurrency } from "../../utils/format";
-import DefaultAvatar from "../../assets/images/default_avatar.png";
+import PointerWallet from '../../assets/images/logo.png'
+import isValidURL from "../../utils/catch-img";
 const Invoice = ({ ...data }) => {
   return (
     <>
@@ -11,7 +12,7 @@ const Invoice = ({ ...data }) => {
               <img
                 className="size-[60px] rounded-md"
                 src={
-                  data.partnerID.image ? data.partnerID.image : DefaultAvatar
+                  data?.partnerID?.image && isValidURL(data.partnerID.img) ? data.partnerID.img : PointerWallet
                 }
                 alt="logo"
               ></img>
@@ -20,7 +21,7 @@ const Invoice = ({ ...data }) => {
               </h1>
             </div>
             <div>
-              <div id="Title" className="text-gray-400 font-semibold text-lg">
+              <div id="Title" className="text-gray-500 font-semibold text-xl">
                 {data.title}
               </div>
               <p className="text-4xl my-5 font-semibold">
@@ -42,14 +43,14 @@ const Invoice = ({ ...data }) => {
                       <p id="Name" className="font-semibold">
                         {items.name}
                       </p>
-                      <p className="text-sm text-gray-400 font-semibold">
-                        Quantity:{" "}
-                        <span className="text-black">{items.quantity}</span>{" "}
+                      <p className="text-sm text-gray-500 font-semibold">
+                        Quantity :{" "}
+                        <span>{items.quantity}</span>{" "}
                       </p>
                     </div>
                     <div
                       id="price"
-                      className=" text-center text-xl text-black font-semibold ml-auto"
+                      className=" text-center text-xl font-semibold ml-auto"
                     >
                       {formatCurrency(items.price, data.currency.symbol)}
                     </div>
@@ -58,7 +59,7 @@ const Invoice = ({ ...data }) => {
               })}
               <div
                 id="total"
-                className="flex justify-between absolute w-full bottom-0 left-0 "
+                className="flex justify-between absolute w-full bottom-0 left-0 border-t border-gray-300 "
               >
                 <div id="name" className="text-2xl font-semibold">
                   Total

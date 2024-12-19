@@ -45,7 +45,6 @@ export default function PaymentGateway(){
                         </button>}
                     </div>
                 </div>
-
                 <div className="max-w-[1200px] mx-auto h-[740px]  pt-10">
                     <div className="">
                         <div className='flex justify-between py-20 inset-0 px-[100px] top-0 left-0 z-10'>
