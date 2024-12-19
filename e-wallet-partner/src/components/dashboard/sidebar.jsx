@@ -114,8 +114,6 @@ const SideBar = ({ ...props }) => {
           path="/settings"
         />
       </div>
-
-      {/* Logout */}
       <div className="mt-auto">
         <ItemSidebar
           icon={
@@ -127,7 +125,7 @@ const SideBar = ({ ...props }) => {
           }
           name="Logout"
           onClick={handleLogout}
-          path="/logout"
+          path="/"
         />
       </div>
     </div>
