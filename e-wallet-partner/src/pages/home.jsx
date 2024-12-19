@@ -5,7 +5,7 @@ import CountDownPage from "../components/home/countdown";
 import { useEffect } from "react";
 export default function Home() {
   useEffect(() => {
-    document.title = "pressPay - Home";
+    document.title = "Pointer - Home";
   }, []);
   return (
     <div className="">
