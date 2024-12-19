@@ -74,7 +74,7 @@ const Dashboard = () => {
         </div>
         <RecentTransaction></RecentTransaction>
       </div>
-      <div className="hidden lg:block lg:w-[35%] ">
+      <div className="hidden lg:block lg:w-[30%]">
         {isLoading ? (
           <AssetBarLoading></AssetBarLoading>
         ) : (
