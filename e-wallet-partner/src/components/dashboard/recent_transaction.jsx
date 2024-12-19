@@ -24,8 +24,8 @@ const RecentTransaction = () => {
       </div>
       <table className="min-w-full bg-white rounded-lg font-semibold shadow-md overflow-hidden">
         <thead>
-          <tr className=" text-gray-700  border-b-[1px]bg-gray-50 ">
-            <td className="p-4">Amount</td>
+          <tr className=" text-gray-700 border-b-[1px] bg-gray-50 ">
+            <td className="p-4 min-w-[140px]">Amount</td>
             <td className="p-4">Status</td>
             <td className="p-4">Descriptions</td>
             <td className="p-4">Order ID</td>

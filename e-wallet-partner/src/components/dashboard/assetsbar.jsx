@@ -11,7 +11,7 @@ export const AssetBar = ({ ...props }) => {
         <div>
           <img
             alt="Logo"
-            className="ml-4 rounded-full w-[100px] h-[100px] object-cover shadow-sm border-[1px] border-gray-300 "
+            className="ml-4 rounded-full size-[90px] object-cover shadow-sm border-[1px] border-gray-300 "
             src={props.partner.image}
           ></img>
         </div>
