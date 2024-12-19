@@ -1,9 +1,7 @@
 import logo_white from "../../assets/svg/logo_white.svg";
 import arrow_right from "../../assets/svg/arrow_right.svg";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import partnerAPI from "../../api/partner.api";
-import Cookies from "universal-cookie";
+import Pointer from '../../assets/images/logo.png'
 const Button = ({ ...props }) => {
   return (
     <Link className="ml-auto" to={props.link}>
@@ -24,13 +22,11 @@ export default function Home({ ...props }) {
     >
       <div className="flex items-center px-4 max-w-[1250px] mx-auto">
         <Link to="/">
-          <img alt="logo_presspay" src={logo_white}></img>
+          <img alt="logo_pressPay" src={Pointer} className='size-[70px]'></img>
         </Link>
-        <div className="max-md:hidden flex ml-10 w-[50%] justify-between text-[20px] font-semibold text-white">
+        <div className="max-md:hidden flex ml-10 space-x-[40px] justify-between text-[20px] font-semibold text-white">
           <Link to="/docs">Documents</Link>
-          <Link>Community</Link>
-          <Link to="/download-app">Download App</Link>
-          <Link to="/demo">Payment Gateway</Link>
+          <a href='https://wallet.pointer.io.vn' target='_blank' rel ='noreferrer'>Pointer Wallet</a>
         </div>
         <Button name={"Sign-in"} link={"/sign-in"}></Button>
       </div>
